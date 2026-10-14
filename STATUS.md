@@ -139,3 +139,9 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 
 ### P3b Source tree PD2_EXT (started 2026-10-14)
 - Output: `4_pd2_source/PD2_EXT/` (not `patches/`); ProjectDiablo tree must regenerate byte-identically.
+
+### P5a BH fork diff: done (2026-10-14)
+- Shipped BH.dll = public fork `Project-Diablo-2/BH` at **4f7b4d7** (2026-04-23), bracketed by marker commits on both sides (e.g. Open Wounds `add eax,0x19` at 0x1007d3ae predates 0095e67 of 2026-05-28; orchestrator re-checked the instruction and both commits).
+- 0 PD2-private changes found: strings, constants, 245 D2 pointer pairs, 36/36 patches, 9/9 exports, 75 config keys, 126 classes/100 vtables all match. 92 files: 75 equivalent, 16 not linked, 1 partly linked.
+- `src/` holds only `UPSTREAM.txt` (no upstream code copied). Limit: a logic-only private edit would need a VS2022 rebuild + binary diff.
+- The fork never had Maphack/AutoTele (history starts 2021-03-31).
