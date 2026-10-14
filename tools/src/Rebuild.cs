@@ -84,6 +84,17 @@ public class ModuleConfig
     public Dictionary<string, string> ApiHints = new Dictionary<string, string>();    // regex of called names -> hint (body says what it does)
     public HashSet<string> ConfigKeys = new HashSet<string>();                         // keys of the module's settings file
     public Dictionary<string, string> ConfigKeyGlobals = new Dictionary<string, string>();   // DAT_ -> key (static std::string)
+    // ---- fd2 phase 3 (PD2_EXT); all off by default ----
+    // drop pseudo-functions outside every section of the image (Ghidra's EXTERNAL block: one per PE forwarder export)
+    public bool DropOutsideImage;
+    // game binaries (name database keys, e.g. "Game.exe") whose fixed addresses the code writes to directly: every DAT_
+    // global inside that image is renamed <Module>_<reference function containing it>_<va> (GameBuild.NameGameAddresses)
+    public string[] AbsoluteGameRefs = new string[0];
+    // globals that save the original target of a game call the module redirects: {global, game binary, call-site VA (hex)}.
+    // The target is read from the E8 rel32 at the call site in game_dir's binary and named Orig_<reference name>.
+    public List<string[]> SavedCallTargets = new List<string[]>();
+    // placeholder baseline for the README when there is no *.v1.c (path relative to workspace_root), e.g. the raw export
+    public string BaselineExport;
 }
 
 // Module entries for the fd2 targets, set up the way D2Sigma's defaults above are.
@@ -143,18 +154,44 @@ public static class ModuleConfigs
         };
     }
 
-    // PD2_EXT.dll: VS2022 version.dll proxy that loads ProjectDiablo.dll. No __FILE__ strings, so the whole
-    // module is address-ordered chunks under _unattributed/ unless phase 3 adds other evidence.
+    // PD2_EXT.dll: VS2022 version.dll proxy that loads ProjectDiablo.dll (phase 2 report 0_inventory/decompile/PD2_EXT.md).
+    // No __FILE__ strings. The app code is 4 functions at 0x10001000-0x10001241, the rest is the static MSVC runtime.
+    // Its 12 exports are PE forwarders to version.dll, not code.
     public static ModuleConfig PD2_EXT()
     {
+        const string oneObj = "no file evidence; loader DLL with one object file of app code";
         return new ModuleConfig
         {
             Sigma = false, Module = "PD2_EXT", BinaryName = "PD2_EXT.dll", Product = "Project Diablo 2",
-            LibStart = 0,
-            OwnFileRx = new Regex(@"(?i)(?:^|/)Project-Diablo-2/(?:D2TemplateSource/)?PD2_EXT/(?<path>.+\.(?:cpp|c|cc))$"),   // TODO(phase 3): no such strings seen yet
+            // phase 3: the CRT starts at __security_check_cookie, directly after DllMain (FID: 181 matches, all >= here)
+            LibStart = 0x10001242,
+            OwnFileRx = new Regex(@"(?i)(?:^|/)Project-Diablo-2/(?:D2TemplateSource/)?PD2_EXT/(?<path>.+\.(?:cpp|c|cc))$"),   // phase 3: no such strings in this build
             Alphabetical = false,
             LibraryHints = true,
             Decompiled = "PD2_EXT_decompiled.c", OutputSubdir = "4_pd2_source/PD2_EXT",
+            // Ghidra 12 makes one halt_baddata() pseudo-function per forwarder export at 0x1001a000-0x1001a02c (EXTERNAL)
+            DropOutsideImage = true,
+            FileOverrides = {
+                { 0x10001000, new[] { "dllmain.cpp", oneObj } },
+                { 0x10001050, new[] { "dllmain.cpp", oneObj } },
+                { 0x10001080, new[] { "dllmain.cpp", oneObj } },
+                { 0x100011c0, new[] { "dllmain.cpp", oneObj } },
+            },
+            Hints = {
+                { 0x100011c0, "DllMain" },              // called by dllmain_dispatch; PROCESS_ATTACH: Game.exe 0x4082dd call -> 0x10001080
+                { 0x10001080, "InstallGamePatches" },   // Game.exe 0x40763f call -> 0x10001000, NOPs 0x4083ef-0x40840f, Fog+0x17ea7 -> 0x10001050
+                { 0x10001000, "LoadProjectDiablo" },    // original D2Win_10086, then LoadLibraryA("ProjectDiablo.dll")
+                { 0x10001050, "FogInstallPath" },       // replaces Storm_572 (strrchr) in Fog_10116: InstallPath = parent folder
+            },
+            ManualNames = {
+                { 0x10001e40, new[] { "strrchr", "UCRT SSE2 strrchr (phase 2 report); the Fog hook calls it like Storm_572" } },
+            },
+            AbsoluteGameRefs = new[] { "Game.exe" },     // Game.exe 1.13c is never relocated (base 0x400000)
+            SavedCallTargets = {
+                new[] { "DAT_100162d8", "Game.exe", "4082dd" },   // DllMain: call in WinMain body, chained at the end of InstallGamePatches
+                new[] { "DAT_100162d4", "Game.exe", "40763f" },   // InstallGamePatches: data-load call, called first by LoadProjectDiablo
+            },
+            BaselineExport = "3_ghidra/PD2_EXT_decompiled.c",
         };
     }
 
@@ -163,6 +200,20 @@ public static class ModuleConfigs
 
 public static class Rebuilder
 {
+    // fd2: the .cpp files this generator wrote (they start with its file header). Hand-written sources inside a tree,
+    // e.g. 4_pd2_source/PD2_EXT/patches/, are never deleted, rewritten or counted.
+    public const string GeneratedMark = " * Reconstructed from Ghidra output of ";
+    public static IEnumerable<string> GeneratedSources(string dir)
+    {
+        foreach (var f in Directory.GetFiles(dir, "*.cpp", SearchOption.AllDirectories))
+        {
+            bool gen = false;
+            using (var r = new StreamReader(f))
+                for (int i = 0; i < 4; i++) { string l = r.ReadLine(); if (l == null) break; if (l.StartsWith(GeneratedMark, StringComparison.Ordinal)) { gen = true; break; } }
+            if (gen) yield return f;
+        }
+    }
+
     public static ModuleConfig Cfg = new ModuleConfig();
     static uint LIB_START { get { return Cfg.LibStart; } }
     static Regex GenericFileRx = new Regex(@"""([^""\r\n]*?\\\\[^""\r\n]*?\.(?:cpp|c|cc))""");
@@ -261,6 +312,17 @@ public static class Rebuilder
         var log = new StringBuilder();
         Reset();
         var funcs = Parse(input);
+        if (Cfg.DropOutsideImage && Cfg.Bin != null)
+        {
+            var outside = funcs.Where(f => !Cfg.Bin.InImage(f.Addr)).ToList();
+            if (outside.Count > 0)
+            {
+                funcs = funcs.Where(f => Cfg.Bin.InImage(f.Addr)).ToList();
+                for (int i = 0; i < funcs.Count; i++) funcs[i].Index = i;
+                log.AppendLine("Dropped " + outside.Count + " pseudo-functions outside the image (PE forwarders / EXTERNAL): " +
+                               string.Join(", ", outside.Select(f => f.Name + "@" + f.Addr.ToString("x8"))));
+            }
+        }
         if (Cfg.LibStart == 0) DetectLibStart(funcs, log);
         foreach (var f in funcs) f.IsLib = f.Addr >= LIB_START;
         log.AppendLine("Parsed functions: " + funcs.Count);
@@ -1167,7 +1229,7 @@ public static class Rebuilder
             var sb = new StringBuilder();
             sb.AppendLine("/*");
             sb.AppendLine(" * " + rel);
-            sb.AppendLine(" * Reconstructed from Ghidra output of " + Cfg.BinaryName + " (" + Cfg.Product + ").");
+            sb.AppendLine(GeneratedMark + Cfg.BinaryName + " (" + Cfg.Product + ").");
             sb.AppendLine(" * Address range : 0x" + list[0].Addr.ToString("x8") + " - 0x" + list[list.Count - 1].Addr.ToString("x8"));
             sb.AppendLine(" * Functions     : " + list.Count);
             var confs = list.GroupBy(f => f.Conf).Select(c => c.Key + "=" + c.Count());

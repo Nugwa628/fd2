@@ -1,13 +1,14 @@
-ordinal	address	name
-1	0x10013d28	GetFileVersionInfoA
-2	0x10013d5c	GetFileVersionInfoSizeA
-3	0x10013d94	GetFileVersionInfoSizeW
-4	0x10013dc8	GetFileVersionInfoW
-5	0x10013df1	VerFindFileA
-6	0x10013e13	VerFindFileW
-7	0x10013e38	VerInstallFileA
-8	0x10013e60	VerInstallFileW
-9	0x10013e89	VerLanguageNameA
-10	0x10013eb3	VerLanguageNameW
-11	0x10013edb	VerQueryValueA
-14	0x10013f01	VerQueryValueW
+# 12 of 12 exports are PE forwarders: the loader resolves them to forwarded_to; there is no code
+ordinal	address	name	forwarded_to
+1	0x10013d28	GetFileVersionInfoA	version.GetFileVersionInfoA
+2	0x10013d5c	GetFileVersionInfoSizeA	version.GetFileVersionInfoSizeA
+3	0x10013d94	GetFileVersionInfoSizeW	version.GetFileVersionInfoSizeW
+4	0x10013dc8	GetFileVersionInfoW	version.GetFileVersionInfoW
+5	0x10013df1	VerFindFileA	version.VerFindFileA
+6	0x10013e13	VerFindFileW	version.VerFindFileW
+7	0x10013e38	VerInstallFileA	version.VerInstallFileA
+8	0x10013e60	VerInstallFileW	version.VerInstallFileW
+9	0x10013e89	VerLanguageNameA	version.VerLanguageNameA
+10	0x10013eb3	VerLanguageNameW	version.VerLanguageNameW
+11	0x10013edb	VerQueryValueA	version.VerQueryValueA
+14	0x10013f01	VerQueryValueW	version.VerQueryValueW

@@ -136,7 +136,7 @@ public static class Declare
         var assumedApi = new SortedSet<string>(StringComparer.Ordinal);
         int localsAdded = 0, retaddr = 0, funcsTouched = 0;
 
-        foreach (var file in Directory.GetFiles(treeDir, "*.cpp", SearchOption.AllDirectories))
+        foreach (var file in Rebuilder.GeneratedSources(treeDir).ToList())
         {
             var lines = File.ReadAllLines(file).ToList();
             var outLines = new List<string>(lines.Count + 64);

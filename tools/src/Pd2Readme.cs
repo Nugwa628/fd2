@@ -109,18 +109,25 @@ public static class Pd2Readme
         // placeholders: previous export (*.v1.c) vs current, and what the tree still declares as untraced
         string m = Path.Combine(exportDir, cfg.Decompiled), x = Path.Combine(exportDir, Path.GetFileNameWithoutExtension(cfg.Decompiled) + ".extra.c");
         var before = CountPlaceholders(new[] { m.Replace(".c", ".v1.c"), x.Replace(".extra.c", ".extra.v1.c") });
+        // fd2: no re-export in phase 3 (PD2_EXT): the baseline is the raw phase 2 export (ModuleConfig.BaselineExport)
+        string ws = Paths.Get("workspace_root");
+        if (before[2] == 0 && cfg.BaselineExport != null && ws != null) before = CountPlaceholders(new[] { Path.Combine(ws, Paths.Native(cfg.BaselineExport)) });
         var after = CountPlaceholders(new[] { m, x });
+        var afterMain = CountPlaceholders(new[] { m });
+        v["ph_after_main_decl"] = N(afterMain[0]); v["ph_after_main_uses"] = N(afterMain[1]);
+        v["ph_after_extra_decl"] = N(after[0] - afterMain[0]); v["ph_after_extra_uses"] = N(after[1] - afterMain[1]);
+        v["ph_change_main"] = before[0] == 0 ? "n/a" : ((afterMain[0] - before[0]) * 100.0 / before[0]).ToString("+0;-0", System.Globalization.CultureInfo.InvariantCulture) + "%";
         v["ph_before_decl"] = N(before[0]); v["ph_before_uses"] = N(before[1]);
         v["ph_after_decl"] = N(after[0]); v["ph_after_uses"] = N(after[1]);
         v["ph_change"] = before[0] == 0 ? "n/a" : ((after[0] - before[0]) * 100.0 / before[0]).ToString("+0;-0", System.Globalization.CultureInfo.InvariantCulture) + "%";
         int treeUntraced = 0;
-        foreach (var f in Directory.GetFiles(tree, "*.cpp", SearchOption.AllDirectories))
+        foreach (var f in Rebuilder.GeneratedSources(tree))
             foreach (var l in File.ReadLines(f)) if (l.Contains("/* not traced by Ghidra")) treeUntraced++;
         v["tree_untraced_locals"] = N(treeUntraced);
 
         // game pointers and calls
         string gp = Path.Combine(tree, "game_pointers.tsv");
-        var gpr = File.ReadLines(gp).Where(l => !l.StartsWith("#")).Select(l => l.Split('\t')).ToList();
+        var gpr = !File.Exists(gp) ? new List<string[]> { new[] { "address", "kind" } } : File.ReadLines(gp).Where(l => !l.StartsWith("#")).Select(l => l.Split('\t')).ToList();
         var hdr = gpr[0]; gpr = gpr.Skip(1).ToList();
         Func<string[], string, string> col = (r, k) => { int i = Array.IndexOf(hdr, k); return i >= 0 && i < r.Length ? r[i] : ""; };
         v["gp_total"] = N(gpr.Count);
@@ -144,7 +151,7 @@ public static class Pd2Readme
         int callsThunk = 0, callsThunkNoArgs = 0, callsCell = 0, callsDat = 0, ordLeft = 0, refsData = 0;
         var callRx = new Regex(@"(\(\*)?\b([A-Za-z_]\w*)\)?\s*\((\s*\))?");
         var dataNames = new HashSet<string>(gpr.Where(r => col(r, "kind") == "accessor" && col(r, "target") != "function").Select(r => col(r, "cell_name")));
-        foreach (var f in Directory.GetFiles(tree, "*.cpp", SearchOption.AllDirectories))
+        foreach (var f in Rebuilder.GeneratedSources(tree))
             foreach (var l in File.ReadLines(f))
             {
                 if (l.Length == 0 || !char.IsWhiteSpace(l[0])) continue;   // bodies only (signatures start in column 0)
@@ -180,6 +187,19 @@ public static class Pd2Readme
         var other = left.Where(r => r[0] == "\"other\"").ToList();
         v["undeclared_other"] = N(other.Count); v["undeclared_other_uses"] = N(other.Sum(r => int.Parse(r[2])));
         v["undeclared_categories"] = string.Join("; ", left.GroupBy(r => r[0].Trim('"')).OrderByDescending(g => g.Sum(r => int.Parse(r[2]))).Select(g => g.Key + " " + g.Count() + " names / " + g.Sum(r => int.Parse(r[2])) + " uses"));
+
+        // fd2 (PD2_EXT): forwarder exports, game addresses named in globals.h, library functions named by Ghidra/FID
+        string ex = Path.Combine(tree, "exports.tsv");
+        var exRows = File.Exists(ex) ? File.ReadLines(ex).Where(l => !l.StartsWith("#") && !l.StartsWith("ordinal\t")).Select(l => l.Split('\t')).ToList() : new List<string[]>();
+        v["exports"] = N(exRows.Count);
+        v["exports_forwarded"] = N(exRows.Count(r => r.Length > 3 && r[3].Length > 0));
+        string gh = Path.Combine(tree, "include", "globals.h");
+        string ghText = File.Exists(gh) ? File.ReadAllText(gh) : "";
+        v["globals_game_addresses"] = N(Regex.Matches(ghText, @", patched at run time").Count);
+        v["globals_saved_targets"] = N(Regex.Matches(ghText, @"original target of the call at ").Count);
+        v["globals_total"] = N(Regex.Matches(ghText, @"(?m)^extern ").Count);
+        v["lib_named"] = N(rows.Count(r => r.Length > 3 && r[3] == "lib" && !r[1].StartsWith("FUN_")));
+        v["lib_unnamed"] = N(rows.Count(r => r.Length > 3 && r[3] == "lib" && r[1].StartsWith("FUN_")));
 
         // structures
         string ds = Path.Combine(tree, "include", "d2structs.h");

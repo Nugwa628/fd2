@@ -22,7 +22,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | 0 Inventory/triage | orchestrator | inputs | `0_inventory/` | **done** (see `0_inventory/INVENTORY.md`) |
 | 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | **done** except layouts of PD2-only/`.bin`-only tables (needs Phase 2/3) |
 | 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | **done** (ProjectDiablo, PD2_EXT, BH) |
-| 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT running |
+| 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT **done** |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
 | 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/BH` | not started |
 | 6 Verification + README numbers | orchestrator + verifier | all | `README.md` | not started |
@@ -145,3 +145,9 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - 0 PD2-private changes found: strings, constants, 245 D2 pointer pairs, 36/36 patches, 9/9 exports, 75 config keys, 126 classes/100 vtables all match. 92 files: 75 equivalent, 16 not linked, 1 partly linked.
 - `src/` holds only `UPSTREAM.txt` (no upstream code copied). Limit: a logic-only private edit would need a VS2022 rebuild + binary diff.
 - The fork never had Maphack/AutoTele (history starts 2021-03-31).
+
+### P3b Source tree PD2_EXT: done (2026-10-14)
+- 476 functions after dropping 12 fake forwarders: 4 PD2 in `dllmain.cpp` (manual: no file evidence) + 472 CRT in `lib/`. Names: `dllmain_DllMain_100011c0`, `_InstallGamePatches_10001080`, `_LoadProjectDiablo_10001000`, `_FogInstallPath_10001050`.
+- Placeholders 126 → 89 by distinct-name count (README method), 128 → 90 by declaration lines (Phase 2 method). Undeclared: 10 CRT internals.
+- Confirmed: the hooked call at Game.exe 0x40763f is `D2Win_10086`.
+- Generator now only deletes/rewrites `.cpp` files carrying its own header, so hand/script-made `patches/` folders are safe. ProjectDiablo regenerates byte-identically.

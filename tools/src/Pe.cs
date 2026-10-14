@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 public class PeSection { public string Name; public uint Va, VSize, Raw, RawSize; }
@@ -88,6 +89,22 @@ public class Pe
         }
         return res;
     }
+
+    // fd2: ordinal -> "dll.Name" for exports that are PE forwarders (their RVA points into the export directory)
+    public Dictionary<int, string> Forwarders()
+    {
+        var res = new Dictionary<int, string>();
+        int rva = DirRva(0); if (rva == 0) return res;
+        int pe = BitConverter.ToInt32(Data, 0x3c);
+        uint size = BitConverter.ToUInt32(Data, pe + 24 + 96 + 4);
+        uint lo = ImageBase + (uint)rva, hi = lo + size;
+        foreach (var kv in Exports())
+            if (kv.Value.Key >= lo && kv.Value.Key < hi) res[kv.Key] = CStr(kv.Value.Key, 256);
+        return res;
+    }
+
+    // fd2: true when the address lies inside one of the image's sections
+    public bool InImage(uint va) { return Sections.Any(s => va >= s.Va && va < s.Va + Math.Max(s.VSize, s.RawSize)); }
 
     public class Import { public string Dll; public int Ordinal = -1; public string Name; public uint IatVa; }
 

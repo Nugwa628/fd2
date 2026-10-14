@@ -341,23 +341,112 @@ public static class GameBuild
         cfg.CppNames = CppNamesUnique();
         gm.Exports = gm.Pe.Exports();
         var used = new HashSet<string>();
-        exports.Append("ordinal\taddress\tname\n");
+        // fd2: PE forwarders (e.g. a version.dll proxy) get a forwarded_to column; the address is then inside the export directory
+        var fwd = gm.Pe.Forwarders();
+        if (fwd.Count > 0)
+        {
+            exports.Append("# " + fwd.Count + " of " + gm.Exports.Count + " exports are PE forwarders: the loader resolves them to forwarded_to; there is no code\n");
+            exports.Append("ordinal\taddress\tname\tforwarded_to\n");
+        }
+        else exports.Append("ordinal\taddress\tname\n");
         foreach (var kv in gm.Exports.OrderBy(k => k.Key))
         {
             string raw = kv.Value.Value, cls, cpp;
             string nm = raw == null ? gm.Name + "_" + kv.Key : raw.StartsWith("?") ? Demangle(raw, out cls, out cpp) : Ident(raw.TrimStart('_').Split('@')[0]);
             if (!used.Add(nm)) { nm = nm + "_" + kv.Key; used.Add(nm); }
-            cfg.ExportNames[kv.Value.Key] = nm;
-            exports.AppendLine(kv.Key + "\t0x" + kv.Value.Key.ToString("x8") + "\t" + nm);
+            string fw = null;
+            if (fwd.Count == 0 || !fwd.TryGetValue(kv.Key, out fw)) cfg.ExportNames[kv.Value.Key] = nm;
+            exports.AppendLine(kv.Key + "\t0x" + kv.Value.Key.ToString("x8") + "\t" + nm + (fwd.Count > 0 ? "\t" + (fw ?? "") : ""));
         }
         ResolveImports(gm.Pe, mods, cfg, imports);
         if (pointerTable != null && File.Exists(pointerTable)) LoadGamePointers(pointerTable, mods, cfg, imports);
+        if (decompiled != null && File.Exists(decompiled) && (cfg.AbsoluteGameRefs.Length > 0 || cfg.SavedCallTargets.Count > 0))
+            NameGameAddresses(cfg, mods, decompiled, imports);
         if (decompiled != null && File.Exists(decompiled))
         {
             int perFunc = ResolvePerFunction(gm, mods, cfg);
             imports.Insert(0, "# ambiguous ordinals resolved per function from machine code: " + perFunc + " (function, ordinal) pairs\n");
         }
         return cfg;
+    }
+
+    // fd2 phase 3 (PD2_EXT): reference name of the game function that contains an address (installed VA), with
+    // import thunks ("Ordinal_N") named through the reference module's imports.tsv. null when no reference function precedes it.
+    static Dictionary<string, Dictionary<string, string>> RefImports = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+    public static string NameContaining(Dictionary<string, GameModule> mods, string binary, uint installedVa, out uint start)
+    {
+        start = 0; GameModule gm;
+        if (!mods.TryGetValue(binary, out gm) || gm.AddrName.Count == 0) return null;
+        uint refVa = (uint)(installedVa + gm.RefDelta);
+        var cands = gm.AddrName.Keys.Where(k => k <= refVa).ToList();
+        if (cands.Count == 0) return null;
+        uint k0 = cands.Max(); start = (uint)(k0 - gm.RefDelta);
+        string n = gm.AddrName[k0];
+        if (Regex.IsMatch(n, @"^Ordinal_\d+$"))
+        {
+            Dictionary<string, string> imp;
+            if (!RefImports.TryGetValue(gm.Name, out imp))
+            {
+                imp = new Dictionary<string, string>();
+                string f = Path.Combine(Paths.GameSourceRef, gm.Name, "imports.tsv");
+                if (File.Exists(f))
+                    foreach (var l in File.ReadLines(f)) { var c = l.Split('\t'); if (c.Length >= 3 && c[0].StartsWith("Ordinal_")) imp[c[0]] = c[2].Trim(); }
+                RefImports[gm.Name] = imp;
+            }
+            string r; if (imp.TryGetValue(n, out r)) n = r;
+        }
+        return n;
+    }
+
+    // Names the game addresses a loader patches by absolute VA (ModuleConfig.AbsoluteGameRefs) and the globals that keep
+    // the original targets of redirected calls (ModuleConfig.SavedCallTargets), through the reference trees.
+    public static void NameGameAddresses(ModuleConfig cfg, Dictionary<string, GameModule> mods, string decompiled, StringBuilder report)
+    {
+        var text = File.ReadAllText(decompiled);
+        string extra = Path.Combine(Path.GetDirectoryName(decompiled), Path.GetFileNameWithoutExtension(decompiled) + ".extra.c");
+        if (File.Exists(extra)) text += File.ReadAllText(extra);
+        int n = 0;
+        foreach (var bin in cfg.AbsoluteGameRefs)
+        {
+            GameModule gm;
+            if (!mods.TryGetValue(bin, out gm) || gm.Pe == null) { report.AppendLine("# " + bin + ": not in game_dir, fixed game addresses left as DAT_"); continue; }
+            foreach (var g in Regex.Matches(text, @"\b_?DAT_([0-9a-f]{8})\b").Cast<Match>().Select(m => m.Groups[1].Value).Distinct().OrderBy(x => x))
+            {
+                uint va = Convert.ToUInt32(g, 16);
+                if (!gm.Pe.InImage(va)) continue;
+                uint fs; string fn = NameContaining(mods, bin, va, out fs);
+                if (fn == null) continue;
+                string name = gm.Name + "_" + fn + "_" + g;
+                string where; DefinedIn.TryGetValue(fn, out where);
+                // written as a dword or read into an int: 32-bit; otherwise a byte (opcode / NOP)
+                bool wide = Regex.IsMatch(text, @"(?<![A-Za-z0-9])_?DAT_" + g + @" = (?:0x[0-9a-f]{3,}|-|[0-9]{4,})") || Regex.IsMatch(text, @"= _?DAT_" + g + ";");
+                cfg.GlobalNames["DAT_" + g] = name;
+                cfg.GlobalTypes["DAT_" + g] = wide ? "uint32_t" : "uint8_t";
+                cfg.GlobalNotes["DAT_" + g] = bin + " code at 0x" + g + " (+0x" + (va - fs).ToString("x") + " in " + fn + (where != null ? ", " + where : "") + "), patched at run time";
+                report.AppendLine("DAT_" + g + "\tgame address\t" + name);
+                n++;
+            }
+        }
+        foreach (var t in cfg.SavedCallTargets)
+        {
+            GameModule gm; uint site = Convert.ToUInt32(t[2], 16);
+            if (!mods.TryGetValue(t[1], out gm) || gm.Pe == null) { report.AppendLine(t[0] + "\tunresolved saved call target (" + t[1] + " not in game_dir)"); continue; }
+            int o = gm.Pe.Off(site);
+            if (o < 0 || gm.Pe.Data[o] != 0xe8) { report.AppendLine(t[0] + "\tunresolved saved call target (no call at " + t[1] + " 0x" + t[2] + ")"); continue; }
+            uint target = (uint)(site + 5 + BitConverter.ToInt32(gm.Pe.Data, o + 1));
+            uint ts, ss; string tn = NameContaining(mods, t[1], target, out ts), sn = NameContaining(mods, t[1], site, out ss);
+            if (tn == null || ts != target) { report.AppendLine(t[0] + "\tunresolved saved call target 0x" + target.ToString("x8")); continue; }
+            bool thunk = tn != gm.AddrName[(uint)(target + gm.RefDelta)];
+            string name = "Orig_" + (Regex.IsMatch(tn, @"^[A-Z][A-Za-z0-9]*_\d+$") ? tn : gm.Name + "_" + tn);
+            string where; DefinedIn.TryGetValue(tn, out where);
+            cfg.GlobalNames[t[0]] = name;
+            cfg.GlobalNotes[t[0]] = "original target of the call at " + t[1] + " 0x" + t[2] + (sn != null ? " (in " + sn + ")" : "") + ": " +
+                                    (thunk ? t[1] + "'s import thunk 0x" + target.ToString("x8") + " -> " + tn : tn + " 0x" + target.ToString("x8")) +
+                                    (where != null ? ", " + where : "") + "; saved before the call is redirected, called by the hook";
+            report.AppendLine(t[0] + "\tsaved call target\t" + name);
+            n++;
+        }
+        report.Insert(0, "# game addresses named through the reference trees: " + n + "\n");
     }
 
     // game_pointers.tsv, two formats ('#' lines are comments):

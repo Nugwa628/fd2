@@ -1,2 +1,18 @@
 # ambiguous ordinals resolved per function from machine code: 0 (function, ordinal) pairs
+# game addresses named through the reference trees: 15
 # ordinal imports: 0 resolved, 0 ambiguous, 0 from non-game DLLs
+DAT_0040763f	game address	Game_sub_00407600_0040763f
+DAT_00407640	game address	Game_sub_00407600_00407640
+DAT_004082dd	game address	Game_sub_00408250_004082dd
+DAT_004082de	game address	Game_sub_00408250_004082de
+DAT_004083ef	game address	Game_sub_00408250_004083ef
+DAT_004083f3	game address	Game_sub_00408250_004083f3
+DAT_004083f7	game address	Game_sub_00408250_004083f7
+DAT_004083fb	game address	Game_sub_00408250_004083fb
+DAT_004083ff	game address	Game_sub_00408250_004083ff
+DAT_00408403	game address	Game_sub_00408250_00408403
+DAT_00408407	game address	Game_sub_00408250_00408407
+DAT_0040840b	game address	Game_sub_00408250_0040840b
+DAT_0040840f	game address	Game_sub_00408250_0040840f
+DAT_100162d8	saved call target	Orig_Game_sub_00407ee0
+DAT_100162d4	saved call target	Orig_D2Win_10086

@@ -74,7 +74,7 @@ public static class Undeclared
         var counts = new Dictionary<string, Dictionary<string, int>>();   // category -> id -> count
         var funcsWith = new Dictionary<string, int>();
         int funcs = 0;
-        foreach (var file in Directory.GetFiles(root, "*.cpp", SearchOption.AllDirectories))
+        foreach (var file in Rebuilder.GeneratedSources(root))
         {
             var lines = File.ReadAllLines(file);
             int i = 0;

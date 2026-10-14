@@ -41,6 +41,7 @@ Other phases own `tools/inventory.py`, `tools/ghidra/build_ghidra.sh`, `tools/gh
 | `pd2/struct_evidence.py` | `include/d2structs.h`: community 1.13c layouts + offsets proven by PD2 accesses (type propagation over the tree) | new |
 | `pd2/count_placeholders.py` | untraced-placeholder and empty-thunk-call counts of an export or tree (same counting as `Pd2Readme.cs`) | new |
 | `pd2/ProjectDiablo.README.md` | README template of `4_pd2_source/ProjectDiablo` (`{{key}}` = computed value) | new |
+| `pd2/PD2_EXT.README.md` | README template of `4_pd2_source/PD2_EXT` | new |
 
 ## Build
 
@@ -111,7 +112,7 @@ They are set up like D2Sigma's `ModuleConfig` defaults, plus these new options:
   `GlobalNames` (see below).
 * The image base is always read from the PE. `LibStart = 0` means the CRT start is detected.
 
-### Phase 3 options (all default to off, so D2Sigma, the game modules and PD2_EXT are unchanged)
+### Phase 3 options (all default to off, so D2Sigma and the game modules are unchanged)
 
 * `PointerResolver` (ProjectDiablo: `0x102f10f0`): `pd2` first rebuilds `<tree>/game_pointers.tsv` from the export with
   `Pd2Pointers.Build` (every `resolve(dll, pair[version])` call, thunk or accessor, the per-file copies of each
@@ -128,6 +129,15 @@ They are set up like D2Sigma's `ModuleConfig` defaults, plus these new options:
   `__FILE__` evidence.
 * Non-Sigma naming adds `_InitPtr_<target>_`/`_init_` (static initializers) and `_Wraps_<Module>_<file>_` (passes a game
   `__FILE__` string) hints. `_DAT_x` in the export is read as `DAT_x`.
+* PD2_EXT options (phase 3, all off by default): `DropOutsideImage` drops pseudo-functions outside every section (Ghidra's
+  one-per-forwarder `EXTERNAL` stubs); `AbsoluteGameRefs` renames `DAT_` globals inside a game image (`Game.exe`) to
+  `<Module>_<reference function>_<va>`; `SavedCallTargets` names a global that keeps the original target of a
+  redirected game call `Orig_<reference name>` (target read from the `E8 rel32` in `game_dir`'s binary);
+  `BaselineExport` is the README's placeholder baseline when there is no `*.v1.c`. `exports.tsv` gets a `forwarded_to`
+  column when the module has PE forwarder exports (`Pe.Forwarders`).
+* Only `.cpp` files that start with the generator's header (`Rebuilder.GeneratedSources`) are deleted before a run,
+  rewritten by Declare or counted by `Undeclared`/`Pd2Readme`; hand-written sources in a tree (e.g.
+  `4_pd2_source/PD2_EXT/patches/`) are left alone.
 * `game_pointers.tsv` has a second, tabular format (header `address<TAB>kind<TAB>pd2_name...`); `LoadGamePointers`
   reads both. `GameBuild.ExternalName` knows the documented XInput ordinals when no system DLLs are available.
 
@@ -168,13 +178,16 @@ It then provides three things:
 * `tools/rebuild.sh --pd2 --module ProjectDiablo` regenerates `4_pd2_source/ProjectDiablo` (tree, Declare,
   `d2structs.h`, README) in under a minute; numbers in that README.
 * The reference trees under `sigmaRE/` are only read.
+* `tools/rebuild.sh --pd2 --module PD2_EXT` regenerates `4_pd2_source/PD2_EXT` (476 functions: 4 in `dllmain.cpp`, 472
+  `lib`; 12 forwarder stubs dropped) and its README; a second run is byte-identical, and `--module ProjectDiablo`
+  still regenerates that tree byte-identically after the PD2_EXT changes.
 
 ## Known gaps and TODOs
 
 * **ProjectDiablo imports no game function by ordinal.** Done in phase 3: `game_pointers.tsv` is generated from the
   export (`Pd2Pointers.cs`).
-* `PD2_EXT` has no `__FILE__` strings, so without other evidence its whole tree is `_unattributed/` chunks. The
-  `OwnFileRx` for it is a guess.
+* `PD2_EXT` has no `__FILE__` strings: its 4 app functions are placed by hand in `dllmain.cpp` (`FileOverrides`), the
+  rest is `lib/` (`LibStart = 0x10001242`). The `OwnFileRx` for it matches nothing in this build.
 * Checked in phase 3 for ProjectDiablo: link order is not alphabetical; `DetectLibStart` finds nothing, so
   `LibStart = 0x103017bb` is set by hand. PD2_EXT is unchanged.
 * `Fields.cs`/`Tables.cs` are D2Sigma-specific (descriptor constructor, table-name patterns). PD2 keeps its tables

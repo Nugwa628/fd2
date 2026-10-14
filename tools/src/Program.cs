@@ -184,7 +184,7 @@ options
             File.WriteAllText(Path.Combine(outDir, "imports.tsv"), imp.ToString(), new UTF8Encoding(false));
             File.WriteAllText(Path.Combine(outDir, "exports.tsv"), exp.ToString(), new UTF8Encoding(false));
             // the module tree is fully generated: drop source files from earlier runs so moved functions don't linger
-            foreach (var old in Directory.GetFiles(outDir, "*.cpp", SearchOption.AllDirectories)) File.Delete(old);
+            foreach (var old in Rebuilder.GeneratedSources(outDir).ToList()) File.Delete(old);
             string r = Rebuilder.Run(dec, outDir);
             foreach (var line in r.Split('\n').Where(l => !l.StartsWith("  demoted") && l.Trim().Length > 0)) Console.WriteLine("   " + line.TrimEnd());
             built.Add(outDir);
