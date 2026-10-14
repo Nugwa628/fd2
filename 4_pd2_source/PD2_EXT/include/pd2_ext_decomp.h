@@ -13,7 +13,10 @@ typedef long long          longlong;
 typedef unsigned long long ulonglong;
 typedef unsigned short     wchar16;
 typedef void (*code)(void);
+#include "ghidra_compat.h"
 #include "globals.h"
+#include "missing_globals.h"
+#include "imports.h"
 
 /* ---- _unattributed/code_10001000.cpp ---- */
 int sub_10001000(void);

@@ -69,6 +69,7 @@ void sub_10001080(void)
   HMODULE pHVar2;
   DWORD local_c;
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   local_c = 0x20;
@@ -115,6 +116,7 @@ uint32_t sub_100011c0(uint32_t param_1,int param_2)
   int iVar1;
   DWORD local_c;
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   if (param_2 == 1) {
@@ -426,7 +428,7 @@ void sub_100015db(uint32_t reg_EBX,uint32_t reg_ESI,uint32_t reg_EDI)
   byte in_VIP;
   byte in_ID;
   longlong lVar9;
-  uint32_t unaff_retaddr;
+  uint8_t  stack0x00000004;   /* not traced by Ghidra: address of a stack slot */
   
   uVar2 = IsProcessorFeaturePresent(0x17);
   bVar4 = 0;
@@ -455,7 +457,7 @@ void sub_100015db(uint32_t reg_EBX,uint32_t reg_ESI,uint32_t reg_EDI)
   DAT_10015914 = 1;
   DAT_10015920 = 1;
   DAT_10015924 = 2;
-  DAT_1001591c = unaff_retaddr;
+  DAT_1001591c = (uint32_t)_ReturnAddress();
   DAT_100159ec = in_GS;
   DAT_100159f0 = in_FS;
   DAT_100159f4 = in_ES;
@@ -465,7 +467,7 @@ void sub_100015db(uint32_t reg_EBX,uint32_t reg_ESI,uint32_t reg_EDI)
   DAT_10015a04 = reg_EBX;
   DAT_10015a0c = uVar3;
   DAT_10015a14 = unaff_EBP;
-  DAT_10015a18 = unaff_retaddr;
+  DAT_10015a18 = (uint32_t)_ReturnAddress();
   DAT_10015a1c = in_CS;
   DAT_10015a28 = in_SS;
   sub_100015b3((_EXCEPTION_POINTERS *)&PTR_DAT_1000e174);
@@ -1023,7 +1025,6 @@ __SEH_prolog4(uint32_t param_1,int param_2,uint32_t reg_EBX,uint32_t reg_ESI,
 
 {
   int iVar1;
-  uint32_t unaff_retaddr;
   uint auStack_1c [5];
   uint8_t local_8 [8];
   
@@ -1032,7 +1033,7 @@ __SEH_prolog4(uint32_t param_1,int param_2,uint32_t reg_EBX,uint32_t reg_ESI,
   *(uint32_t *)((int)auStack_1c + iVar1 + 0xc) = reg_ESI;
   *(uint32_t *)((int)auStack_1c + iVar1 + 8) = reg_EDI;
   *(uint *)((int)auStack_1c + iVar1 + 4) = DAT_10015000 ^ (uint)&param_2;
-  *(uint32_t *)((int)auStack_1c + iVar1) = unaff_retaddr;
+  *(uint32_t *)((int)auStack_1c + iVar1) = (uint32_t)_ReturnAddress();
   ExceptionList = local_8;
   return;
 }
@@ -2410,6 +2411,8 @@ sub_1000291f(int *param_1,uint32_t *param_2,uint32_t param_3,uint32_t param_4,
   code *local_10;
   uint32_t local_c;
   code *local_8;
+  uint8_t  stack0xffffffbc;   /* not traced by Ghidra: address of a stack slot */
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_20 = &stack0xfffffffc;
   local_24 = &stack0xffffffbc;
@@ -4818,6 +4821,7 @@ void __cdecl sub_1000472d(uint32_t param_1)
   void *local_10;
   uint8_t *puStack_c;
   uint32_t uStack_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   uStack_8 = 0xffffffff;
   puStack_c = &LAB_1000d852;
@@ -5433,6 +5437,7 @@ void sub_10004e22(void)
   __crt_seh_guarded_call<int> local_11 [9];
   uint32_t local_8;
   uint32_t uStack_4;
+  uint8_t  stack0x00000004;   /* not traced by Ghidra: address of a stack slot */
   
   uStack_4 = 0x10;
   local_1c = &stack0x00000004;
@@ -7281,6 +7286,7 @@ int __cdecl sub_10006291(uchar *param_1,uchar *param_2,int *param_3)
   uchar local_259;
   _WIN32_FIND_DATAW local_258;
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   local_260 = param_3;
@@ -7742,6 +7748,7 @@ uint32_t __cdecl ___acrt_GetModuleFileNameA(HMODULE param_1,uint32_t param_2,uin
   uint8_t local_215;
   WCHAR local_214 [262];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   DVar1 = GetModuleFileNameW(param_1,local_214,0x105);
@@ -7941,6 +7948,7 @@ void __cdecl sub_10006aef(int param_1)
   WCHAR local_208 [128];
   CHAR local_108 [256];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   if ((*(int *)(param_1 + 4) == 0xfde9) ||
@@ -8226,6 +8234,7 @@ uint32_t __cdecl sub_10006ee4(int param_1,int param_2)
   int local_20;
   _cpinfo local_1c;
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   uVar3 = getSystemCP(param_1);

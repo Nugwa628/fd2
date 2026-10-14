@@ -1072,6 +1072,7 @@ uint __cdecl sub_100086ae(uint *param_1,byte *param_2,uint param_3,uint *param_4
   uint32_t local_10;
   uint32_t local_c;
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   puVar9 = (uint *)&DAT_100162a0;
@@ -1758,6 +1759,7 @@ void __cdecl sub_10008e90(uint8_t *param_1,uint param_2,uint param_3,uint8_t *pa
   uint32_t auStack_f8 [30];
   uint32_t auStack_80 [30];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   local_104 = param_1;
@@ -2154,6 +2156,9 @@ sub_100094b4(int *param_1,DWORD param_2,LPCSTR param_3,int param_4,LPWORD param_
   int local_10;
   uint local_c;
   uint local_8;
+  uint8_t  stack0x00000000;   /* not traced by Ghidra: address of a stack slot */
+  uint8_t  stack0xffffffd4;   /* not traced by Ghidra: address of a stack slot */
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   sub_1000651d(&local_20,param_1);
@@ -2233,6 +2238,8 @@ sub_100095d2(int *param_1,ushort *param_2,uint param_3,char *param_4,int param_5
   void *this_00;
   LPCWSTR pWVar6;
   LPCWSTR pWVar7;
+  uint8_t  stack0x00000000;   /* not traced by Ghidra: address of a stack slot */
+  uint8_t  stack0xffffffe8;   /* not traced by Ghidra: address of a stack slot */
   
   iVar3 = param_5;
   if (0 < param_5) {
@@ -2832,6 +2839,7 @@ DWORD * __cdecl sub_10009d07(DWORD *param_1,uint param_2,uint *param_3,int param
   void *local_10;
   uint8_t *puStack_c;
   uint32_t uStack_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   uStack_8 = 0xffffffff;
   puStack_c = &LAB_1000d8c6;
@@ -3121,6 +3129,7 @@ int __cdecl write_text_ansi_nolock(int param_1,char *param_2,uint param_3,int pa
   char *local_140c;
   char local_1408 [5120];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   hFile = *(char **)((&DAT_10016068)[(int)param_2 >> 6] + 0x18 + ((uint)param_2 & 0x3f) * 0x38);
@@ -3182,6 +3191,7 @@ int __cdecl write_text_utf16le_nolock(int param_1,char *param_2,uint param_3,int
   HANDLE local_140c;
   short local_1408 [2560];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   local_140c = *(HANDLE *)
@@ -3247,6 +3257,7 @@ int __cdecl write_text_utf8_nolock(int param_1,char *param_2,uint param_3,int pa
   CHAR local_140c [3416];
   WCHAR local_6b4 [854];
   uint local_8;
+  uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_10015000 ^ (uint)&stack0xfffffffc;
   local_1414 = *(HANDLE *)
@@ -3956,6 +3967,7 @@ void __fastcall sub_1000aea0(void *param_1)
   uint8_t in_XMM0 [16];
   double dVar6;
   uint64_t local_10;
+  uint8_t  stack0xfffffff8;   /* not traced by Ghidra: address of a stack slot */
   
   dVar4 = in_XMM0._0_8_;
   iVar3 = in_XMM0._0_4_;
@@ -4561,9 +4573,9 @@ uint __thiscall sub_1000baaf(void *this,int param_1,uint param_2)
   uint8_t in_ZF;
   ushort in_FPUControlWord;
   unkbyte10 extraout_ST0;
-  int unaff_retaddr;
+  uint32_t unkbyte10;   /* not traced by Ghidra: value with no visible source */
   
-  reg_EAX = __fload_withFB(this,&param_1,unaff_retaddr);
+  reg_EAX = __fload_withFB(this,&param_1,(uint32_t)_ReturnAddress());
   if ((bool)in_ZF) {
     if ((((uint)reg_EAX & 0xfffff) != 0) || (param_1 != 0)) {
       uVar1 = sub_1000c47c(reg_EAX);
@@ -4584,7 +4596,7 @@ LAB_1000bae5:
       if (DAT_100162c0 != 0) {
         return uVar1;
       }
-      uVar1 = __math_exit("log10",0x1b,unaff_retaddr,param_1,param_2);
+      uVar1 = __math_exit("log10",0x1b,(uint32_t)_ReturnAddress(),param_1,param_2);
       return uVar1;
     }
   }
@@ -4593,7 +4605,7 @@ LAB_1000bb51:
   if (DAT_100162c0 != 0) {
     return uVar1;
   }
-  __startOneArgErrorHandling("log10",0x1b,in_FPUControlWord,unaff_retaddr,param_1,param_2);
+  __startOneArgErrorHandling("log10",0x1b,in_FPUControlWord,(uint32_t)_ReturnAddress(),param_1,param_2);
   return extraout_EAX;
 }
 
@@ -4811,11 +4823,10 @@ __math_exit(uint32_t param_1,int param_2,uint32_t param_3,uint32_t param_4,uint3
 
 {
   ushort in_FPUStatusWord;
-  ushort unaff_retaddr;
   
-  if (((unaff_retaddr != 0x27f) && ((unaff_retaddr & 0x20) != 0)) &&
+  if ((((uint32_t)_ReturnAddress() != 0x27f) && (((uint32_t)_ReturnAddress() & 0x20) != 0)) &&
      ((in_FPUStatusWord & 0x20) != 0)) {
-    __startOneArgErrorHandling(param_1,param_2,unaff_retaddr,param_3,param_4,param_5);
+    __startOneArgErrorHandling(param_1,param_2,(uint32_t)_ReturnAddress(),param_3,param_4,param_5);
     return;
   }
   return;
@@ -4836,6 +4847,7 @@ sub_1000c5e0(uint32_t param_1,int param_2,uint16_t param_3,uint32_t param_4,uint
   uint32_t local_14;
   uint32_t local_10;
   double dStack_c;
+  uint32_t param_5;   /* not traced by Ghidra: value with no visible source */
   
   local_14 = param_7;
   local_10 = param_8;
@@ -4899,6 +4911,7 @@ sub_1000c660(uint param_1,int param_2,uint64_t param_3,double param_4,uint param
   uint local_90 [16];
   uint local_50;
   uint local_14;
+  uint8_t  stack0xfffffff0;   /* not traced by Ghidra: address of a stack slot */
   
   local_14 = DAT_10015000 ^ (uint)&stack0xfffffff0;
   bVar1 = sub_1000c7a0(param_1,&param_4,param_5);
@@ -5572,6 +5585,7 @@ void __cdecl sub_1000d300(int param_1,int *param_2,ushort *param_3)
   uint64_t local_60;
   uint local_50;
   uint local_14;
+  uint8_t  stack0xfffffff0;   /* not traced by Ghidra: address of a stack slot */
   
   local_14 = DAT_10015000 ^ (uint)&stack0xfffffff0;
   local_94 = (uint)*param_3;
@@ -5758,10 +5772,9 @@ void __EH_epilog3(void)
 
 {
   uint32_t *unaff_EBP;
-  uint32_t unaff_retaddr;
   
   ExceptionList = (void *)unaff_EBP[-3];
-  *unaff_EBP = unaff_retaddr;
+  *unaff_EBP = (uint32_t)_ReturnAddress();
   return;
 }
 
@@ -5779,7 +5792,6 @@ void __cdecl __EH_prolog3(int param_1,uint32_t reg_EBX,uint32_t reg_ESI,uint32_t
 
 {
   int iVar1;
-  uint32_t unaff_retaddr;
   uint auStack_1c [5];
   uint8_t local_8 [8];
   
@@ -5788,7 +5800,7 @@ void __cdecl __EH_prolog3(int param_1,uint32_t reg_EBX,uint32_t reg_ESI,uint32_t
   *(uint32_t *)((int)auStack_1c + iVar1 + 0xc) = reg_ESI;
   *(uint32_t *)((int)auStack_1c + iVar1 + 8) = reg_EDI;
   *(uint *)((int)auStack_1c + iVar1 + 4) = DAT_10015000 ^ (uint)&param_1;
-  *(uint32_t *)((int)auStack_1c + iVar1) = unaff_retaddr;
+  *(uint32_t *)((int)auStack_1c + iVar1) = (uint32_t)_ReturnAddress();
   ExceptionList = local_8;
   return;
 }
@@ -5808,7 +5820,6 @@ __EH_prolog3_catch(int param_1,uint32_t reg_EBX,uint32_t reg_ESI,uint32_t reg_ED
 
 {
   int iVar1;
-  uint32_t unaff_retaddr;
   uint auStack_1c [5];
   uint8_t local_8 [8];
   
@@ -5817,7 +5828,7 @@ __EH_prolog3_catch(int param_1,uint32_t reg_EBX,uint32_t reg_ESI,uint32_t reg_ED
   *(uint32_t *)((int)auStack_1c + iVar1 + 0xc) = reg_ESI;
   *(uint32_t *)((int)auStack_1c + iVar1 + 8) = reg_EDI;
   *(uint *)((int)auStack_1c + iVar1 + 4) = DAT_10015000 ^ (uint)&param_1;
-  *(uint32_t *)((int)auStack_1c + iVar1) = unaff_retaddr;
+  *(uint32_t *)((int)auStack_1c + iVar1) = (uint32_t)_ReturnAddress();
   ExceptionList = local_8;
   return;
 }
@@ -5880,15 +5891,15 @@ void __alloca_probe(uint8_t *reg_EAX)
 {
   uint32_t *puVar1;
   uint32_t *puVar2;
-  uint32_t unaff_retaddr;
   uint8_t auStack_4 [4];
+  uint8_t  stack0x00000000;   /* not traced by Ghidra: address of a stack slot */
   
   puVar2 = (uint32_t *)
            ((int)&stack0x00000000 - (int)reg_EAX & ~-(uint)(&stack0x00000000 < reg_EAX));
   for (puVar1 = (uint32_t *)((uint)auStack_4 & 0xfffff000); puVar2 < puVar1;
       puVar1 = puVar1 + -0x400) {
   }
-  *puVar2 = unaff_retaddr;
+  *puVar2 = (uint32_t)_ReturnAddress();
   return;
 }
 
@@ -5977,9 +5988,8 @@ int __cdecl __filter_x86_sse2_floating_point_exception_default(int param_1)
 void sub_1000d818(EHRegistrationNode *param_1,_CONTEXT *param_2,void *param_3)
 
 {
-  EHExceptionRecord *unaff_retaddr;
   
-  FID_conflict____CxxFrameHandler3(unaff_retaddr,param_1,param_2,param_3,&FuncInfo_100137bc);
+  FID_conflict____CxxFrameHandler3((uint32_t)_ReturnAddress(),param_1,param_2,param_3,&FuncInfo_100137bc);
   return;
 }
 
