@@ -1,0 +1,343 @@
+src_line	kind	dll	name	off_113c	off_113d	binary_va	status
+101	FUNCPTR	D2CLIENT	GetQuestInfo	0x45a00	0x78a80	0x101460a8	in binary
+103	FUNCPTR	D2CLIENT	SubmitItem	0x45fb0	0x79670		absent (unused -> /OPT:REF, or removed)
+104	FUNCPTR	D2CLIENT	Transmute	0x8cb90	0x94370		absent (unused -> /OPT:REF, or removed)
+106	FUNCPTR	D2CLIENT	FindClientSideUnit	0xa5b20	0x620b0		absent (unused -> /OPT:REF, or removed)
+107	FUNCPTR	D2CLIENT	FindServerSideUnit	0xa5b40	0x620d0	0x10146040	in binary
+108	FUNCPTR	D2CLIENT	GetCurrentInteractingNPC	0x46150	0x790d0	0x10146108	in binary
+109	FUNCPTR	D2CLIENT	GetSelectedUnit	0x51a80	0x17280	0x10145e28,0x101461a8	in binary
+110	FUNCPTR	D2CLIENT	GetCursorItem	0x16020	0x144a0		absent (unused -> /OPT:REF, or removed)
+111	FUNCPTR	D2CLIENT	GetMercUnit	0x97cd0	0x9c0a0	0x10146110	in binary
+112	FUNCPTR	D2CLIENT	UnitTestSelect	0x8d030	0x0		commented (absent)
+114	FUNCPTR	D2CLIENT	SetSelectedUnit_I	0x51860	0x17060		absent (unused -> /OPT:REF, or removed)
+115	FUNCPTR	D2CLIENT	GetItemName	0x914f0	0x958c0	0x10146330	in binary
+116	FUNCPTR	D2CLIENT	GetItemNameString	0x914f0	0x0		commented (absent)
+117	FUNCPTR	D2CLIENT	LoadItemDesc	0x97820	0x0		absent (unused -> /OPT:REF, or removed)
+119	FUNCPTR	D2CLIENT	GetMonsterOwner	0x216a0	0x8e3d0		absent (unused -> /OPT:REF, or removed)
+120	FUNCPTR	D2CLIENT	GetUnitHPPercent	0x21580	0x8e2b0		absent (unused -> /OPT:REF, or removed)
+121	FUNCPTR	D2CLIENT	InitInventory	0x908c0	0x93280		absent (unused -> /OPT:REF, or removed)
+122	FUNCPTR	D2CLIENT	SetUIVar	0xc2790	0x1c190	0x10146138	in binary
+123	FUNCPTR	D2CLIENT	GetUnitX	0x1630	0x1210	0x101460f8	in binary
+124	FUNCPTR	D2CLIENT	GetUnitY	0x1660	0x1240	0x10145fe8	in binary
+126	FUNCPTR	D2CLIENT	ShopAction	0x47d60	0x7d030	0x10145c68	in binary
+128	FUNCPTR	D2CLIENT	CloseNPCInteract	0x492f0	0x7bc10		absent (unused -> /OPT:REF, or removed)
+129	FUNCPTR	D2CLIENT	ClearScreen	0x492f0	0x0		commented (absent)
+130	FUNCPTR	D2CLIENT	CloseInteract	0x43870	0x44980		absent (unused -> /OPT:REF, or removed)
+132	FUNCPTR	D2CLIENT	GetAutomapSize	0x5f080	0x6fdd0	0x10146188	in binary
+133	FUNCPTR	D2CLIENT	NewAutomapCell	0x5f6b0	0x703c0		absent (unused -> /OPT:REF, or removed)
+134	FUNCPTR	D2CLIENT	AddAutomapCell	0x61320	0x71ea0		absent (unused -> /OPT:REF, or removed)
+135	FUNCPTR	D2CLIENT	RevealAutomapRoom	0x62580	0x73160		absent (unused -> /OPT:REF, or removed)
+136	FUNCPTR	D2CLIENT	InitAutomapLayer_I	0x62710	0x733d0		absent (unused -> /OPT:REF, or removed)
+138	FUNCPTR	D2CLIENT	ClickMap	0x1bf20	0x2b420		absent (unused -> /OPT:REF, or removed)
+139	FUNCPTR	D2CLIENT	LeftClickItem	0x96aa0	0x9aff0		absent (unused -> /OPT:REF, or removed)
+141	FUNCPTR	D2CLIENT	GetMouseXOffset	0x3f6c0	0x5bc20		absent (unused -> /OPT:REF, or removed)
+142	FUNCPTR	D2CLIENT	GetMouseYOffset	0x3f6d0	0x5bc30		absent (unused -> /OPT:REF, or removed)
+144	FUNCPTR	D2CLIENT	PrintPartyString	0x7d610	0x75c70		absent (unused -> /OPT:REF, or removed)
+145	FUNCPTR	D2CLIENT	PrintGameString	0x7d850	0x75eb0	0x10146048	in binary
+147	FUNCPTR	D2CLIENT	LeaveParty	0x9e5d0	0xa26a0	0x10146210	in binary
+149	FUNCPTR	D2CLIENT	AcceptTrade	0x59600	0x11f70		absent (unused -> /OPT:REF, or removed)
+150	FUNCPTR	D2CLIENT	CancelTrade	0x595c0	0x11f30		absent (unused -> /OPT:REF, or removed)
+152	FUNCPTR	D2CLIENT	GetDifficulty	0x41930	0x42980	0x10146180	in binary
+154	FUNCPTR	D2CLIENT	ExitGame	0x42850	0x43870		absent (unused -> /OPT:REF, or removed)
+156	FUNCPTR	D2CLIENT	GetUiVar_I	0xbe400	0x17c50	0x10146158	in binary
+158	FUNCPTR	D2CLIENT	DrawRectFrame	0xbe4c0	0x17d10	0x10146258	in binary
+160	FUNCPTR	D2CLIENT	PerformGoldDialogAction	0xbfdf0	0x197f0		absent (unused -> /OPT:REF, or removed)
+162	FUNCPTR	D2CLIENT	GetPlayerUnit	0xa4d60	0x613c0	0x101461c8	in binary
+164	FUNCPTR	D2CLIENT	GetLevelName_I	0xbe240	0x18250	0x10146278	in binary
+166	FUNCPTR	D2GFX	DrawAutomapCell	-10079	-10060		absent (unused -> /OPT:REF, or removed)
+167	ASMPTR	D2CLIENT	OverrideShrinePatch_ORIG	0x1155b8	0x101b08	0x10145f10	in binary
+173	VARPTR	D2CLIENT	ScreenSizeX	0xdbc48	0xf7034	0x10145cc8	in binary
+174	VARPTR	D2CLIENT	ScreenSizeY	0xdbc4c	0xf7038	0x10145f50	in binary
+176	VARPTR	D2CLIENT	CursorHoverX	0xe0eb8	0xee4ac	0x10145c18	in binary
+177	VARPTR	D2CLIENT	CursorHoverY	0xe0ebc	0xee4b0	0x10145e70	in binary
+179	VARPTR	D2CLIENT	MouseX	0x11b828	0x11c950	0x10145d00	in binary
+180	VARPTR	D2CLIENT	MouseY	0x11b824	0x11c94c	0x10145e20	in binary
+182	VARPTR	D2CLIENT	MouseOffsetY	0x11995c	0x106840	0x10145cf0	in binary
+183	VARPTR	D2CLIENT	MouseOffsetX	0x119960	0x106844	0x10145d48	in binary
+185	VARPTR	D2CLIENT	AutomapOn	0xfada8	0x11c8b8	0x10145b78	in binary
+186	VARPTR	D2CLIENT	AutomapMode	0xf16b0	0xf34f8	0x10145e68,0x10145f68	in binary
+187	VARPTR	D2CLIENT	Offset	0x11c1f8	0x11cf5c	0x10145dc0	in binary
+188	VARPTR	D2CLIENT	xShake	0x11bf00	0x11ca6c	0x10145e00	in binary
+189	VARPTR	D2CLIENT	yShake	0x10b9dc	0xfc3dc	0x10145ed0	in binary
+190	VARPTR	D2CLIENT	AutomapLayer	0x11c1c4	0x11cf28	0x10145ec0	in binary
+192	VARPTR	D2CLIENT	MercStrIndex	0xf23e8	0xf02d8	0x10145f08	in binary
+193	VARPTR	D2CLIENT	MercReviveCost	0x11c334	0x11cee8	0x10145cd0	in binary
+195	VARPTR	D2CLIENT	GoldDialogAction	0xfad5c	0x11c86c	0x10145ca0	in binary
+196	VARPTR	D2CLIENT	GoldDialogAmount	0x11bbb0	0x11d568	0x10145dd8	in binary
+198	VARPTR	D2CLIENT	NPCMenu	0xf3ba0	0xf1a90	0x10145f20	in binary
+199	VARPTR	D2CLIENT	NPCMenuAmount	0xf42f0	0xf21e0	0x10145b50	in binary
+200	VARPTR	D2CLIENT	GoldDialog	0xfad60	0x0	0x10145b98	in binary
+202	VARPTR	D2CLIENT	TradeLayout	0x10b288	0x101598	0x10145c88	in binary
+203	VARPTR	D2CLIENT	StashLayout	0x10b2d0	0x1015e0	0x10145d90	in binary
+204	VARPTR	D2CLIENT	StoreLayout	0x10b3b0	0x1016c0	0x10145f70	in binary
+205	VARPTR	D2CLIENT	CubeLayout	0x10b3c8	0x1016d8	0x10145b70	in binary
+206	VARPTR	D2CLIENT	InventoryLayout	0x10b3e0	0x1016f0	0x10145b48	in binary
+207	VARPTR	D2CLIENT	MercLayout	0x11bd94	0x11cc84	0x10145e58	in binary
+208	ASMPTR	D2CLIENT	clickParty_I	0x9e180	0xa2250	0x10145c08,0x10145ec8	in binary
+210	VARPTR	D2CLIENT	PanelOffsetX	0x11b9a0	0x11d354	0x10145e18	in binary
+212	VARPTR	D2CLIENT	RegularCursorType	0x11b864	0x11c98c	0x10145e48	in binary
+213	VARPTR	D2CLIENT	ShopCursorType	0x11bc34	0x11cb24	0x10145ce8	in binary
+216	VARPTR	D2CLIENT	Ping	0x119804	0x108764	0x10145d88	in binary
+217	VARPTR	D2CLIENT	FPS	0x11c2ac	0x11ce10	0x10145c48	in binary
+218	VARPTR	D2CLIENT	Skip	0x119810	0x108770	0x10145bc8	in binary
+219	VARPTR	D2CLIENT	Divisor	0xf16b0	0xf34f8	0x10145e68,0x10145f68	in binary
+221	VARPTR	D2CLIENT	OverheadTrigger	0x113ace	0x101abe	0x10145be0	in binary
+223	VARPTR	D2CLIENT	RecentInteractId	0x11971d	0x101895	0x10145d58	in binary
+225	VARPTR	D2CLIENT	ItemPriceList	0x11973b	0x1018b3	0x10145e50	in binary
+227	VARPTR	D2CLIENT	TransactionDialog	0x11975b	0x1018d3	0x10145be8	in binary
+228	VARPTR	D2CLIENT	TransactionDialogs	0x11bc08	0x11d58c	0x10145ca8	in binary
+229	VARPTR	D2CLIENT	TransactionDialogs_2	0x11bc04	0x11d588	0x10145f40	in binary
+231	VARPTR	D2CLIENT	GameInfo	0x11b980	0x109738	0x10145ba8	in binary
+233	VARPTR	D2CLIENT	WaypointTable	0xfcdd1	0x1088fd	0x10145c10	in binary
+235	VARPTR	D2CLIENT	PlayerUnit	0x11bbfc	0x11d050	0x10145c30	in binary
+236	VARPTR	D2CLIENT	ClientPetData	0x11c4d4	0x0	0x10145b90	in binary
+237	VARPTR	D2CLIENT	SelectedInvItem	0x11bc38	0x11cb28	0x10145da0	in binary
+238	VARPTR	D2CLIENT	SelectedUnit	0x11c4d8	0x0		commented (absent)
+239	VARPTR	D2CLIENT	PlayerUnitList	0x11bc14	0x11cb04	0x10145c58	in binary
+241	VARPTR	D2CLIENT	bWeapSwitch	0x11bc94	0x11cb84	0x10145e88	in binary
+243	VARPTR	D2CLIENT	bTradeAccepted	0x11be64	0x11cd54	0x10145ea8	in binary
+244	VARPTR	D2CLIENT	bTradeBlock	0x11be74	0x11cd64	0x10145e10	in binary
+245	VARPTR	D2CLIENT	RecentTradeName	0x12334c	0x0		commented (absent)
+246	VARPTR	D2CLIENT	RecentTradeId	0x11c2cc	0x11d5ac	0x10145d20	in binary
+248	VARPTR	D2CLIENT	ExpCharFlag	0x119854	0x1087b4	0x10145f80	in binary
+250	VARPTR	D2CLIENT	AlwaysRun	0x11c3ec	0x11d234	0x10145d80	in binary
+251	VARPTR	D2CLIENT	NoPickUp	0x11c2f0	0x11d574	0x10145dc8	in binary
+253	VARPTR	D2CLIENT	ChatMsg	0x11ec80	0x11d650	0x10145b40	in binary
+255	VARPTR	D2CLIENT	HoverItem	0x11bc38	0x0	0x10145b88	in binary
+256	VARPTR	D2CLIENT	WeaponSpeedTable	0xe0f78	0x0	0x10145d60	in binary
+257	VARPTR	D2CLIENT	WeaponSpeedModTable	0xe10e0	0x0	0x10145f60	in binary
+259	VARPTR	D2CLIENT	MapId	0x11c310	0x0	0x10145bc0	in binary
+260	VARPTR	D2CLIENT	Music_CurrentLevelId	0x11c34c	0x0	0x10145e60	in binary
+261	VARPTR	D2CLIENT	ScreenCovered	0x11c414	0x0	0x10145ef8	in binary
+268	ASMPTR	D2CLIENT	TakeWaypoint_I	0xaa8b3	0x3f5f3	0x10145dd0	in binary
+270	ASMPTR	D2CLIENT	ClickShopItem_I	0x46ee0	0x7a180	0x10145cc0	in binary
+271	ASMPTR	D2CLIENT	ClickBelt_I	0x28260	0x6e310	0x10145da8	in binary
+272	ASMPTR	D2CLIENT	ClickBeltRight_I	0x29990	0x6fa40	0x10145eb0	in binary
+273	ASMPTR	D2CLIENT	ClickItemRight_I	0x98b60	0x9cf30	0x10145d30	in binary
+274	ASMPTR	D2CLIENT	MercItemAction_I	0x14a10	0xb6b00	0x10145e38	in binary
+276	ASMPTR	D2CLIENT	Interact_I	0x1bde0	0x2b2e0	0x10145bd0	in binary
+278	ASMPTR	D2CLIENT	ClickParty_I	0x9e180	0xa2250	0x10145c08,0x10145ec8	in binary
+279	ASMPTR	D2CLIENT	ClickParty_II	0x773a0	0x88a50	0x10145e08	in binary
+281	ASMPTR	D2CLIENT	ShopAction_I	0x47d60	0x7d030	0x10145c68	in binary
+283	ASMPTR	D2CLIENT	GetUnitName_I	0xa5d90	0x622e0	0x10145db8	in binary
+284	ASMPTR	D2CLIENT	GetItemDesc_I	0x560b0	0x2e380	0x10145cd8	in binary
+285	ASMPTR	D2CLIENT	GetItemDescription	0x8d600	0x0	0x10145bf0	in binary
+287	ASMPTR	D2CLIENT	AssignPlayer_I	0xa7630	0x63c70	0x10145d68	in binary
+289	ASMPTR	D2CLIENT	TestPvpFlag_I	0x4fce0	0x0		commented (absent)
+290	ASMPTR	D2CLIENT	TestPvpFlag_I	0x4fd90	0x6a720	0x10145c90	in binary
+292	ASMPTR	D2CLIENT	PlaySound	0x88a70	0x26270	0x10145c60	in binary
+293	ASMPTR	D2CLIENT	PlayItemDropSounds	0x827c0	0x0	0x10145de8	in binary
+294	VARPTR	D2CLIENT	SoundsTxt	0x11c24c	0x0	0x10145d38	in binary
+295	VARPTR	D2CLIENT	SoundRecords	0x11c250	0x0	0x10145e98	in binary
+297	VARPTR	D2CLIENT	DAT_SoundFrame	0x11c268	0x0	0x10145f28	in binary
+298	VARPTR	D2CLIENT	DAT_SoundEnabled	0x11bf34	0x0	0x10145bf8	in binary
+299	ASMPTR	D2CLIENT	GetExistingSoundInstanceInQueue	0x87fe0	0x0	0x10145ed8	in binary
+300	FUNCPTR	D2CLIENT	CreateSoundInstance	0x87d80	0x0		absent (unused -> /OPT:REF, or removed)
+301	ASMPTR	D2CLIENT	AdjustSoundBasedOnCoords	0x87f30	0x0	0x10145ef0	in binary
+302	FUNCPTR	D2CLIENT	SetSoundInstanceCoords	0x88350	0x0		absent (unused -> /OPT:REF, or removed)
+303	ASMPTR	D2CLIENT	SoundTestCollision	0x88440	0x0	0x10145ee8	in binary
+304	FUNCPTR	D2SOUND	10034_LinkSoundInstance	0x8710	0x0		absent (unused -> /OPT:REF, or removed)
+305	ASMPTR	D2CLIENT	LinkSoundInstanceToClientUnit	0x22390	0x0	0x10145bb8	in binary
+307	ASMPTR	D2CLIENT	InputCall_I	0x147a0	0xb6890	0x10145cf8	in binary
+309	ASMPTR	D2CLIENT	Say_I	0x70ec6	0xb27a6	0x10145bb0	in binary
+311	ASMPTR	D2CLIENT	BodyClickTable	0xe0ec4	0xee4b8	0x10145e80	in binary
+313	ASMPTR	D2CLIENT	LoadUiImage_I	0x2b420	0xa9480	0x10145de0	in binary
+315	ASMPTR	D2CLIENT	GetMinionCount_I	0x217e0	0x8e5b0	0x10145eb8	in binary
+317	ASMPTR	D2CLIENT	GameLeave_I	0x5d110	0xb4370	0x10145c28	in binary
+319	ASMPTR	D2CLIENT	ClickMap_I	0xfada4	0x11c8b4	0x10145d08	in binary
+320	ASMPTR	D2CLIENT	ClickMap_II	0x11c4d8	0x11d2cc	0x10145c20	in binary
+321	ASMPTR	D2CLIENT	ClickMap_III	0x3f5f0	0x5bb50	0x10145cb8	in binary
+322	ASMPTR	D2CLIENT	ClickMap_IV	0x1bf99	0x2b499	0x10145f78	in binary
+324	ASMPTR	D2CLIENT	GameAddUnit_I	0xa6500	0x628e0	0x10145b80	in binary
+326	ASMPTR	D2CLIENT	LoadAct_1	0x62aa0	0x737f0	0x10145c50	in binary
+327	ASMPTR	D2CLIENT	LoadAct_2	0x62760	0x2b420	0x10145d10	in binary
+329	ASMPTR	D2CLIENT	GetUnitFromId_I	0xa4e20	0x61480	0x10145f38	in binary
+330	VARPTR	D2CLIENT	pUnitTable	0x10a608	0x1047b8	0x10145f00	in binary
+332	ASMPTR	D2CLIENT	HoveredUnit_I	0x51a80	0x17280	0x10145e28,0x101461a8	in binary
+333	ASMPTR	D2WIN	DrawTextBuffer	0x12940	0x134d0	0x10145c70	in binary
+335	ASMPTR	D2CLIENT	ParseStats_J	0x54e10	0x2ce40	0x10145f30	in binary
+336	ASMPTR	D2CLIENT	GetItemPropertiesString	0x55b20	0x0	0x10145d28	in binary
+337	FUNCPTR	D2CLIENT	ItemPacketBuildAction3_OldGround	0x86810	0x0	0x101461c0	in binary
+338	ASMPTR	D2CLIENT	ItemPacketBuildAction0_NewGround	0x84bb0	0x0	0x10145c00	in binary
+339	ASMPTR	D2CLIENT	ItemPacketBuildAction2_DropToGround	0x84990	0x0	0x10145e30	in binary
+340	ASMPTR	D2CLIENT	ItemPacketBuildAction4_PutInContainer	0x84750	0x0	0x10145df0	in binary
+347	FUNCPTR	D2COMMON	InitLevel	0x2e360	0x6ddf0		absent (unused -> /OPT:REF, or removed)
+348	FUNCPTR	D2COMMON	UnloadAct	-10868	-10228		absent (unused -> /OPT:REF, or removed)
+349	FUNCPTR	D2COMMON	GetObjectTxt	0x3e980	0x1adc0		absent (unused -> /OPT:REF, or removed)
+350	FUNCPTR	D2COMMON	LoadAct	0x3cb30	0x24810		absent (unused -> /OPT:REF, or removed)
+352	FUNCPTR	D2COMMON	GetLevelText	-10014	-10142		absent (unused -> /OPT:REF, or removed)
+353	FUNCPTR	D2COMMON	GetObjectText	-10688	-10319		absent (unused -> /OPT:REF, or removed)
+354	FUNCPTR	D2COMMON	GetItemText	-10695	-10994	0x10146340	in binary
+355	FUNCPTR	D2COMMON	GetItemTextFromItemCode	-10450	0x0	0x10146248	in binary
+357	FUNCPTR	D2COMMON	GetLayer	-10749	-10087		absent (unused -> /OPT:REF, or removed)
+358	FUNCPTR	D2COMMON	GetLevel	-10207	-10287		absent (unused -> /OPT:REF, or removed)
+360	FUNCPTR	D2COMMON	GetStatList	-10930	-10449	0x10146308	in binary
+361	FUNCPTR	D2COMMON	CopyStatList	-10658	-10195	0x101460b0	in binary
+362	FUNCPTR	D2COMMON	GetBaseStatSigned	-10587	-10216	0x10146150	in binary
+363	FUNCPTR	D2COMMON	GetUnitStat	-10973	-10550	0x101461e8	in binary
+364	FUNCPTR	D2COMMON	GetUnitState	-10494	-10706	0x101461e0	in binary
+365	FUNCPTR	D2COMMON	GetStateStatList	-10871	0x0	0x10146080	in binary
+366	FUNCPTR	D2COMMON	GetStatValueFromStatList	-10680	0x0	0x101461f0	in binary
+368	FUNCPTR	D2COMMON	10760_DATATBLS_GetInventoryGridInfo	-10760	0x0		absent (unused -> /OPT:REF, or removed)
+369	FUNCPTR	D2COMMON	10535_DATATBLS_GetItemDataTables	-10535	0x0	0x101462e8	in binary
+370	FUNCPTR	D2COMMON	10492_DATATBLS_GetMagicAffixDataTables	-10492	0x0	0x10146008	in binary
+371	FUNCPTR	D2COMMON	10365_DATATBLS_GetRareAffixTxtRecord	-10365	0x0	0x10145ff0	in binary
+373	FUNCPTR	D2COMMON	10061_INVENTORY_GetLeftHandWeapon	-10061	0x0	0x10146298,0x101462a8	in binary
+374	FUNCPTR	D2COMMON	11139_INVENTORY_GetItemFromBodyLoc	-11139	0x0	0x10146050,0x10146268	in binary
+375	ASMPTR	D2COMMON	GetStatsWithIdFromStatlist	0x382f0	0x0	0x10145df8	in binary
+376	FUNCPTR	D2COMMON	10744_ITEMS_IsMatchingType	-10744	-10601	0x101462b0,0x10146338	in binary
+377	FUNCPTR	D2COMMON	11034_ITEMS_CheckItemTypes	-11034	0x0	0x10146028	in binary
+378	FUNCPTR	D2COMMON	GetStartSkill	-10947	0x0	0x10146300	in binary
+380	FUNCPTR	D2COMMON	CheckUnitCollision	-10839	-10221		absent (unused -> /OPT:REF, or removed)
+381	FUNCPTR	D2COMMON	GetRoomFromUnit	-10331	-10846	0x10146070	in binary
+382	FUNCPTR	D2COMMON	GetLevelIdFromRoom	-10826	0x0	0x10146260	in binary
+383	FUNCPTR	D2COMMON	GetTargetUnitType	-10392	-10704		absent (unused -> /OPT:REF, or removed)
+385	FUNCPTR	D2COMMON	GetSkillLevel	-10306	-10007	0x10146090	in binary
+387	FUNCPTR	D2COMMON	GetItemLevelRequirement	-11015	-10929	0x10146288	in binary
+388	FUNCPTR	D2COMMON	GetItemPrice	-10107	-10186	0x101461d0	in binary
+389	FUNCPTR	D2COMMON	GetRepairCost	-10071	-10807		absent (unused -> /OPT:REF, or removed)
+390	FUNCPTR	D2COMMON	GetItemMagicalMods	-10248	-10174	0x101460e0	in binary
+391	FUNCPTR	D2COMMON	GetItemFromInventory	-10460	-11132	0x101462c8	in binary
+392	FUNCPTR	D2COMMON	GetNextItemFromInventory	-10464	-10879	0x10145ff8	in binary
+393	FUNCPTR	D2COMMON	GetItemType	-11088	-10121	0x101461d8	in binary
+394	FUNCPTR	D2COMMON	IsMatchingType	-10744	-10601	0x101462b0,0x10146338	in binary
+395	FUNCPTR	D2COMMON	GetMaxSockets	-11151	0x0	0x10146020	in binary
+397	FUNCPTR	D2COMMON	GetRunesTxt	-10006	-10405	0x101462f0	in binary
+398	FUNCPTR	D2COMMON	GetRunesTxtRecords	-11032	-10981	0x10146238	in binary
+400	FUNCPTR	D2COMMON	GenerateOverheadMsg	-10454	-10538		absent (unused -> /OPT:REF, or removed)
+401	FUNCPTR	D2COMMON	FixOverheadMsg	-10097	-10417		absent (unused -> /OPT:REF, or removed)
+403	FUNCPTR	D2COMMON	AddRoomData	-10401	-10890		absent (unused -> /OPT:REF, or removed)
+404	FUNCPTR	D2COMMON	RemoveRoomData	-11099	-10208		absent (unused -> /OPT:REF, or removed)
+406	FUNCPTR	D2COMMON	GetQuestFlag	-10174	-10156		absent (unused -> /OPT:REF, or removed)
+407	FUNCPTR	D2COMMON	GetQuestFlag2	-10174	-10156		absent (unused -> /OPT:REF, or removed)
+409	FUNCPTR	D2COMMON	AbsScreenToMap	-10474	-10720		absent (unused -> /OPT:REF, or removed)
+410	FUNCPTR	D2COMMON	MapToAbsScreen	-11087	-10115		absent (unused -> /OPT:REF, or removed)
+412	FUNCPTR	D2COMMON	CheckWaypoint	-10373	-11029		absent (unused -> /OPT:REF, or removed)
+414	FUNCPTR	D2COMMON	IsTownByLevelNo	-10416	-10367		absent (unused -> /OPT:REF, or removed)
+415	FUNCPTR	D2COMMON	IsTownByRoom	-10057	-10691		absent (unused -> /OPT:REF, or removed)
+417	FUNCPTR	D2COMMON	GetCursorItem	-11017	0x0		absent (unused -> /OPT:REF, or removed)
+418	FUNCPTR	D2COMMON	ITEMS_GetRunesTxtRecordFromItem	-10918	0x0	0x10145fe0	in binary
+420	FUNCPTR	D2COMMON	10089	-10089	0x0	0x101461b0	in binary
+421	FUNCPTR	D2COMMON	10244_CheckRequirements	-10244	0x0	0x101462b8	in binary
+422	FUNCPTR	D2COMMON	10326_GetItemTxtFileNo	-10326	0x0	0x10146128	in binary
+423	FUNCPTR	D2COMMON	10364_Is1Or2Handed	-10364	0x0	0x10146060	in binary
+424	FUNCPTR	D2COMMON	10567_GetMinPhysDamage	-10567	0x0	0x10146328	in binary
+425	FUNCPTR	D2COMMON	10297_GetMaxPhysDamage	-10297	0x0	0x10146280	in binary
+426	FUNCPTR	D2COMMON	10592_GetWeaponAttackSpeed	-10592	0x0	0x10146130	in binary
+427	FUNCPTR	D2COMMON	10711_ItemCheckIfThrowable	-10711	0x0	0x10146058	in binary
+428	FUNCPTR	D2COMMON	10757_CheckIfSocketable	-10757	0x0	0x10146318	in binary
+429	FUNCPTR	D2COMMON	10822_GetItemRequiredClass	-10822	0x0	0x10146240	in binary
+430	FUNCPTR	D2COMMON	10823_GetMinDamageStat	-10823	0x0	0x10146320	in binary
+431	FUNCPTR	D2COMMON	10925_GetMaxDamageStat	-10925	0x0	0x10146018	in binary
+432	FUNCPTR	D2COMMON	10845_GetThrowMinDamageStat	-10845	0x0	0x10146140	in binary
+433	FUNCPTR	D2COMMON	10583_GetThrowMaxDamageStat	-10583	0x0	0x101462a0	in binary
+434	FUNCPTR	D2COMMON	10630_GetHighestLevelSkillFromUnitAndId	-10630	0x0	0x10146228	in binary
+435	FUNCPTR	D2COMMON	10806_DATATBLS_GetGemsTxtRecord	-10806	0x0	0x10146078	in binary
+436	FUNCPTR	D2COMMON	10832_CalcDM56	-10832	0x0	0x101461f8	in binary
+437	FUNCPTR	D2COMMON	10865_HasDurability	-10865	0x0	0x101462f8	in binary
+438	FUNCPTR	D2COMMON	10957_GetStaffMods	-10957	0x0		absent (unused -> /OPT:REF, or removed)
+439	FUNCPTR	D2COMMON	11015_GetItemLevelRequirement	-11015	0x0	0x10146200	in binary
+440	FUNCPTR	D2COMMON	11116_GetMaxDurabilityFromUnit	-11116	0x0	0x10146088	in binary
+441	FUNCPTR	D2COMMON	11144_GetQuiverType	-11144	0x0	0x10146120	in binary
+442	FUNCPTR	D2COMMON	11147_UnitIsItem	-11147	0x0	0x10146290	in binary
+444	FUNCPTR	D2COMMON	10819_UNITS_UpdateUnitAnimRate	-10819	0x0		absent (unused -> /OPT:REF, or removed)
+445	FUNCPTR	D2COMMON	10031_UNITS_GetFrameBonus	-10031	0x0	0x10146190	in binary
+446	FUNCPTR	D2COMMON	10595_UNITS_InitUnitMode	-10595	0x0		absent (unused -> /OPT:REF, or removed)
+448	FUNCPTR	D2COMMON	10507_UNITS_GetRightSkill	-10507	0x0	0x10146310	in binary
+449	FUNCPTR	D2COMMON	10030_SKILLS_GetSeqNumFromSkill	0x4ec50	0x0	0x101460c8	in binary
+450	FUNCPTR	D2COMMON	10786_SKILLS_EvaluateSkillFormula	-10786	0x0	0x10146038	in binary
+451	FUNCPTR	D2COMMON	10194_DATATBLS_GetMonSeqTableRecord	-10194	0x0	0x10146230	in binary
+452	ASMPTR	D2COMMON	GetSequenceInfo	0x2e840	0x0	0x10145c40	in binary
+453	ASMPTR	D2COMMON	GetSequenceIndex	0x2e790	0x0	0x10145d78	in binary
+454	FUNCPTR	D2COMMON	GetAnimDataRecord	0x41f70	0x0	0x10146118	in binary
+455	FUNCPTR	D2COMMON	10350_ConvertMode	-10350	0x0	0x10146220	in binary
+457	FUNCPTR	D2COMMON	MergeStatList	-10164	0x0	0x10146178	in binary
+458	ASMPTR	D2COMMON	GetFrameMinAccr	0x323e0	0x0	0x10145ee0	in binary
+459	FUNCPTR	D2COMMON	10639_GetAttackFramesRemaining	-10639	0x0		absent (unused -> /OPT:REF, or removed)
+461	FUNCPTR	D2COMMON	UnitCanDualWield	-10747	0x0	0x10146068	in binary
+462	FUNCPTR	D2COMMON	GetLeftHandWeapon	-10061	0x0	0x10146298,0x101462a8	in binary
+463	FUNCPTR	D2COMMON	ItemGetBodyLocation	-10417	0x0	0x10146208	in binary
+464	FUNCPTR	D2COMMON	GetItemByBodyLoc	-11139	0x0	0x10146050,0x10146268	in binary
+465	FUNCPTR	D2COMMON	ItemCanBeEquipped	-11006	0x0	0x10146100	in binary
+466	FUNCPTR	D2COMMON	StatListGetOwner	-11160	0x0	0x10146170	in binary
+473	VARPTR	D2COMMON	sgptDataTable	0x99e1c	0xa33f0	0x10145d70	in binary
+474	VARPTR	D2COMMON	AutoMagicTxt	0x9fbc8	0xa4ce4	0x10145cb0	in binary
+476	VARPTR	D2COMMON	ArmorTxt	0x9fba4	0xa4cc0	0x10145bd8	in binary
+477	VARPTR	D2COMMON	ArmorTxtRecords	0x9fba8	0xa4cc4	0x10145c80	in binary
+479	VARPTR	D2COMMON	PlayerSequenceDataTable	0x9cf40	0x0	0x10145ba0	in binary
+486	ASMPTR	D2COMMON	DisplayOverheadMsg_I	-10422	-10298	0x10145b58	in binary
+487	ASMPTR	D2COMMON	GetLevelIdFromRoom_I	0x3c000	0x23b80	0x10145b68	in binary
+494	FUNCPTR	D2NET	SendPacket	-10024	-10015	0x101460c0	in binary
+495	FUNCPTR	D2NET	ReceivePacket_I	-10033	-10001	0x10146148	in binary
+498	FUNCPTR	D2NET	ReceivePacket_II	0x6bd0	0x0		commented (absent)
+499	FUNCPTR	D2NET	ReceivePacket_III	0x63c0	0x0		commented (absent)
+505	VARPTR	D2NET	CriticalPacketSection	0xb400	0xb400	0x10145d18	in binary
+513	VARPTR	D2GFX	RenderMode	0x11258	0x0	0x10145d98	in binary
+515	FUNCPTR	D2GFX	DrawLine	-10010	-10013	0x101461b8	in binary
+516	FUNCPTR	D2GFX	DrawRectangle	-10014	-10028	0x101460b8	in binary
+517	FUNCPTR	D2GFX	DrawAutomapCell2	-10041	-10042		absent (unused -> /OPT:REF, or removed)
+518	FUNCPTR	D2GFX	DrawCellContextEx	-10019	-10067		absent (unused -> /OPT:REF, or removed)
+520	FUNCPTR	D2GFX	GetScreenSize	-10031	-10012		absent (unused -> /OPT:REF, or removed)
+522	FUNCPTR	D2GFX	GetHwnd	-10048	-10007	0x10145fd8	in binary
+529	FUNCPTR	D2MULTI	DoChat	0xcb30	0x11770		absent (unused -> /OPT:REF, or removed)
+530	FUNCPTR	D2MULTI	PrintChannelText	0xfc90	0x13f30		absent (unused -> /OPT:REF, or removed)
+537	VARPTR	D2MULTI	ChatBoxMsg	0x38f18	0x1c150	0x10145ea0	in binary
+538	VARPTR	D2MULTI	GameListControl	0x39cc0	0x39ff0	0x10145b60	in binary
+539	VARPTR	D2MULTI	EditboxPreferences	0x19c60	0x19c60	0x10145c78	in binary
+540	VARPTR	D2MULTI	GameName	0x39cd4	0x0	0x10145d40	in binary
+541	VARPTR	D2MULTI	PassBox	0x39cd8	0x3a060	0x10145c38	in binary
+542	VARPTR	D2MULTI	ChatInputBox	0x3a0d0	0x39fc0	0x10145f48	in binary
+549	ASMPTR	D2MULTI	ChannelChat_I	0x108a6	0x14be6	0x10145f18	in binary
+550	ASMPTR	D2MULTI	ChannelEmote_I	0x107a6	0x14850	0x10145e90	in binary
+551	ASMPTR	D2MULTI	ChannelWhisper_I	0x10000	0x142f0	0x10145f58	in binary
+552	ASMPTR	D2MULTI	ChannelInput_I	0xd5b0	0x11b80	0x10145ce0	in binary
+558	FUNCPTR	D2CMP	InitCellFile	-10006	-10008		absent (unused -> /OPT:REF, or removed)
+559	FUNCPTR	D2CMP	DeleteCellFile	-10106	-10084		absent (unused -> /OPT:REF, or removed)
+566	FUNCPTR	D2LANG	GetLocaleText	-10003	-10004	0x101461a0	in binary
+573	ASMPTR	D2LANG	Say_II	0xb0b0	0x8c60	0x10145e40	in binary
+580	VARPTR	D2LAUNCH	BnData	0x25abc	0x25b30	0x10145db0	in binary
+587	FUNCPTR	D2WIN	DrawSprites	0x18750	0xeaa0		absent (unused -> /OPT:REF, or removed)
+588	FUNCPTR	D2WIN	LoadCellFile	-10111	-10023		absent (unused -> /OPT:REF, or removed)
+589	FUNCPTR	D2WIN	DrawCellFile	-10138	-10172		absent (unused -> /OPT:REF, or removed)
+596	FUNCPTR	D2WIN	DrawText	-10150	-10076	0x101460e8	in binary
+598	FUNCPTR	D2WIN	GetTextSize	-10177	-10179	0x10146010	in binary
+599	FUNCPTR	D2WIN	SetTextSize	-10184	-10047	0x101460d8	in binary
+601	FUNCPTR	D2WIN	SetControlText	-10042	-10007	0x101462c0	in binary
+602	FUNCPTR	D2WIN	GetTextWidthFileNo	-10177	-10179	0x10146010	in binary
+604	FUNCPTR	D2WIN	CreateEditBox	0x161b0	0x11a10	0x101460f0	in binary
+605	FUNCPTR	D2WIN	DestroyEditBox	0x159e0	0xf320	0x10146030	in binary
+606	FUNCPTR	D2WIN	BUTTON_Create	-10068	0x0	0x10146160	in binary
+607	FUNCPTR	D2WIN	BUTTON_Destroy	-10155	0x0	0x10146198	in binary
+608	FUNCPTR	D2WIN	BUTTON_IsPressed	-10003	0x0	0x10146000	in binary
+609	FUNCPTR	D2WIN	BUTTON_SetIsPressed	-10097	0x0	0x10146098	in binary
+611	FUNCPTR	D2WIN	CONTROL_ToggleThirdFlag	-10131	0x0		absent (unused -> /OPT:REF, or removed)
+612	FUNCPTR	D2WIN	DestroyControl	0x18490	0xe5f0	0x10146218	in binary
+613	FUNCPTR	D2WIN	EDITBOX_SetNextAndPrevious	-10146	0x0	0x101460d0	in binary
+615	FUNCPTR	D2WIN	SetEditBoxCallback	0x13970	0xf1d0	0x101460a0,0x10146270	in binary
+616	FUNCPTR	D2WIN	SetEditBoxProc	0x13970	0xf1d0	0x101460a0,0x10146270	in binary
+617	FUNCPTR	D2WIN	SelectEditBoxText	0x13720	0xef80	0x10146168	in binary
+618	FUNCPTR	D2WIN	InitMPQ	0x7e60	0x7e50		absent (unused -> /OPT:REF, or removed)
+624	VARPTR	D2WIN	FirstControl	0x214a0	0x8db34	0x10145c98	in binary
+625	VARPTR	D2WIN	FocusedControl	0x214b0	0x8db44	0x10145e78	in binary
+631	FUNCPTR	D2GAME	Rand	0x1160	0x0		commented (absent)
+632	FUNCPTR	D2GAME	CalcOpenWoundsDamage	0xac940	0x0	0x10146250	in binary
+634	FUNCPTR	D2MCPCLIENT	ParseGameListPacket	0x6e30	0x6640		absent (unused -> /OPT:REF, or removed)
+	?	?	?	0x5	0x11971d	0x10145d54	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x1	0x0	0x10145f88	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x94	0x93	0x10145f98	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x93	0x9a	0x10145f9c	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x9a	0xc7	0x10145fa0	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xc7	0xb1	0x10145fa4	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xb1	0xb2	0x10145fa8	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xb2	0xca	0x10145fac	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xca	0xfd	0x10145fb0	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xfd	0xfe	0x10145fb4	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xfe	0xff	0x10145fb8	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xff	0xfc	0x10145fbc	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xfc	0x195	0x10145fc0	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x195	0x101	0x10145fc4	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x101	0x1ff	0x10145fc8	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x1ff	0x201	0x10145fcc	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x201	0x200	0x10145fd0	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0x200	-0x2740	0x10145fd4	binary-only candidate (pair-shaped slot in the Offsets table range)
+	?	?	?	0xf	-0x2927	0x101462e4	binary-only candidate (pair-shaped slot in the Offsets table range)

@@ -1,0 +1,17 @@
+No source is reconstructed here: the shipped BH.dll (2026-05-13) contains no code, strings, classes,
+D2 pointers, patches or exports that are absent from the public PD2 fork at
+
+  https://github.com/Project-Diablo-2/BH  commit 4f7b4d7cd3915b8f60f5d4fcc820f5a7e98ec71a (2026-04-23)
+
+(see ../DIFF.md and ../README.md). Build the readable source from that commit:
+
+  git clone https://github.com/Project-Diablo-2/BH.git && git -C BH checkout 4f7b4d7
+
+Commits on the fork after 4f7b4d7 are NOT in the shipped DLL. Checked statically:
+  0095e67 (2026-05-28) open-wounds base +40     -> binary still adds 25 (add eax,0x19 @ 0x1007d3ae)
+  72b26e9 (2026-09-30) DllMain return TRUE      -> binary returns FALSE for thread attach (0x1007a0ca)
+  48ff393/5d85a8d     discovery conditions      -> "DISCOVERED"/"OWNED"/"_D2Client_GetItemDiscoveryState@12" absent
+  860359f (2026-10-06) unique-tab roll ranges   -> no ITEMFLAG_FAKE_COMPENDIUM_TAB (0x40000000) test in 0x10099080
+  2f10b0d (2026-10-06) monsters remaining text  -> "%d Monsters Remaining" absent
+Not individually checked (later than the build date, no string/constant marker): f442702 (toolset),
+662229b (null checks), ba15ace (CI), bc4cac4 (ItemStatCostTxt struct), 4726cb7 (corrupted-ear crash fix).
