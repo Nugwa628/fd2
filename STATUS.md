@@ -104,3 +104,8 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Game pointers resolved by `FUN_102f10f0(dll, value)`, negative = ordinal, else offset; each entry is a **{1.13c, 1.13d} pair** chosen by a version check (`FUN_10253fc0`). 1,051 accessors + 842 lazy thunks → `ProjectDiablo_game_pointers.tsv` (527 ordinals named; offsets to be named via reference symbols in Phase 3).
 - **Open issue for Phase 3:** 871 lazy thunks are `void(void)`, so 5,883 call sites lose their arguments. Apply reference prototypes (`ApplyPrototypes.java`) and re-export.
 - Static-init jump-stub table at 0x1032356c (64,961 stubs) is in link order: use it as file-boundary evidence.
+
+### P3a Source tree ProjectDiablo (started 2026-10-14)
+- Input: `3_ghidra_fixed/ProjectDiablo_*` exports + game_pointers/datafuncs/prototypes TSVs, Ghidra project, sigmaRE name DB.
+- Output: `4_pd2_source/ProjectDiablo/` (tree, include/ incl. `d2structs.h`, symbols.csv, FILES.md, exports/imports.tsv, `game_pointers.tsv`, README with counts); tool fixes in `tools/`.
+- Done: thunk prototypes applied and re-exported (lost-arguments fix); attribution with confidence levels; link-order verdict; undeclared names only STL internals; `tools/rebuild.sh --pd2` regenerates.
