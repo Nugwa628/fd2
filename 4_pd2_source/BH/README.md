@@ -73,7 +73,7 @@ re-creates `evidence/` and `patches.tsv`; log of the last run: `fd2_work/logs/ph
 
 | | Matched (identical-or-equivalent) | Changed | Removed in the shipped build | Binary-only additions |
 |---|---:|---:|---:|---:|
-| Source files (92 `.cpp`/`.h`/`.hpp` under `BH/`) | 79 (+13 present upstream but not linked: 12 + Mustache partly) | 0 | 0 | 0 |
+| Source files (92 `.cpp`/`.h`/`.hpp` under `BH/`) | 75 (+16 present upstream but not linked, +1 partly linked: `Mustache.cpp`) | 0 | 0 | 0 |
 | Polymorphic classes (RTTI/vftable) | 100 vftables (126 types) | 0 | 0 (13 upstream classes not linked: 8 `Drawing::*hook`, 5 Mustache templates) | 0 |
 | Functions pinned to an address by literals | 70 of 79 literal-bearing (1,084 parsed). The other 1,005 have no literal and are only covered at file/class level | 0 | 0 | 0 |
 | Module handler slots | 162/162 | 0 | 0 | 0 |

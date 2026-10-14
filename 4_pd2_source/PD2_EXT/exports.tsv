@@ -1,0 +1,13 @@
+ordinal	address	name
+1	0x10013d28	GetFileVersionInfoA
+2	0x10013d5c	GetFileVersionInfoSizeA
+3	0x10013d94	GetFileVersionInfoSizeW
+4	0x10013dc8	GetFileVersionInfoW
+5	0x10013df1	VerFindFileA
+6	0x10013e13	VerFindFileW
+7	0x10013e38	VerInstallFileA
+8	0x10013e60	VerInstallFileW
+9	0x10013e89	VerLanguageNameA
+10	0x10013eb3	VerLanguageNameW
+11	0x10013edb	VerQueryValueA
+14	0x10013f01	VerQueryValueW

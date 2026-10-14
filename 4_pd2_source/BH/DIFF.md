@@ -12,10 +12,10 @@ either. The second case is ordinary `/OPT:REF` dead-code removal, not a PD2 chan
 
 | Category | Files | Classes (polymorphic) | Notes |
 |---|---:|---:|---|
-| identical-or-equivalent | 79 (53 with function bodies + 26 headers) | 100 BH vftables / 126 BH RTTI types, all mapped | |
+| identical-or-equivalent | 75 (53 with function bodies + 22 headers) | 100 BH vftables / 126 BH RTTI types, all mapped | |
 | changed | 0 | 0 | |
 | removed in the shipped build (relative to `4f7b4d7`) | 0 | 0 | Maphack, AutoTele and ItemMover aren't in the public PD2 fork (see below). |
-| present upstream, not linked (dead code in upstream too) | 12 (+1 partly) | 13 | 8 `Drawing::*hook` classes, 5 Mustache template classes |
+| present upstream, not linked (dead code in upstream too) | 16 (12 + 4 headers), +1 partly linked (`Mustache.cpp`) | 13 | 8 `Drawing::*hook` classes, 5 Mustache template classes |
 | binary-only additions | 0 | 0 | 0 uncovered BH strings, 0 extra D2 pointers, patches or exports |
 
 ## Lineage context (not binary diffs)
