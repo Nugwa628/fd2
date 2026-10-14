@@ -24,7 +24,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | **done** (ProjectDiablo, PD2_EXT, BH) |
 | 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT **done** |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
-| 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/BH` | not started |
+| 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/{BH,D2GL}`, `7_launcher/` | **done** |
 | 6 Verification + README numbers | orchestrator + verifier | all | `README.md` | not started |
 
 ### Phase 0 checklist
@@ -163,3 +163,10 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Launcher bug noted: metadata holds MD5 but the launcher compares SHA-1, so files re-download whenever metadata changes (overwriting ProjectDiablo.cfg, ddraw.ini, default.filter).
 - D2GL: shipped glide3x.dll = public fork `Project-Diablo-2/d2gl` commit 9443840 (2026-04-23); fork vs v1.3.3: 36 files +992/−623 (excl. vendored libs). No private changes detected (string/export/disassembly evidence).
 - Orchestrator check: no binaries or secret-looking strings in `7_launcher/`, `tools/launcher/`, `4_pd2_source/D2GL/`.
+
+### P5b Config schemas: done (2026-10-14)
+- 10 docs in `6_config/`. Keys shipped/read/unread/code-only: ProjectDiablo.json 75/75/0/0; ProjectDiablo.cfg 30/0/30/0 (legacy, BH stopped reading it in 43ff557); BH.json 55/58/0/3; d2gl.json 45/45/0/0; SGD2FreeResolution.json 12/12/0/0; ddraw.ini 26/31/1/6; launcherSettings.json 44/43/1/15; local_metadata.json 1/1/0/0. Filter grammar in `filter-format.md`.
+- Findings: `classic_game_settings` replaces the D2 registry (Storm registry calls redirected at 103 call sites); `ddraw.ini` `resizeable` typo makes the launcher option a no-op; launcher MD5-vs-SHA-1 bug confirmed on all 47 entries.
+- **Correction:** the launcher source IS public (`Project-Diablo-2/PD2Launcher`, commit 300ed6f verified); P5c's "non-public" claim fixed in `7_launcher/README.md`.
+- **New open item:** shipped `SGD2FreeRes.dll` differs from tag 3.0.3.1 (missing 640x480 default/gateway table, `"1068x600"` present). INVENTORY updated; decompile + diff is a follow-up.
+- Orchestrator check: no IPs, user paths or host names left unredacted in `6_config/`.

@@ -18,7 +18,7 @@ All of this comes from static analysis of local copies only. None of the executa
   - `PD2Launcher` needs `Microsoft.NETCore.App` 6.0.0 plus `Microsoft.WindowsDesktop.App` 6.0.0.
   - `SteamPD2` and `UpdateUtility` need only `Microsoft.NETCore.App` 6.0.0.
 - **The UI is WPF.** It uses the MVVM pattern with MvvmLight (`RelayCommand`, `Messenger`, `ViewModelLocator`) and `Microsoft.Extensions.DependencyInjection` as the service container. A WebView2 control is used only for the "FilterBird" loot-filter preview. The XAML was compiled by `PresentationBuildTasks` 8.0.7.0, i.e. a .NET 8 SDK targeting net6.0.
-- Every PD2 assembly has version 1.0.0.0 and the InformationalVersion `1.0.0+300ed6fbbcb85bf6b02e8bb052e4e0c5f3a77de3`. That suffix is the git commit of the (non-public) launcher repo. A GitHub search of the `Project-Diablo-2` org for a launcher repo found nothing.
+- Every PD2 assembly has version 1.0.0.0 and the InformationalVersion `1.0.0+300ed6fbbcb85bf6b02e8bb052e4e0c5f3a77de3`. That suffix is the git commit of the launcher repo, which is public: `https://github.com/Project-Diablo-2/PD2Launcher`, commit `300ed6fbbcb85bf6b02e8bb052e4e0c5f3a77de3` (2026-07-23, "2.14.0 rought in"; confirmed to exist by the orchestrator). The decompiled `src/` here is therefore a cross-check of that commit; the upstream source is authoritative.
 - The namespaces are `PD2Launcherv2.*` and `ProjectDiablo2Launcherv2` (launcher), `PD2Shared.*` (shared library), `SteamPD2` and `UpdateUtility`.
 
 ## Bundled assemblies
