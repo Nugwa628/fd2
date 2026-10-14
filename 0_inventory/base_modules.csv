@@ -1,0 +1,22 @@
+module,file,imagebase,ref_base,pe_checksum_stored,pe_checksum_ok,timestamp,ts_utc,ref_exports,exports_same_addr,shipped_exports,ref_functions,ref_functions_in_text,verdict
+Bnclient,Bnclient.dll,0x6ff20000,0x6ff20000,0x00023dcc,True,0x4b95c135,2010-03-09 03:32:05,23,23,23,476,476,exports-match
+D2CMP,D2CMP.dll,0x6fe10000,0x6fe10000,0x00036c44,True,0x4b95c0db,2010-03-09 03:30:35,107,107,107,609,609,exports-match
+D2Client,D2Client.dll,0x6fab0000,0x6fab0000,0x00110d66,True,0x4b95ca3e,2010-03-09 04:10:38,4,4,4,3417,3417,exports-match
+D2Common,D2Common.dll,0x6fd50000,0x6fd50000,0x000a922c,True,0x4b95c439,2010-03-09 03:44:57,1172,1172,1172,2220,2220,exports-match
+D2DDraw,D2DDraw.dll,0x6f8c0000,0x6f8c0000,0x00016a66,True,0x4b95c17d,2010-03-09 03:33:17,1,1,1,219,219,exports-match
+D2Direct3D,D2Direct3D.dll,0x6f880000,0x6f880000,0x00027f81,True,0x4b95c1a3,2010-03-09 03:33:55,1,1,1,281,281,exports-match
+D2Game,D2Game.dll,0x6fc20000,0x6fc20000,0x00124566,True,0x4b95c6b2,2010-03-09 03:55:30,61,61,61,3681,3681,exports-match
+D2Gdi,D2Gdi.dll,0x6f870000,0x6f870000,0x00018d3e,True,0x4b95c1b7,2010-03-09 03:34:15,4,4,4,159,159,exports-match
+D2Glide,D2Glide.dll,0x6f850000,0x6f850000,0x0001cfbf,True,0x4b95c1e2,2010-03-09 03:34:58,1,1,1,306,306,exports-match
+D2Lang,D2Lang.dll,0x6fc00000,0x6fc00000,0x0002043a,True,0x4b95c108,2010-03-09 03:31:20,63,63,63,253,253,exports-match
+D2Launch,D2Launch.dll,0x6fa40000,0x6fa40000,0x0002aa34,True,0x4b95c258,2010-03-09 03:36:56,1,1,1,411,411,exports-match
+D2MCPClient,D2MCPClient.dll,0x6fa20000,0x6fa20000,0x00019bf3,True,0x4b95c0e8,2010-03-09 03:30:48,63,63,63,205,205,exports-match
+D2Multi,D2Multi.dll,0x6f9d0000,0x6f9d0000,0x0002dcb5,True,0x4b95c235,2010-03-09 03:36:21,1,1,1,351,351,exports-match
+D2Net,D2Net.dll,0x6fbf0000,0x6fbf0000,0x0001a4c6,True,0x4b95c0fb,2010-03-09 03:31:07,38,38,38,212,212,exports-match
+D2Win,D2Win.dll,0x6f8e0000,0x6f8e0000,0x0002e9e8,False,0x4b95c21d,2010-03-09 03:35:57,207,207,207,599,599,exports-match
+D2gfx,D2gfx.dll,0x6fa80000,0x6fa80000,0x0001be5c,True,0x4b95c154,2010-03-09 03:32:36,88,88,88,327,327,exports-match
+D2sound,D2sound.dll,0x6f9b0000,0x6f9b0000,0x00020aed,True,0x4b95c165,2010-03-09 03:32:53,71,71,71,314,314,exports-match
+DiabloII,Diablo II.exe,0x00400000,0x00400000,0x00000000,unset,0x3aee0454,2001-05-01 00:33:24,0,0,0,64,64,no-exports
+Fog,Fog.dll,0x6ff50000,0x6ff50000,0x0003afb4,True,0x4b95c0aa,2010-03-09 03:29:46,268,268,268,844,843,exports-match
+Game,Game.exe,0x00400000,0x00400000,0x00016a09,True,0x4b95ca4b,2010-03-09 04:10:51,0,0,0,201,201,no-exports
+Storm,Storm.dll,0x6fbf0000,0x6f600000,0x000622c9,False,0x4b95c049,2010-03-09 03:28:09,361,361,361,1269,1269,exports-match

@@ -1,0 +1,348 @@
+# D2Common.dll
+
+- Size: 679,936 bytes
+- Machine: 0x14c, DLL, subsystem 2
+- TimeDateStamp: 0x4b95c439 (2010-03-09 03:44:57 UTC)
+- ImageBase 0x6fd50000, entry 0x6fd52c8f (in .text)
+- Linker 7.10; .NET: no; overlay 0 bytes
+- PDB: `X:\trunk\Diablo2\Builder\PDB\D2Common.pdb`
+- RTTI type descriptors (`.?AV`/`.?AU`): 0
+- TLS callbacks: none
+- Packer/protector heuristics: none
+
+## Sections
+
+| name | VA | vsize | rawsize | entropy | flags |
+|---|---|---:|---:|---:|---|
+| .text | 0x1000 | 554,963 | 557,056 | 6.45 | 0x60000020 |
+| .rdata | 0x89000 | 64,673 | 65,536 | 4.74 | 0x40000040 |
+| .data | 0x99000 | 39,004 | 28,672 | 3.45 | 0xc0000040 |
+| .reloc | 0xa3000 | 24,194 | 24,576 | 6.45 | 0x42000040 |
+
+## Rich header
+
+| product id | build | count | toolchain |
+|---:|---:|---:|---|
+| 93 | 6030 | 8 | VS2003 |
+| 93 | 2067 | 2 | ? |
+| 93 | 2179 | 3 | ? |
+| 1 | 0 | 161 | ? |
+| 96 | 6030 | 2 | VS2003 |
+| 15 | 6030 | 25 | VS2003 |
+| 95 | 6030 | 115 | VS2003 |
+| 100 | 6030 | 85 | VS2003 |
+| 92 | 6030 | 1 | VS2003 |
+| 90 | 6030 | 1 | VS2003 |
+
+## Imports
+
+- **KERNEL32.dll** (73): GetACP, GetOEMCP, SetFilePointer, CreateFileA, SetStdHandle, VirtualAlloc, VirtualProtect, GetSystemInfo, GetCurrentProcessId, SetEndOfFile, ReadFile, GetLocaleInfoA, GetCPInfo, GetLogicalDriveStringsA, Sleep, GetStringTypeW, GetStringTypeA, VirtualQuery, InterlockedExchange, HeapSize, HeapReAlloc, RtlUnwind, UnhandledExceptionFilter, VirtualFree, HeapCreate, HeapDestroy, GetEnvironmentStringsW, FreeEnvironmentStringsW, GetEnvironmentStrings, FreeEnvironmentStringsA, GetModuleFileNameA, GetStartupInfoA, GetFileType, GetStdHandle, SetHandleCount, HeapAlloc, LCMapStringW, MultiByteToWideChar, WideCharToMultiByte, LCMapStringA, ... (+33)
+- **USER32.dll** (2): wsprintfA, CharNextA
+- **Storm.dll** (8): #501, #266, #276, #503, #571, #252, #578, #509
+- **Fog.dll** (41): #10127, #10130, #10128, #10129, #10131, #10118, #10120, #10119, #10126, gdwInvBitMasks, #10214, #10207, #10210, #10208, #10209, #10083, #10084, #10253, #10227, #10042, #10215, #10216, #10047, gdwBitMasks, #10211, #10212, #10213, #10217, #10254, #10043, #10046, #10045, #10265, #10024, #10104, #10102, #10029, #10103, #10106, #10105, ... (+1)
+- **D2Lang.dll** (11): ?strlen@Unicode@@SIHPBU1@@Z, ??_FUnicode@@QAEXXZ, #10003, ?toUnicode@Unicode@@SIPAU1@PAU1@PBDH@Z, ?unicode2Win@Unicode@@SIPADPADPBU1@H@Z, ?strcat@Unicode@@SIPAU1@PAU1@PBU1@@Z, ?strcpy@Unicode@@SIPAU1@PAU1@PBU1@@Z, ?strncpy@Unicode@@SIPAU1@PAU1@PBU1@H@Z, #10011, #10010, #10009
+- **D2CMP.dll** (8): #10011, #10036, #10027, #10059, #10045, #10051, #10007, #10091
+
+## Exports (1172)
+
+- 11171 0x6fd72000 ITEMSReadInfoFromStreamVersioned
+- 11170 0x6fde9e1c sgptDataTables
+- 10000 0x6fd9f450 
+- 10001 0x6fd9cf40 
+- 10002 0x6fda1000 
+- 10003 0x6fd7d0b0 
+- 10004 0x6fd6e880 
+- 10005 0x6fdc0ff0 
+- 10006 0x6fdc0fa0 
+- 10007 0x6fd8c800 
+- 10008 0x6fda2660 
+- 10009 0x6fd7f9b0 
+- 10010 0x6fd6fe10 
+- 10011 0x6fdcb810 
+- 10012 0x6fd737a0 
+- 10013 0x6fd71f60 
+- 10014 0x6fdbccc0 
+- 10015 0x6fda3390 
+- 10016 0x6fd72700 
+- 10017 0x6fd72ad0 
+- 10018 0x6fd6d7c0 
+- 10019 0x6fdb9f70 
+- 10020 0x6fd737c0 
+- 10021 0x6fd9a370 
+- 10022 0x6fd84630 
+- 10023 0x6fd7f060 
+- 10024 0x6fdba1b0 
+- 10025 0x6fdce460 
+- 10026 0x6fd729d0 
+- 10027 0x6fdb7d00 
+- 10028 0x6fda0020 
+- 10029 0x6fd9f610 
+- 10030 0x6fd9ec50 
+- 10031 0x6fd82220 
+- 10032 0x6fd81850 
+- 10033 0x6fd83b40 
+- 10034 0x6fd7e920 
+- 10035 0x6fda3850 
+- 10036 0x6fd6e600 
+- 10037 0x6fd9fe80 
+- 10038 0x6fda3370 
+- 10039 0x6fd5a090 
+- 10040 0x6fdba580 
+- 10041 0x6fdc1280 
+- 10042 0x6fd84c10 
+- 10043 0x6fd8c810 
+- 10044 0x6fd9e550 
+- 10045 0x6fd8b860 
+- 10046 0x6fd8b690 
+- 10047 0x6fd8b270 
+- 10048 0x6fd72e20 
+- 10049 0x6fd81940 
+- 10050 0x6fd6e4f0 
+- 10051 0x6fd6fb80 
+- 10052 0x6fd62720 
+- 10053 0x6fd8cda0 
+- 10054 0x6fd84ee0 
+- 10055 0x6fd6edf0 
+- 10056 0x6fda2480 
+- 10057 0x6fd8c390 
+- 10058 0x6fd73c30 
+- 10059 0x6fd72ff0 
+- 10060 0x6fd728d0 
+- 10061 0x6fd70320 
+- 10062 0x6fd70830 
+- 10063 0x6fd91fd0 
+- 10064 0x6fd6a550 
+- 10065 0x6fd6a330 
+- 10066 0x6fdae7e0 
+- 10067 0x6fd7fc50 
+- 10068 0x6fd83e00 
+- 10069 0x6fd830f0 
+- 10070 0x6fd9e060 
+- 10071 0x6fd7a210 
+- 10072 0x6fdad710 
+- 10073 0x6fd7eb30 
+- 10074 0x6fdba0c0 
+- 10075 0x6fd5e1a0 
+- 10076 0x6fd821c0 
+- 10077 0x6fd8a100 
+- 10078 0x6fd9d870 
+- 10079 0x6fda3020 
+- 10080 0x6fdcf5e0 
+- 10081 0x6fd72880 
+- 10082 0x6fd730a0 
+- 10083 0x6fd73700 
+- 10084 0x6fd865a0 
+- 10085 0x6fdb7eb0 
+- 10086 0x6fd73810 
+- 10087 0x6fd77090 
+- 10088 0x6fd80670 
+- 10089 0x6fd742d0 
+- 10090 0x6fd9ea00 
+- 10091 0x6fd7c9c0 
+- 10092 0x6fd7ecb0 
+- 10093 0x6fd8cd80 
+- 10094 0x6fdce340 
+- 10095 0x6fd9da00 
+- 10096 0x6fda00e0 
+- 10097 0x6fd681e0 
+- 10098 0x6fdba390 
+- 10099 0x6fd82820 
+- 10100 0x6fd83e60 
+- 10101 0x6fd70700 
+- 10102 0x6fd9e6d0 
+- 10103 0x6fdaa850 
+- 10104 0x6fd7a170 
+- 10105 0x6fd6fd40 
+- 10106 0x6fd73b40 
+- 10107 0x6fd79d60 
+- 10108 0x6fd72f80 
+- 10109 0x6fd8d160 
+- 10110 0x6fd95d30 
+- 10111 0x6fd7ea30 
+- 10112 0x6fd84df0 
+- 10113 0x6fd9dbc0 
+- 10114 0x6fd731a0 
+- 10115 0x6fd9dc30 
+- 10116 0x6fd8b0d0 
+- 10117 0x6fdba0a0 
+- 10118 0x6fd8b000 
+- 10119 0x6fd72c20 
+- 10120 0x6fd72970 
+- 10121 0x6fda0460 
+- 10122 0x6fd85360 
+- 10123 0x6fd845d0 
+- 10124 0x6fd83990 
+- 10125 0x6fdd2d60 
+- 10126 0x6fdc0610 
+- 10127 0x6fdb63b0 
+- 10128 0x6fd7ec60 
+- 10129 0x6fd9dbd0 
+- 10130 0x6fdba030 
+- 10131 0x6fd73780 
+- 10132 0x6fd9db40 
+- 10133 0x6fd71e10 
+- 10134 0x6fdd4c70 
+- 10135 0x6fd87af0 
+- 10136 0x6fd9e180 
+- 10137 0x6fd9de60 
+- 10138 0x6fd70620 
+- 10139 0x6fdce290 
+- 10140 0x6fd7ec00 
+- 10141 0x6fd80050 
+- 10142 0x6fd7ede0 
+- 10143 0x6fd813f0 
+- 10144 0x6fd8c3b0 
+- 10145 0x6fd6ec30 
+- 10146 0x6fd74d00 
+- 10147 0x6fda1070 
+- 10148 0x6fdbfac0 
+- 10149 0x6fd6eee0 
+- 10150 0x6fd8ca20 
+- 10151 0x6fd8d2b0 
+- 10152 0x6fd73760 
+- 10153 0x6fd7e6b0 
+- 10154 0x6fdba650 
+- 10155 0x6fd6dc70 
+- 10156 0x6fd6e170 
+- 10157 0x6fd6dd40 
+- 10158 0x6fdb65c0 
+- 10159 0x6fd84cb0 
+- 10160 0x6fd9dbb0 
+- 10161 0x6fd88020 
+- 10162 0x6fd83f20 
+- 10163 0x6fd8c520 
+- 10164 0x6fd8ac90 
+- 10165 0x6fd85080 
+- 10166 0x6fd9d6e0 
+- 10167 0x6fd8d0f0 
+- 10168 0x6fd84f50 
+- 10169 0x6fd7e990 
+- 10170 0x6fd6df70 
+- 10171 0x6fd59dd0 
+- 10172 0x6fd80830 
+- 10173 0x6fd9a450 
+- 10174 0x6fd7d0f0 
+- 10175 0x6fd7f1b0 
+- 10176 0x6fd72bc0 
+- 10177 0x6fd73850 
+- 10178 0x6fdba350 
+- 10179 0x6fd9dfd0 
+- 10180 0x6fd7f800 
+- 10181 0x6fd7e960 
+- 10182 0x6fd6a3c0 
+- 10183 0x6fdd2ce0 
+- 10184 0x6fd8b650 
+- 10185 0x6fd750b0 
+- 10186 0x6fd890a0 
+- 10187 0x6fd7eaf0 
+- 10188 0x6fd8a7b0 
+- 10189 0x6fd87520 
+- 10190 0x6fd83be0 
+- 10191 0x6fdba220 
+- 10192 0x6fd7f910 
+- 10193 0x6fd73bc0 
+- 10194 0x6fda2e00 
+- 10195 0x6fd884f0 
+- 10196 0x6fd8ae60 
+- 10197 0x6fd71fe0 
+- 10198 0x6fd83fe0 
+- 10199 0x6fd7f160 
+- 10200 0x6fd9b840 
+- 10201 0x6fd80dc0 
+- 10202 0x6fd73940 
+- 10203 0x6fd5ce90 
+- 10204 0x6fd8d280 
+- 10205 0x6fdbb360 
+- 10206 0x6fd9e500 
+- 10207 0x6fd7d9b0 
+- 10208 0x6fd73450 
+- 10209 0x6fd6dc40 
+- 10210 0x6fd83020 
+- 10211 0x6fd72920 
+- 10212 0x6fd81d20 
+- 10213 0x6fd729a0 
+- 10214 0x6fd847c0 
+- 10215 0x6fdbcc90 
+- 10216 0x6fd7e9e0 
+- 10217 0x6fd74c80 
+- 10218 0x6fd73f40 
+- 10219 0x6fd84670 
+- 10220 0x6fdc17e0 
+- 10221 0x6fd8b220 
+- 10222 0x6fd59c20 
+- 10223 0x6fd5dce0 
+- 10224 0x6fd8c680 
+- 10225 0x6fd73e00 
+- 10226 0x6fd83a70 
+- 10227 0x6fdba130 
+- 10228 0x6fd9f200 
+- 10229 0x6fd84690 
+- 10230 0x6fdce480 
+- 10231 0x6fdbb2b0 
+- 10232 0x6fd9be10 
+- 10233 0x6fd8bf60 
+- 10234 0x6fd7f3e0 
+- 10235 0x6fd95840 
+- 10236 0x6fd84b10 
+- 10237 0x6fdb03c0 
+- 10238 0x6fd73330 
+- 10239 0x6fd6a5b0 
+- 10240 0x6fdba2b0 
+- 10241 0x6fdcffb0 
+- 10242 0x6fdb9dc0 
+- 10243 0x6fd9df60 
+- 10244 0x6fd76db0 
+- 10245 0x6fd8a330 
+- 10246 0x6fd80ac0 
+- 10247 0x6fd9dc00 
+- 10248 0x6fdc1820 
+- 10249 0x6fdaa810 
+- 10250 0x6fd84ae0 
+- 10251 0x6fd6dfe0 
+- 10252 0x6fd9dd30 
+- 10253 0x6fd84770 
+- 10254 0x6fd83e40 
+- 10255 0x6fd6a610 
+- 10256 0x6fdba4b0 
+- 10257 0x6fd73af0 
+- 10258 0x6fd7ea70 
+- 10259 0x6fd848d0 
+- 10260 0x6fd96770 
+- 10261 0x6fd8a280 
+- 10262 0x6fd8b240 
+- 10263 0x6fd83fc0 
+- 10264 0x6fd8cd00 
+- 10265 0x6fd7f6a0 
+- 10266 0x6fd6a2b0 
+- 10267 0x6fd6df90 
+- 10268 0x6fd6de70 
+- 10269 0x6fdc0f70 
+- 10270 0x6fd68db0 
+- 10271 0x6fd681f0 
+- 10272 0x6fdaa790 
+- 10273 0x6fd9e3d0 
+- 10274 0x6fdaf260 
+- 10275 0x6fd723d0 
+- 10276 0x6fd84000 
+- 10277 0x6fdb9eb0 
+- 10278 0x6fd6a720 
+- 10279 0x6fd72a20 
+- 10280 0x6fd853d0 
+- 10281 0x6fd6fef0 
+- 10282 0x6fd84850 
+- 10283 0x6fd8c330 
+- 10284 0x6fd6dd20 
+- 10285 0x6fda3aa0 
+- 10286 0x6fd849d0 
+- 10287 0x6fd866f0 
+- 10288 0x6fda3360 
+- 10289 0x6fd7f7a0 
+- 10290 0x6fd68e30 
+- 10291 0x6fd74c10 
+- 10292 0x6fd7e6e0 
+- 10293 0x6fdae1c0 
+- 10294 0x6fd87e00 
+- 10295 0x6fdc1660 
+- 10296 0x6fd7ecf0 
+- 10297 0x6fda1ff0 
+- ... (+872)
