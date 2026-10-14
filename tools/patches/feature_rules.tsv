@@ -1,0 +1,42 @@
+# feature	scope(site|handler|any)	regex (Python, case-insensitive)	weight	reason
+# Scores add up per hook group (each rule counts at most 3 hits); highest score wins, ties go to the
+# order of features.json.  Per-hook decisions that the rules get wrong go into overrides.tsv.
+loader	site	^src:(PD2_EXT|on-disk)$	20	PD2_EXT runtime patches and the on-disk D2Win/Storm changes exist only to load PD2
+loader	site	^module:(Game\.exe|Fog\.dll|Storm\.dll)$	6	launcher/InstallPath/MPQ bootstrap modules
+loader	site	gfunc:D2Win_10086|gfunc:D2Win_10005|gfunc:D2Win_10173|gfunc:D2Win_10165	8	D2Win MPQ open functions
+anti-cheat/integrity	site	gfile:.*WARDEN|between_WARDEN	6	Warden client module of D2Client
+anti-cheat/integrity	handler	IntegrityCheck|K32EnumProcessModules|warden	4	PD2's module scan / Warden handling
+save files	site	gfile:[A-Za-z]+/PlrSave|gfile:.*PlrSave2	6	PlrSave.cpp / PlrSave2.cpp = character save read/write
+save files	site	between_[A-Za-z_]*PlrSave	2	located next to PlrSave
+save files	handler	pd2file:functions/SaveFunctions\.cpp|pd2fn:functions_SaveFunctions_	4	PD2's SaveFunctions.cpp
+save files	handler	str:.*(\.d2s|\.d2x)	1	save-file strings
+save files	site	note:.*0x2000|orig.*00 20 00 00	1	8 KB save buffer
+stash/shared stash	handler	str:.*(stash|Stash|STASH|\.d2x|SharedStash)	4	stash strings
+stash/shared stash	handler	pd2fn:.*[Ss]tash	4	stash function names
+stash/shared stash	site	gfunc:.*[Ss]tash	4	game stash function
+loot filter	site	^src:BH$	0.5	BH patches are mostly item display (loot filter); other BH modules handled below
+loot filter	handler	BH: BH/Modules/Item/	5	BH Item module = loot filter / item display
+loot filter	handler	str:.*(filter|Filter|loot|Loot)|BHOnPropert|BHInteract|lootFilter	4	loot-filter strings / BH callbacks
+loot filter	site	gfile:UNIT/Item\.cpp|gfile:.*between_UNIT_PlrSkills_and_UNIT_Item	2	client ground-item drawing
+maps/map generation	site	gfile:DRLG/|between_DRLG|gfile:.*Drlg|LvlTbls|gfile:.*Preset	4	DRLG = level generation
+maps/map generation	handler	game:.*DRLG|str:.*([Mm]ap[ _]|[Mm]aps|[Cc]orrupt[a-z]*[Zz]one|[Tt]ier)|pd2fn:.*Map	2	map/DRLG evidence in the handler
+maps/map generation	handler	str:.*(levels\.txt|lvlprest|lvlmaze|\.ds1)	3	level data
+skills	site	gfile:[A-Za-z]+/Skil|gfile:.*SKILLS|gfile:UNIT/PlrSkills|between_[A-Za-z_]*Skill	3	skill source files
+skills	site	gfunc:SKILLS_|gfunc:.*Skill	2	skill functions
+skills	handler	pd2file:events/SkillEvents|game:.*SKILLS/|str:.*([Ss]kill|[Aa]ura|[Cc]urse)	2	skill evidence in the handler
+items/crafting/cube	site	gfile:ITEMS/|gfile:INVENTORY/|gfile:Stats/|between_ITEMS|gfile:.*ItemMode|gfile:.*InvMode|gfile:.*PlrTrade|gfile:.*Inventory	3	item/inventory/stat source files
+items/crafting/cube	handler	pd2file:functions/(ItemFunctions|CubeFunctions)\.cpp|pd2fn:functions_(ItemFunctions|CubeFunctions)_|game:.*(ITEMS|INVENTORY|Stats)/|str:.*([Cc]ube|[Rr]uneword|[Cc]raft|[Ss]ocket|[Uu]nique|[Cc]orrupt)	2	item evidence in the handler
+UI/HUD/panels	site	gfile:UI/|gfile:ENGINE/|between_UI|^module:(D2Win|D2Launch|D2Multi|D2gfx)	3	client UI files / UI DLLs
+UI/HUD/panels	handler	pd2file:client/DrawHoverItem|_Wraps_D2Client_UI|game:.*D2Client.*/UI/|game:.*D2Win|game:.*D2gfx|str:.*(panel|Panel|button|tooltip|font)|window subclass	2	UI evidence in the handler
+UI/HUD/panels	site	kind:window subclass	10	window procedure = input/UI
+sound	site	gfile:Sound/|gfile:[A-Za-z/]*Snd	4	sound files
+sound	site	between_[A-Za-z_]*(Sound|Snd)	1	sound files
+sound	handler	pd2file:client/Sound/|PlaySound|str:.*\.wav	4	PD2 sound engine
+networking/packets	site	gfile:GAME/(SCmd|CCmd)|gfile:.*PlrMsg|gfile:UNIT/sunitproxy|SUnitMsg|^module:(D2Net|Bnclient|D2MCPClient)	4	packet build/dispatch files and network DLLs
+networking/packets	handler	_Wraps_D2Client_GAME_SCmd|game:.*(SCmd|CCmd|D2Net)|str:.*([Pp]acket)	2	packet evidence in the handler
+chat commands	site	gfile:Chat/|between_Chat|gfunc:.*Chat	4	chat files
+chat commands	handler	str:^/[a-z]|str:.*(command|chat)	2	slash commands / chat strings
+monsters/AI/combat	site	gfile:Ai/|gfile:MONSTER/|between_MONSTER|gfile:.*SUnitDmg|gfile:UNIT/Monster|gfile:.*Missile|gfile:.*CUnit\.cpp	3	monster AI / damage / missile files
+monsters/AI/combat	handler	game:.*(MONSTER|Ai/|SUnitDmg|Missile)|str:.*([Mm]onster|[Mm]inion|[Bb]oss)	1	monster evidence
+quests	site	gfile:Quests/|between_Quests	3	quest files
+quests	handler	str:.*([Qq]uest)	1	quest strings

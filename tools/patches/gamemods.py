@@ -91,7 +91,8 @@ class GameModule:
 
     def read(self, va, n):
         o = va - self.base
-        return bytes(self.img[o:o + n])
+        b = bytes(self.img[o:o + n]) if o >= 0 else b''
+        return b + b'\0' * (n - len(b))  # uninitialised (bss) part of a section reads as zero
 
     def dword(self, va):
         return struct.unpack('<I', self.read(va, 4))[0]
@@ -162,9 +163,29 @@ class GameModule:
             return dict(func_start=None, name='', file='', offset=0, status='none')
         s, n, fl, nxt = f
         seen = self.flow(s, nxt)
-        ok = any(a <= va < a + sz for a, sz in ((x, seen[x]) for x in seen) if a <= va)
-        return dict(func_start=s, name=n, file=fl, offset=va - s, status='flow' if ok else 'range',
-                    boundary=(va in seen))
+        ok = self._covers(seen, va)
+        if ok:
+            return dict(func_start=s, name=n, file=fl, offset=va - s, status='flow', boundary=(va in seen))
+        # not reached from the reference start: look for a function start the reference did not split off
+        # (code after int3/nop padding between the reference start and the patch)
+        blob = self.read(s, va - s + 1)
+        for p in range(va, s, -1):
+            o = p - s
+            pad = blob[o - 1] in (0xcc, 0x90) and blob[o] not in (0xcc, 0x90) and p % 4 == 0
+            after_ret = blob[o - 1] == 0xc3 or (o >= 3 and blob[o - 3] == 0xc2 and blob[o - 1] == 0)
+            if pad or after_ret:
+                seen2 = self.flow(p, nxt)
+                if self._covers(seen2, va):
+                    return dict(func_start=p, name='sub_%08x' % self.ref_va(p), file=fl, offset=va - p,
+                                status='unref', boundary=(va in seen2), ref_prev=n)
+        return dict(func_start=s, name=n, file=fl, offset=va - s, status='range', boundary=False)
+
+    @staticmethod
+    def _covers(seen, va):
+        for a in range(va, va - 16, -1):
+            if a in seen and a + seen[a] > va:
+                return True
+        return False
 
     def insn_start(self, va):
         """start of the instruction covering va, using recursive-descent flow of its function"""
