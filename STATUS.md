@@ -46,3 +46,20 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 
 ## Sub-agent log
 (none run yet)
+
+## Sub-agent briefs
+
+### A1 Ghidra toolchain (started 2026-10-14)
+- Input: git tag `Ghidra_12.1.4_build` of NationalSecurityAgency/ghidra (github releases are blocked; git and Maven Central work), JDK 21 in container.
+- Output: working `analyzeHeadless` under `/home/user/fd2_work/ghidra/`, scripts `tools/ghidra/build_ghidra.sh`, `tools/ghidra/run_headless.sh`; log in `/home/user/fd2_work/logs/`.
+- Done: `analyzeHeadless` imports and auto-analyzes `PD2_EXT.dll` (copy) and a trivial Ghidra script prints its function count.
+
+### P1 Data (started 2026-10-14)
+- Input: `pd2data.mpq`, `patch_d2.mpq`, `pd2maps.mpq` (+ listings of `pd2assets.mpq`, `pd2monchars.mpq`), reference `sigmaRE/2_txt` and its converters.
+- Output: `/home/user/fd2_work/1_bin_from_mpq/`, `2_txt/pd2/` (txt + tbl), `2_txt/MPQ_LISTING.md`, `2_txt/README.md`, `tools/mpq/` (extractor), `tools/data/` (converters).
+- Done: every `data/global/excel/*` table in pd2data as txt; `.tbl` decoded; stock-vs-modified verdict for PD2's `patch_d2.mpq`; per-table diffs where a vanilla source exists.
+
+### T1 Tools port (started 2026-10-14)
+- Input: `sigmaRE/4_sigma_source/tools/*` (C# generators, Ghidra scripts, rebuild.ps1).
+- Output: `tools/` in this repo: copied tools, paths parameterized, building on Linux with .NET SDK; `ModuleConfig` entries for `ProjectDiablo` and `PD2_EXT`; `tools/README.md`.
+- Done: `dotnet build` succeeds; no hard-coded `C:\Games\median-xl` / `C:\Users\zffit` paths remain; usage documented.
