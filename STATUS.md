@@ -81,3 +81,16 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - PD2-only: `MiniSkillIcons.txt`; `itemstatcost.bin` record 324 → 336 bytes (S12 save columns). Undecoded: `leveldefs.bin`, four `*code.bin`.
 - Orchestrator check: row counts for levels/cubemain/itemstatcost/skills/monstats/misc/runes re-counted, match.
 - Decision: NOT downloading the unverified third-party GitHub repo with a full D2 install; asked the user for vanilla MPQs instead.
+
+### A1 Ghidra toolchain: done (2026-10-14)
+- Ghidra 12.1.4 built from the git tag (no prebuilt reachable), installed at `/home/user/fd2_work/ghidra/`; native decompiler built. ~26 min.
+- Skipped deps (unreachable, irrelevant to headless PE): PostgreSQL for BSim, Eclipse CDT. Maven Central rate-limited → Google mirror.
+- Test: PD2_EXT.dll copy, 550 functions, one function decompiled. Scripts `tools/ghidra/build_ghidra.sh`, `tools/ghidra/run_headless.sh`.
+
+### P2a Decompile ProjectDiablo.dll (started 2026-10-14)
+- Input: copy of ProjectDiablo.dll in `/home/user/fd2_work/bin/`; `tools/ghidra/*` (FixAndExport, AddFunctions, run_all.sh).
+- Output: `/home/user/fd2_work/3_ghidra/ProjectDiablo_decompiled.c`, `/home/user/fd2_work/3_ghidra_fixed/ProjectDiablo_decompiled.c` (+ `.extra.c`), project in `/home/user/fd2_work/ghidra_projects/`, `0_inventory/decompile/ProjectDiablo.md` (counts).
+- Done: 6 FixAndExport passes, untraced placeholders before/after counted, RTTI/vtables applied, library functions identified where possible.
+
+### P2b Decompile PD2_EXT.dll then BH.dll (started 2026-10-14)
+- Same as P2a for both binaries; reports `0_inventory/decompile/PD2_EXT.md`, `0_inventory/decompile/BH.md`.
