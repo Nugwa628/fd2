@@ -22,7 +22,7 @@ from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gamemods import GameModule, ci_find, disasm  # noqa: E402
+from gamemods import GameModule, ci_find, disasm, ref_body  # noqa: E402
 
 md = Cs(CS_ARCH_X86, CS_MODE_32)
 md.detail = True
@@ -111,7 +111,8 @@ for r in csv.DictReader(open(f'{PD2SRC}/symbols.csv', encoding='utf-8')):
     pd2sym[int(r['address'], 16)] = (r['new_name'], r['file'], r['ghidra_name'])
 pd2starts = sorted(pd2sym)
 
-gp_thunk = {}     # thunk address -> row
+gp_thunk = {}     # thunk address -> row (verified lazy thunks)
+gp_wrapper = {}   # game_pointers rows whose address is not the thunk itself
 gp_copy = {}      # global (cell or per-file copy) -> row
 for l in open(f'{PD2SRC}/game_pointers.tsv', encoding='utf-8'):
     if l.startswith('#') or l.startswith('address\t'):
@@ -120,16 +121,61 @@ for l in open(f'{PD2SRC}/game_pointers.tsv', encoding='utf-8'):
     row = dict(address=int(p[0], 16), kind=p[1], pd2_name=p[2], cell=p[3], cell_name=p[4], copies=p[5], dll=p[6],
                v113c=p[8], v113d=p[9], target=p[10], ref=p[11], inside=p[12], defined_in=p[13])
     if row['kind'] == 'lazy-thunk':
-        gp_thunk[row['address']] = row
+        # a real D2Template lazy thunk starts with 'cmp dword ptr [cell], 0'; some rows of game_pointers.tsv name a
+        # PD2 wrapper or a jmp stub that ends in the thunk instead (kept apart: those are real handlers)
+        b = pd2.read(row['address'], 6)
+        if b[:2] == b'\x83\x3d' and 'DAT_%08x' % struct.unpack('<I', b[2:6])[0] == row['cell']:
+            gp_thunk[row['address']] = row
+        else:
+            gp_wrapper[row['address']] = row
     for g in [p[3]] + [x for x in p[5].split(',') if x]:
         if g.startswith('DAT_'):
             gp_copy[int(g[4:], 16)] = row
+
+
+def thunk_of(va):
+    """PD2 lazy thunk reached from va directly or through one jmp stub"""
+    if va in gp_thunk:
+        return va
+    if PD2_BASE <= va < PD2_BASE + len(pd2.img) and pd2.read(va, 1) == b'\xe9':
+        t = va + 5 + struct.unpack('<i', pd2.read(va + 1, 4))[0]
+        if t in gp_thunk:
+            return t
+    return None
+
+
+def thunk_game_target(t):
+    row = gp_thunk[t]
+    mod = gmod(row['dll'])
+    if mod is None:
+        return None
+    v = row['v113c']
+    if v.startswith('+'):
+        return mod.base + int(v[1:], 16)
+    if v.startswith('ordinal'):
+        o = int(v.split()[1])
+        pe = pefile.PE(mod.path, fast_load=True)
+        pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_EXPORT']])
+        for e in pe.DIRECTORY_ENTRY_EXPORT.symbols:
+            if e.ordinal == o:
+                return mod.base + e.address
+    return None
 
 
 def pd2_name(va):
     """(name, file) of the PD2 function containing va (with +off when inside)"""
     if va is None:
         return '', ''
+    t = thunk_of(va)
+    if t is not None and t != va:
+        tt = gp_thunk[t]
+        return f"{tt['pd2_name']} (jmp stub 0x{va:08x} -> PD2 lazy thunk 0x{t:08x} -> {tt['dll']} {tt['v113c']})", pd2sym.get(t, ('', ''))[1]
+    if va in gp_wrapper:
+        t = gp_wrapper[va]
+        b = pd2.read(va, 1)
+        what = 'jmp stub' if b == b'\xe9' else 'PD2 wrapper'
+        return (f"{pd2sym.get(va, ('PD2_%08x' % va,))[0]} ({what} that ends in the lazy thunk of {t['dll']} {t['v113c']} = "
+                f"{t['ref']})"), pd2sym.get(va, ('', ''))[1]
     if va in gp_thunk:
         t = gp_thunk[va]
         return f"{t['pd2_name']} (PD2 lazy thunk -> {t['dll']} {t['v113c']})", pd2sym.get(va, ('', ''))[1]
@@ -352,6 +398,7 @@ def fill_location(r, mod, va):
         if loc['status'] in ('flow', 'range', 'unref'):
             r['game_function'] = loc['name'] + ('' if loc['offset'] == 0 else '+0x%x' % loc['offset'])
             r['game_file'] = loc['file']
+            r['_gconf'] = loc.get('conf', '')
             r['func_check'] = loc['status']
             if loc['status'] == 'unref':
                 r['func_check'] = 'unref (start not in reference; after %s)' % loc['ref_prev']
@@ -430,7 +477,7 @@ def decode_block_table():
         r['_va'] = va
         r['_mod'] = mod
         apply_bytes(mod, va, e['bytes'])
-        if prev and prev['_e']['dll'] == e['dll'] and 0 <= va - (prev['_va'] + int(prev['size'])) <= 8 and False:
+        if prev and prev['_e']['dll'] == e['dll'] and 0 <= va - (prev['_va'] + int(prev['size'])) <= 8:
             r['group'] = prev['group']
         else:
             gid += 1
@@ -456,6 +503,7 @@ def decode_init_writes():
             break
     n_funcs = 0
     gid = 0
+    init_groups = {}
     for site, fn in callees:
         regs = {}
         writes = []
@@ -494,7 +542,10 @@ def decode_init_writes():
             va = mod.base + base_off + off
             r = add(source='PD2 init writes', module=mod.name)
             fill_location(r, mod, va)
-            r['group'] = 'I-%04d' % gid
+            gkey = (fn, copy)
+            if gkey not in init_groups:
+                init_groups[gkey] = 'I-%04d' % (len(init_groups) + 1)
+            r['group'] = init_groups[gkey]
             r['table_addr'] = h(fn)
             r['_va'] = va
             r['_mod'] = mod
@@ -753,12 +804,22 @@ def decode_on_disk():
                 r['notes'] = ('"%s" -> "%s" (file offset 0x%x); Windows loads %s together with %s; %s forwards the '
                               'three functions to the real version.dll' % (orig, dn, off, dn, name, dn))
                 restored[off:off + len(dn)] = orig.encode()
+                variants = [orig, orig.lower(), orig.upper(), orig.capitalize()]
+                for v in variants:
+                    tmp = bytearray(restored)
+                    tmp[off:off + len(dn)] = v.encode()
+                    if pefile.PE(data=bytes(tmp), fast_load=True).generate_checksum() == pe.OPTIONAL_HEADER.CheckSum:
+                        restored = tmp
+                        r['orig_bytes'] = v.encode().hex(' ')
+                        break
+                r['_variants'] = variants
         # checksum verification
         rpe = pefile.PE(data=bytes(restored), fast_load=True)
         stored = rpe.OPTIONAL_HEADER.CheckSum
         comp = rpe.generate_checksum()
         cur = pe.generate_checksum()
-        verdicts[name] = dict(stored=stored, computed_shipped=cur, computed_restored=comp, match=(stored == comp))
+        verdicts[name] = dict(stored=stored, computed_shipped=cur, computed_restored=comp, match=(stored == comp),
+                              variants=[v for x in RECORDS if x['module'] == name for v in x.get('_variants', [])])
         # reference consistency check of every function
         verdicts[name]['consistency'] = consistency_check(mod)
     return verdicts
@@ -776,6 +837,28 @@ def _cave_name(mod, a):
 
 
 _iatcache = {}
+_impcache = {}
+
+
+def import_target(mod, iat_va):
+    """address (in the shipped game module it imports from) of the function behind an IAT slot"""
+    if mod.name not in _impcache:
+        pe = pefile.PE(mod.path)
+        d = {}
+        for e in getattr(pe, 'DIRECTORY_ENTRY_IMPORT', []):
+            for i in e.imports:
+                d[i.address] = (e.dll.decode(), i.ordinal if i.name is None else i.name.decode())
+        _impcache[mod.name] = d
+    dll, what = _impcache[mod.name].get(iat_va, (None, None))
+    m2 = gmod(dll) if dll else None
+    if not m2:
+        return None
+    pe = pefile.PE(m2.path, fast_load=True)
+    pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_EXPORT']])
+    for e in pe.DIRECTORY_ENTRY_EXPORT.symbols:
+        if e.ordinal == what or (e.name and e.name.decode() == what):
+            return m2.base + e.address
+    return None
 
 
 def iat_names(mod):
@@ -882,11 +965,16 @@ def decode_bh():
         r['handler_addr'] = h(hv)
         r['handler_name'] = b.get('bh_handler', '')
         r['handler_file'] = 'BH: ' + b.get('upstream_def', '')
+        if kind.lower() == 'nop' and mod and va and n:
+            r['new_bytes'] = ('90 ' * n).strip()
+            r['_nb'] = b'\x90' * n
+            apply_bytes(mod, va, r['_nb'])
         if kind.lower() in ('call', 'jump') and hv and mod and va:
             op = 0xe8 if kind.lower() == 'call' else 0xe9
             nb = bytes([op]) + struct.pack('<I', (hv - (va + 5)) & 0xffffffff) + b'\x90' * max(0, n - 5)
             r['new_bytes'] = nb.hex(' ') + ' (BH.dll at its preferred base)'
             r['_nb'] = nb
+            apply_bytes(mod, va, nb)
         r['_bhkind'] = kind
         r['notes'] = 'BH %s patch (%s); status vs upstream BH: %s' % (kind, b.get('bh_var', ''),
                                                                       b.get('status_vs_upstream', ''))
@@ -969,7 +1057,7 @@ def classify():
                 elif b == 0x90:
                     r['kind'] = 'NOP fill'
                 elif e['size'] == 1:
-                    r['kind'] = 'byte change'
+                    r['kind'] = 'opcode byte change' if mod.insn_start(va) == va else 'operand byte change'
                 else:
                     r['kind'] = 'byte fill (0x%02x x %d)' % (b, e['size'])
             continue
@@ -986,6 +1074,60 @@ def classify():
             else:
                 r['kind'] = 'block replace'
             continue
+
+
+def detect_noop_thunks():
+    """handlers that are PD2 lazy thunks to the very function the original code already called/pointed at"""
+    n = 0
+    for r in RECORDS:
+        if not r['handler_addr'] or r['source'] not in ('PD2 table', 'PD2 cond table', 'PD2 init writes'):
+            continue
+        t = thunk_of(int(r['handler_addr'], 16))
+        if t is None:
+            continue
+        gt = thunk_game_target(t)
+        mod = r['_mod']
+        ob = bytes.fromhex(r['orig_bytes'].replace(' ', ''))
+        if len(ob) != 4:
+            continue
+        if r.get('_e', {}).get('relative'):
+            orig_t = (r['_va'] + 4 + struct.unpack('<i', ob)[0]) & 0xffffffff
+            # through an import thunk (jmp [IAT]) of the game module?
+            if mod.read(orig_t, 2) == b'\xff\x25':
+                imp = struct.unpack('<I', mod.read(orig_t + 2, 4))[0]
+                orig_t = import_target(mod, imp) or orig_t
+        else:
+            orig_t = struct.unpack('<I', ob)[0]
+        if gt is not None and gt == orig_t:
+            r['notes'] = ('no-op: the handler is PD2\'s lazy thunk to the same game function the original code '
+                          'already used (%s)' % (any_name(gt) or h(gt))) + ('; ' + r['notes'] if r['notes'] else '')
+            n += 1
+    log('no-op thunk redirects: %d' % n)
+
+
+EXTSYM = {}
+if os.path.exists(f'{EXTSRC}/symbols.csv'):
+    for _r in csv.DictReader(open(f'{EXTSRC}/symbols.csv', encoding='utf-8')):
+        EXTSYM[int(_r['address'], 16)] = (_r['new_name'], _r['file'])
+
+
+def fix_ext_names():
+    """PD2_EXT handlers are named from 4_pd2_source/PD2_EXT/symbols.csv (not ProjectDiablo's); BH handlers keep
+    BH's names (BH.dll and ProjectDiablo.dll share the preferred base 0x10000000)"""
+    for r in RECORDS:
+        if r['source'] == 'BH' and r['handler_name'] and r.get('_nb'):
+            n = int(r['size'] or 0)
+            op = 'call' if r['_nb'][:1] == b'\xe8' else 'jmp'
+            r['new_asm'] = ' ; '.join(['%s %s' % (op, r['handler_name'])] + ['nop'] * max(0, n - 5))
+        if r['source'] != 'PD2_EXT':
+            continue
+        if r['handler_addr']:
+            a = int(r['handler_addr'], 16)
+            n, f = EXTSYM.get(a, ('FUN_%08x' % a, 'dllmain.cpp'))
+            r['handler_name'], r['handler_file'] = n, 'PD2_EXT: ' + f
+            r['new_asm'] = 'call %s' % n
+        else:
+            r['new_asm'] = 'nop x %d' % int(r['size'])
 
 
 def asm_context():
@@ -1151,6 +1293,8 @@ def assign_features(tree):
         site = []
         for r in rs:
             site += ['src:' + r['source'], 'module:' + r['module'], 'gfunc:' + r['game_function'],
+                     'gconf:%s:%s' % (r.get('_gconf', ''), r['game_file']),
+                     'obytes:' + r['orig_bytes'], 'nbytes:' + r['new_bytes'],
                      'gfile:' + r['game_file'], 'kind:' + r['kind'], 'note:' + r['notes'], 'cond:' + r['condition']]
         for r in rs:
             # the game function the original instruction called/jumped to says what the site was doing
@@ -1159,7 +1303,7 @@ def assign_features(tree):
                 tgt = (r['_va'] + 4 + struct.unpack('<i', bytes.fromhex(r['orig_bytes'].replace(' ', '')))[0]) & 0xffffffff
                 loc = mod.locate(tgt) if mod.base <= tgt < mod.base + len(mod.img) else None
                 if loc and loc.get('name'):
-                    site += ['gfunc:' + loc['name'], 'gfile:' + loc['file']]
+                    site += ['tfunc:' + loc['name'], 'tfile:' + loc['file']]
                     r['_orig_target'] = '%s (%s)' % (loc['name'] + ('' if not loc['offset'] else '+0x%x' % loc['offset']), loc['file'])
         hand = []
         for r in rs:
@@ -1227,10 +1371,31 @@ def group_kind(rs):
         if extra:
             s += ' + ' + ', '.join(extra)
         return s
-    u = sorted(set(kinds))
-    if len(rs) > 1 and u == ['byte change']:
+    u = sorted(set(k.replace('call redirect (E8)', 'call redirect').replace('jmp detour (E9)', 'jmp detour')
+                   for k in kinds))
+    if len(rs) > 1 and all(k.endswith('byte change') for k in u):
         return 'instruction rewrite (%d bytes)' % sum(int(r['size']) for r in rs)
     return ' + '.join(u)
+
+
+def apply_notes():
+    path = os.path.join(TOOLS, 'notes.tsv')
+    if not os.path.exists(path):
+        return 0
+    n = 0
+    for l in open(path, encoding='utf-8'):
+        if l.startswith('#') or not l.strip():
+            continue
+        key, note = l.rstrip('\n').split('\t', 1)
+        for r in RECORDS:
+            hit = key in ('%s+%s' % (r['module'], r['rva_113c']), r['group'])
+            if key.startswith('bytes:'):
+                o, nw = key[6:].split('->')
+                hit = r['orig_bytes'] == o and r['new_bytes'] == nw
+            if hit:
+                r['notes'] = note + ('; ' + r['notes'] if r['notes'] else '')
+                n += 1
+    return n
 
 
 def finalize_records():
@@ -1318,8 +1483,8 @@ def write_hooks(V):
             if not rows:
                 continue
             out.write('### %s — %s (%d)\n\n' % (m, f, len(rows)))
-            out.write('| RVA | Game function (file) | Kind | Original | PD2 | Handler | Hook / src |\n')
-            out.write('|---|---|---|---|---|---|---|\n')
+            out.write('| RVA | Game function (file) | Kind | Original | PD2 | Handler | Hook / src | Notes |\n')
+            out.write('|---|---|---|---|---|---|---|---|\n')
             rows.sort(key=lambda x: int(x[1][0]['rva_113c'] or '0', 16))
             for g, rs in rows:
                 r0 = rs[0]
@@ -1329,11 +1494,13 @@ def write_hooks(V):
                     hand = '`%s` %s' % (short(hn[0]['handler_name'], 70), hn[0]['handler_addr'])
                 cond = ' *(%s)*' % short(r0['condition'], 60) if r0['condition'] else ''
                 gfile = r0['game_file']
-                out.write('| %s | %s<br>`%s` | %s | `%s` | `%s` | %s | %s %s%s |\n' % (
+                notes = [x for x in rs[0]['notes'].split('; ') if x and not x.startswith(('orig call target', 'written by',
+                                                                                          'BH ', 'bytes inside'))]
+                out.write('| %s | %s<br>`%s` | %s | `%s` | `%s` | %s | %s %s%s | %s |\n' % (
                     r0['rva_113c'], md_escape(short(r0['game_function'], 60)), md_escape(short(gfile, 80)),
                     md_escape(group_kind(rs)), md_escape(short(r0['orig_asm'] or r0['orig_bytes'], 110)),
                     md_escape(short(r0['new_asm'] or r0['new_bytes'], 110)), md_escape(hand), g,
-                    md_escape(r0['source']), md_escape(cond)))
+                    md_escape(r0['source']), md_escape(cond), md_escape(short('; '.join(notes), 160))))
             out.write('\n')
     open(f'{OUT}/HOOKS.md', 'w', encoding='utf-8').write(out.getvalue())
 
@@ -1359,6 +1526,25 @@ def isc_code_evidence(tree):
         if re.search(r'0x150\b', body) and '0xbcc' in body:
             hits.append((a, name, rel))
     return hits
+
+
+def isc_inlined_hooks():
+    """hook groups inside game functions whose reference body adds id*0x144 to pItemStatCostTxt (+0xbcc)"""
+    res = collections.OrderedDict()
+    for g, rs in group_map().items():
+        r = rs[0]
+        mod = r.get('_mod')
+        if not mod or not mod.is_code(r.get('_va') or 0) or not r['game_function']:
+            continue
+        loc = mod.locate(r['_va'])
+        body = ref_body(mod, loc['func_start']) if loc.get('func_start') else ''
+        ids = sorted(set(int(x, 16) // 0x144 for x in re.findall(r'0xbcc\) \+ (0x[0-9a-f]+)', body)
+                         if int(x, 16) % 0x144 == 0))
+        if ids:
+            k = '%s!%s' % (mod.name.split('.')[0], loc['name'])
+            n, _ = res.get(k, (0, ids))
+            res[k] = (n + 1, ids)
+    return [(k, n, ids) for k, (n, ids) in res.items()]
 
 
 def write_features(V, tree):
@@ -1447,9 +1633,17 @@ def write_features(V, tree):
             if strid:
                 out.write('Game code patched from 0x144 to 0x150: %s.\n\n' % ', '.join('%s %s' % (r['module'], r['rva_113c']) for r in strid))
             else:
-                out.write('No table record rewrites a 0x144 stride in game code; the game\'s own ItemStatCost accessors '
-                          'are replaced by hooks instead (the table loader reads the .bin with the record size it was '
-                          'compiled with).\n\n')
+                out.write('No patch record rewrites a 0x144 constant (the game multiplies by 324 with lea/shl sequences '
+                          'or inlines `id*0x144` offsets).\n\n')
+            inl = isc_inlined_hooks()
+            if inl:
+                out.write('Game functions that inline ItemStatCost record offsets (`pItemStatCostTxt + id*0x144`, read '
+                          'from the reference decompile) and are hooked by PD2: %d hooks in %d functions, e.g. %s. '
+                          'These are sites where the 324-byte layout is compiled into game code, so they cannot work '
+                          'with 336-byte records unpatched; that the handlers apply the 0x150 stride is inferred, not '
+                          'checked handler by handler.\n\n' % (
+                              sum(n for _, n, _ in inl), len(inl),
+                              ', '.join('%s (%d hooks; stat ids %s)' % (f, n, ', '.join(str(i) for i in ids[:6])) for f, n, ids in inl[:6])))
         rx = re.compile(fd.get('config', '^$'))
         ck = [k for k, v in keys if rx.search(k)]
         if ck:
@@ -1632,23 +1826,14 @@ def write_cpp(V):
     cc.write('DLLPatchStrc gptPlugYConflictPatches[] =\n{\n' + '\n'.join(cond_lines) + '\n    {D2DLL_INVALID},\n};\n\n')
     cc.write('DLLBlockPatchStrc gptBlockPatches[] =\n{\n' + '\n'.join(block_lines) + '\n    {D2DLL_INVALID},\n};\n')
 
-    # handler declarations into the header
-    hh.write('// ---- PD2 functions/data the tables point at (names from 4_pd2_source/ProjectDiablo/symbols.csv;\n'
-             '// PD2_<addr> = a label inside a function or a naked hook stub).  Hook handlers are called from the\n'
-             '// middle of game code, so most are naked / register-convention stubs: declared as void() here.\n')
-    for cid, (a, n, f) in used_handlers.items():
-        hh.write('void %s();  // 0x%08x %s%s\n' % (cid, a, f, ('  [' + n + ']') if n.split(' ')[0] != cid else ''))
-    for cid, (a, n, f) in used_data.items():
-        hh.write('extern BYTE %s[];  // 0x%08x data\n' % (cid, a))
-    open(os.path.join(pdir, 'Patches.h'), 'w', encoding='utf-8').write(hh.getvalue())
-    open(os.path.join(pdir, 'Patches.cpp'), 'w', encoding='utf-8').write(cc.getvalue())
 
     # ---------------- InitTables.cpp
     it = io.StringIO()
     it.write('// InitTables.cpp - the init-time writes into game function/data tables (run by Init after the patch\n'
              '// tables). Reconstructed from the %d small init functions called by Init (0x%08x).\n// %s\n'
              % (len(set(r['table_addr'] for r in RECORDS if r['source'] == 'PD2 init writes')), INIT, GEN))
-    it.write('#include "Patches.h"\n\n')
+    it.write('#include "Patches.h"\n\n@@CELLS@@')
+    cells = collections.OrderedDict()
     byfn = collections.OrderedDict()
     for r in RECORDS:
         if r['source'] == 'PD2 init writes':
@@ -1659,24 +1844,41 @@ def write_cpp(V):
         for r in rs:
             m = re.search(r'base pointer (DAT_\w+) = (\S+) (\S+) \(([^)]*)\)', r['notes'])
             if 'block copy' in r['notes']:
-                it.write('    memcpy((BYTE*)0x%s /* %s %s */, %s, %d);  // %s\n' % (
-                    r['va_113c'][2:], r['module'], r['game_function'], ref(int(r['handler_addr'], 16)), int(r['size']), r['kind']))
+                row = gp_copy[int(m.group(1)[4:], 16)]
+                cells.setdefault(row['cell_name'], row)
+                it.write('    memcpy(%s, %s, %d);  // %s %s %s (%s)\n' % (
+                    row['cell_name'], ref(int(r['handler_addr'], 16)), int(r['size']), r['module'], r['va_113c'],
+                    r['kind'], r['game_file']))
                 continue
             hv = r['handler_addr']
             nv = struct.unpack('<I', bytes.fromhex(r['new_bytes'].replace(' ', '')))[0]
             val = '(DWORD)%s' % ref(int(hv, 16)) if hv else '%d' % nv
+            row = gp_copy[int(m.group(1)[4:], 16)]
+            cells.setdefault(row['cell_name'], row)
+            off = int(r['va_113c'], 16) - (gmod(r['module']).base + int(m.group(3)[1:], 16))
             it.write('    *(DWORD*)(%s + 0x%x) = %s;  // %s %s; was %s\n' % (
-                m.group(4) if m else '?', int(r['va_113c'], 16) - int(r['va_113c'], 16) + (
-                    int(r['va_113c'], 16) - (gmod(r['module']).base + int(m.group(3)[1:], 16)) if m else 0),
-                val, r['module'], r['game_function'], r['orig_asm'] or r['orig_bytes']))
+                row['cell_name'], off, val, r['module'], r['va_113c'], r['orig_asm'] or r['orig_bytes']))
         it.write('    return TRUE;\n}\n\n')
     it.write('BOOL InitGameFunctionTables()\n{\n')
     for fn, rs in byfn.items():
         n, f = pd2_name(int(fn, 16))
         it.write('    %s();\n' % cident(n, int(fn, 16)))
     it.write('    return TRUE;\n}\n')
-    open(os.path.join(pdir, 'InitTables.cpp'), 'w', encoding='utf-8').write(it.getvalue())
+    decl = '// game addresses, resolved at run time by D2Template (GetDllOffset; names as in include/globals.h)\n'
+    for cn, row in cells.items():
+        decl += 'extern uint8_t* %s;  // %s %s (1.13d %s), reference %s\n' % (cn, row['dll'], row['v113c'], row['v113d'], row['ref'])
+    open(os.path.join(pdir, 'InitTables.cpp'), 'w', encoding='utf-8').write(it.getvalue().replace('@@CELLS@@', decl + '\n'))
 
+    # handler declarations into the header
+    hh.write('// ---- PD2 functions/data the tables point at (names from 4_pd2_source/ProjectDiablo/symbols.csv;\n'
+             '// PD2_<addr> = a label inside a function or a naked hook stub).  Hook handlers are called from the\n'
+             '// middle of game code, so most are naked / register-convention stubs: declared as void() here.\n')
+    for cid, (a, n, f) in used_handlers.items():
+        hh.write('void %s();  // 0x%08x %s%s\n' % (cid, a, f, ('  [' + n + ']') if n.split(' ')[0] != cid else ''))
+    for cid, (a, n, f) in used_data.items():
+        hh.write('extern BYTE %s[];  // 0x%08x data\n' % (cid, a))
+    open(os.path.join(pdir, 'Patches.h'), 'w', encoding='utf-8').write(hh.getvalue())
+    open(os.path.join(pdir, 'Patches.cpp'), 'w', encoding='utf-8').write(cc.getvalue())
     # ---------------- PatchInstaller.cpp
     pi = PATCH_INSTALLER_CPP % dict(gen=GEN, inst=WORD_INSTALLER, block=BLOCK_INSTALLER, init=INIT,
                                     flag=COND_FLAG or 0, modtab=MODTAB, main=word_tables[0],
@@ -1997,13 +2199,14 @@ def write_readme(V, fstats, unused_ov, bh_ok):
     out.write(counts_tables())
     out.write('\n## D2Win.dll / Storm.dll on-disk verdict\n\n')
     out.write(on_disk_text(V))
+    st = V.get('Storm.dll', {})
+    out.write('Without vanilla copies this is best-effort. For D2Win the checksum test is strong evidence (another change '
+              'would have to compensate exactly to survive it). For Storm the only change found is the import rename; no '
+              'code differs from the reference decompile, but the checksum %s after undoing the rename (original name '
+              'variants tried: %s), so another byte change outside the code the reference covers (data, resources, '
+              'headers) cannot be excluded, nor can a stock file whose stored checksum was never valid.\n\n' % (
+                  'matches' if st.get('match') else 'still does not match', ', '.join('`%s`' % v for v in st.get('variants', []))))
     out.write(textwrap.dedent('''\
-        Without vanilla copies this is best-effort. For D2Win the checksum test is strong evidence (it would have to be
-        a compensating change to survive). For Storm the only change found is the import rename; no code differs from
-        the reference decompile, but the checksum still does not match after undoing the rename (tried
-        `VERSION.dll`, `version.dll`, `VERSION.DLL`, `Version.dll`), so another byte change outside the code the
-        reference covers (data, resources, headers) cannot be excluded.
-
         ## Notes
 
         * `rva_113d` is empty for table entries: the tables hold one offset each (1.13c). Only the init-time writes
@@ -2033,10 +2236,13 @@ def main():
     V = decode_on_disk()
     bh_ok = decode_bh()
     classify()
+    detect_noop_thunks()
     asm_context()
+    fix_ext_names()
     tree = Pd2Tree(PD2SRC)
     fstats, unused = assign_features(tree)
     finalize_records()
+    log('notes applied: %d' % apply_notes())
     write_csv()
     write_hooks(V)
     write_features(V, tree)

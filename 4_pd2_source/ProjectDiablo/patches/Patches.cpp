@@ -51,15 +51,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0003 D2Game.dll Quests_a1q3_6fc874a0+0x68  [quests] (Quests/a1q3.cpp)
     //     was: test eax, eax
     //     now: xor eax, eax
-    {D2DLL_D2GAME, 0x067508, 0x33, FALSE, 1},  // P0028 byte change
+    {D2DLL_D2GAME, 0x067508, 0x33, FALSE, 1},  // P0028 opcode byte change
     // --- M-0004 D2Game.dll sub_6fc421d0+0x10f  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
-    //     was: or byte ptr [esi - 0x75], dl
-    //     now: add dword ptr [esi - 0x75], edx
-    {D2DLL_D2GAME, 0x0222DF, 0x01, FALSE, 1},  // P0029 byte change
+    //     was: shl esi, 8
+    //     now: shl esi, 1
+    {D2DLL_D2GAME, 0x0222DF, 0x01, FALSE, 1},  // P0029 operand byte change
     // --- M-0005 D2Game.dll sub_6fc421d0+0x124  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
-    //     was: or byte ptr [edi + 0x6a], dl
-    //     now: add dword ptr [edi + 0x6a], edx
-    {D2DLL_D2GAME, 0x0222F4, 0x01, FALSE, 1},  // P0030 byte change
+    //     was: shl edi, 8
+    //     now: shl edi, 1
+    {D2DLL_D2GAME, 0x0222F4, 0x01, FALSE, 1},  // P0030 operand byte change
     // --- M-0006 D2Game.dll UNIT_SUnitDmg_6fcfd450+0x2f6  [monsters/AI/combat] (UNIT/SUnitDmg.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcd80
     //     now: call sub_Hook_UNIT_SUnitDmg_6fcfd450_102ed2a0
@@ -67,7 +67,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0007 D2Game.dll sub_6fcd6840+0x11f  [skills] (_unattributed/between_SKILLS_SkillMonst_and_Ai_AiBaal.cpp)
     //     was: push edi
     //     now: push ecx
-    {D2DLL_D2GAME, 0x0B695F, 0x51, FALSE, 1},  // P0032 byte change
+    {D2DLL_D2GAME, 0x0B695F, 0x51, FALSE, 1},  // P0032 opcode byte change
     // --- M-0008 D2Common.dll sub_6fd97290+0x35  [maps/map generation] (_unattributed/between_DRLG_DrlgRoom_and_Logging_ProfCore.cpp)
     //     was: call D2Common!D2Common_10890
     //     now: call functions_D2CommonFunctions_Hook_D2Common_10803_102680c0
@@ -83,15 +83,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0011 D2Game.dll sub_6fc2ebb0+0x9f  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: je D2Game!sub_6fc2ebb0+0xd1
     //     now: jmp D2Game!sub_6fc2ebb0+0xd1
-    {D2DLL_D2GAME, 0x00EC4F, 0xEB, FALSE, 1},  // P0036 byte change
+    {D2DLL_D2GAME, 0x00EC4F, 0xEB, FALSE, 1},  // P0036 opcode byte change
     // --- M-0012 D2Game.dll sub_6fc466b0+0x13c  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
-    //     was: pop ds
-    //     now: and byte ptr [ebx], al
-    {D2DLL_D2GAME, 0x0267EC, 0x20, FALSE, 1},  // P0037 byte change
+    //     was: shr eax, 0x1f
+    //     now: shr eax, 0x20
+    {D2DLL_D2GAME, 0x0267EC, 0x20, FALSE, 1},  // P0037 operand byte change
     // --- M-0013 D2Game.dll sub_6fc466b0+0x151  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
-    //     was: add ecx, dword ptr [ebx + 0xfe81f0]
-    //     now: add ecx, dword ptr [ebx + 0xfe81f0]
-    {D2DLL_D2GAME, 0x026801, 0x03, FALSE, 1},  // P0038 byte change
+    //     was: sar eax, 3
+    //     now: sar eax, 3
+    {D2DLL_D2GAME, 0x026801, 0x03, FALSE, 1},  // P0038 operand byte change
     // --- M-0014 D2Game.dll sub_6fc41820+0x5  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
     //     was: call D2Game!sub_6fc468e0
     //     now: call sub_Hook_sub_6fc417d0_10253de0
@@ -137,13 +137,13 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call sub_Hook_sub_6fc417d0_10253de0
     {D2DLL_D2GAME, 0x0DE233, (DWORD)sub_Hook_sub_6fc417d0_10253de0, TRUE, 0},  // P0049 call redirect (E8)
     // --- M-0025 D2Game.dll sub_6fc63ae7+0x30  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
-    //     was: cmp byte ptr [ecx], al
-    //     now: inc eax
-    {D2DLL_D2GAME, 0x043B17, 0x40, FALSE, 1},  // P0050 byte change
+    //     was: mov edx, dword ptr [esi + 0x138]
+    //     now: mov edx, dword ptr [esi + 0x140]
+    {D2DLL_D2GAME, 0x043B17, 0x40, FALSE, 1},  // P0050 operand byte change
     // --- M-0026 D2Game.dll Quests_a5q1_6fc7a000+0x3b  [quests] (Quests/a5q1.cpp)
     //     was: push ebx
     //     now: push esi
-    {D2DLL_D2GAME, 0x05A03B, 0x56, FALSE, 1},  // P0051 byte change
+    {D2DLL_D2GAME, 0x05A03B, 0x56, FALSE, 1},  // P0051 opcode byte change
     // --- M-0027 D2Game.dll Quests_a5q1_6fc7a000+0x3d  [quests] (Quests/a5q1.cpp)
     //     was: call D2Game!Ordinal_10188
     //     now: call D2Common_10887 (PD2 lazy thunk -> D2Common.dll ordinal 10887)
@@ -151,7 +151,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0028 D2Game.dll Quests_a5q1_6fc7a000+0x46  [quests] (Quests/a5q1.cpp)
     //     was: push ebx
     //     now: push esi
-    {D2DLL_D2GAME, 0x05A046, 0x56, FALSE, 1},  // P0053 byte change
+    {D2DLL_D2GAME, 0x05A046, 0x56, FALSE, 1},  // P0053 opcode byte change
     // --- M-0029 D2Game.dll Quests_a5q1_6fc7a000+0x48  [quests] (Quests/a5q1.cpp)
     //     was: call D2Game!Ordinal_10188
     //     now: call D2Common_10887 (PD2 lazy thunk -> D2Common.dll ordinal 10887)
@@ -159,7 +159,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0030 D2Game.dll Quests_a5q1_6fc7a000+0x51  [quests] (Quests/a5q1.cpp)
     //     was: push ebx
     //     now: push esi
-    {D2DLL_D2GAME, 0x05A051, 0x56, FALSE, 1},  // P0055 byte change
+    {D2DLL_D2GAME, 0x05A051, 0x56, FALSE, 1},  // P0055 opcode byte change
     // --- M-0031 D2Game.dll Quests_a5q1_6fc7a000+0x53  [quests] (Quests/a5q1.cpp)
     //     was: call D2Game!Ordinal_10188
     //     now: call D2Common_10887 (PD2 lazy thunk -> D2Common.dll ordinal 10887)
@@ -167,7 +167,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0032 D2Game.dll Quests_a5q1_6fc7a000+0x5c  [quests] (Quests/a5q1.cpp)
     //     was: push ebx
     //     now: push esi
-    {D2DLL_D2GAME, 0x05A05C, 0x56, FALSE, 1},  // P0057 byte change
+    {D2DLL_D2GAME, 0x05A05C, 0x56, FALSE, 1},  // P0057 opcode byte change
     // --- M-0033 D2Game.dll Quests_a5q1_6fc7a000+0x5e  [quests] (Quests/a5q1.cpp)
     //     was: call D2Game!Ordinal_10188
     //     now: call D2Common_10887 (PD2 lazy thunk -> D2Common.dll ordinal 10887)
@@ -175,7 +175,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0034 D2Game.dll Ai_AiThink4_6fcc8430+0x104  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: add ecx, 0xfa
     //     now: add ecx, 0x7d
-    {D2DLL_D2GAME, 0x0A8534, 0x7D, FALSE, 1},  // P0059 byte change
+    {D2DLL_D2GAME, 0x0A8534, 0x7D, FALSE, 1},  // P0059 operand byte change
     // --- M-0035 D2Game.dll sub_6fc48be0+0x105  [skills] (_unattributed/between_SKILLS_SkillBar_and_GAME_Game.cpp)
     //     was: call D2Game!SKILLS_SkillBar_6fc46e40
     //     now: call sub_Hook_sub_6fc48be0_102edb10
@@ -183,11 +183,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0036 D2Game.dll sub_6fd117e0+0x3d  [misc] (_unattributed/after_UNIT_PlayerList.cpp)
     //     was: test eax, eax
     //     now: xor eax, eax
-    {D2DLL_D2GAME, 0x0F181D, 0x33, FALSE, 1},  // P0061 byte change
+    {D2DLL_D2GAME, 0x0F181D, 0x33, FALSE, 1},  // P0061 opcode byte change
     // --- M-0037 D2Game.dll SKILLS_SkillBar_6fc48290+0xa6  [skills] (SKILLS/SkillBar.cpp)
     //     was: je D2Game!SKILLS_SkillBar_6fc48290+0xd5
     //     now: jmp D2Game!SKILLS_SkillBar_6fc48290+0xd5
-    {D2DLL_D2GAME, 0x028336, 0xEB, FALSE, 1},  // P0062 byte change
+    {D2DLL_D2GAME, 0x028336, 0xEB, FALSE, 1},  // P0062 opcode byte change
     // --- M-0038 D2Game.dll SKILLS_SkillBar_6fc48290+0x68  [skills] (SKILLS/SkillBar.cpp)
     //     was: call D2Game!SKILLS_Skills_6fcbfa30
     //     now: call sub_Hook_SKILLS_SkillBar_6fc48290_102ee470
@@ -195,7 +195,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0039 D2Client.dll SKILLS_SkillsBar_6fb77370+0xa1  [skills] (SKILLS/SkillsBar.cpp)
     //     was: je D2Client!SKILLS_SkillsBar_6fb77370+0xc2
     //     now: jmp D2Client!SKILLS_SkillsBar_6fb77370+0xc2
-    {D2DLL_D2CLIENT, 0x0C7411, 0xEB, FALSE, 1},  // P0064 byte change
+    {D2DLL_D2CLIENT, 0x0C7411, 0xEB, FALSE, 1},  // P0064 opcode byte change
     // --- M-0040 D2Client.dll SKILLS_SkillsBar_6fb77370+0x8c  [skills] (SKILLS/SkillsBar.cpp)
     //     was: call D2Client!SKILLS_Skills_6fb51340
     //     now: call sub_Hook_SKILLS_SkillsBar_6fb77370_102ee490
@@ -215,15 +215,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0044 D2Game.dll sub_6fc634e0+0xdd  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: mov dword ptr [esp + 0x1c], eax
     //     now: mov dword ptr [esp + 0x1c], ecx
-    {D2DLL_D2GAME, 0x0435BD, 0x4C, FALSE, 1},  // P0069 byte change
+    {D2DLL_D2GAME, 0x0435BD, 0x4C, FALSE, 1},  // P0069 operand byte change
     // --- M-0045 D2Client.dll sub_6fb24210+0xc1  [skills] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
     //     was: mov dword ptr [esp + 0x18], ebx
     //     now: mov dword ptr [esp + 0x18], ecx
-    {D2DLL_D2CLIENT, 0x0742D1, 0x4C, FALSE, 1},  // P0070 byte change
+    {D2DLL_D2CLIENT, 0x0742D1, 0x4C, FALSE, 1},  // P0070 operand byte change
     // --- M-0046 D2Game.dll ITEMS_ItemMode_6fcf9470+0xb7  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: jle D2Game!ITEMS_ItemMode_6fcf9470+0xed
     //     now: jl D2Game!ITEMS_ItemMode_6fcf9470+0xed
-    {D2DLL_D2GAME, 0x0D9527, 0x7C, FALSE, 1},  // P0071 byte change
+    {D2DLL_D2GAME, 0x0D9527, 0x7C, FALSE, 1},  // P0071 opcode byte change
     // --- M-0047 D2Client.dll UNIT_Missile_6fb61420+0x109  [monsters/AI/combat] (UNIT/Missile.cpp)
     //     was: call D2Client!sub_6fb60100
     //     now: call sub_Hook_UNIT_Missile_6fb61420_102ed3b0
@@ -232,19 +232,19 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: lea ecx, [esp + 0x10] ; push ecx ; push edi ; push esi ; mov ebx, ebp ; call D2Game!sub_6fcb8a70
     //     now: nop ; nop ; nop ; nop ; nop ; nop ; nop ; nop
     {D2DLL_D2GAME, 0x0DEE85, 0x90, FALSE, 14},  // P0073 NOP fill
-    // --- M-0049 D2Game.dll sub_6fc5ae10+0x1c9  [monsters/AI/combat] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
+    // --- M-0049 D2Game.dll sub_6fc5ae10+0x1c9  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x03AFD9, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0074 call redirect (E8)
-    // --- M-0050 D2Game.dll sub_6fc62b40+0xe0  [monsters/AI/combat] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
+    // --- M-0050 D2Game.dll sub_6fc62b40+0xe0  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x042C20, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0075 call redirect (E8)
-    // --- M-0051 D2Game.dll sub_6fc62ec0+0x1fe  [monsters/AI/combat] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
+    // --- M-0051 D2Game.dll sub_6fc62ec0+0x1fe  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x0430BE, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0076 call redirect (E8)
-    // --- M-0052 D2Game.dll sub_6fc631c0+0x1b0  [monsters/AI/combat] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
+    // --- M-0052 D2Game.dll sub_6fc631c0+0x1b0  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x043370, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0077 call redirect (E8)
@@ -272,19 +272,19 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x095543, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0083 call redirect (E8)
-    // --- M-0059 D2Game.dll sub_6fcb8a70+0x11a  [monsters/AI/combat] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
+    // --- M-0059 D2Game.dll sub_6fcb8a70+0x11a  [skills] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x098B8A, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0084 call redirect (E8)
-    // --- M-0060 D2Game.dll sub_6fcb9290+0xf0  [monsters/AI/combat] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
+    // --- M-0060 D2Game.dll sub_6fcb9290+0xf0  [skills] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x099380, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0085 call redirect (E8)
-    // --- M-0061 D2Game.dll sub_6fcba630+0x13e  [items/crafting/cube] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
+    // --- M-0061 D2Game.dll sub_6fcba630+0x13e  [skills] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x09A76E, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0086 call redirect (E8)
-    // --- M-0062 D2Game.dll sub_6fcba7c0+0xf4  [items/crafting/cube] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
+    // --- M-0062 D2Game.dll sub_6fcba7c0+0xf4  [skills] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x09A8B4, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0087 call redirect (E8)
@@ -308,15 +308,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x0AD99D, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0092 call redirect (E8)
-    // --- M-0068 D2Game.dll sub_6fcd3bb9+0x156  [monsters/AI/combat] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
+    // --- M-0068 D2Game.dll sub_6fcd3bb9+0x156  [skills] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x0B3D0F, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0093 call redirect (E8)
-    // --- M-0069 D2Game.dll sub_6fcd3d60+0x116  [monsters/AI/combat] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
+    // --- M-0069 D2Game.dll sub_6fcd3d60+0x116  [skills] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x0B3E76, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0094 call redirect (E8)
-    // --- M-0070 D2Game.dll sub_6fcd40b1+0xda  [monsters/AI/combat] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
+    // --- M-0070 D2Game.dll sub_6fcd40b1+0xda  [skills] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcf20
     //     now: call sub_Hook_sub_6fc5ae10_102ed340
     {D2DLL_D2GAME, 0x0B418B, (DWORD)sub_Hook_sub_6fc5ae10_102ed340, TRUE, 0},  // P0095 call redirect (E8)
@@ -399,8 +399,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0090 D2Game.dll sub_6fcb9290+0xd4  [skills] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
     //     was: push 0
     //     now: push 1
-    {D2DLL_D2GAME, 0x099364, 0x01, FALSE, 1},  // P0115 byte change
-    // --- M-0091 D2Game.dll sub_6fcba7c0+0xe2  [monsters/AI/combat] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
+    {D2DLL_D2GAME, 0x099364, 0x01, FALSE, 1},  // P0115 operand byte change
+    // --- M-0091 D2Game.dll sub_6fcba7c0+0xe2  [skills] (_unattributed/between_SKILLS_SkilPal_and_INVENTORY_InvMode.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfe0c0
     //     now: call sub_Hook_sub_6fcba7c0_102ed300
     {D2DLL_D2GAME, 0x09A8A2, (DWORD)sub_Hook_sub_6fcba7c0_102ed300, TRUE, 0},  // P0116 call redirect (E8)
@@ -415,11 +415,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0094 D2Game.dll Ai_AiThink4_6fcc6b70+0x21c  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: push 3
     //     now: push 1
-    {D2DLL_D2GAME, 0x0A6D8C, 0x01, FALSE, 1},  // P0119 byte change
+    {D2DLL_D2GAME, 0x0A6D8C, 0x01, FALSE, 1},  // P0119 operand byte change
     // --- M-0095 D2Game.dll Ai_AiThink4_6fcc6b70+0x2dc  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: push 5
     //     now: push 1
-    {D2DLL_D2GAME, 0x0A6E4C, 0x01, FALSE, 1},  // P0120 byte change
+    {D2DLL_D2GAME, 0x0A6E4C, 0x01, FALSE, 1},  // P0120 operand byte change
     // --- M-0096 D2Game.dll sub_6fcb34a0+0x11c  [maps/map generation] (_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp)
     //     was: push D2Game!sub_6fcb3040
     //     now: push sub_Hook_sub_6fcb34a0_1026ffe0
@@ -447,13 +447,13 @@ DLLPatchStrc gptTemplatePatches[2187] =
     {D2DLL_D2GAME, 0x0CFB7A, (DWORD)sub_Hook_sub_6fcef810_102ecf80, TRUE, 0},  // P0127 call redirect (E8)
     // --- M-0102 D2Client.dll sub_6fafa4f0+0x286  [UI/HUD/panels] (_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp)
     //     was: call D2Client!sub_6faf8b20
-    //     now: call sub_6faf8b20 (PD2 lazy thunk -> D2Client.dll +0x48b20)
-    {D2DLL_D2CLIENT, 0x04A776, (DWORD)sub_6faf8b20, TRUE, 0},  // P0128 call redirect (E8)
-    // --- M-0103 D2Client.dll sub_6faf8b20+0x47a  [skills] (_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp)
+    //     now: call sub_6faf8b20_10294910 (jmp stub 0x10259e70 -> PD2 lazy thunk 0x10294910 -> D2Client.dll +0x48b20)
+    {D2DLL_D2CLIENT, 0x04A776, (DWORD)sub_6faf8b20_10294910, TRUE, 0},  // P0128 call redirect (E8)
+    // --- M-0103 D2Client.dll sub_6faf8b20+0x47a  [UI/HUD/panels] (_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp)
     //     was: call D2Client!SKILLS_Skills_6fb536f0
     //     now: call sub_Hook_sub_6faf8b20_102eefc0
     {D2DLL_D2CLIENT, 0x048F9A, (DWORD)sub_Hook_sub_6faf8b20_102eefc0, TRUE, 0},  // P0129 call redirect (E8)
-    // --- M-0104 D2Client.dll sub_6faf8b20+0x4cd  [skills] (_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp)
+    // --- M-0104 D2Client.dll sub_6faf8b20+0x4cd  [UI/HUD/panels] (_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp)
     //     was: call D2Client!SKILLS_Skills_6fb536f0
     //     now: call sub_Hook_sub_6faf8b20_102eefc0
     {D2DLL_D2CLIENT, 0x048FED, (DWORD)sub_Hook_sub_6faf8b20_102eefc0, TRUE, 0},  // P0130 call redirect (E8)
@@ -466,7 +466,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0106 D2Game.dll sub_6fcdd330+0x31  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: jne D2Game!sub_6fcdd330+0x151
     //     now: je D2Game!sub_6fcdd330+0x151
-    {D2DLL_D2GAME, 0x0BD361, 0x84, FALSE, 1},  // P0134 byte change
+    {D2DLL_D2GAME, 0x0BD361, 0x84, FALSE, 1},  // P0134 operand byte change
     // --- M-0107 D2Common.dll D2Common_11104+0x12  [maps/map generation] (_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp)
     //     was: cmp eax, 0x167 ; ja D2Common!D2Common_11104+0x3f ; je D2Common!D2Common_11104+0x37 ; sub eax, 0x10f ; je D2Common!D2Common_11104+0x2f ; sub eax, 0x43…
     //     now: call sub_Hook_D2Common_11104_102eef60 ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -481,11 +481,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: push esi ; call D2Client!Ordinal_10338
     //     now: nop ; mov eax, 1
     {D2DLL_D2CLIENT, 0x0C7083, 0x90, FALSE, 1},  // P0139 NOP fill
-    {D2DLL_D2CLIENT, 0x0C7084, 0xB8, FALSE, 1},  // P0140 byte change
-    {D2DLL_D2CLIENT, 0x0C7085, 0x01, FALSE, 1},  // P0141 byte change
-    {D2DLL_D2CLIENT, 0x0C7086, 0x00, FALSE, 1},  // P0142 byte change
-    {D2DLL_D2CLIENT, 0x0C7087, 0x00, FALSE, 1},  // P0143 byte change
-    {D2DLL_D2CLIENT, 0x0C7088, 0x00, FALSE, 1},  // P0144 byte change
+    {D2DLL_D2CLIENT, 0x0C7084, 0xB8, FALSE, 1},  // P0140 opcode byte change
+    {D2DLL_D2CLIENT, 0x0C7085, 0x01, FALSE, 1},  // P0141 operand byte change
+    {D2DLL_D2CLIENT, 0x0C7086, 0x00, FALSE, 1},  // P0142 operand byte change
+    {D2DLL_D2CLIENT, 0x0C7087, 0x00, FALSE, 1},  // P0143 operand byte change
+    {D2DLL_D2CLIENT, 0x0C7088, 0x00, FALSE, 1},  // P0144 operand byte change
     // --- M-0110 D2Client.dll SKILLS_SkillsEMon_6fb74990+0x4b  [skills] (SKILLS/SkillsEMon.cpp)
     //     was: call D2Client!Ordinal_10096
     //     now: call D2Common_10678 (PD2 lazy thunk -> D2Common.dll ordinal 10678)
@@ -505,7 +505,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0114 Bnclient.dll BnDownload_6ff2f3c0+0x46  [networking/packets] (BnDownload.cpp)
     //     was: test eax, eax
     //     now: xor eax, eax
-    {D2DLL_BNCLIENT, 0x00F406, 0x31, FALSE, 1},  // P0149 byte change
+    {D2DLL_BNCLIENT, 0x00F406, 0x31, FALSE, 1},  // P0149 opcode byte change
     // --- M-0115 D2Game.dll sub_6fcf05d6+0x7f  [networking/packets] (_unattributed/between_PLAYER_PlrMsg_and_ITEMS_ItemMode.cpp)
     //     was: je D2Game!sub_6fcf01d0+0x48c
     //     now: nop ; nop
@@ -515,14 +515,14 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!Ordinal_10244
     //     now: call functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0
     {D2DLL_D2GAME, 0x0D070F, (DWORD)functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0, TRUE, 0},  // P0152 call redirect (E8)
-    // --- M-0117 D2Client.dll sub_6fb4a920+0x3f0  [items/crafting/cube] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
+    // --- M-0117 D2Client.dll sub_6fb4a920+0x3f0  [UI/HUD/panels] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
     //     was: call D2Client!Ordinal_10244
     //     now: call functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0
     {D2DLL_D2CLIENT, 0x09AD10, (DWORD)functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0, TRUE, 0},  // P0153 call redirect (E8)
     // --- M-0118 D2Client.dll sub_6fb0ba90+0x42d  [UI/HUD/panels] (_unattributed/between_UI_Hireables_and_Sound_SoundHdr.cpp)
     //     was: test ebp, ebp
     //     now: inc ebp ; nop
-    {D2DLL_D2CLIENT, 0x05BEBD, 0x45, FALSE, 1},  // P0154 byte change
+    {D2DLL_D2CLIENT, 0x05BEBD, 0x45, FALSE, 1},  // P0154 opcode byte change
     {D2DLL_D2CLIENT, 0x05BEBE, 0x90, FALSE, 1},  // P0155 NOP fill
     // --- M-0119 D2Client.dll UI_inv_6fb3c760+0x69  [UI/HUD/panels] (UI/inv.cpp)
     //     was: je D2Client!UI_inv_6fb3c760+0x72
@@ -540,15 +540,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0122 D2Common.dll D2Common_10244+0x29d  [items/crafting/cube] (ITEMS/Items.cpp)
     //     was: cmp eax, 0x230 ; jl D2Common!D2Common_10244+0x2ab ; cmp eax, 0x231 ; jle D2Common!D2Common_10244+0x2b4 ; test esi, esi ; jne D2Common!D2Common_10244+…
     //     now: push eax ; push ebx ; push ebp ; call functions_D2NewFunctions_Hook_D2Common_10244_102c0e50 ; test eax, eax ; je D2Common!D2Common_10244+0x2c3 ; nop …
-    {D2DLL_D2COMMON, 0x02704D, 0x50, FALSE, 1},  // P0160 byte change
-    {D2DLL_D2COMMON, 0x02704E, 0x53, FALSE, 1},  // P0161 byte change
-    {D2DLL_D2COMMON, 0x02704F, 0x55, FALSE, 1},  // P0162 byte change
+    {D2DLL_D2COMMON, 0x02704D, 0x50, FALSE, 1},  // P0160 opcode byte change
+    {D2DLL_D2COMMON, 0x02704E, 0x53, FALSE, 1},  // P0161 operand byte change
+    {D2DLL_D2COMMON, 0x02704F, 0x55, FALSE, 1},  // P0162 operand byte change
     {D2DLL_D2COMMON, 0x027050, 0xE8, FALSE, 1},  // P0163 opcode byte (E8 call) for hook
     {D2DLL_D2COMMON, 0x027051, (DWORD)functions_D2NewFunctions_Hook_D2Common_10244_102c0e50, TRUE, 0},  // P0164 call insertion (E8)
-    {D2DLL_D2COMMON, 0x027055, 0x85, FALSE, 1},  // P0165 byte change
-    {D2DLL_D2COMMON, 0x027056, 0xC0, FALSE, 1},  // P0166 byte change
-    {D2DLL_D2COMMON, 0x027057, 0x74, FALSE, 1},  // P0167 byte change
-    {D2DLL_D2COMMON, 0x027058, 0x1A, FALSE, 1},  // P0168 byte change
+    {D2DLL_D2COMMON, 0x027055, 0x85, FALSE, 1},  // P0165 operand byte change
+    {D2DLL_D2COMMON, 0x027056, 0xC0, FALSE, 1},  // P0166 operand byte change
+    {D2DLL_D2COMMON, 0x027057, 0x74, FALSE, 1},  // P0167 operand byte change
+    {D2DLL_D2COMMON, 0x027058, 0x1A, FALSE, 1},  // P0168 operand byte change
     {D2DLL_D2COMMON, 0x027059, 0x90, FALSE, 11},  // P0169 NOP fill
     // --- M-0123 D2Game.dll sub_6fcefbc0+0x98  [networking/packets] (_unattributed/between_PLAYER_PlrMsg_and_ITEMS_ItemMode.cpp)
     //     was: jne D2Game!sub_6fcefbc0+0xb9
@@ -577,23 +577,23 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0129 D2Game.dll sub_6fc58090+0x44  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: test edi, edi
     //     now: xor edi, edi
-    {D2DLL_D2GAME, 0x0380D4, 0x33, FALSE, 1},  // P0176 byte change
+    {D2DLL_D2GAME, 0x0380D4, 0x33, FALSE, 1},  // P0176 opcode byte change
     // --- M-0130 D2Game.dll sub_6fc58090+0x24  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: push 2
     //     now: push 1
-    {D2DLL_D2GAME, 0x0380B4, 0x01, FALSE, 1},  // P0177 byte change
+    {D2DLL_D2GAME, 0x0380B4, 0x01, FALSE, 1},  // P0177 operand byte change
     // --- M-0131 D2Game.dll sub_6fcc3610+0x1a7  [skills] (_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp)
     //     was: add edx, 0x19
     //     now: add edx, 6
-    {D2DLL_D2GAME, 0x0A37B7, 0x06, FALSE, 1},  // P0178 byte change
+    {D2DLL_D2GAME, 0x0A37B7, 0x06, FALSE, 1},  // P0178 operand byte change
     // --- M-0132 D2Game.dll sub_6fc6d710+0x169  [skills] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
     //     was: add ecx, 0x14
     //     now: add ecx, 8
-    {D2DLL_D2GAME, 0x04D879, 0x08, FALSE, 1},  // P0179 byte change
+    {D2DLL_D2GAME, 0x04D879, 0x08, FALSE, 1},  // P0179 operand byte change
     // --- M-0133 D2Game.dll SKILLS_SkillNec_6fc709e0+0xf1  [skills] (SKILLS/SkillNec.cpp)
     //     was: add edx, 0xf
     //     now: add edx, 8
-    {D2DLL_D2GAME, 0x050AD1, 0x08, FALSE, 1},  // P0180 byte change
+    {D2DLL_D2GAME, 0x050AD1, 0x08, FALSE, 1},  // P0180 operand byte change
     // --- M-0134 D2Game.dll sub_6fc71340+0x1ea  [skills] (_unattributed/between_SKILLS_SkillNec_and_GAME_Task.cpp)
     //     was: call D2Game!Ordinal_10704
     //     now: call functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0
@@ -658,7 +658,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!Ordinal_10188
     //     now: call functions_D2CommonFunctions_Hook_SKILLS_SkillNec_6fc70250_102677b0
     {D2DLL_D2GAME, 0x0503B9, (DWORD)functions_D2CommonFunctions_Hook_SKILLS_SkillNec_6fc70250_102677b0, TRUE, 0},  // P0196 call redirect (E8)
-    // --- M-0150 D2Game.dll sub_6fcdb3b0+0x108  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp)
+    // --- M-0150 D2Game.dll sub_6fcdb3b0+0x108  [quests] (Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp)
     //     was: call D2Game!sub_6fc95e10
     //     now: call functions_D2NewFunctions_Hook_sub_6fcdb3b0_102c96f0
     {D2DLL_D2GAME, 0x0BB4B8, (DWORD)functions_D2NewFunctions_Hook_sub_6fcdb3b0_102c96f0, TRUE, 0},  // P0197 call redirect (E8)
@@ -693,35 +693,35 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0158 D2Game.dll sub_6fc3de39+0x7a  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: jbe D2Game!sub_6fc3db40+0x394
     //     now: jmp D2Game!sub_6fc3db40+0x394
-    {D2DLL_D2GAME, 0x01DEB3, 0xEB, FALSE, 1},  // P0205 byte change
+    {D2DLL_D2GAME, 0x01DEB3, 0xEB, FALSE, 1},  // P0205 opcode byte change
     // --- M-0159 D2Game.dll sub_6fc3ded4+0x2  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: jbe D2Game!sub_6fc3db40+0x3b7
     //     now: jmp D2Game!sub_6fc3db40+0x3b7
-    {D2DLL_D2GAME, 0x01DED6, 0xEB, FALSE, 1},  // P0206 byte change
+    {D2DLL_D2GAME, 0x01DED6, 0xEB, FALSE, 1},  // P0206 opcode byte change
     // --- M-0160 D2Game.dll sub_6fc3def7+0x4  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: jbe D2Game!sub_6fc3db40+0x40a
     //     now: jmp D2Game!sub_6fc3db40+0x40a
-    {D2DLL_D2GAME, 0x01DEFB, 0xEB, FALSE, 1},  // P0207 byte change
+    {D2DLL_D2GAME, 0x01DEFB, 0xEB, FALSE, 1},  // P0207 opcode byte change
     // --- M-0161 D2Game.dll sub_6fc3e000  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: jge D2Game!sub_6fc3db40+0x4d9
     //     now: jmp D2Game!sub_6fc3db40+0x4d9
-    {D2DLL_D2GAME, 0x01E000, 0xEB, FALSE, 1},  // P0208 byte change
+    {D2DLL_D2GAME, 0x01E000, 0xEB, FALSE, 1},  // P0208 opcode byte change
     // --- M-0162 D2Game.dll sub_6fc3e10d+0xf  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
-    //     was: add eax, 0xfe558d0f
-    //     now: add byte ptr [edi], cl
-    {D2DLL_D2GAME, 0x01E11C, 0x00, FALSE, 1},  // P0209 byte change
+    //     was: cmp eax, 5
+    //     now: cmp eax, 0
+    {D2DLL_D2GAME, 0x01E11C, 0x00, FALSE, 1},  // P0209 operand byte change
     // --- M-0163 D2Game.dll sub_6fc3e0e0+0xb  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: ja D2Game!sub_6fc3db40+0x5cd
     //     now: jmp D2Game!sub_6fc3db40+0x5cd
-    {D2DLL_D2GAME, 0x01E0EB, 0xEB, FALSE, 1},  // P0210 byte change
+    {D2DLL_D2GAME, 0x01E0EB, 0xEB, FALSE, 1},  // P0210 opcode byte change
     // --- M-0164 D2Game.dll sub_6fc3e019+0x2e  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
-    //     was: sbb dword ptr [ebx + 0x22], esi
-    //     now: sbb dword ptr [ebx + 0x22], esi
-    {D2DLL_D2GAME, 0x01E047, 0x19, FALSE, 1},  // P0211 byte change
+    //     was: cmp dword ptr [esp + 0x18], 0x19
+    //     now: cmp dword ptr [esp + 0x18], 0x19
+    {D2DLL_D2GAME, 0x01E047, 0x19, FALSE, 1},  // P0211 operand byte change
     // --- M-0165 D2Game.dll sub_6fca076b+0x87  [networking/packets] (_unattributed/between_UNIT_SUnitMsg_and_GAME_SCmd.cpp)
     //     was: je D2Game!sub_6fca06fe+0x11f
     //     now: jmp D2Game!sub_6fca06fe+0x11f
-    {D2DLL_D2GAME, 0x0807F2, 0xEB, FALSE, 1},  // P0212 byte change
+    {D2DLL_D2GAME, 0x0807F2, 0xEB, FALSE, 1},  // P0212 opcode byte change
     // --- M-0166 D2Game.dll Ai_AiThink4_6fccb360+0x134  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: push 2 ; push ebx ; call D2Game!Ordinal_10494 ; test eax, eax ; jne D2Game!Ai_AiThink4_6fccb360+0x1cf ; push eax ; push 0x2d ; push ebx
     //     now: nop ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -729,7 +729,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0167 D2Game.dll Ai_AiThink4_6fccb070+0x1fe  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: mov dword ptr [esp + 0x1c], 0
     //     now: mov dword ptr [esp + 0x1c], 1
-    {D2DLL_D2GAME, 0x0AB26E, 0x01, FALSE, 1},  // P0214 byte change
+    {D2DLL_D2GAME, 0x0AB26E, 0x01, FALSE, 1},  // P0214 operand byte change
     // --- M-0168 D2Game.dll UNIT_SUnitDmg_6fcfe0c0+0x1ef  [monsters/AI/combat] (UNIT/SUnitDmg.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfcab0
     //     now: call sub_Hook_UNIT_SUnitDmg_6fcfe0c0_10271a70
@@ -737,8 +737,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0169 D2Game.dll SKILLS_SkillNec_6fc70470+0x130  [skills] (SKILLS/SkillNec.cpp)
     //     was: movsx edx, word ptr [ecx + 0x82]
     //     now: mov edx, 0xd8 ; nop ; nop
-    {D2DLL_D2GAME, 0x0505A0, 0xBA, FALSE, 1},  // P0216 byte change
-    {D2DLL_D2GAME, 0x0505A1, 0xD8, FALSE, 1},  // P0217 byte change
+    {D2DLL_D2GAME, 0x0505A0, 0xBA, FALSE, 1},  // P0216 opcode byte change
+    {D2DLL_D2GAME, 0x0505A1, 0xD8, FALSE, 1},  // P0217 operand byte change
     {D2DLL_D2GAME, 0x0505A2, 0x00, FALSE, 3},  // P0218 byte fill (0x00 x 3)
     {D2DLL_D2GAME, 0x0505A5, 0x90, FALSE, 2},  // P0219 NOP fill
     // --- M-0170 D2Game.dll sub_6fc8ac30+0xa5  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
@@ -748,25 +748,25 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0171 D2Game.dll sub_6fc8c580+0x81  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
     //     was: push 0x206d706f
     //     now: push 0x73667074
-    {D2DLL_D2GAME, 0x06C601, 0x74, FALSE, 1},  // P0221 byte change
-    {D2DLL_D2GAME, 0x06C602, 0x70, FALSE, 1},  // P0222 byte change
-    {D2DLL_D2GAME, 0x06C603, 0x66, FALSE, 1},  // P0223 byte change
-    {D2DLL_D2GAME, 0x06C604, 0x73, FALSE, 1},  // P0224 byte change
+    {D2DLL_D2GAME, 0x06C601, 0x74, FALSE, 1},  // P0221 operand byte change
+    {D2DLL_D2GAME, 0x06C602, 0x70, FALSE, 1},  // P0222 operand byte change
+    {D2DLL_D2GAME, 0x06C603, 0x66, FALSE, 1},  // P0223 operand byte change
+    {D2DLL_D2GAME, 0x06C604, 0x73, FALSE, 1},  // P0224 operand byte change
     // --- M-0172 D2Game.dll sub_6fc8c200+0x81  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
     //     was: push 0x206d7067
     //     now: push 0x73677074
-    {D2DLL_D2GAME, 0x06C281, 0x74, FALSE, 1},  // P0225 byte change
-    {D2DLL_D2GAME, 0x06C282, 0x70, FALSE, 1},  // P0226 byte change
-    {D2DLL_D2GAME, 0x06C283, 0x67, FALSE, 1},  // P0227 byte change
-    {D2DLL_D2GAME, 0x06C284, 0x73, FALSE, 1},  // P0228 byte change
+    {D2DLL_D2GAME, 0x06C281, 0x74, FALSE, 1},  // P0225 operand byte change
+    {D2DLL_D2GAME, 0x06C282, 0x70, FALSE, 1},  // P0226 operand byte change
+    {D2DLL_D2GAME, 0x06C283, 0x67, FALSE, 1},  // P0227 operand byte change
+    {D2DLL_D2GAME, 0x06C284, 0x73, FALSE, 1},  // P0228 operand byte change
     // --- M-0173 D2Game.dll Ai_AiThink4_6fcc5eb0+0x3c  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: jne D2Game!Ai_AiThink4_6fcc5eb0+0x50
     //     now: jmp D2Game!Ai_AiThink4_6fcc5eb0+0x50
-    {D2DLL_D2GAME, 0x0A5EEC, 0xEB, FALSE, 1},  // P0229 byte change
+    {D2DLL_D2GAME, 0x0A5EEC, 0xEB, FALSE, 1},  // P0229 opcode byte change
     // --- M-0174 D2Game.dll sub_6fcc6050+0x3d  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: jne D2Game!Ai_AiThink4_6fcc5ff4+0xaf
     //     now: jmp D2Game!Ai_AiThink4_6fcc5ff4+0xaf
-    {D2DLL_D2GAME, 0x0A608D, 0xEB, FALSE, 1},  // P0230 byte change
+    {D2DLL_D2GAME, 0x0A608D, 0xEB, FALSE, 1},  // P0230 opcode byte change
     // --- M-0175 D2Game.dll Ai_AiThink4_6fcc62d0+0x3b  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: je D2Game!Ai_AiThink4_6fcc63f5+0x11d
     //     now: nop ; nop ; nop ; nop ; nop ; nop
@@ -774,7 +774,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0176 D2Client.dll SKILLS_SkillsBar_6fb76aa0+0x1f1  [skills] (SKILLS/SkillsBar.cpp)
     //     was: je D2Client!SKILLS_SkillsBar_6fb76aa0+0x226
     //     now: jmp D2Client!SKILLS_SkillsBar_6fb76aa0+0x226
-    {D2DLL_D2CLIENT, 0x0C6C91, 0xEB, FALSE, 1},  // P0232 byte change
+    {D2DLL_D2CLIENT, 0x0C6C91, 0xEB, FALSE, 1},  // P0232 opcode byte change
     // --- M-0177 D2Game.dll sub_6fc49720+0x7a  [skills] (_unattributed/between_SKILLS_SkillBar_and_GAME_Game.cpp)
     //     was: call D2Game!sub_6fc49240
     //     now: call sub_Hook_sub_6fc49600_102ef590
@@ -900,7 +900,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!UNIT_SUnitEvent_6fc570e0
     //     now: call sub_Hook_SKILLS_SkillNec_6fc6f970_102ed020
     {D2DLL_D2GAME, 0x0D94F9, (DWORD)sub_Hook_SKILLS_SkillNec_6fc6f970_102ed020, TRUE, 0},  // P0264 call redirect (E8)
-    // --- M-0208 D2Game.dll sub_6fccfdb0+0x166  [skills] (_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp)
+    // --- M-0208 D2Game.dll sub_6fccfdb0+0x166  [monsters/AI/combat] (_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp)
     //     was: push D2Game!ITEMS_ItemMode_6fcf9470
     //     now: push functions_D2NewFunctions_Hook_sub_6fccfdb0_102c6030
     {D2DLL_D2GAME, 0x0AFF16, (DWORD)functions_D2NewFunctions_Hook_sub_6fccfdb0_102c6030, FALSE, 0},  // P0265 code-pointer operand (imm32 -> PD2 function)
@@ -951,7 +951,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fd0b090
     //     now: call sub_Hook_UNIT_SUnitDmg_6fcfe6d0_102ed420
     {D2DLL_D2GAME, 0x0DE736, (DWORD)sub_Hook_UNIT_SUnitDmg_6fcfe6d0_102ed420, TRUE, 0},  // P0279 call redirect (E8)
-    // --- M-0220 D2Game.dll sub_6fc7bf70+0xce  [save files] (Quests/_unattributed/between_Quests_a5q1_and_Quests_a5q2.cpp)
+    // --- M-0220 D2Game.dll sub_6fc7bf70+0xce  [quests] (Quests/_unattributed/between_Quests_a5q1_and_Quests_a5q2.cpp)
     //     was: call D2Game!sub_6fd0b090
     //     now: call sub_Hook_UNIT_SUnitDmg_6fcfe6d0_102ed420
     {D2DLL_D2GAME, 0x05C03E, (DWORD)sub_Hook_UNIT_SUnitDmg_6fcfe6d0_102ed420, TRUE, 0},  // P0280 call redirect (E8)
@@ -967,11 +967,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fc58180
     //     now: call sub_Hook_sub_6fc583a0_102eee90
     {D2DLL_D2GAME, 0x0383A9, (DWORD)sub_Hook_sub_6fc583a0_102eee90, TRUE, 0},  // P0283 call redirect (E8)
-    // --- M-0224 D2Game.dll sub_6fcdf810+0x90  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0224 D2Game.dll sub_6fcdf810+0x90  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdf2e0
     //     now: call functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0
     {D2DLL_D2GAME, 0x0BF8A0, (DWORD)functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0, TRUE, 0},  // P0284 call redirect (E8)
-    // --- M-0225 D2Game.dll sub_6fcdf791+0x2e  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0225 D2Game.dll sub_6fcdf791+0x2e  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdf2e0
     //     now: call functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0
     {D2DLL_D2GAME, 0x0BF7BF, (DWORD)functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0, TRUE, 0},  // P0285 call redirect (E8)
@@ -986,15 +986,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     {D2DLL_D2GAME, 0x0BF1ED, 0x90, FALSE, 1},  // P0288 NOP fill
     {D2DLL_D2GAME, 0x0BF1EE, 0xE8, FALSE, 1},  // P0289 opcode byte (E8 call) for hook
     {D2DLL_D2GAME, 0x0BF1EF, (DWORD)sub_Hook_sub_6fcdf170_102ef010, TRUE, 0},  // P0290 call insertion (E8)
-    // --- M-0228 D2Game.dll sub_6fcdd920+0x16  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0228 D2Game.dll sub_6fcdd920+0x16  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!UNIT_sunitproxy_6fcafaa0
     //     now: call sub_Hook_sub_6fcdd920_102ef020
     {D2DLL_D2GAME, 0x0BD936, (DWORD)sub_Hook_sub_6fcdd920_102ef020, TRUE, 0},  // P0291 call redirect (E8)
-    // --- M-0229 D2Game.dll sub_6fcde640+0xdd  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0229 D2Game.dll sub_6fcde640+0xdd  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!UNIT_sunitproxy_6fcafaa0
     //     now: call sub_Hook_sub_6fcdd920_102ef020
     {D2DLL_D2GAME, 0x0BE71D, (DWORD)sub_Hook_sub_6fcdd920_102ef020, TRUE, 0},  // P0292 call redirect (E8)
-    // --- M-0230 D2Game.dll sub_6fcdf8d2+0x1  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0230 D2Game.dll sub_6fcdf8d2+0x1  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!UNIT_sunitproxy_6fcafaa0
     //     now: call sub_Hook_sub_6fcdd920_102ef020
     {D2DLL_D2GAME, 0x0BF8D3, (DWORD)sub_Hook_sub_6fcdd920_102ef020, TRUE, 0},  // P0293 call redirect (E8)
@@ -1010,15 +1010,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fcdc840
     //     now: call sub_Hook_INVENTORY_InvMode_6fcbb630_102ef030
     {D2DLL_D2GAME, 0x09B73A, (DWORD)sub_Hook_INVENTORY_InvMode_6fcbb630_102ef030, TRUE, 0},  // P0296 call redirect (E8)
-    // --- M-0234 D2Game.dll sub_6fcde640+0x2b1  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0234 D2Game.dll sub_6fcde640+0x2b1  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcddd80
     //     now: call sub_Hook_sub_6fcde640_102ef0e0
     {D2DLL_D2GAME, 0x0BE8F1, (DWORD)sub_Hook_sub_6fcde640_102ef0e0, TRUE, 0},  // P0297 call redirect (E8)
-    // --- M-0235 D2Game.dll sub_6fcde640+0x3e6  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0235 D2Game.dll sub_6fcde640+0x3e6  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcddd80
     //     now: call sub_Hook_sub_6fcde640_102ef0e0
     {D2DLL_D2GAME, 0x0BEA26, (DWORD)sub_Hook_sub_6fcde640_102ef0e0, TRUE, 0},  // P0298 call redirect (E8)
-    // --- M-0236 D2Game.dll sub_6fcde640+0x640  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0236 D2Game.dll sub_6fcde640+0x640  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcddd80
     //     now: call sub_Hook_sub_6fcde640_102ef0e0
     {D2DLL_D2GAME, 0x0BEC80, (DWORD)sub_Hook_sub_6fcde640_102ef0e0, TRUE, 0},  // P0299 call redirect (E8)
@@ -1042,15 +1042,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Ordinal_10071
     //     now: call sub_Hook_sub_6fcddd80_10253300
     {D2DLL_D2CLIENT, 0x08F392, (DWORD)sub_Hook_sub_6fcddd80_10253300, TRUE, 0},  // P0304 call redirect (E8)
-    // --- M-0242 D2Game.dll sub_6fcdf990+0x23d  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0242 D2Game.dll sub_6fcdf990+0x23d  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdcaa0
     //     now: call sub_Hook_sub_6fcdf990_102eef40
     {D2DLL_D2GAME, 0x0BFBCD, (DWORD)sub_Hook_sub_6fcdf990_102eef40, TRUE, 0},  // P0305 call redirect (E8)
-    // --- M-0243 D2Game.dll sub_6fcde640+0x21f  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0243 D2Game.dll sub_6fcde640+0x21f  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdcaa0
     //     now: call sub_Hook_sub_6fcdf990_102eef40
     {D2DLL_D2GAME, 0x0BE85F, (DWORD)sub_Hook_sub_6fcdf990_102eef40, TRUE, 0},  // P0306 call redirect (E8)
-    // --- M-0244 D2Game.dll sub_6fcddd80+0x60  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0244 D2Game.dll sub_6fcddd80+0x60  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdcaa0
     //     now: call sub_Hook_sub_6fcdf990_102eef40
     {D2DLL_D2GAME, 0x0BDDE0, (DWORD)sub_Hook_sub_6fcdf990_102eef40, TRUE, 0},  // P0307 call redirect (E8)
@@ -1068,29 +1068,29 @@ DLLPatchStrc gptTemplatePatches[2187] =
     {D2DLL_D2CLIENT, 0x0659CD, 0xE8, FALSE, 1},  // P0310 opcode byte (E8 call) for hook
     {D2DLL_D2CLIENT, 0x0659CE, (DWORD)sub_Hook_sub_6fb15760_10258b60, TRUE, 0},  // P0311 call insertion (E8)
     {D2DLL_D2CLIENT, 0x0659D2, 0x90, FALSE, 6},  // P0312 NOP fill
-    {D2DLL_D2CLIENT, 0x0659D8, 0x85, FALSE, 1},  // P0313 byte change
-    {D2DLL_D2CLIENT, 0x0659D9, 0xC0, FALSE, 1},  // P0314 byte change
+    {D2DLL_D2CLIENT, 0x0659D8, 0x85, FALSE, 1},  // P0313 operand byte change
+    {D2DLL_D2CLIENT, 0x0659D9, 0xC0, FALSE, 1},  // P0314 operand byte change
     // --- M-0248 D2Client.dll sub_6fb71a80+0x9f  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: mov eax, dword ptr [D2Client!DAT_6fbcb980] ; test byte ptr [eax + 0x1eb], 4
     //     now: call sub_Hook_sub_6fb15760_10258b60 ; nop ; nop ; nop ; nop ; nop ; test eax, eax
     {D2DLL_D2CLIENT, 0x0C1B1F, 0xE8, FALSE, 1},  // P0315 opcode byte (E8 call) for hook
     {D2DLL_D2CLIENT, 0x0C1B20, (DWORD)sub_Hook_sub_6fb15760_10258b60, TRUE, 0},  // P0316 call insertion (E8)
     {D2DLL_D2CLIENT, 0x0C1B24, 0x90, FALSE, 5},  // P0317 NOP fill
-    {D2DLL_D2CLIENT, 0x0C1B29, 0x85, FALSE, 1},  // P0318 byte change
-    {D2DLL_D2CLIENT, 0x0C1B2A, 0xC0, FALSE, 1},  // P0319 byte change
-    // --- M-0249 D2Client.dll sub_6fb207f0+0x386  [UI/HUD/panels] (_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp)
+    {D2DLL_D2CLIENT, 0x0C1B29, 0x85, FALSE, 1},  // P0318 operand byte change
+    {D2DLL_D2CLIENT, 0x0C1B2A, 0xC0, FALSE, 1},  // P0319 operand byte change
+    // --- M-0249 D2Client.dll sub_6fb207f0+0x386  [skills] (_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp)
     //     was: call D2Client!sub_6fac47a0
-    //     now: call sub_Hook_sub_6fb207f0_102ef5b0
+    //     now: call client_Sound_SoundSample_init_10079ab0+0x40
     {D2DLL_D2CLIENT, 0x070B76, (DWORD)sub_Hook_sub_6fb207f0_102ef5b0, TRUE, 0},  // P0320 call redirect (E8)
-    // --- M-0250 D2Client.dll sub_6fac43e0+0xc2  [misc] (_unattributed/before_UNIT_Player_6fabd3f0.cpp)
+    // --- M-0250 D2Client.dll sub_6fac43e0+0xc2  [networking/packets] (_unattributed/before_UNIT_Player_6fabd3f0.cpp)
     //     was: call D2Client!Ordinal_10024
-    //     now: call D2Net_10024 (PD2 lazy thunk -> D2Net.dll ordinal 10024)
-    {D2DLL_D2CLIENT, 0x0144A2, (DWORD)D2Net_10024, TRUE, 0},  // P0321 call redirect (E8)
-    // --- M-0251 D2Client.dll sub_6faf3920+0x89  [monsters/AI/combat] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
+    //     now: call D2Net_10024_1028cfc0 (jmp stub 0x1025b350 -> PD2 lazy thunk 0x1028cfc0 -> D2Net.dll ordinal 10024)
+    {D2DLL_D2CLIENT, 0x0144A2, (DWORD)D2Net_10024_1028cfc0, TRUE, 0},  // P0321 call redirect (E8)
+    // --- M-0251 D2Client.dll sub_6faf3920+0x89  [UI/HUD/panels] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
     //     was: call D2Client!sub_6fb5ce20
     //     now: call sub_Hook_sub_6faf3920_102ef5d0
     {D2DLL_D2CLIENT, 0x0439A9, (DWORD)sub_Hook_sub_6faf3920_102ef5d0, TRUE, 0},  // P0322 call redirect (E8)
-    // --- M-0252 D2Client.dll DAT_6fb8ecbc+0x10  [items/crafting/cube] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
+    // --- M-0252 D2Client.dll DAT_6fb8ecbc+0x10  [UI/HUD/panels] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
     //     was: dd D2Client!sub_6fb50250+0xd0
     //     now: dd functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0
     {D2DLL_D2CLIENT, 0x0DECCC, (DWORD)functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0, FALSE, 0},  // P0323 function-pointer swap (table)
@@ -1098,7 +1098,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!sub_6fb4f460
     //     now: call sub_Hook_sub_6fb4fb00_1025bcb0
     {D2DLL_D2CLIENT, 0x09FB29, (DWORD)sub_Hook_sub_6fb4fb00_1025bcb0, TRUE, 0},  // P0324 call redirect (E8)
-    // --- M-0254 D2Client.dll sub_6fb70d30+0x356  [monsters/AI/combat] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- M-0254 D2Client.dll sub_6fb70d30+0x356  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb6e240
     //     now: call sub_Hook_sub_6fb70d30_102ecce0
     {D2DLL_D2CLIENT, 0x0C1086, (DWORD)sub_Hook_sub_6fb70d30_102ecce0, TRUE, 0},  // P0325 call redirect (E8)
@@ -1111,14 +1111,14 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call sub_Hook_sub_6fc8d0f0_102ed5b0 ; test eax, eax ; jne D2Game!sub_6fc8d0f0+0x528
     {D2DLL_D2GAME, 0x06D13E, 0xE8, FALSE, 1},  // P0327 opcode byte (E8 call) for hook
     {D2DLL_D2GAME, 0x06D13F, (DWORD)sub_Hook_sub_6fc8d0f0_102ed5b0, TRUE, 0},  // P0328 call insertion (E8)
-    {D2DLL_D2GAME, 0x06D143, 0x85, FALSE, 1},  // P0329 byte change
-    {D2DLL_D2GAME, 0x06D144, 0xC0, FALSE, 1},  // P0330 byte change
-    {D2DLL_D2GAME, 0x06D145, 0x0F, FALSE, 1},  // P0331 byte change
-    {D2DLL_D2GAME, 0x06D146, 0x85, FALSE, 1},  // P0332 byte change
-    {D2DLL_D2GAME, 0x06D147, 0xCD, FALSE, 1},  // P0333 byte change
-    {D2DLL_D2GAME, 0x06D148, 0x04, FALSE, 1},  // P0334 byte change
-    {D2DLL_D2GAME, 0x06D149, 0x00, FALSE, 1},  // P0335 byte change
-    {D2DLL_D2GAME, 0x06D14A, 0x00, FALSE, 1},  // P0336 byte change
+    {D2DLL_D2GAME, 0x06D143, 0x85, FALSE, 1},  // P0329 opcode byte change
+    {D2DLL_D2GAME, 0x06D144, 0xC0, FALSE, 1},  // P0330 operand byte change
+    {D2DLL_D2GAME, 0x06D145, 0x0F, FALSE, 1},  // P0331 opcode byte change
+    {D2DLL_D2GAME, 0x06D146, 0x85, FALSE, 1},  // P0332 operand byte change
+    {D2DLL_D2GAME, 0x06D147, 0xCD, FALSE, 1},  // P0333 operand byte change
+    {D2DLL_D2GAME, 0x06D148, 0x04, FALSE, 1},  // P0334 opcode byte change
+    {D2DLL_D2GAME, 0x06D149, 0x00, FALSE, 1},  // P0335 operand byte change
+    {D2DLL_D2GAME, 0x06D14A, 0x00, FALSE, 1},  // P0336 opcode byte change
     // --- M-0257 D2Game.dll DAT_6fd1a3f8+0xa0  [maps/map generation] (PLAYER/PlrModes.cpp)
     //     was: dd D2Game!sub_6fc960f0+0x180
     //     now: dd functions_D2NewFunctions_Ptr_D2Game_6fd1a498_102c11f0
@@ -1191,7 +1191,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0274 D2Client.dll UI_SkillDesc_6fae16c0+0xeef  [skills] (UI/SkillDesc.cpp)
     //     was: mov eax, 1
     //     now: mov eax, 0
-    {D2DLL_D2CLIENT, 0x0325AF, 0x00, FALSE, 1},  // P0355 byte change
+    {D2DLL_D2CLIENT, 0x0325AF, 0x00, FALSE, 1},  // P0355 operand byte change
     // --- M-0275 D2Game.dll ITEMS_ItemMode_6fcf43e0+0xe  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!ITEMS_ItemMode_6fcf1aa0
     //     now: call sub_Hook_ITEMS_ItemMode_6fcf43e0_102edec0
@@ -1304,7 +1304,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Ordinal_10065
     //     now: call sub_Hook_sub_6faf2c70_102eded0
     {D2DLL_D2CLIENT, 0x071EA8, (DWORD)sub_Hook_sub_6faf2c70_102eded0, TRUE, 0},  // P0383 call redirect (E8)
-    // --- M-0303 D2Client.dll sub_6fb39a20+0x414  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    // --- M-0303 D2Client.dll sub_6fb39a20+0x414  [UI/HUD/panels] (WARDEN/WardenClient.cpp)
     //     was: call D2Client!Ordinal_10065
     //     now: call sub_Hook_sub_6faf2c70_102eded0
     {D2DLL_D2CLIENT, 0x089E34, (DWORD)sub_Hook_sub_6faf2c70_102eded0, TRUE, 0},  // P0384 call redirect (E8)
@@ -1312,14 +1312,14 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Ordinal_10065
     //     now: call sub_Hook_sub_6faf2c70_102eded0
     {D2DLL_D2CLIENT, 0x0A7F7C, (DWORD)sub_Hook_sub_6faf2c70_102eded0, TRUE, 0},  // P0385 call redirect (E8)
-    // --- M-0305 D2Client.dll sub_6fb714f0+0x34  [monsters/AI/combat] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- M-0305 D2Client.dll sub_6fb714f0+0x34  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!Ordinal_10065
     //     now: call sub_Hook_sub_6faf2c70_102eded0
     {D2DLL_D2CLIENT, 0x0C1524, (DWORD)sub_Hook_sub_6faf2c70_102eded0, TRUE, 0},  // P0386 call redirect (E8)
     // --- M-0306 D2Win.dll D2Win_10065+0x12  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: cmp esi, 5
     //     now: cmp esi, 5
-    {D2DLL_D2WIN, 0x00F2E2, 0x05, FALSE, 1},  // P0387 byte change
+    {D2DLL_D2WIN, 0x00F2E2, 0x05, FALSE, 1},  // P0387 operand byte change
     // --- M-0307 D2Client.dll sub_6fb02f10+0x35  [monsters/AI/combat] (_unattributed/between_UNIT_Monster_and_UI_showitems.cpp)
     //     was: call D2Client!UNIT_CUnit_6fb59a20
     //     now: call sub_Hook_sub_6fb02f10_102ee420
@@ -1396,7 +1396,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: mov dword ptr [esi + 0xc0], D2Game!sub_6fce94e0+0x2f0
     //     now: mov dword ptr [esi + 0xc0], functions_D2NewFunctions_Hook_Quests_a2q6_6fce9f60_102cb690
     {D2DLL_D2GAME, 0x0C9FC9, (DWORD)functions_D2NewFunctions_Hook_Quests_a2q6_6fce9f60_102cb690, FALSE, 0},  // P0406 code-pointer operand (imm32 -> PD2 function)
-    // --- M-0326 D2Game.dll sub_6fce1510+0x1dd  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0326 D2Game.dll sub_6fce1510+0x1dd  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fcdcc60
     //     now: call sub_Hook_sub_6fce1510_102eeb30
     {D2DLL_D2GAME, 0x0C16ED, (DWORD)sub_Hook_sub_6fce1510_102eeb30, TRUE, 0},  // P0407 call redirect (E8)
@@ -1632,7 +1632,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fc74320
     //     now: call sub_Hook_GAME_Game_6fc4c830_102ecea0
     {D2DLL_D2GAME, 0x02DE9F, (DWORD)sub_Hook_GAME_Game_6fc4c830_102ecea0, TRUE, 0},  // P0465 call redirect (E8)
-    // --- M-0385 D2Game.dll D2Game_10004+0x12  [items/crafting/cube] (_unattributed/between_GAME_Task_and_PLAYER_PlrSave.cpp)
+    // --- M-0385 D2Game.dll D2Game_10004+0x12  [save files] (_unattributed/between_GAME_Task_and_PLAYER_PlrSave.cpp)
     //     was: call D2Game!sub_6fc74320
     //     now: call sub_Hook_GAME_Game_6fc4c830_102ecea0
     {D2DLL_D2GAME, 0x054412, (DWORD)sub_Hook_GAME_Game_6fc4c830_102ecea0, TRUE, 0},  // P0466 call redirect (E8)
@@ -1646,273 +1646,273 @@ DLLPatchStrc gptTemplatePatches[2187] =
     {D2DLL_D2GAME, 0x04B831, (DWORD)sub_Hook_GAME_Clients_6fc6b7f0_102f1030, TRUE, 0},  // P0468 call redirect (E8)
     // --- M-0388 D2Game.dll sub_6fc2eae0+0xb7  [monsters/AI/combat] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x00EB97, (DWORD)sub_6fd020a0, TRUE, 0},  // P0469 call redirect (E8)
     // --- M-0389 D2Game.dll sub_6fc2ee70+0x16  [monsters/AI/combat] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: jmp D2Game!sub_6fd020a0
-    //     now: jmp sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: jmp sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x00EE86, (DWORD)sub_6fd020a0, TRUE, 0},  // P0470 jmp target redirect (E9)
     // --- M-0390 D2Game.dll sub_6fc2f200+0x4c  [monsters/AI/combat] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: jmp D2Game!sub_6fd020a0
-    //     now: jmp sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: jmp sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x00F24C, (DWORD)sub_6fd020a0, TRUE, 0},  // P0471 jmp target redirect (E9)
     // --- M-0391 D2Game.dll sub_6fc2fb70+0x9f  [monsters/AI/combat] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x00FC0F, (DWORD)sub_6fd020a0, TRUE, 0},  // P0472 call redirect (E8)
     // --- M-0392 D2Game.dll sub_6fc31490+0x15e  [monsters/AI/combat] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0115EE, (DWORD)sub_6fd020a0, TRUE, 0},  // P0473 call redirect (E8)
     // --- M-0393 D2Game.dll sub_6fc33180+0x1f  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x01319F, (DWORD)sub_6fd020a0, TRUE, 0},  // P0474 call redirect (E8)
     // --- M-0394 D2Game.dll UNIT_SUnitInactive_6fc403d0+0xc3  [monsters/AI/combat] (UNIT/SUnitInactive.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x020493, (DWORD)sub_6fd020a0, TRUE, 0},  // P0475 call redirect (E8)
     // --- M-0395 D2Game.dll UNIT_SUnitInactive_6fc403d0+0xd2  [monsters/AI/combat] (UNIT/SUnitInactive.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0204A2, (DWORD)sub_6fd020a0, TRUE, 0},  // P0476 call redirect (E8)
     // --- M-0396 D2Game.dll UNIT_SUnitInactive_6fc40760+0x236  [monsters/AI/combat] (UNIT/SUnitInactive.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x020996, (DWORD)sub_6fd020a0, TRUE, 0},  // P0477 call redirect (E8)
     // --- M-0397 D2Game.dll Ai_AiGeneral_6fc409b0+0xdd  [monsters/AI/combat] (Ai/AiGeneral.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x020A8D, (DWORD)sub_6fd020a0, TRUE, 0},  // P0478 call redirect (E8)
     // --- M-0398 D2Game.dll GAME_Game_6fc4cd10+0x17  [monsters/AI/combat] (GAME/Game.cpp)
     //     was: jmp D2Game!sub_6fd020a0
-    //     now: jmp sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: jmp sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x02CD27, (DWORD)sub_6fd020a0, TRUE, 0},  // P0479 jmp target redirect (E9)
     // --- M-0399 D2Game.dll sub_6fc53290+0x25  [monsters/AI/combat] (UNIT/_unattributed/between_UNIT_SUnit_and_UNIT_SUnitEvent.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0332B5, (DWORD)sub_6fd020a0, TRUE, 0},  // P0480 call redirect (E8)
     // --- M-0400 D2Game.dll sub_6fc55b00+0x4e  [monsters/AI/combat] (UNIT/_unattributed/between_UNIT_SUnit_and_UNIT_SUnitEvent.cpp)
     //     was: jmp D2Game!sub_6fd020a0
-    //     now: jmp sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: jmp sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x035B4E, (DWORD)sub_6fd020a0, TRUE, 0},  // P0481 jmp target redirect (E9)
     // --- M-0401 D2Game.dll sub_6fc56470+0x129  [monsters/AI/combat] (UNIT/_unattributed/between_UNIT_SUnit_and_UNIT_SUnitEvent.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x036599, (DWORD)sub_6fd020a0, TRUE, 0},  // P0482 call redirect (E8)
     // --- M-0402 D2Game.dll sub_6fc579e0+0x5d  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x037A3D, (DWORD)sub_6fd020a0, TRUE, 0},  // P0483 call redirect (E8)
     // --- M-0403 D2Game.dll sub_6fc586f0+0x9e  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x03878E, (DWORD)sub_6fd020a0, TRUE, 0},  // P0484 call redirect (E8)
     // --- M-0404 D2Game.dll sub_6fc586f0+0xd3  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0387C3, (DWORD)sub_6fd020a0, TRUE, 0},  // P0485 call redirect (E8)
     // --- M-0405 D2Game.dll sub_6fc58860+0x25  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x038885, (DWORD)sub_6fd020a0, TRUE, 0},  // P0486 call redirect (E8)
     // --- M-0406 D2Game.dll sub_6fc5e3f0+0x10f  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x03E4FF, (DWORD)sub_6fd020a0, TRUE, 0},  // P0487 call redirect (E8)
     // --- M-0407 D2Game.dll sub_6fc5e510+0x5e  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: jmp D2Game!sub_6fd020a0
-    //     now: jmp sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: jmp sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x03E56E, (DWORD)sub_6fd020a0, TRUE, 0},  // P0488 jmp target redirect (E9)
     // --- M-0408 D2Game.dll sub_6fc63fa0+0x122  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0440C2, (DWORD)sub_6fd020a0, TRUE, 0},  // P0489 call redirect (E8)
     // --- M-0409 D2Game.dll sub_6fc68fc0+0x105  [monsters/AI/combat] (_unattributed/between_MONSTER_MonsterAI_and_GAME_Clients.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0490C5, (DWORD)sub_6fd020a0, TRUE, 0},  // P0490 call redirect (E8)
     // --- M-0410 D2Game.dll GAME_Clients_6fc6b7f0+0x2f6  [monsters/AI/combat] (GAME/Clients.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x04BAE6, (DWORD)sub_6fd020a0, TRUE, 0},  // P0491 call redirect (E8)
     // --- M-0411 D2Game.dll sub_6fc6bf20+0xea  [skills] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x04C00A, (DWORD)sub_6fd020a0, TRUE, 0},  // P0492 call redirect (E8)
     // --- M-0412 D2Game.dll sub_6fc6c050+0xc1  [skills] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x04C111, (DWORD)sub_6fd020a0, TRUE, 0},  // P0493 call redirect (E8)
     // --- M-0413 D2Game.dll sub_6fc718b0+0xec  [skills] (_unattributed/between_SKILLS_SkillNec_and_GAME_Task.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x05199C, (DWORD)sub_6fd020a0, TRUE, 0},  // P0494 call redirect (E8)
     // --- M-0414 D2Game.dll PLAYER_PlrSave_6fc74810+0xe7  [save files] (PLAYER/PlrSave.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0548F7, (DWORD)sub_6fd020a0, TRUE, 0},  // P0495 call redirect (E8)
     // --- M-0415 D2Game.dll PLAYER_PlrSave_6fc74810+0x15b  [save files] (PLAYER/PlrSave.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x05496B, (DWORD)sub_6fd020a0, TRUE, 0},  // P0496 call redirect (E8)
     // --- M-0416 D2Game.dll sub_6fc8cc00+0xd7  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x06CCD7, (DWORD)sub_6fd020a0, TRUE, 0},  // P0497 call redirect (E8)
     // --- M-0417 D2Game.dll sub_6fc8d0f0+0x441  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x06D531, (DWORD)sub_6fd020a0, TRUE, 0},  // P0498 call redirect (E8)
     // --- M-0418 D2Game.dll sub_6fc8d0f0+0x470  [monsters/AI/combat] (_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x06D560, (DWORD)sub_6fd020a0, TRUE, 0},  // P0499 call redirect (E8)
     // --- M-0419 D2Game.dll MISSILES_Missiles_6fc8fec0+0x25  [monsters/AI/combat] (MISSILES/Missiles.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x06FEE5, (DWORD)sub_6fd020a0, TRUE, 0},  // P0500 call redirect (E8)
     // --- M-0420 D2Game.dll PLAYER_PlrTrade_6fc91b00+0x193  [items/crafting/cube] (PLAYER/PlrTrade.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x071C93, (DWORD)sub_6fd020a0, TRUE, 0},  // P0501 call redirect (E8)
     // --- M-0421 D2Game.dll sub_6fc92220+0x96b  [items/crafting/cube] (PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x072B8B, (DWORD)sub_6fd020a0, TRUE, 0},  // P0502 call redirect (E8)
     // --- M-0422 D2Game.dll sub_6fc92220+0xbb8  [items/crafting/cube] (PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x072DD8, (DWORD)sub_6fd020a0, TRUE, 0},  // P0503 call redirect (E8)
     // --- M-0423 D2Game.dll sub_6fc99910+0xcf  [networking/packets] (_unattributed/between_PLAYER_PlrModes_and_UNIT_SUnitMsg.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0799DF, (DWORD)sub_6fd020a0, TRUE, 0},  // P0504 call redirect (E8)
     // --- M-0424 D2Game.dll UNIT_sunitproxy_6fcaf470+0x37  [networking/packets] (UNIT/sunitproxy.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x08F4A7, (DWORD)sub_6fd020a0, TRUE, 0},  // P0505 call redirect (E8)
     // --- M-0425 D2Game.dll UNIT_sunitproxy_6fcb0170+0xa3  [networking/packets] (UNIT/sunitproxy.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x090213, (DWORD)sub_6fd020a0, TRUE, 0},  // P0506 call redirect (E8)
     // --- M-0426 D2Game.dll UNIT_sunitproxy_6fcb0260+0x72  [networking/packets] (UNIT/sunitproxy.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0902D2, (DWORD)sub_6fd020a0, TRUE, 0},  // P0507 call redirect (E8)
     // --- M-0427 D2Game.dll PLAYER_PlayerPets_6fcb7420+0xb9  [monsters/AI/combat] (PLAYER/PlayerPets.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0974D9, (DWORD)sub_6fd020a0, TRUE, 0},  // P0508 call redirect (E8)
     // --- M-0428 D2Game.dll INVENTORY_InvMode_6fcbb3b0+0x160  [items/crafting/cube] (INVENTORY/InvMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x09B510, (DWORD)sub_6fd020a0, TRUE, 0},  // P0509 call redirect (E8)
     // --- M-0429 D2Game.dll SKILLS_Skills_6fcc22e0+0x14b  [skills] (SKILLS/Skills.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0A242B, (DWORD)sub_6fd020a0, TRUE, 0},  // P0510 call redirect (E8)
     // --- M-0430 D2Game.dll sub_6fcc2ee0+0x72  [skills] (_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0A2F52, (DWORD)sub_6fd020a0, TRUE, 0},  // P0511 call redirect (E8)
     // --- M-0431 D2Game.dll Ai_AiThink4_6fcc7410+0xb7  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0A74C7, (DWORD)sub_6fd020a0, TRUE, 0},  // P0512 call redirect (E8)
     // --- M-0432 D2Game.dll Ai_AiThink4_6fcc7a10+0xb0  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0A7AC0, (DWORD)sub_6fd020a0, TRUE, 0},  // P0513 call redirect (E8)
     // --- M-0433 D2Game.dll sub_6fccfce0+0xae  [monsters/AI/combat] (_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0AFD8E, (DWORD)sub_6fd020a0, TRUE, 0},  // P0514 call redirect (E8)
     // --- M-0434 D2Game.dll sub_6fcd0640+0x25  [monsters/AI/combat] (_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0B0665, (DWORD)sub_6fd020a0, TRUE, 0},  // P0515 call redirect (E8)
     // --- M-0435 D2Game.dll sub_6fcd5d9c+0x39  [skills] (_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0B5DD5, (DWORD)sub_6fd020a0, TRUE, 0},  // P0516 call redirect (E8)
-    // --- M-0436 D2Game.dll sub_6fcdd920+0x81  [monsters/AI/combat] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0436 D2Game.dll sub_6fcdd920+0x81  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0BD9A1, (DWORD)sub_6fd020a0, TRUE, 0},  // P0517 call redirect (E8)
-    // --- M-0437 D2Game.dll sub_6fcdee30+0x1e7  [monsters/AI/combat] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0437 D2Game.dll sub_6fcdee30+0x1e7  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0BF017, (DWORD)sub_6fd020a0, TRUE, 0},  // P0518 call redirect (E8)
-    // --- M-0438 D2Game.dll sub_6fcdee30+0x221  [monsters/AI/combat] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0438 D2Game.dll sub_6fcdee30+0x221  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0BF051, (DWORD)sub_6fd020a0, TRUE, 0},  // P0519 call redirect (E8)
-    // --- M-0439 D2Game.dll sub_6fce0b90+0x1bd  [monsters/AI/combat] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
+    // --- M-0439 D2Game.dll sub_6fce0b90+0x1bd  [quests] (Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0C0D4D, (DWORD)sub_6fd020a0, TRUE, 0},  // P0520 call redirect (E8)
     // --- M-0440 D2Game.dll Quests_a2q4_6fce8fd0+0xa1  [monsters/AI/combat] (Quests/a2q4.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0C9071, (DWORD)sub_6fd020a0, TRUE, 0},  // P0521 call redirect (E8)
     // --- M-0441 D2Game.dll ITEMS_ItemMode_6fcf2c70+0x66  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0D2CD6, (DWORD)sub_6fd020a0, TRUE, 0},  // P0522 call redirect (E8)
     // --- M-0442 D2Game.dll ITEMS_ItemMode_6fcf2cf0+0x8c  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0D2D7C, (DWORD)sub_6fd020a0, TRUE, 0},  // P0523 call redirect (E8)
     // --- M-0443 D2Game.dll ITEMS_ItemMode_6fcf2d90+0xfc  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0D2E8C, (DWORD)sub_6fd020a0, TRUE, 0},  // P0524 call redirect (E8)
     // --- M-0444 D2Game.dll ITEMS_ItemMode_6fcf3cb0+0x3fb  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0D40AB, (DWORD)sub_6fd020a0, TRUE, 0},  // P0525 call redirect (E8)
     // --- M-0445 D2Game.dll ITEMS_ItemMode_6fcf6c80+0x14e  [items/crafting/cube] (ITEMS/ItemMode.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0D6DCE, (DWORD)sub_6fd020a0, TRUE, 0},  // P0526 call redirect (E8)
     // --- M-0446 D2Game.dll sub_6fd01110+0x162  [monsters/AI/combat] (_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0E1272, (DWORD)sub_6fd020a0, TRUE, 0},  // P0527 call redirect (E8)
     // --- M-0447 D2Game.dll sub_6fd01110+0x188  [monsters/AI/combat] (_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0E1298, (DWORD)sub_6fd020a0, TRUE, 0},  // P0528 call redirect (E8)
     // --- M-0448 D2Game.dll sub_6fd012d0+0xa1  [monsters/AI/combat] (_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0E1371, (DWORD)sub_6fd020a0, TRUE, 0},  // P0529 call redirect (E8)
     // --- M-0449 D2Game.dll sub_6fd021f0+0x3b  [monsters/AI/combat] (_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0E222B, (DWORD)sub_6fd020a0, TRUE, 0},  // P0530 call redirect (E8)
     // --- M-0450 D2Game.dll sub_6fd0d710+0x160  [save files] (_unattributed/between_PLAYER_PlrSave2_and_Quests_a2q8.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0ED870, (DWORD)sub_6fd020a0, TRUE, 0},  // P0531 call redirect (E8)
     // --- M-0451 D2Game.dll sub_6fd0d960+0x176  [save files] (_unattributed/between_PLAYER_PlrSave2_and_Quests_a2q8.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0EDAD6, (DWORD)sub_6fd020a0, TRUE, 0},  // P0532 call redirect (E8)
     // --- M-0452 D2Game.dll sub_6fd0db50+0x1f7  [save files] (_unattributed/between_PLAYER_PlrSave2_and_Quests_a2q8.cpp)
     //     was: call D2Game!sub_6fd020a0
-    //     now: call sub_6fd020a0 (PD2 lazy thunk -> D2Game.dll +0xe20a0)
+    //     now: call sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = sub_6fd020a0)
     {D2DLL_D2GAME, 0x0EDD47, (DWORD)sub_6fd020a0, TRUE, 0},  // P0533 call redirect (E8)
     // --- M-0453 D2Client.dll sub_6fab24b0+0x2a  [misc] (_unattributed/before_UNIT_Player_6fab1000.cpp)
     //     was: add eax, 0x1df4
     //     now: add eax, 0x2a0a
-    {D2DLL_D2CLIENT, 0x0024DA, 0x0A, FALSE, 1},  // P0534 byte change
-    {D2DLL_D2CLIENT, 0x0024DB, 0x2A, FALSE, 1},  // P0535 byte change
+    {D2DLL_D2CLIENT, 0x0024DA, 0x0A, FALSE, 1},  // P0534 operand byte change
+    {D2DLL_D2CLIENT, 0x0024DB, 0x2A, FALSE, 1},  // P0535 operand byte change
     // --- M-0454 D2Client.dll UNIT_Player_6faca060+0x9ee  [misc] (UNIT/Player.cpp)
     //     was: mov byte ptr [esp + 0x14], 0xc
     //     now: mov byte ptr [esp + 0x14], 0x2e
-    {D2DLL_D2CLIENT, 0x01AA4E, 0x2E, FALSE, 1},  // P0536 byte change
+    {D2DLL_D2CLIENT, 0x01AA4E, 0x2E, FALSE, 1},  // P0536 operand byte change
     // --- M-0455 D2Game.dll sub_6fc58620+0x4e  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!Ordinal_10356
     //     now: call functions_D2CommonFunctions_Hook_sub_6fc58620_10266e90
@@ -2000,7 +2000,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0476 D2Client.dll sub_6fb2b470+0x1  [skills] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
     //     was: test edi, edi
     //     now: xor edi, edi
-    {D2DLL_D2CLIENT, 0x07B471, 0x33, FALSE, 1},  // P0558 byte change
+    {D2DLL_D2CLIENT, 0x07B471, 0x33, FALSE, 1},  // P0558 opcode byte change
     // --- M-0477 D2Common.dll D2Common_10454+0x6d  [maps/map generation] (Chat/Chat.cpp)
     //     was: call D2Common!_strncpy
     //     now: call functions_D2CommonFunctions_Hook_D2Common_10454_10267860
@@ -2021,7 +2021,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0481 D2Game.dll sub_6fc2f370+0x25e  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: jge D2Game!sub_6fc2f370+0x265
     //     now: jmp D2Game!sub_6fc2f370+0x265
-    {D2DLL_D2GAME, 0x00F5CE, 0xEB, FALSE, 1},  // P0564 byte change
+    {D2DLL_D2GAME, 0x00F5CE, 0xEB, FALSE, 1},  // P0564 opcode byte change
     // --- M-0482 D2Game.dll sub_6fc2ebb0+0x47  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: je D2Game!sub_6fc2ebb0+0xd2
     //     now: nop ; nop ; nop ; nop ; nop ; nop
@@ -2082,86 +2082,86 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_D2Common_10973_102edd40
     {D2DLL_D2COMMON, 0x03947E, (DWORD)sub_Hook_D2Common_10973_102edd40, TRUE, 0},  // P0579 call redirect (E8)
-    // --- M-0497 D2Common.dll sub_6fdbabe0+0x40  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0497 D2Common.dll sub_6fdbabe0+0x40  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AC20, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0580 call redirect (E8)
-    // --- M-0498 D2Common.dll sub_6fdbabe0+0x8b  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0498 D2Common.dll sub_6fdbabe0+0x8b  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AC6B, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0581 call redirect (E8)
-    // --- M-0499 D2Common.dll sub_6fdbabe0+0xd6  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0499 D2Common.dll sub_6fdbabe0+0xd6  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06ACB6, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0582 call redirect (E8)
-    // --- M-0500 D2Common.dll sub_6fdbabe0+0x121  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0500 D2Common.dll sub_6fdbabe0+0x121  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AD01, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0583 call redirect (E8)
-    // --- M-0501 D2Common.dll sub_6fdbabe0+0x16c  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0501 D2Common.dll sub_6fdbabe0+0x16c  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AD4C, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0584 call redirect (E8)
-    // --- M-0502 D2Common.dll sub_6fdbabe0+0x1b7  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0502 D2Common.dll sub_6fdbabe0+0x1b7  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AD97, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0585 call redirect (E8)
-    // --- M-0503 D2Common.dll sub_6fdbabe0+0x202  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0503 D2Common.dll sub_6fdbabe0+0x202  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06ADE2, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0586 call redirect (E8)
-    // --- M-0504 D2Common.dll sub_6fdbabe0+0x24d  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0504 D2Common.dll sub_6fdbabe0+0x24d  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AE2D, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0587 call redirect (E8)
-    // --- M-0505 D2Common.dll sub_6fdbabe0+0x298  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0505 D2Common.dll sub_6fdbabe0+0x298  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AE78, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0588 call redirect (E8)
-    // --- M-0506 D2Common.dll sub_6fdbabe0+0x2dd  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0506 D2Common.dll sub_6fdbabe0+0x2dd  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AEBD, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0589 call redirect (E8)
-    // --- M-0507 D2Common.dll sub_6fdbabe0+0x322  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0507 D2Common.dll sub_6fdbabe0+0x322  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AF02, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0590 call redirect (E8)
-    // --- M-0508 D2Common.dll sub_6fdbabe0+0x35c  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0508 D2Common.dll sub_6fdbabe0+0x35c  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AF3C, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0591 call redirect (E8)
-    // --- M-0509 D2Common.dll sub_6fdbabe0+0x398  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0509 D2Common.dll sub_6fdbabe0+0x398  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AF78, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0592 call redirect (E8)
-    // --- M-0510 D2Common.dll sub_6fdbabe0+0x3e0  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0510 D2Common.dll sub_6fdbabe0+0x3e0  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06AFC0, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0593 call redirect (E8)
-    // --- M-0511 D2Common.dll sub_6fdbabe0+0x420  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0511 D2Common.dll sub_6fdbabe0+0x420  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06B000, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0594 call redirect (E8)
-    // --- M-0512 D2Common.dll sub_6fdbabe0+0x465  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0512 D2Common.dll sub_6fdbabe0+0x465  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06B045, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0595 call redirect (E8)
-    // --- M-0513 D2Common.dll sub_6fdbabe0+0x4ad  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0513 D2Common.dll sub_6fdbabe0+0x4ad  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06B08D, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0596 call redirect (E8)
-    // --- M-0514 D2Common.dll sub_6fdbabe0+0x4f5  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0514 D2Common.dll sub_6fdbabe0+0x4f5  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06B0D5, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0597 call redirect (E8)
-    // --- M-0515 D2Common.dll sub_6fdbabe0+0x543  [items/crafting/cube] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
+    // --- M-0515 D2Common.dll sub_6fdbabe0+0x543  [maps/map generation] (_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp)
     //     was: call D2Common!Stats_StatsEx_6fd88a80
     //     now: call sub_Hook_sub_6fdbabe0_102edd50
     {D2DLL_D2COMMON, 0x06B123, (DWORD)sub_Hook_sub_6fdbabe0_102edd50, TRUE, 0},  // P0598 call redirect (E8)
     // --- M-0516 D2Common.dll D2Common_10887+0xf  [items/crafting/cube] (Stats/StatsEx.cpp)
     //     was: mov ecx, dword ptr [esi + 0x5c]
     //     now: mov ecx, esi ; nop
-    {D2DLL_D2COMMON, 0x03A74F, 0xCE, FALSE, 1},  // P0599 byte change
+    {D2DLL_D2COMMON, 0x03A74F, 0xCE, FALSE, 1},  // P0599 operand byte change
     {D2DLL_D2COMMON, 0x03A750, 0x90, FALSE, 1},  // P0600 NOP fill
     // --- M-0517 D2Common.dll D2Common_10887+0x1b  [items/crafting/cube] (Stats/StatsEx.cpp)
     //     was: call D2Common!D2Common_10261
@@ -2179,20 +2179,20 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0520 D2Game.dll sub_6fc95e10+0x35  [items/crafting/cube] (PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp)
     //     was: je D2Game!sub_6fc95e10+0x56
     //     now: jmp D2Game!sub_6fc95e10+0x56
-    {D2DLL_D2GAME, 0x075E45, 0xEB, FALSE, 1},  // P0605 byte change
-    // --- M-0521 D2Game.dll PLAYER_PlrTrade_6fc90fb0+0x3e  [items/crafting/cube] (PLAYER/PlrTrade.cpp)
+    {D2DLL_D2GAME, 0x075E45, 0xEB, FALSE, 1},  // P0605 opcode byte change
+    // --- M-0521 D2Game.dll PLAYER_PlrTrade_6fc90fb0+0x3e  [save files] (PLAYER/PlrTrade.cpp)
     //     was: mov edx, 0x2000
     //     now: mov edx, 0x20000
     {D2DLL_D2GAME, 0x070FEE, 0x00020000, FALSE, 0},  // P0606 constant change (imm32/disp32)
-    // --- M-0522 D2Game.dll PLAYER_PlrTrade_6fc90fb0+0x50  [items/crafting/cube] (PLAYER/PlrTrade.cpp)
+    // --- M-0522 D2Game.dll PLAYER_PlrTrade_6fc90fb0+0x50  [save files] (PLAYER/PlrTrade.cpp)
     //     was: push 0x2000
     //     now: push 0x20000
     {D2DLL_D2GAME, 0x071000, 0x00020000, FALSE, 0},  // P0607 constant change (imm32/disp32)
-    // --- M-0523 D2Game.dll PLAYER_PlrTrade_6fc915e0+0x9e  [items/crafting/cube] (PLAYER/PlrTrade.cpp)
+    // --- M-0523 D2Game.dll PLAYER_PlrTrade_6fc915e0+0x9e  [save files] (PLAYER/PlrTrade.cpp)
     //     was: push 0x2000
     //     now: push 0x20000
     {D2DLL_D2GAME, 0x07167E, 0x00020000, FALSE, 0},  // P0608 constant change (imm32/disp32)
-    // --- M-0524 D2Game.dll GAME_CCmd_6fceaf30+0x1ae  [networking/packets] (GAME/CCmd.cpp)
+    // --- M-0524 D2Game.dll GAME_CCmd_6fceaf30+0x1ae  [save files] (GAME/CCmd.cpp)
     //     was: cmp dword ptr [ebp + 2], 0x2000
     //     now: cmp dword ptr [ebp + 2], 0x20000
     {D2DLL_D2GAME, 0x0CB0DE, 0x00020000, FALSE, 0},  // P0609 constant change (imm32/disp32)
@@ -2392,107 +2392,107 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: add esp, 0x2004
     //     now: add esp, 0x20004
     {D2DLL_D2GAME, 0x053F00, 0x00020004, FALSE, 0},  // P0658 constant change (imm32/disp32)
-    // --- M-0574 D2Game.dll sub_6fc2f780+0x1  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0574 D2Game.dll sub_6fc2f780+0x1  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, 0x200c
     //     now: mov eax, 0x2000c
     {D2DLL_D2GAME, 0x00F781, 0x0002000C, FALSE, 0},  // P0659 constant change (imm32/disp32)
-    // --- M-0575 D2Game.dll sub_6fc2f780+0x75  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0575 D2Game.dll sub_6fc2f780+0x75  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2034]
     //     now: mov eax, dword ptr [esp + 0x20034]
     {D2DLL_D2GAME, 0x00F7F5, 0x00020034, FALSE, 0},  // P0660 constant change (imm32/disp32)
-    // --- M-0576 D2Game.dll sub_6fc2f780+0x8a  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0576 D2Game.dll sub_6fc2f780+0x8a  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2030]
     //     now: mov eax, dword ptr [esp + 0x20030]
     {D2DLL_D2GAME, 0x00F80A, 0x00020030, FALSE, 0},  // P0661 constant change (imm32/disp32)
-    // --- M-0577 D2Game.dll sub_6fc2f780+0x91  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0577 D2Game.dll sub_6fc2f780+0x91  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2024]
     //     now: mov ecx, dword ptr [esp + 0x20024]
     {D2DLL_D2GAME, 0x00F811, 0x00020024, FALSE, 0},  // P0662 constant change (imm32/disp32)
-    // --- M-0578 D2Game.dll sub_6fc2f780+0x98  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0578 D2Game.dll sub_6fc2f780+0x98  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ebx, dword ptr [esp + 0x202c]
     //     now: mov ebx, dword ptr [esp + 0x2002c]
     {D2DLL_D2GAME, 0x00F818, 0x0002002C, FALSE, 0},  // P0663 constant change (imm32/disp32)
-    // --- M-0579 D2Game.dll sub_6fc2f780+0xa0  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0579 D2Game.dll sub_6fc2f780+0xa0  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x202c]
     //     now: mov eax, dword ptr [esp + 0x2002c]
     {D2DLL_D2GAME, 0x00F820, 0x0002002C, FALSE, 0},  // P0664 constant change (imm32/disp32)
-    // --- M-0580 D2Game.dll sub_6fc2f780+0xb1  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0580 D2Game.dll sub_6fc2f780+0xb1  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov edx, dword ptr [esp + 0x2020]
     //     now: mov edx, dword ptr [esp + 0x20020]
     {D2DLL_D2GAME, 0x00F831, 0x00020020, FALSE, 0},  // P0665 constant change (imm32/disp32)
-    // --- M-0581 D2Game.dll sub_6fc2f780+0x10d  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0581 D2Game.dll sub_6fc2f780+0x10d  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2024]
     //     now: mov ecx, dword ptr [esp + 0x20024]
     {D2DLL_D2GAME, 0x00F88D, 0x00020024, FALSE, 0},  // P0666 constant change (imm32/disp32)
-    // --- M-0582 D2Game.dll sub_6fc2f780+0x15a  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0582 D2Game.dll sub_6fc2f780+0x15a  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x200c
     //     now: add esp, 0x2000c
     {D2DLL_D2GAME, 0x00F8DA, 0x0002000C, FALSE, 0},  // P0667 constant change (imm32/disp32)
-    // --- M-0583 D2Game.dll sub_6fc2f780+0x169  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0583 D2Game.dll sub_6fc2f780+0x169  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x200c
     //     now: add esp, 0x2000c
     {D2DLL_D2GAME, 0x00F8E9, 0x0002000C, FALSE, 0},  // P0668 constant change (imm32/disp32)
-    // --- M-0584 D2Game.dll sub_6fc2f8f0+0x1  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0584 D2Game.dll sub_6fc2f8f0+0x1  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, 0x2008
     //     now: mov eax, 0x20008
     {D2DLL_D2GAME, 0x00F8F1, 0x00020008, FALSE, 0},  // P0669 constant change (imm32/disp32)
-    // --- M-0585 D2Game.dll sub_6fc2f8f0+0x63  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0585 D2Game.dll sub_6fc2f8f0+0x63  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2028]
     //     now: mov eax, dword ptr [esp + 0x20028]
     {D2DLL_D2GAME, 0x00F953, 0x00020028, FALSE, 0},  // P0670 constant change (imm32/disp32)
-    // --- M-0586 D2Game.dll sub_6fc2f8f0+0x6a  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0586 D2Game.dll sub_6fc2f8f0+0x6a  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2020]
     //     now: mov ecx, dword ptr [esp + 0x20020]
     {D2DLL_D2GAME, 0x00F95A, 0x00020020, FALSE, 0},  // P0671 constant change (imm32/disp32)
-    // --- M-0587 D2Game.dll sub_6fc2f8f0+0x72  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0587 D2Game.dll sub_6fc2f8f0+0x72  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2028]
     //     now: mov eax, dword ptr [esp + 0x20028]
     {D2DLL_D2GAME, 0x00F962, 0x00020028, FALSE, 0},  // P0672 constant change (imm32/disp32)
-    // --- M-0588 D2Game.dll sub_6fc2f8f0+0x83  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0588 D2Game.dll sub_6fc2f8f0+0x83  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov edx, dword ptr [esp + 0x201c]
     //     now: mov edx, dword ptr [esp + 0x2001c]
     {D2DLL_D2GAME, 0x00F973, 0x0002001C, FALSE, 0},  // P0673 constant change (imm32/disp32)
-    // --- M-0589 D2Game.dll sub_6fc2f8f0+0xdc  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0589 D2Game.dll sub_6fc2f8f0+0xdc  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2020]
     //     now: mov ecx, dword ptr [esp + 0x20020]
     {D2DLL_D2GAME, 0x00F9CC, 0x00020020, FALSE, 0},  // P0674 constant change (imm32/disp32)
-    // --- M-0590 D2Game.dll sub_6fc2f8f0+0x12b  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0590 D2Game.dll sub_6fc2f8f0+0x12b  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x2008
     //     now: add esp, 0x20008
     {D2DLL_D2GAME, 0x00FA1B, 0x00020008, FALSE, 0},  // P0675 constant change (imm32/disp32)
-    // --- M-0591 D2Game.dll sub_6fc2f8f0+0x139  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0591 D2Game.dll sub_6fc2f8f0+0x139  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x2008
     //     now: add esp, 0x20008
     {D2DLL_D2GAME, 0x00FA29, 0x00020008, FALSE, 0},  // P0676 constant change (imm32/disp32)
-    // --- M-0592 D2Game.dll sub_6fc2fa30+0x1  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0592 D2Game.dll sub_6fc2fa30+0x1  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, 0x2008
     //     now: mov eax, 0x20008
     {D2DLL_D2GAME, 0x00FA31, 0x00020008, FALSE, 0},  // P0677 constant change (imm32/disp32)
-    // --- M-0593 D2Game.dll sub_6fc2fa30+0x63  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0593 D2Game.dll sub_6fc2fa30+0x63  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2028]
     //     now: mov eax, dword ptr [esp + 0x20028]
     {D2DLL_D2GAME, 0x00FA93, 0x00020028, FALSE, 0},  // P0678 constant change (imm32/disp32)
-    // --- M-0594 D2Game.dll sub_6fc2fa30+0x6a  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0594 D2Game.dll sub_6fc2fa30+0x6a  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2020]
     //     now: mov ecx, dword ptr [esp + 0x20020]
     {D2DLL_D2GAME, 0x00FA9A, 0x00020020, FALSE, 0},  // P0679 constant change (imm32/disp32)
-    // --- M-0595 D2Game.dll sub_6fc2fa30+0x72  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0595 D2Game.dll sub_6fc2fa30+0x72  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov eax, dword ptr [esp + 0x2028]
     //     now: mov eax, dword ptr [esp + 0x20028]
     {D2DLL_D2GAME, 0x00FAA2, 0x00020028, FALSE, 0},  // P0680 constant change (imm32/disp32)
-    // --- M-0596 D2Game.dll sub_6fc2fa30+0x83  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0596 D2Game.dll sub_6fc2fa30+0x83  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov edx, dword ptr [esp + 0x201c]
     //     now: mov edx, dword ptr [esp + 0x2001c]
     {D2DLL_D2GAME, 0x00FAB3, 0x0002001C, FALSE, 0},  // P0681 constant change (imm32/disp32)
-    // --- M-0597 D2Game.dll sub_6fc2fa30+0xdc  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0597 D2Game.dll sub_6fc2fa30+0xdc  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: mov ecx, dword ptr [esp + 0x2020]
     //     now: mov ecx, dword ptr [esp + 0x20020]
     {D2DLL_D2GAME, 0x00FB0C, 0x00020020, FALSE, 0},  // P0682 constant change (imm32/disp32)
-    // --- M-0598 D2Game.dll sub_6fc2fa30+0x12b  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0598 D2Game.dll sub_6fc2fa30+0x12b  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x2008
     //     now: add esp, 0x20008
     {D2DLL_D2GAME, 0x00FB5B, 0x00020008, FALSE, 0},  // P0683 constant change (imm32/disp32)
-    // --- M-0599 D2Game.dll sub_6fc2fa30+0x139  [misc] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
+    // --- M-0599 D2Game.dll sub_6fc2fa30+0x139  [save files] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: add esp, 0x2008
     //     now: add esp, 0x20008
     {D2DLL_D2GAME, 0x00FB69, 0x00020008, FALSE, 0},  // P0684 constant change (imm32/disp32)
@@ -2673,9 +2673,9 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call functions_SaveFunctions_Hook_GAME_Clients_6fc6b7f0_102ea900
     {D2DLL_D2GAME, 0x04BC17, (DWORD)functions_SaveFunctions_Hook_GAME_Clients_6fc6b7f0_102ea900, TRUE, 0},  // P0728 call redirect (E8)
     // --- M-0644 D2Client.dll sub_6fac4d30+0x3e  [misc] (_unattributed/before_UNIT_Player_6fabd3f0.cpp)
-    //     was: cli
-    //     now: sbb dword ptr [eax], eax
-    {D2DLL_D2CLIENT, 0x014D6E, 0x19, FALSE, 1},  // P0729 byte change
+    //     was: push 0xfa
+    //     now: push 0x19
+    {D2DLL_D2CLIENT, 0x014D6E, 0x19, FALSE, 1},  // P0729 operand byte change
     // --- M-0645 D2Client.dll sub_6faf52be+0x28  [UI/HUD/panels] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
     //     was: mov cx, word ptr [esi + 0x1eb] ; shl eax, 0xa ; add eax, 0x500 ; and ecx, 0xe0ff ; or eax, ecx ; mov word ptr [esi + 0x1eb], ax
     //     now: call sub_Hook_sub_6faf4b50_1025dee0 ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -2699,8 +2699,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102efa90
     {D2DLL_D2GAME, 0x0DC478, (DWORD)sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102efa90, TRUE, 0},  // P0736 call redirect (E8)
     // --- M-0650 D2Game.dll sub_6fc44250+0x9b  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
-    //     was: xor byte ptr [eax - 0x3c], al ; outsd dx, dword ptr [esi]
-    //     now: mov al, 0xe ; sub al, 0x10
+    //     was: push D2Game!sub_6fc44030
+    //     now: push functions_D2NewFunctions_Hook_sub_6fc441b0_102c0eb0
     {D2DLL_D2GAME, 0x0242EB, (DWORD)functions_D2NewFunctions_Hook_sub_6fc441b0_102c0eb0, FALSE, 0},  // P0737 code-pointer operand (imm32 -> PD2 function)
     // --- M-0651 D2Game.dll sub_6fc44cd0+0x17e  [skills] (_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp)
     //     was: call D2Game!SKILLS_Skills_6fcbf9a0 ; mov eax, dword ptr [edi + D2Game!DAT_6fd2e4a0+0x10] ; push -1 ; push eax ; mov ecx, esi ; xor edx, edx ; call D2…
@@ -2730,7 +2730,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0657 D2Common.dll D2Common_10893+0x10d  [items/crafting/cube] (ITEMS/Items.cpp)
     //     was: cmp eax, 3
     //     now: cmp eax, 4
-    {D2DLL_D2COMMON, 0x0252CD, 0x04, FALSE, 1},  // P0745 byte change
+    {D2DLL_D2COMMON, 0x0252CD, 0x04, FALSE, 1},  // P0745 operand byte change
     // --- M-0658 D2Common.dll sub_6fd757f4+0x10  [items/crafting/cube] (ITEMS/Items.cpp)
     //     was: int3 ; int3 ; int3 ; int3
     //     now: 
@@ -2738,22 +2738,22 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0659 D2Game.dll sub_6fc35240+0x7f  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: cmp eax, 0x3a ; mov eax, dword ptr [edi] ; jne D2Game!sub_6fc35240+0xa5 ; mov ecx, 0x6ac690c5 ; mul ecx ; mov ecx, dword ptr [edi + 4] ; add eax, ecx…
     //     now: push esi ; call functions_ItemFunctions_Hook_sub_6fc35240_102d57c0 ; nop ; nop ; nop ; nop ; nop ; nop
-    {D2DLL_D2GAME, 0x0152BF, 0x56, FALSE, 1},  // P0747 byte change
+    {D2DLL_D2GAME, 0x0152BF, 0x56, FALSE, 1},  // P0747 opcode byte change
     {D2DLL_D2GAME, 0x0152C0, 0xE8, FALSE, 1},  // P0748 opcode byte (E8 call) for hook
     {D2DLL_D2GAME, 0x0152C1, (DWORD)functions_ItemFunctions_Hook_sub_6fc35240_102d57c0, TRUE, 0},  // P0749 call insertion (E8)
     {D2DLL_D2GAME, 0x0152C5, 0x90, FALSE, 61},  // P0750 NOP fill
     // --- M-0660 D2Game.dll sub_6fc35240+0xc3  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: mov dword ptr [esp + 0x24], edx
     //     now: mov dword ptr [esp + 0x24], eax
-    {D2DLL_D2GAME, 0x015303, 0x44, FALSE, 1},  // P0751 byte change
+    {D2DLL_D2GAME, 0x015303, 0x44, FALSE, 1},  // P0751 operand byte change
     // --- M-0661 D2Game.dll sub_6fc34bf0+0x246  [items/crafting/cube] (_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp)
     //     was: cmp word ptr [esp + 0x14], di ; je D2Game!sub_6fc34bf0+0x2f6 ; mov eax, dword ptr [eax + 0x5c] ; cmp eax, dword ptr [ebx + 0x5c]
     //     now: call sub_Hook_sub_6fc34bf0_102ed210 ; nop ; nop ; nop ; nop ; nop ; nop ; nop
     {D2DLL_D2GAME, 0x014E36, 0xE8, FALSE, 1},  // P0752 opcode byte (E8 call) for hook
     {D2DLL_D2GAME, 0x014E37, (DWORD)sub_Hook_sub_6fc34bf0_102ed210, TRUE, 0},  // P0753 call insertion (E8)
     {D2DLL_D2GAME, 0x014E3B, 0x90, FALSE, 10},  // P0754 NOP fill
-    {D2DLL_D2GAME, 0x014E45, 0x85, FALSE, 1},  // P0755 byte change
-    {D2DLL_D2GAME, 0x014E46, 0xC0, FALSE, 1},  // P0756 byte change
+    {D2DLL_D2GAME, 0x014E45, 0x85, FALSE, 1},  // P0755 operand byte change
+    {D2DLL_D2GAME, 0x014E46, 0xC0, FALSE, 1},  // P0756 operand byte change
     // --- M-0662 D2Game.dll sub_6fc303c0+0x4d  [items/crafting/cube] (_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp)
     //     was: call D2Game!sub_6fc344d0
     //     now: call functions_ItemFunctions_Hook_sub_6fc303c0_102d7170
@@ -2765,7 +2765,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0664 D2Game.dll sub_6fcb34a0+0x59  [misc] (_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp)
     //     was: test eax, eax
     //     now: xor eax, eax
-    {D2DLL_D2GAME, 0x0934F9, 0x33, FALSE, 1},  // P0759 byte change
+    {D2DLL_D2GAME, 0x0934F9, 0x33, FALSE, 1},  // P0759 opcode byte change
     // --- M-0665 D2Game.dll sub_6fcb2bb0+0xaa  [monsters/AI/combat] (_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp)
     //     was: mov edi, dword ptr [eax + 0x148] ; lea ecx, [edx - 1] ; imul ecx, dword ptr [eax + 0x14c] ; add ecx, edi
     //     now: call sub_Hook_sub_6fcb2bb0_102ed1c0 ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -2775,7 +2775,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0666 D2Game.dll sub_6fcb2bb0+0x69  [misc] (_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp)
     //     was: or byte ptr [esp + 0x10], 0xc
     //     now: or byte ptr [esp + 0x10], 4
-    {D2DLL_D2GAME, 0x092C19, 0x04, FALSE, 1},  // P0763 byte change
+    {D2DLL_D2GAME, 0x092C19, 0x04, FALSE, 1},  // P0763 operand byte change
     // --- M-0667 D2Game.dll sub_6fcb2bb0+0xd3  [items/crafting/cube] (_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp)
     //     was: call D2Game!sub_6fcb2360
     //     now: call sub_Hook_sub_6fcb2bb0_102eda70
@@ -2844,18 +2844,18 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!Ordinal_10887
     //     now: call functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_10268600
     {D2DLL_D2GAME, 0x0DB5B8, (DWORD)functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_10268600, TRUE, 0},  // P0780 call redirect (E8)
-    // --- M-0684 D2Game.dll sub_6fc6e79f+0x10e  [items/crafting/cube] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
+    // --- M-0684 D2Game.dll sub_6fc6e79f+0x10e  [skills] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
     //     was: call D2Game!Ordinal_10887
     //     now: call functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_10268600
     {D2DLL_D2GAME, 0x04E8AD, (DWORD)functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_10268600, TRUE, 0},  // P0781 call redirect (E8)
     // --- M-0685 D2Game.dll ITEMS_Items_6fc32ee0+0x36  [items/crafting/cube] (ITEMS/Items.cpp)
     //     was: mov ebx, 4
     //     now: mov ebx, 2
-    {D2DLL_D2GAME, 0x012F16, 0x02, FALSE, 1},  // P0782 byte change
+    {D2DLL_D2GAME, 0x012F16, 0x02, FALSE, 1},  // P0782 operand byte change
     // --- M-0686 D2Game.dll ITEMS_Items_6fc32ee0+0x56  [items/crafting/cube] (ITEMS/Items.cpp)
     //     was: mov ebx, 0xa
     //     now: mov ebx, 5
-    {D2DLL_D2GAME, 0x012F36, 0x05, FALSE, 1},  // P0783 byte change
+    {D2DLL_D2GAME, 0x012F36, 0x05, FALSE, 1},  // P0783 operand byte change
     // --- M-0687 D2Client.dll UI_SkillDesc_6fae0340+0x53  [skills] (UI/SkillDesc.cpp)
     //     was: mov edx, dword ptr [esp + 0x2c] ; mov esi, eax ; mov eax, ebp ; call D2Client!sub_6fab2cd0 ; add esi, eax
     //     now: call sub_Hook_UI_SkillDesc_6fae0340_102ed1e0 ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -2873,11 +2873,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0690 D2Common.dll D2Common_10801+0x53  [items/crafting/cube] (INVENTORY/Inventory.cpp)
     //     was: jg D2Common!D2Common_10801+0x9a
     //     now: jge D2Common!D2Common_10801+0x9a
-    {D2DLL_D2COMMON, 0x01EFE3, 0x7D, FALSE, 1},  // P0789 byte change
+    {D2DLL_D2COMMON, 0x01EFE3, 0x7D, FALSE, 1},  // P0789 opcode byte change
     // --- M-0691 D2Common.dll D2Common_10801+0x65  [items/crafting/cube] (INVENTORY/Inventory.cpp)
     //     was: jg D2Common!D2Common_10801+0x9a
     //     now: jge D2Common!D2Common_10801+0x9a
-    {D2DLL_D2COMMON, 0x01EFF5, 0x7D, FALSE, 1},  // P0790 byte change
+    {D2DLL_D2COMMON, 0x01EFF5, 0x7D, FALSE, 1},  // P0790 opcode byte change
     // --- M-0692 D2Game.dll UNIT_sunitproxy_6fcafbe0+0x235  [networking/packets] (UNIT/sunitproxy.cpp)
     //     was: call D2Game!UNIT_sunitproxy_6fcaf4e0
     //     now: call sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70
@@ -2946,14 +2946,14 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!UNIT_sunitproxy_6fcaf4e0
     //     now: call sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70
     {D2DLL_D2GAME, 0x08FFB7, (DWORD)sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70, TRUE, 0},  // P0807 call redirect (E8)
-    // --- M-0709 D2Game.dll sub_6fcdc050+0x63  [items/crafting/cube] (Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp)
+    // --- M-0709 D2Game.dll sub_6fcdc050+0x63  [quests] (Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp)
     //     was: call D2Game!sub_6fc54130
     //     now: call functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40
     {D2DLL_D2GAME, 0x0BC0B3, (DWORD)functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40, TRUE, 0},  // P0808 call redirect (E8)
     // --- M-0710 D2Client.dll DAT_6fb925f4+0x4  [skills] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
-    {D2DLL_D2CLIENT, 0x0E25F8, 0x24, FALSE, 1},  // P0809 byte change
+    {D2DLL_D2CLIENT, 0x0E25F8, 0x24, FALSE, 1},  // P0809 opcode byte change
     // --- M-0711 D2Client.dll DAT_6fb925f4+0x4c  [skills] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
-    {D2DLL_D2CLIENT, 0x0E2640, 0x6B, FALSE, 1},  // P0810 byte change
+    {D2DLL_D2CLIENT, 0x0E2640, 0x6B, FALSE, 1},  // P0810 opcode byte change
     // --- M-0712 D2Client.dll sub_6faf4f4d+0x22  [UI/HUD/panels] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
     //     was: call dword ptr [D2Client!LAB_6fb7d9a5+0x161f]
     //     now: call functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0 ; nop
@@ -2978,11 +2978,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!Ordinal_10413
     //     now: call functions_D2CommonFunctions_Hook_MISSILES_Missiles_6fc8f620_1026b090
     {D2DLL_D2GAME, 0x06F63E, (DWORD)functions_D2CommonFunctions_Hook_MISSILES_Missiles_6fc8f620_1026b090, TRUE, 0},  // P0819 call redirect (E8)
-    // --- M-0717 D2Client.dll sub_6fadc2d0+0x78  [items/crafting/cube] (_unattributed/between_SKILLS_SkillsPal_and_UI_SkillDesc.cpp)
+    // --- M-0717 D2Client.dll sub_6fadc2d0+0x78  [skills] (_unattributed/between_SKILLS_SkillsPal_and_UI_SkillDesc.cpp)
     //     was: call D2Client!Ordinal_10804
     //     now: call sub_Hook_sub_6fadc2d0_102728b0
     {D2DLL_D2CLIENT, 0x02C348, (DWORD)sub_Hook_sub_6fadc2d0_102728b0, TRUE, 0},  // P0820 call redirect (E8)
-    // --- M-0718 D2Client.dll sub_6fadc4f0+0x7e  [items/crafting/cube] (_unattributed/between_SKILLS_SkillsPal_and_UI_SkillDesc.cpp)
+    // --- M-0718 D2Client.dll sub_6fadc4f0+0x7e  [skills] (_unattributed/between_SKILLS_SkillsPal_and_UI_SkillDesc.cpp)
     //     was: call D2Client!Ordinal_10804
     //     now: call sub_Hook_sub_6fadc2d0_102728b0
     {D2DLL_D2CLIENT, 0x02C56E, (DWORD)sub_Hook_sub_6fadc2d0_102728b0, TRUE, 0},  // P0821 call redirect (E8)
@@ -3008,90 +3008,90 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Sound_SoundHdr_6fb0d7a0
     //     now: call client_Sound_Sound_Hook_WARDEN_WardenClient_6fb38dd0_10233840
     {D2DLL_D2CLIENT, 0x0892CE, (DWORD)client_Sound_Sound_Hook_WARDEN_WardenClient_6fb38dd0_10233840, TRUE, 0},  // P0828 call redirect (E8)
-    // --- M-0724 D2Client.dll sub_6fb2d850+0x1cb  [anti-cheat/integrity] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
+    // --- M-0724 D2Client.dll sub_6fb2d850+0x1cb  [sound] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
     //     was: call D2Client!WARDEN_WardenClient_6fb37d80
     //     now: call client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0
     {D2DLL_D2CLIENT, 0x07DA1B, (DWORD)client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0, TRUE, 0},  // P0829 call redirect (E8)
-    // --- M-0725 D2Client.dll WARDEN_WardenClient_6fb38a70+0x74  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    // --- M-0725 D2Client.dll WARDEN_WardenClient_6fb38a70+0x74  [sound] (WARDEN/WardenClient.cpp)
     //     was: call D2Client!WARDEN_WardenClient_6fb37d80
     //     now: call client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0
     {D2DLL_D2CLIENT, 0x088AE4, (DWORD)client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0, TRUE, 0},  // P0830 call redirect (E8)
     // --- M-0726 D2Client.dll sub_6fad25d0+0x55  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x022625, 0x92, FALSE, 1},  // P0831 byte change
+    {D2DLL_D2CLIENT, 0x022625, 0x92, FALSE, 1},  // P0831 operand byte change
     // --- M-0727 D2Client.dll sub_6fad25d0+0x72  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x022642, 0x92, FALSE, 1},  // P0832 byte change
+    {D2DLL_D2CLIENT, 0x022642, 0x92, FALSE, 1},  // P0832 operand byte change
     // --- M-0728 D2Client.dll sub_6fad2da0+0xa1  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul ecx, ecx, 0x8e
     //     now: imul ecx, ecx, 0x92
-    {D2DLL_D2CLIENT, 0x022E41, 0x92, FALSE, 1},  // P0833 byte change
+    {D2DLL_D2CLIENT, 0x022E41, 0x92, FALSE, 1},  // P0833 operand byte change
     // --- M-0729 D2Client.dll sub_6fad2eb0+0xa1  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul ecx, ecx, 0x8e
     //     now: imul ecx, ecx, 0x92
-    {D2DLL_D2CLIENT, 0x022F51, 0x92, FALSE, 1},  // P0834 byte change
+    {D2DLL_D2CLIENT, 0x022F51, 0x92, FALSE, 1},  // P0834 operand byte change
     // --- M-0730 D2Client.dll sub_6fad3070+0x77  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul ecx, ecx, 0x8e
     //     now: imul ecx, ecx, 0x92
-    {D2DLL_D2CLIENT, 0x0230E7, 0x92, FALSE, 1},  // P0835 byte change
+    {D2DLL_D2CLIENT, 0x0230E7, 0x92, FALSE, 1},  // P0835 operand byte change
     // --- M-0731 D2Client.dll sub_6fad3a30+0x87  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x023AB7, 0x92, FALSE, 1},  // P0836 byte change
+    {D2DLL_D2CLIENT, 0x023AB7, 0x92, FALSE, 1},  // P0836 operand byte change
     // --- M-0732 D2Client.dll sub_6fad3a30+0x13d  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x023B6D, 0x92, FALSE, 1},  // P0837 byte change
+    {D2DLL_D2CLIENT, 0x023B6D, 0x92, FALSE, 1},  // P0837 operand byte change
     // --- M-0733 D2Client.dll Sound_SoundHdr_6fb0de90+0x23  [sound] (Sound/SoundHdr.cpp)
     //     was: imul ecx, ecx, 0x8e
     //     now: imul ecx, ecx, 0x92
-    {D2DLL_D2CLIENT, 0x05DEB3, 0x92, FALSE, 1},  // P0838 byte change
+    {D2DLL_D2CLIENT, 0x05DEB3, 0x92, FALSE, 1},  // P0838 operand byte change
     // --- M-0734 D2Client.dll Sound_SoundHdr_6fb0de90+0x4f  [sound] (Sound/SoundHdr.cpp)
     //     was: imul edi, edi, 0x8e
     //     now: imul edi, edi, 0x92
-    {D2DLL_D2CLIENT, 0x05DEDF, 0x92, FALSE, 1},  // P0839 byte change
-    // --- M-0735 D2Client.dll WARDEN_WardenClient_6fb37fe0+0x1c  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x05DEDF, 0x92, FALSE, 1},  // P0839 operand byte change
+    // --- M-0735 D2Client.dll WARDEN_WardenClient_6fb37fe0+0x1c  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x087FFC, 0x92, FALSE, 1},  // P0840 byte change
-    // --- M-0736 D2Client.dll WARDEN_WardenClient_6fb37fe0+0x5b  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x087FFC, 0x92, FALSE, 1},  // P0840 operand byte change
+    // --- M-0736 D2Client.dll WARDEN_WardenClient_6fb37fe0+0x5b  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul ecx, ecx, 0x8e
     //     now: imul ecx, ecx, 0x92
-    {D2DLL_D2CLIENT, 0x08803B, 0x92, FALSE, 1},  // P0841 byte change
-    // --- M-0737 D2Client.dll WARDEN_WardenClient_6fb38230+0x5e  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x08803B, 0x92, FALSE, 1},  // P0841 operand byte change
+    // --- M-0737 D2Client.dll WARDEN_WardenClient_6fb38230+0x5e  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x08828E, 0x92, FALSE, 1},  // P0842 byte change
-    // --- M-0738 D2Client.dll WARDEN_WardenClient_6fb38440+0x18  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x08828E, 0x92, FALSE, 1},  // P0842 operand byte change
+    // --- M-0738 D2Client.dll WARDEN_WardenClient_6fb38440+0x18  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x088458, 0x92, FALSE, 1},  // P0843 byte change
-    // --- M-0739 D2Client.dll WARDEN_WardenClient_6fb38550+0x1b  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x088458, 0x92, FALSE, 1},  // P0843 operand byte change
+    // --- M-0739 D2Client.dll WARDEN_WardenClient_6fb38550+0x1b  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x08856B, 0x92, FALSE, 1},  // P0844 byte change
-    // --- M-0740 D2Client.dll WARDEN_WardenClient_6fb386f0+0x45  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x08856B, 0x92, FALSE, 1},  // P0844 operand byte change
+    // --- M-0740 D2Client.dll WARDEN_WardenClient_6fb386f0+0x45  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x088735, 0x92, FALSE, 1},  // P0845 byte change
-    // --- M-0741 D2Client.dll WARDEN_WardenClient_6fb38a70+0x34  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x088735, 0x92, FALSE, 1},  // P0845 operand byte change
+    // --- M-0741 D2Client.dll WARDEN_WardenClient_6fb38a70+0x34  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul edi, edi, 0x8e
     //     now: imul edi, edi, 0x92
-    {D2DLL_D2CLIENT, 0x088AA4, 0x92, FALSE, 1},  // P0846 byte change
-    // --- M-0742 D2Client.dll WARDEN_WardenClient_6fb38c20+0x5f  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    {D2DLL_D2CLIENT, 0x088AA4, 0x92, FALSE, 1},  // P0846 operand byte change
+    // --- M-0742 D2Client.dll WARDEN_WardenClient_6fb38c20+0x5f  [sound] (WARDEN/WardenClient.cpp)
     //     was: imul eax, eax, 0x8e
     //     now: imul eax, eax, 0x92
-    {D2DLL_D2CLIENT, 0x088C7F, 0x92, FALSE, 1},  // P0847 byte change
+    {D2DLL_D2CLIENT, 0x088C7F, 0x92, FALSE, 1},  // P0847 operand byte change
     // --- M-0743 D2Client.dll Sound_SoundHdr_6fb0de90+0x86  [sound] (Sound/SoundHdr.cpp)
     //     was: add edi, 0x8e
     //     now: add edi, 0x92
-    {D2DLL_D2CLIENT, 0x05DF16, 0x92, FALSE, 1},  // P0848 byte change
+    {D2DLL_D2CLIENT, 0x05DF16, 0x92, FALSE, 1},  // P0848 operand byte change
     // --- M-0744 D2Client.dll sub_6fb2d850+0x19c  [skills] (UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp)
     //     was: lea edi, [eax + 0x354]
     //     now: lea edi, [eax + 0x36c]
-    {D2DLL_D2CLIENT, 0x07D9EC, 0x6C, FALSE, 1},  // P0849 byte change
+    {D2DLL_D2CLIENT, 0x07D9EC, 0x6C, FALSE, 1},  // P0849 operand byte change
     // --- M-0745 D2Client.dll sub_6faf5078+0x26  [sound] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
     //     was: call D2Client!Sound_SoundHdr_6fb0ee70+0x120
     //     now: call client_Sound_Sound_Hook_sub_6faf4b50_10232180
@@ -3132,7 +3132,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!WARDEN_WardenClient_6fb38550+0x50
     //     now: call client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0
     {D2DLL_D2CLIENT, 0x0453BB, (DWORD)client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0, TRUE, 0},  // P0859 call redirect (E8)
-    // --- M-0755 D2Client.dll sub_6fb39a20+0x81  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    // --- M-0755 D2Client.dll sub_6fb39a20+0x81  [sound] (WARDEN/WardenClient.cpp)
     //     was: call D2Client!WARDEN_WardenClient_6fb38550+0x50
     //     now: call client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0
     {D2DLL_D2CLIENT, 0x089AA1, (DWORD)client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0, TRUE, 0},  // P0860 call redirect (E8)
@@ -3148,7 +3148,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Sound_SoundHdr_6fb0de90+0xc0
     //     now: call client_Sound_Sound_Hook_sub_6faf4b50_10233790
     {D2DLL_D2CLIENT, 0x0453CA, (DWORD)client_Sound_Sound_Hook_sub_6faf4b50_10233790, TRUE, 0},  // P0863 call redirect (E8)
-    // --- M-0759 D2Client.dll sub_6fb39a20+0x86  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    // --- M-0759 D2Client.dll sub_6fb39a20+0x86  [sound] (WARDEN/WardenClient.cpp)
     //     was: call D2Client!sub_6faf4b50+0x9d0
     //     now: call client_Sound_Sound_Hook_WARDEN_WardenClient_6fb39830_102323b0
     {D2DLL_D2CLIENT, 0x089AA6, (DWORD)client_Sound_Sound_Hook_WARDEN_WardenClient_6fb39830_102323b0, TRUE, 0},  // P0864 call redirect (E8)
@@ -3212,7 +3212,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!sub_6faf5570
     //     now: call sub_Hook_sub_6fad3200_102f0a30
     {D2DLL_D2CLIENT, 0x05349F, (DWORD)sub_Hook_sub_6fad3200_102f0a30, TRUE, 0},  // P0879 call redirect (E8)
-    // --- M-0775 D2Client.dll sub_6fb4cd07+0xa8  [sound] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
+    // --- M-0775 D2Client.dll sub_6fb4cd07+0xa8  [UI/HUD/panels] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
     //     was: call D2Client!Sound_SoundHdr_6fb0ee70
     //     now: call client_Sound_Sound_Hook_sub_6fb4cd07_10232a90
     {D2DLL_D2CLIENT, 0x09CDAF, (DWORD)client_Sound_Sound_Hook_sub_6fb4cd07_10232a90, TRUE, 0},  // P0880 call redirect (E8)
@@ -3565,8 +3565,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call sub_Hook_sub_6fac4f40_102f0a70
     {D2DLL_D2CLIENT, 0x04E6B9, (DWORD)sub_Hook_sub_6fac4f40_102f0a70, TRUE, 0},  // P0967 call redirect (E8)
     // --- M-0863 D2Client.dll sub_6fb006f6+0x3  [sound] (UNIT/Monster.cpp)
-    //     was: call D2Client!WARDEN_WardenClient_6fb38a70
-    //     now: call sub_Hook_sub_6fac4f40_102f0a70
+    //     was: mov esp, 0x8373e86f ; add eax, dword ptr [eax]
+    //     now: mov esp, 0x373e86f ; jg D2Client!UNIT_Monster_6fb00430+0x26d
     {D2DLL_D2CLIENT, 0x0506F9, (DWORD)sub_Hook_sub_6fac4f40_102f0a70, TRUE, 0},  // P0968 call redirect (E8)
     // --- M-0864 D2Client.dll UNIT_Monster_6fb00750+0x5c  [sound] (UNIT/Monster.cpp)
     //     was: call D2Client!WARDEN_WardenClient_6fb38a70
@@ -3740,7 +3740,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!WARDEN_WardenClient_6fb38a70
     //     now: call sub_Hook_sub_6fac4f40_102f0a70
     {D2DLL_D2CLIENT, 0x084705, (DWORD)sub_Hook_sub_6fac4f40_102f0a70, TRUE, 0},  // P1011 call redirect (E8)
-    // --- M-0907 D2Client.dll WARDEN_WardenClient_6fb3ad30+0x44  [anti-cheat/integrity] (WARDEN/WardenClient.cpp)
+    // --- M-0907 D2Client.dll WARDEN_WardenClient_6fb3ad30+0x44  [sound] (WARDEN/WardenClient.cpp)
     //     was: call D2Client!WARDEN_WardenClient_6fb38a70
     //     now: call sub_Hook_sub_6fac4f40_102f0a70
     {D2DLL_D2CLIENT, 0x08AD74, (DWORD)sub_Hook_sub_6fac4f40_102f0a70, TRUE, 0},  // P1012 call redirect (E8)
@@ -4051,7 +4051,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-0984 D2Client.dll UNIT_Monster_6fb01650+0x19f  [monsters/AI/combat] (UNIT/Monster.cpp)
     //     was: mov dword ptr [esp + 0x7c], 0xa
     //     now: mov dword ptr [esp + 0x7c], 7
-    {D2DLL_D2CLIENT, 0x0517EF, 0x07, FALSE, 1},  // P1089 byte change
+    {D2DLL_D2CLIENT, 0x0517EF, 0x07, FALSE, 1},  // P1089 operand byte change
     // --- M-0985 D2Client.dll sub_6fb01ae0+0x1da  [monsters/AI/combat] (_unattributed/between_UNIT_Monster_and_UI_showitems.cpp)
     //     was: call D2Client!UNIT_Monster_6fb01650
     //     now: call sub_Hook_sub_6fb01ae0_102ee9a0
@@ -4152,7 +4152,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fcbd160
     //     now: call sub_Hook_sub_6fcbd3b0_102f0f40
     {D2DLL_D2GAME, 0x09D495, (DWORD)sub_Hook_sub_6fcbd3b0_102f0f40, TRUE, 0},  // P1114 call redirect (E8)
-    // --- M-1010 D2Game.dll sub_6fc9a5e0+0x108  [items/crafting/cube] (_unattributed/between_UNIT_SUnitMsg_and_GAME_SCmd.cpp)
+    // --- M-1010 D2Game.dll sub_6fc9a5e0+0x108  [networking/packets] (_unattributed/between_UNIT_SUnitMsg_and_GAME_SCmd.cpp)
     //     was: call D2Game!Ordinal_10871
     //     now: call functions_D2CommonFunctions_Hook_sub_6fc9a5e0_10268270
     {D2DLL_D2GAME, 0x07A6E8, (DWORD)functions_D2CommonFunctions_Hook_sub_6fc9a5e0_10268270, TRUE, 0},  // P1115 call redirect (E8)
@@ -4163,8 +4163,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-1012 D2Client.dll UI_automap_6fb11490+0x2cd  [UI/HUD/panels] (UI/automap.cpp)
     //     was: mov cl, byte ptr [D2Client!DAT_6fbcc211]
     //     now: mov cl, 0x62 ; nop ; nop ; nop ; nop
-    {D2DLL_D2CLIENT, 0x06175D, 0xB1, FALSE, 1},  // P1117 byte change
-    {D2DLL_D2CLIENT, 0x06175E, 0x62, FALSE, 1},  // P1118 byte change
+    {D2DLL_D2CLIENT, 0x06175D, 0xB1, FALSE, 1},  // P1117 opcode byte change
+    {D2DLL_D2CLIENT, 0x06175E, 0x62, FALSE, 1},  // P1118 operand byte change
     {D2DLL_D2CLIENT, 0x06175F, 0x90, FALSE, 4},  // P1119 NOP fill
     // --- M-1013 D2Client.dll sub_6fb6dca0+0x255  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call dword ptr [D2Client!LAB_6fb7d9a5+0x175f]
@@ -4188,11 +4188,11 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!Ordinal_10331
     //     now: call sub_Hook_sub_6fb6f0d0_10256f90
     {D2DLL_D2CLIENT, 0x0BF0E2, (DWORD)sub_Hook_sub_6fb6f0d0_10256f90, TRUE, 0},  // P1126 call redirect (E8)
-    // --- M-1018 D2Client.dll sub_6fb739e0+0x1db  [monsters/AI/combat] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- M-1018 D2Client.dll sub_6fb739e0+0x1db  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!UNIT_Monster_6fb00e70
-    //     now: call UNIT_Monster_6fb00e70 (PD2 lazy thunk -> D2Client.dll +0x50e70)
+    //     now: call UNIT_Monster_6fb00e70 (PD2 wrapper that ends in the lazy thunk of D2Client.dll +0x50e70 = UNIT_Monster_6fb00e70)
     {D2DLL_D2CLIENT, 0x0C3BBB, (DWORD)UNIT_Monster_6fb00e70, TRUE, 0},  // P1127 call redirect (E8)
-    // --- M-1019 D2Client.dll sub_6fb49440+0x128f  [stash/shared stash] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
+    // --- M-1019 D2Client.dll sub_6fb49440+0x128f  [UI/HUD/panels] (_unattributed/between_UI_inv_and_SKILLS_Skills.cpp)
     //     was: call D2Client!UI_inv_6fb3cfb0
     //     now: call sub_Hook_sub_6fb49440_102582c0
     {D2DLL_D2CLIENT, 0x09A6CF, (DWORD)sub_Hook_sub_6fb49440_102582c0, TRUE, 0},  // P1128 call redirect (E8)
@@ -4204,7 +4204,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!sub_6fb6fec0
     //     now: call sub_Hook_UI_showitems_6fb08fb0_102f0c90
     {D2DLL_D2CLIENT, 0x0591E1, (DWORD)sub_Hook_UI_showitems_6fb08fb0_102f0c90, TRUE, 0},  // P1130 call redirect (E8)
-    // --- M-1022 D2Client.dll sub_6fb70d30+0x17b  [monsters/AI/combat] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- M-1022 D2Client.dll sub_6fb70d30+0x17b  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb6fec0
     //     now: call sub_Hook_UI_showitems_6fb08fb0_102f0c90
     {D2DLL_D2CLIENT, 0x0C0EAB, (DWORD)sub_Hook_UI_showitems_6fb08fb0_102f0c90, TRUE, 0},  // P1131 call redirect (E8)
@@ -4227,8 +4227,8 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-1027 D2Lang.dll D2Lang_10009+0x22  [misc] (_unattributed/code.cpp)
     //     was: movzx ecx, byte ptr [eax]
     //     now: xor ecx, ecx ; nop
-    {D2DLL_D2LANG, 0x0092B2, 0x31, FALSE, 1},  // P1136 byte change
-    {D2DLL_D2LANG, 0x0092B3, 0xC9, FALSE, 1},  // P1137 byte change
+    {D2DLL_D2LANG, 0x0092B2, 0x31, FALSE, 1},  // P1136 opcode byte change
+    {D2DLL_D2LANG, 0x0092B3, 0xC9, FALSE, 1},  // P1137 operand byte change
     {D2DLL_D2LANG, 0x0092B4, 0x90, FALSE, 1},  // P1138 NOP fill
     // --- M-1028 D2Client.dll sub_6fb12580+0xce  [UI/HUD/panels] (_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp)
     //     was: call D2Client!sub_6fb11d00
@@ -4385,23 +4385,23 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-1066 D2Game.dll sub_6fccb5e3+0x2ff  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: je D2Game!Ai_AiThink4_6fccb360+0x5ab
     //     now: jmp D2Game!Ai_AiThink4_6fccb360+0x5ab
-    {D2DLL_D2GAME, 0x0AB8E2, 0xEB, FALSE, 1},  // P1177 byte change
+    {D2DLL_D2GAME, 0x0AB8E2, 0xEB, FALSE, 1},  // P1177 opcode byte change
     // --- M-1067 D2Game.dll sub_6fccb98a+0x13  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: je D2Game!Ai_AiThink4_6fccb360+0x67b
     //     now: jmp D2Game!Ai_AiThink4_6fccb360+0x67b
-    {D2DLL_D2GAME, 0x0AB99D, 0xEB, FALSE, 1},  // P1178 byte change
+    {D2DLL_D2GAME, 0x0AB99D, 0xEB, FALSE, 1},  // P1178 opcode byte change
     // --- M-1068 D2Game.dll sub_6fccc0ed+0x24a  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: je D2Game!Ai_AiThink4_6fccb360+0xffb
     //     now: jmp D2Game!Ai_AiThink4_6fccb360+0xffb
-    {D2DLL_D2GAME, 0x0AC337, 0xEB, FALSE, 1},  // P1179 byte change
+    {D2DLL_D2GAME, 0x0AC337, 0xEB, FALSE, 1},  // P1179 opcode byte change
     // --- M-1069 D2Game.dll sub_6fccba14+0x134  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: jle D2Game!Ai_AiThink4_6fccb360+0x853
     //     now: jmp D2Game!Ai_AiThink4_6fccb360+0x853
-    {D2DLL_D2GAME, 0x0ABB48, 0xEB, FALSE, 1},  // P1180 byte change
+    {D2DLL_D2GAME, 0x0ABB48, 0xEB, FALSE, 1},  // P1180 opcode byte change
     // --- M-1070 D2Game.dll sub_6fccb5e3+0x282  [monsters/AI/combat] (Ai/AiThink4.cpp)
     //     was: jne D2Game!Ai_AiThink4_6fccb360+0x526
     //     now: jmp D2Game!Ai_AiThink4_6fccb360+0x526
-    {D2DLL_D2GAME, 0x0AB865, 0xEB, FALSE, 1},  // P1181 byte change
+    {D2DLL_D2GAME, 0x0AB865, 0xEB, FALSE, 1},  // P1181 opcode byte change
     // --- M-1071 D2Game.dll SKILLS_Skills_6fcc10b0+0x41  [items/crafting/cube] (SKILLS/Skills.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfb030
     //     now: call sub_Hook_SKILLS_Skills_6fcc10b0_102edae0
@@ -4418,7 +4418,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!UNIT_SUnitDmg_6fcfb030
     //     now: call sub_Hook_SKILLS_Skills_6fcc10b0_102edae0
     {D2DLL_D2GAME, 0x0DB846, (DWORD)sub_Hook_SKILLS_Skills_6fcc10b0_102edae0, TRUE, 0},  // P1185 call redirect (E8)
-    // --- M-1075 D2Game.dll sub_6fc5ae10+0xf5  [items/crafting/cube] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
+    // --- M-1075 D2Game.dll sub_6fc5ae10+0xf5  [skills] (_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfb790
     //     now: call sub_Hook_sub_6fc5ae10_102eede0
     {D2DLL_D2GAME, 0x03AF05, (DWORD)sub_Hook_sub_6fc5ae10_102eede0, TRUE, 0},  // P1186 call redirect (E8)
@@ -4445,7 +4445,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-1081 D2Game.dll UNIT_SUnitDmg_6fcfb030+0x90  [monsters/AI/combat] (UNIT/SUnitDmg.cpp)
     //     was: test ebx, ebx
     //     now: xor ebx, ebx
-    {D2DLL_D2GAME, 0x0DB0C0, 0x33, FALSE, 1},  // P1192 byte change
+    {D2DLL_D2GAME, 0x0DB0C0, 0x33, FALSE, 1},  // P1192 opcode byte change
     // --- M-1082 D2Game.dll sub_6fcb8680+0x59  [skills] (_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp)
     //     was: call D2Game!Ordinal_10501
     //     now: call functions_D2CommonFunctions_Hook_sub_6fcb8680_10267c80
@@ -4455,15 +4455,15 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     now: call sub_Hook_D2Common_10459_102ed840 ; ret 4
     {D2DLL_D2COMMON, 0x02D2C9, 0xE8, FALSE, 1},  // P1194 opcode byte (E8 call) for hook
     {D2DLL_D2COMMON, 0x02D2CA, (DWORD)sub_Hook_D2Common_10459_102ed840, TRUE, 0},  // P1195 call insertion (E8)
-    {D2DLL_D2COMMON, 0x02D2CE, 0xC2, FALSE, 1},  // P1196 byte change
-    {D2DLL_D2COMMON, 0x02D2CF, 0x04, FALSE, 1},  // P1197 byte change
-    {D2DLL_D2COMMON, 0x02D2D0, 0x00, FALSE, 1},  // P1198 byte change
+    {D2DLL_D2COMMON, 0x02D2CE, 0xC2, FALSE, 1},  // P1196 operand byte change
+    {D2DLL_D2COMMON, 0x02D2CF, 0x04, FALSE, 1},  // P1197 operand byte change
+    {D2DLL_D2COMMON, 0x02D2D0, 0x00, FALSE, 1},  // P1198 opcode byte change
     // --- M-1084 D2Game.dll sub_6fc4e8b0+0x21  [misc] (_unattributed/between_OBJECTS_Objects_and_UNIT_SUnit.cpp)
     //     was: cmp eax, 0x23d ; jge D2Game!sub_6fc4e8b0+0x2c
     //     now: call sub_Hook_sub_6fc4e8b0_102edb30 ; jne D2Game!sub_6fc4e8b0+0x2c
     {D2DLL_D2GAME, 0x02E8D1, 0xE8, FALSE, 1},  // P1199 opcode byte (E8 call) for hook
     {D2DLL_D2GAME, 0x02E8D2, (DWORD)sub_Hook_sub_6fc4e8b0_102edb30, TRUE, 0},  // P1200 call insertion (E8)
-    {D2DLL_D2GAME, 0x02E8D6, 0x75, FALSE, 1},  // P1201 byte change
+    {D2DLL_D2GAME, 0x02E8D6, 0x75, FALSE, 1},  // P1201 opcode byte change
     // --- M-1085 D2Game.dll UNIT_SUnitInactive_6fc400e0+0xf3  [monsters/AI/combat] (UNIT/SUnitInactive.cpp)
     //     was: call D2Game!sub_6fd012d0
     //     now: call sub_Hook_UNIT_SUnitInactive_6fc400e0_102eed50
@@ -4472,7 +4472,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!sub_6fd012d0
     //     now: call sub_Hook_UNIT_SUnitInactive_6fc400e0_102eed50
     {D2DLL_D2GAME, 0x0E13DB, (DWORD)sub_Hook_UNIT_SUnitInactive_6fc400e0_102eed50, TRUE, 0},  // P1203 call redirect (E8)
-    // --- M-1087 D2Game.dll sub_6fc6dba9+0x9e  [items/crafting/cube] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
+    // --- M-1087 D2Game.dll sub_6fc6dba9+0x9e  [skills] (_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp)
     //     was: call D2Game!UNIT_SUnitDmg_6fcfed30
     //     now: call sub_Hook_sub_6fc6d710_10270150
     {D2DLL_D2GAME, 0x04DC47, (DWORD)sub_Hook_sub_6fc6d710_10270150, TRUE, 0},  // P1204 call redirect (E8)
@@ -4483,37 +4483,37 @@ DLLPatchStrc gptTemplatePatches[2187] =
     // --- M-1089 D2Game.dll UNIT_SUnit_6fc4f300+0xaf  [misc] (UNIT/SUnit.cpp)
     //     was: jb D2Game!UNIT_SUnit_6fc4f300+0xb8
     //     now: jmp D2Game!UNIT_SUnit_6fc4f300+0xb8
-    {D2DLL_D2GAME, 0x02F3AF, 0xEB, FALSE, 1},  // P1206 byte change
-    {D2DLL_D2GAME, 0x02F3B0, 0x07, FALSE, 1},  // P1207 byte change
+    {D2DLL_D2GAME, 0x02F3AF, 0xEB, FALSE, 1},  // P1206 opcode byte change
+    {D2DLL_D2GAME, 0x02F3B0, 0x07, FALSE, 1},  // P1207 operand byte change
     // --- M-1090 D2Common.dll DRLG_Preset_6fd5c060+0x53c  [maps/map generation] (DRLG/Preset.cpp)
     //     was: cmp eax, 0x23d ; jge D2Common!DRLG_Preset_6fd5c060+0x5db
     //     now: call sub_Hook_sub_6fc4e8b0_102edb30 ; jne D2Common!DRLG_Preset_6fd5c060+0x5db
     {D2DLL_D2COMMON, 0x00C59C, 0xE8, FALSE, 1},  // P1208 opcode byte (E8 call) for hook
     {D2DLL_D2COMMON, 0x00C59D, (DWORD)sub_Hook_sub_6fc4e8b0_102edb30, TRUE, 0},  // P1209 call insertion (E8)
-    {D2DLL_D2COMMON, 0x00C5A1, 0x0F, FALSE, 1},  // P1210 byte change
-    {D2DLL_D2COMMON, 0x00C5A2, 0x85, FALSE, 1},  // P1211 byte change
+    {D2DLL_D2COMMON, 0x00C5A1, 0x0F, FALSE, 1},  // P1210 opcode byte change
+    {D2DLL_D2COMMON, 0x00C5A2, 0x85, FALSE, 1},  // P1211 operand byte change
     // --- M-1091 D2Common.dll sub_6fd69fa0+0x4a  [maps/map generation] (_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp)
     //     was: cmp eax, 0x23d ; jge D2Common!sub_6fd69fa0+0x69
     //     now: call sub_Hook_sub_6fc4e8b0_102edb30 ; jne D2Common!sub_6fd69fa0+0x69
     {D2DLL_D2COMMON, 0x019FEA, 0xE8, FALSE, 1},  // P1212 opcode byte (E8 call) for hook
     {D2DLL_D2COMMON, 0x019FEB, (DWORD)sub_Hook_sub_6fc4e8b0_102edb30, TRUE, 0},  // P1213 call insertion (E8)
-    {D2DLL_D2COMMON, 0x019FEF, 0x75, FALSE, 1},  // P1214 byte change
+    {D2DLL_D2COMMON, 0x019FEF, 0x75, FALSE, 1},  // P1214 opcode byte change
     // --- M-1092 D2Client.dll sub_6fad24f0+0xa  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: jae D2Client!sub_6fad24f0+0x56
     //     now: jae D2Client!sub_6fad24f0+0x4f
-    {D2DLL_D2CLIENT, 0x0224FA, 0x73, FALSE, 1},  // P1215 byte change
-    {D2DLL_D2CLIENT, 0x0224FB, 0x43, FALSE, 1},  // P1216 byte change
+    {D2DLL_D2CLIENT, 0x0224FA, 0x73, FALSE, 1},  // P1215 opcode byte change
+    {D2DLL_D2CLIENT, 0x0224FB, 0x43, FALSE, 1},  // P1216 operand byte change
     // --- M-1093 D2Client.dll sub_6fad2570+0xa  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: jae D2Client!sub_6fad2570+0x34
     //     now: jae D2Client!sub_6fad2570+0x29
-    {D2DLL_D2CLIENT, 0x02257A, 0x73, FALSE, 1},  // P1217 byte change
-    {D2DLL_D2CLIENT, 0x02257B, 0x1D, FALSE, 1},  // P1218 byte change
+    {D2DLL_D2CLIENT, 0x02257A, 0x73, FALSE, 1},  // P1217 opcode byte change
+    {D2DLL_D2CLIENT, 0x02257B, 0x1D, FALSE, 1},  // P1218 operand byte change
     // --- M-1094 D2Client.dll sub_6fad2b20+0x95  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: cmp eax, 0x23d ; jb D2Client!sub_6fad2b20+0xbb
     //     now: nop ; nop ; nop ; nop ; nop ; jmp D2Client!sub_6fad2b20+0xdf
     {D2DLL_D2CLIENT, 0x022BB5, 0x90, FALSE, 5},  // P1219 NOP fill
-    {D2DLL_D2CLIENT, 0x022BBA, 0xEB, FALSE, 1},  // P1220 byte change
-    {D2DLL_D2CLIENT, 0x022BBB, 0x43, FALSE, 1},  // P1221 byte change
+    {D2DLL_D2CLIENT, 0x022BBA, 0xEB, FALSE, 1},  // P1220 opcode byte change
+    {D2DLL_D2CLIENT, 0x022BBB, 0x43, FALSE, 1},  // P1221 operand byte change
     // --- M-1095 D2Client.dll sub_6fad47a0+0x5e  [sound] (_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp)
     //     was: cmp eax, 0x3b ; je D2Client!sub_6fad47a0+0x6f ; cmp eax, 0x3c ; je D2Client!sub_6fad47a0+0x6f ; push 0x560 ; jmp D2Client!sub_6fad47a0+0x7b
     //     now: nop ; nop ; nop ; nop ; nop ; nop ; nop ; nop
@@ -4575,20 +4575,20 @@ DLLPatchStrc gptPlugYConflictPatches[] =
     // --- C-0012 D2Net.dll D2Net_10006+0xf0  [networking/packets] (_unattributed/after_SRC_Server.cpp)
     //     was: add edx, 7
     //     now: add edx, 8
-    {D2DLL_D2NET, 0x0066C0, 0x08, FALSE, 1},  // P1235 byte change
+    {D2DLL_D2NET, 0x0066C0, 0x08, FALSE, 1},  // P1235 operand byte change
     // --- C-0013 D2Net.dll D2Net_10033+0x1c7  [networking/packets] (_unattributed/after_SRC_Server.cpp)
     //     was: add ecx, 7
     //     now: add ecx, 8
-    {D2DLL_D2NET, 0x006917, 0x08, FALSE, 1},  // P1236 byte change
-    // --- C-0014 D2Client.dll sub_6faf4230+0x14c  [monsters/AI/combat] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
+    {D2DLL_D2NET, 0x006917, 0x08, FALSE, 1},  // P1236 operand byte change
+    // --- C-0014 D2Client.dll sub_6faf4230+0x14c  [UI/HUD/panels] (UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp)
     //     was: call D2Client!sub_6fb739e0
     //     now: call sub_Hook_sub_6faf4230_10227fc0
     {D2DLL_D2CLIENT, 0x04437C, (DWORD)sub_Hook_sub_6faf4230_10227fc0, TRUE, 0},  // P1237 call redirect (E8)
-    // --- C-0015 D2Client.dll sub_6fb739e0+0x138  [stash/shared stash] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- C-0015 D2Client.dll sub_6fb739e0+0x138  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb49440
     //     now: call sub_Hook_sub_6fb739e0_10227d70
     {D2DLL_D2CLIENT, 0x0C3B18, (DWORD)sub_Hook_sub_6fb739e0_10227d70, TRUE, 0},  // P1238 call redirect (E8)
-    // --- C-0016 D2Client.dll sub_6fb739e0+0x14a  [stash/shared stash] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- C-0016 D2Client.dll sub_6fb739e0+0x14a  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb49440
     //     now: call sub_Hook_sub_6fb739e0_10227d70
     {D2DLL_D2CLIENT, 0x0C3B2A, (DWORD)sub_Hook_sub_6fb739e0_10227d70, TRUE, 0},  // P1239 call redirect (E8)
@@ -4611,11 +4611,11 @@ DLLPatchStrc gptPlugYConflictPatches[] =
     // --- C-0021 D2Client.dll sub_6fb730e0+0x3f8  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: cmp ebx, 7
     //     now: cmp ebx, 4
-    {D2DLL_D2CLIENT, 0x0C34D8, 0x04, FALSE, 1},  // P1244 byte change
+    {D2DLL_D2CLIENT, 0x0C34D8, 0x04, FALSE, 1},  // P1244 operand byte change
     // --- C-0022 D2Client.dll sub_6fb730e0+0x3fd  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: cmp ebx, 6
     //     now: cmp ebx, 1
-    {D2DLL_D2CLIENT, 0x0C34DD, 0x01, FALSE, 1},  // P1245 byte change
+    {D2DLL_D2CLIENT, 0x0C34DD, 0x01, FALSE, 1},  // P1245 operand byte change
     // --- C-0023 D2Client.dll DAT_6fb8bdb8+0x14  [sound] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: dd D2Client!sub_6fb4ae80+0x9a0
     //     now: dd sub_Ptr_D2Client_6fb8bdcc_1021a8e0
@@ -4624,11 +4624,11 @@ DLLPatchStrc gptPlugYConflictPatches[] =
     //     was: dd D2Client!sub_6fb4be70+0x9c0
     //     now: dd sub_Ptr_D2Client_6fb8bdc0_1021ad10
     {D2DLL_D2CLIENT, 0x0DBDC0, (DWORD)sub_Ptr_D2Client_6fb8bdc0_1021ad10, FALSE, 0},  // P1247 function-pointer swap (table)
-    // --- C-0025 D2Client.dll DAT_6fb8bdb8+0x20  [anti-cheat/integrity] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- C-0025 D2Client.dll DAT_6fb8bdb8+0x20  [sound] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: dd D2Client!sub_6fb4ae80+0x6b0
     //     now: dd sub_Ptr_D2Client_6fb8bdd8_1021b090
     {D2DLL_D2CLIENT, 0x0DBDD8, (DWORD)sub_Ptr_D2Client_6fb8bdd8_1021b090, FALSE, 0},  // P1248 function-pointer swap (table)
-    // --- C-0026 D2Client.dll DAT_6fb8bdb8+0x2c  [UI/HUD/panels] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- C-0026 D2Client.dll DAT_6fb8bdb8+0x2c  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: dd D2Client!UI_inv_6fb44ced+0x193
     //     now: dd sub_Ptr_D2Client_6fb8bde4_1021b4b0
     {D2DLL_D2CLIENT, 0x0DBDE4, (DWORD)sub_Ptr_D2Client_6fb8bde4_1021b4b0, FALSE, 0},  // P1249 function-pointer swap (table)
@@ -4642,29 +4642,29 @@ DLLPatchStrc gptPlugYConflictPatches[] =
     {D2DLL_D2CLIENT, 0x0DBDFC, (DWORD)sub_Ptr_D2Client_6fb8bdf0_1021b560, FALSE, 0},  // P1251 function-pointer swap (table)
     // --- C-0029 D2Win.dll sub_6f8f8190+0x52  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: call D2Win!Ordinal_511
-    //     now: call Storm_511 (PD2 lazy thunk -> Storm.dll +0x343d0)
-    {D2DLL_D2WIN, 0x0181E2, (DWORD)Storm_511, TRUE, 0},  // P1252 call redirect (E8)
+    //     now: call Storm_511_102a1770 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770 -> Storm.dll +0x343d0)
+    {D2DLL_D2WIN, 0x0181E2, (DWORD)Storm_511_102a1770, TRUE, 0},  // P1252 call redirect (E8)
     // --- C-0030 D2Win.dll sub_6f8f8190+0xc8  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: call D2Win!Ordinal_511
-    //     now: call Storm_511 (PD2 lazy thunk -> Storm.dll +0x343d0)
-    {D2DLL_D2WIN, 0x018258, (DWORD)Storm_511, TRUE, 0},  // P1253 call redirect (E8)
+    //     now: call Storm_511_102a1770 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770 -> Storm.dll +0x343d0)
+    {D2DLL_D2WIN, 0x018258, (DWORD)Storm_511_102a1770, TRUE, 0},  // P1253 call redirect (E8)
     // --- C-0031 D2Win.dll DAT_6f8ffbb4+0x1c  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: dd D2Win!D2Win_10144+0x90
-    //     now: dd sub_6f8f80f0 (PD2 lazy thunk -> D2Win.dll +0x180f0)
-    {D2DLL_D2WIN, 0x01FBD0, (DWORD)sub_6f8f80f0, FALSE, 0},  // P1254 function-pointer swap (table)
+    //     now: dd sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x180f0)
+    {D2DLL_D2WIN, 0x01FBD0, (DWORD)sub_6f8f80f0_102a15e0, FALSE, 0},  // P1254 function-pointer swap (table)
     // --- C-0032 D2Win.dll DAT_6f8ffbb4+0x28  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: dd D2Win!D2Win_10144+0x90
-    //     now: dd sub_6f8f80f0 (PD2 lazy thunk -> D2Win.dll +0x180f0)
-    {D2DLL_D2WIN, 0x01FBDC, (DWORD)sub_6f8f80f0, FALSE, 0},  // P1255 function-pointer swap (table)
+    //     now: dd sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x180f0)
+    {D2DLL_D2WIN, 0x01FBDC, (DWORD)sub_6f8f80f0_102a15e0, FALSE, 0},  // P1255 function-pointer swap (table)
     // --- C-0033 D2Win.dll DAT_6f8ffbb4+0x34  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: dd D2Win!D2Win_10144+0x90
-    //     now: dd sub_6f8f80f0 (PD2 lazy thunk -> D2Win.dll +0x180f0)
-    {D2DLL_D2WIN, 0x01FBE8, (DWORD)sub_6f8f80f0, FALSE, 0},  // P1256 function-pointer swap (table)
+    //     now: dd sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x180f0)
+    {D2DLL_D2WIN, 0x01FBE8, (DWORD)sub_6f8f80f0_102a15e0, FALSE, 0},  // P1256 function-pointer swap (table)
     // --- C-0034 D2Win.dll DAT_6f8ffbb4+0x40  [UI/HUD/panels] (_unattributed/after_Src_D2Comp.cpp)
     //     was: dd D2Win!D2Win_10144+0x90
-    //     now: dd sub_6f8f80f0 (PD2 lazy thunk -> D2Win.dll +0x180f0)
-    {D2DLL_D2WIN, 0x01FBF4, (DWORD)sub_6f8f80f0, FALSE, 0},  // P1257 function-pointer swap (table)
-    // --- C-0035 D2Client.dll sub_6fb739e0+0x169  [monsters/AI/combat] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    //     now: dd sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x180f0)
+    {D2DLL_D2WIN, 0x01FBF4, (DWORD)sub_6f8f80f0_102a15e0, FALSE, 0},  // P1257 function-pointer swap (table)
+    // --- C-0035 D2Client.dll sub_6fb739e0+0x169  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb6cea0
     //     now: call sub_Hook_sub_6fb739e0_1025cbd0
     {D2DLL_D2CLIENT, 0x0C3B49, (DWORD)sub_Hook_sub_6fb739e0_1025cbd0, TRUE, 0},  // P1258 call redirect (E8)
@@ -4675,13 +4675,13 @@ DLLBlockPatchStrc gptBlockPatches[] =
 {
     // P1259 D2Launch.dll sub_6fa56de0+0xc [UI/HUD/panels] block replace | was: jge D2Launch!sub_6fa567b0+0x684 ; push D2Launch!DAT_6fa63e60+0x90 | now: jmp D2Launch!sub_6fa567b0+0x65f ; nop ; nop
     {D2DLL_D2LAUNCH, 0x016DEC, {0xE9, 0x1E, 0x00, 0x00, 0x00, 0x90, 0x90}, 7},
-    // P1260 D2Common.dll D2Common_11060+0x1 [maps/map generation] block replace | was: mov eax, 0x2625a0 | now: mov eax, 0x4c4b40
+    // P1260 D2Common.dll D2Common_11060+0x1 [stash/shared stash] block replace | was: mov eax, 0x2625a0 | now: mov eax, 0x4c4b40
     {D2DLL_D2COMMON, 0x02E9C1, {0x40, 0x4B, 0x4C}, 3},
     // P1261 D2Game.dll GAME_Game_6fc49cb0 [misc] block replace | was: mov ecx, dword ptr [D2Game!DAT_6fd31c3c] | now: ret ; nop ; nop ; nop ; nop ; nop
     {D2DLL_D2GAME, 0x029CB0, {0xC3, 0x90, 0x90, 0x90, 0x90, 0x90}, 6},
-    // P1262 D2Game.dll sub_6fc7d520+0x5f [quests] NOP fill (block) | was: je D2Game!sub_6fc7d380+0x214 | now: nop ; nop
+    // P1262 D2Game.dll sub_6fc7d520+0x5f [quests] NOP fill (block) | was: je D2Game!sub_6fc7d380+0x214 ; mov al, byte ptr [ebp + 0x88] ; test al, al ; jne D2Game!s… | now: nop ; nop ; mov al, byte ptr [ebp + 0x88] ; test al, al ; nop ; nop
     {D2DLL_D2GAME, 0x05D57F, {0x90, 0x90}, 2},
-    // P1263 D2Game.dll sub_6fc7d520+0x69 [quests] NOP fill (block) | was: jne D2Game!sub_6fc7d380+0x214 | now: nop ; nop
+    // P1263 D2Game.dll sub_6fc7d520+0x69 [quests] NOP fill (block) | was: je D2Game!sub_6fc7d380+0x214 ; mov al, byte ptr [ebp + 0x88] ; test al, al ; jne D2Game!s… | now: nop ; nop ; mov al, byte ptr [ebp + 0x88] ; test al, al ; nop ; nop
     {D2DLL_D2GAME, 0x05D589, {0x90, 0x90}, 2},
     // P1264 D2Game.dll UNIT_SUnitDmg_6fcfe5a0+0xd5 [monsters/AI/combat] block replace | was: or ebx, 0x80 | now: or ebx, 0x200
     {D2DLL_D2GAME, 0x0DE675, {0x00, 0x02}, 2},
@@ -4697,13 +4697,13 @@ DLLBlockPatchStrc gptBlockPatches[] =
     {D2DLL_D2CLIENT, 0x0A2F37, {0x90, 0x90, 0x90, 0x90, 0x90, 0x90}, 6},
     // P1270 D2Client.dll sub_6faee5e0+0x165 [UI/HUD/panels] block replace | was: push 0 ; push 0x46 ; push esi ; call D2Client!Ordinal_10973 | now: xor eax, eax ; nop ; nop ; nop ; nop ; nop ; nop ; nop
     {D2DLL_D2CLIENT, 0x03E745, {0x31, 0xC0, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}, 10},
-    // P1271 D2Client.dll sub_6fb3b6b0+0x18 [anti-cheat/integrity] opcode change (block) | was: mov esp, 0xfffe3911 | now: jl D2Client!WARDEN_WardenClient_6fb3b650+0x8b
+    // P1271 D2Client.dll sub_6fb3b6b0+0x18 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [ecx + edx - 0x1c7] ; cmp eax, edi ; jl D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea edi, [ecx + edx - 0x33] ; nop ; nop ; nop ; cmp eax, edi ; jl D2Client!WARDEN_WardenC…
     {D2DLL_D2CLIENT, 0x08B6C8, {0x7C}, 1},
-    // P1272 D2Client.dll sub_6fb3b6b0+0x1a [anti-cheat/integrity] block replace | was: cmp esi, edi | now: int 0x90 ; nop ; nop
+    // P1272 D2Client.dll sub_6fb3b6b0+0x1a [UI/HUD/panels] block replace | was: lea edi, [ecx + edx - 0x1c7] ; cmp eax, edi ; jl D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea edi, [ecx + edx - 0x33] ; nop ; nop ; nop ; cmp eax, edi ; jl D2Client!WARDEN_WardenC…
     {D2DLL_D2CLIENT, 0x08B6CA, {0xCD, 0x90, 0x90, 0x90}, 4},
-    // P1273 D2Client.dll sub_6fb3b6b0+0x23 [anti-cheat/integrity] opcode change (block) | was: mov word ptr [ecx], ss | now: dec esp
+    // P1273 D2Client.dll sub_6fb3b6b0+0x23 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [ecx + edx - 0x1c7] ; cmp eax, edi ; jl D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea edi, [ecx + edx - 0x33] ; nop ; nop ; nop ; cmp eax, edi ; jl D2Client!WARDEN_WardenC…
     {D2DLL_D2CLIENT, 0x08B6D3, {0x4C}, 1},
-    // P1274 D2Client.dll sub_6fb3b6b0+0x25 [anti-cheat/integrity] block replace | was: dec edx | now: fst qword ptr [eax + 0x12eb9090]
+    // P1274 D2Client.dll sub_6fb3b6b0+0x25 [UI/HUD/panels] block replace | was: lea edi, [ecx + edx - 0x1c7] ; cmp eax, edi ; jl D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea edi, [ecx + edx - 0x33] ; nop ; nop ; nop ; cmp eax, edi ; jl D2Client!WARDEN_WardenC…
     {D2DLL_D2CLIENT, 0x08B6D5, {0xDD, 0x90, 0x90, 0x90}, 4},
     // P1275 D2Client.dll UI_inv_6fb3cfb0+0x1c0 [UI/HUD/panels] block replace | was: lea ebx, [eax - 0x1b8] | now: lea ebx, [eax - 0x28] ; nop ; nop ; nop
     {D2DLL_D2CLIENT, 0x08D170, {0x58, 0xD8, 0x90, 0x90, 0x90}, 5},
@@ -4715,27 +4715,27 @@ DLLBlockPatchStrc gptBlockPatches[] =
     {D2DLL_D2CLIENT, 0x08D1B9, {0x48, 0xDC, 0x90, 0x90, 0x90}, 5},
     // P1279 D2Client.dll UI_inv_6fb3cfb0+0x242 [UI/HUD/panels] block replace | was: add eax, 0xfffffe36 | now: add eax, -0x3a ; nop ; nop
     {D2DLL_D2CLIENT, 0x08D1F2, {0x83, 0xC0, 0xC6, 0x90, 0x90}, 5},
-    // P1280 D2Client.dll sub_6fb49440+0x5d2 [skills] operand/immediate byte change (block) | was: lea edx, [ecx + eax - 0x19f] | now: lea edx, [ecx + eax - 0x15]
+    // P1280 D2Client.dll sub_6fb49440+0x5d2 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edx, [ecx + eax - 0x19f] | now: lea edx, [ecx + eax - 0x15] ; nop ; nop ; nop
     {D2DLL_D2CLIENT, 0x099A12, {0x54}, 1},
-    // P1281 D2Client.dll sub_6fb49440+0x5d4 [skills] block replace | was: lea edx, [ecx + eax - 0x19f] | now: lea edx, [ecx + eax - 0x15] ; nop ; nop ; nop
+    // P1281 D2Client.dll sub_6fb49440+0x5d4 [UI/HUD/panels] block replace | was: lea edx, [ecx + eax - 0x19f] | now: lea edx, [ecx + eax - 0x15] ; nop ; nop ; nop
     {D2DLL_D2CLIENT, 0x099A14, {0xEB, 0x90, 0x90, 0x90}, 4},
-    // P1282 D2Client.dll sub_6fb3beb0+0x27 [anti-cheat/integrity] operand/immediate byte change (block) | was: lea eax, [eax + edx - 0x40] | now: lea eax, [eax + edx - 0x15]
+    // P1282 D2Client.dll sub_6fb3beb0+0x27 [UI/HUD/panels] operand/immediate byte change (block) | was: lea eax, [eax + edx - 0x40] | now: lea eax, [eax + edx - 0x15]
     {D2DLL_D2CLIENT, 0x08BED7, {0xEB}, 1},
-    // P1283 D2Client.dll sub_6fb49440+0x644 [skills] operand/immediate byte change (block) | was: add esi, 0x110 | now: add esi, 0x111
+    // P1283 D2Client.dll sub_6fb49440+0x644 [UI/HUD/panels] operand/immediate byte change (block) | was: add esi, 0x110 | now: add esi, 0x111
     {D2DLL_D2CLIENT, 0x099A84, {0x11}, 1},
-    // P1284 D2Client.dll sub_6fb3cd00+0x59 [UI/HUD/panels] opcode change (block) | was: rol byte ptr [ebx - 0x7c42240], 0x7e | now: jmp D2Client!UI_inv_6fb3ccb0+0x2e
+    // P1284 D2Client.dll sub_6fb3cd00+0x59 [UI/HUD/panels] operand/immediate byte change (block) | was: lea eax, [eax + edx - 0x40] | now: lea eax, [eax + edx - 0x15]
     {D2DLL_D2CLIENT, 0x08CD59, {0xEB}, 1},
-    // P1285 D2Client.dll sub_6fb49440+0x12ca [skills] operand/immediate byte change (block) | was: lea ecx, [eax + edx - 0x40] | now: lea ecx, [eax + edx - 0x15]
+    // P1285 D2Client.dll sub_6fb49440+0x12ca [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax + edx - 0x40] | now: lea ecx, [eax + edx - 0x15]
     {D2DLL_D2CLIENT, 0x09A70A, {0xEB}, 1},
-    // P1286 D2Client.dll sub_6fb49440+0x12d6 [skills] operand/immediate byte change (block) | was: sub edx, 0x12e | now: sub edx, 0x132
+    // P1286 D2Client.dll sub_6fb49440+0x12d6 [UI/HUD/panels] operand/immediate byte change (block) | was: sub edx, 0x12e | now: sub edx, 0x132
     {D2DLL_D2CLIENT, 0x09A716, {0x32}, 1},
-    // P1287 D2Client.dll UI_inv_6fb43450+0x3f5 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [esi + edx - 0x60] | now: lea edi, [esi + edx - 0x35]
+    // P1287 D2Client.dll UI_inv_6fb43450+0x3f5 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [esi + edx - 0x60] ; cmp ebp, edi ; jl D2Client!UI_inv_6fb43450+0x436 ; lea edi,… | now: lea edi, [esi + edx - 0x35] ; cmp ebp, edi ; jl D2Client!UI_inv_6fb43450+0x436 ; lea edi,…
     {D2DLL_D2CLIENT, 0x093845, {0xCB}, 1},
-    // P1288 D2Client.dll UI_inv_6fb43450+0x3fd [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [esi + edx - 0x40] | now: lea edi, [esi + edx - 0x15]
+    // P1288 D2Client.dll UI_inv_6fb43450+0x3fd [UI/HUD/panels] operand/immediate byte change (block) | was: lea edi, [esi + edx - 0x60] ; cmp ebp, edi ; jl D2Client!UI_inv_6fb43450+0x436 ; lea edi,… | now: lea edi, [esi + edx - 0x35] ; cmp ebp, edi ; jl D2Client!UI_inv_6fb43450+0x436 ; lea edi,…
     {D2DLL_D2CLIENT, 0x09384D, {0xEB}, 1},
-    // P1289 D2Client.dll sub_6fb3bd90+0x2d [anti-cheat/integrity] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x60] | now: lea esi, [eax + ecx - 0x35]
+    // P1289 D2Client.dll sub_6fb3bd90+0x2d [UI/HUD/panels] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x60] ; cmp edx, esi ; jl D2Client!sub_6fb3bd90+0x41 ; lea eax, [ea… | now: lea esi, [eax + ecx - 0x35] ; cmp edx, esi ; jl D2Client!sub_6fb3bd90+0x41 ; lea eax, [ea…
     {D2DLL_D2CLIENT, 0x08BDBD, {0xCB}, 1},
-    // P1290 D2Client.dll sub_6fb3bd90+0x35 [anti-cheat/integrity] operand/immediate byte change (block) | was: lea eax, [eax + ecx - 0x40] | now: lea eax, [eax + ecx - 0x15]
+    // P1290 D2Client.dll sub_6fb3bd90+0x35 [UI/HUD/panels] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x60] ; cmp edx, esi ; jl D2Client!sub_6fb3bd90+0x41 ; lea eax, [ea… | now: lea esi, [eax + ecx - 0x35] ; cmp edx, esi ; jl D2Client!sub_6fb3bd90+0x41 ; lea eax, [ea…
     {D2DLL_D2CLIENT, 0x08BDC5, {0xEB}, 1},
     // P1291 D2Client.dll UI_inv_6fb43450+0x407 [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [esi + edx - 0x63] | now: lea ecx, [esi + edx - 0x38]
     {D2DLL_D2CLIENT, 0x093857, {0xC8}, 1},
@@ -4743,13 +4743,13 @@ DLLBlockPatchStrc gptBlockPatches[] =
     {D2DLL_D2CLIENT, 0x08D126, {0xE5}, 1},
     // P1293 D2Client.dll UI_inv_6fb3cfb0+0x16a [UI/HUD/panels] operand/immediate byte change (block) | was: lea esi, [eax - 0xed] | now: lea esi, [eax - 0xf8]
     {D2DLL_D2CLIENT, 0x08D11A, {0x08}, 1},
-    // P1294 D2Client.dll UI_inv_6fb3d3d0+0x23 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edx, [eax + ecx - 0x57] | now: lea edx, [eax + ecx - 0x2d]
+    // P1294 D2Client.dll UI_inv_6fb3d3d0+0x23 [UI/HUD/panels] operand/immediate byte change (block) | was: lea edx, [eax + ecx - 0x57] ; cmp esi, edx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; lea eax, … | now: lea edx, [eax + ecx - 0x2d] ; cmp esi, edx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; lea eax, …
     {D2DLL_D2CLIENT, 0x08D3F3, {0xD3}, 1},
-    // P1295 D2Client.dll UI_inv_6fb3d3d0+0x2b [UI/HUD/panels] operand/immediate byte change (block) | was: lea eax, [eax + ecx - 0x45] | now: lea eax, [eax + ecx - 0x1b]
+    // P1295 D2Client.dll UI_inv_6fb3d3d0+0x2b [UI/HUD/panels] operand/immediate byte change (block) | was: lea edx, [eax + ecx - 0x57] ; cmp esi, edx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; lea eax, … | now: lea edx, [eax + ecx - 0x2d] ; cmp esi, edx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; lea eax, …
     {D2DLL_D2CLIENT, 0x08D3FB, {0xE5}, 1},
-    // P1296 D2Client.dll UI_inv_6fb3d3d0+0x3d [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax - 0xed] | now: lea ecx, [eax - 0xf8]
+    // P1296 D2Client.dll UI_inv_6fb3d3d0+0x3d [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax - 0xed] ; cmp edi, ecx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; add eax, 0xffff… | now: lea ecx, [eax - 0xf8] ; cmp edi, ecx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; add eax, 0xffff…
     {D2DLL_D2CLIENT, 0x08D40D, {0x08}, 1},
-    // P1297 D2Client.dll UI_inv_6fb3d3d0+0x46 [UI/HUD/panels] operand/immediate byte change (block) | was: add eax, 0xffffff27 | now: add eax, 0xffffff1c
+    // P1297 D2Client.dll UI_inv_6fb3d3d0+0x46 [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax - 0xed] ; cmp edi, ecx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; add eax, 0xffff… | now: lea ecx, [eax - 0xf8] ; cmp edi, ecx ; jl D2Client!UI_inv_6fb3d3d0+0x55 ; add eax, 0xffff…
     {D2DLL_D2CLIENT, 0x08D416, {0x1C}, 1},
     // P1298 D2Client.dll UI_inv_6fb43450+0x44e [UI/HUD/panels] operand/immediate byte change (block) | was: lea ebp, [esi + edx - 0x45] | now: lea ebp, [esi + edx - 0x1b]
     {D2DLL_D2CLIENT, 0x09389E, {0xE5}, 1},
@@ -4761,15 +4761,15 @@ DLLBlockPatchStrc gptBlockPatches[] =
     {D2DLL_D2CLIENT, 0x08D117, {0xE2}, 1},
     // P1302 D2Client.dll UI_inv_6fb3cfb0+0x156 [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax - 0xd4] | now: lea ecx, [eax - 0xdd]
     {D2DLL_D2CLIENT, 0x08D106, {0x23}, 1},
-    // P1303 D2Client.dll sub_6fb49440+0x1fc [skills] operand/immediate byte change (block) | was: lea eax, [edx + ecx - 0x41] | now: lea eax, [edx + ecx - 0x15]
+    // P1303 D2Client.dll sub_6fb49440+0x1fc [UI/HUD/panels] operand/immediate byte change (block) | was: lea eax, [edx + ecx - 0x41] | now: lea eax, [edx + ecx - 0x15]
     {D2DLL_D2CLIENT, 0x09963C, {0xEB}, 1},
-    // P1304 D2Client.dll sub_6fb49440+0x208 [skills] operand/immediate byte change (block) | was: add ecx, 0x113 | now: add ecx, 0x111
+    // P1304 D2Client.dll sub_6fb49440+0x208 [UI/HUD/panels] operand/immediate byte change (block) | was: add ecx, 0x113 | now: add ecx, 0x111
     {D2DLL_D2CLIENT, 0x099648, {0x11}, 1},
-    // P1305 D2Client.dll WARDEN_WardenClient_6fb3b650+0x29 [anti-cheat/integrity] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x64] | now: lea esi, [eax + ecx - 0x35]
+    // P1305 D2Client.dll WARDEN_WardenClient_6fb3b650+0x29 [UI/HUD/panels] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x64] ; cmp edx, esi ; jle D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea esi, [eax + ecx - 0x35] ; cmp edx, esi ; jle D2Client!WARDEN_WardenClient_6fb3b650+0x…
     {D2DLL_D2CLIENT, 0x08B679, {0xCB}, 1},
-    // P1306 D2Client.dll WARDEN_WardenClient_6fb3b650+0x31 [anti-cheat/integrity] operand/immediate byte change (block) | was: lea eax, [eax + ecx - 0x3c] | now: lea eax, [eax + ecx - 0x15]
+    // P1306 D2Client.dll WARDEN_WardenClient_6fb3b650+0x31 [UI/HUD/panels] operand/immediate byte change (block) | was: lea esi, [eax + ecx - 0x64] ; cmp edx, esi ; jle D2Client!WARDEN_WardenClient_6fb3b650+0x… | now: lea esi, [eax + ecx - 0x35] ; cmp edx, esi ; jle D2Client!WARDEN_WardenClient_6fb3b650+0x…
     {D2DLL_D2CLIENT, 0x08B681, {0xEB}, 1},
-    // P1307 D2Client.dll sub_6fb49440+0x318 [skills] operand/immediate byte change (block) | was: lea ecx, [eax + edx - 0x64] | now: lea ecx, [eax + edx - 0x38]
+    // P1307 D2Client.dll sub_6fb49440+0x318 [UI/HUD/panels] operand/immediate byte change (block) | was: lea ecx, [eax + edx - 0x64] | now: lea ecx, [eax + edx - 0x38]
     {D2DLL_D2CLIENT, 0x099758, {0xC8}, 1},
     // P1308 D2Client.dll sub_6fb29c80+0xa [skills] block replace | was: cmp eax, 0xbb8 | now: cmp eax, 0xc350
     {D2DLL_D2CLIENT, 0x079C8A, {0x50, 0xC3, 0x00, 0x00}, 4},

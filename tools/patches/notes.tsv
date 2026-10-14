@@ -1,0 +1,10 @@
+# key	note (appended to patches.csv `notes` of every matching record; shown in HOOKS.md)
+# key = <module>+<rva_113c>, a hook group id, or bytes:<orig bytes>-><new bytes> (exact match of the two columns)
+Game.exe+0x763f	this is Game.exe's call of D2Win_10086 (through its Ordinal_10086 import thunk), the routine that opens the base MPQs. D2Win's on-disk cave already loads ProjectDiablo.dll inside it, so PD2_EXT's LoadLibraryA afterwards only adds a reference (fallback when D2Win is stock)
+Game.exe+0x83ef	removes WinMain's switch on the "Render" value it reads with RegQueryValueExA (renderer flags 1-4 -> esp+0x5c..0x61); ProjectDiablo's Init resets that value (Storm_423/Storm_426 on "Diablo II\VideoConfig" "Render")
+Game.exe+0x82dd	WinMain's call of sub_00407ee0 runs PD2_EXT stage 2 first (installs the three other patches), which then calls the original
+Fog.dll+0x17ea7	Fog_10116 (InstallPath) cuts the module path with Storm_572 (strrchr); the replacement cuts one more directory, so the default install path is the parent of the ProjectD2 folder, where the vanilla MPQs are
+bytes:00 20 00 00->00 00 02 00	0x2000 (8 KB) -> 0x20000 (128 KB): character-save buffer size
+D2Common.dll+0x2e9c1	D2Common_11060 returns the stash gold limit: 2,500,000 -> 5,000,000
+D2Game.dll+0x29cb0	GAME_Game_6fc49cb0 is turned into an immediate `ret`
+D2Net.dll+0x66c0	packet header/size constant 7 -> 8 (also +0x6917); skipped with -plugy

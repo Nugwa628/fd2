@@ -1,20 +1,154 @@
 {
-  "_comment": "Feature list for FEATURES.md (manual text). 'tables': 2_txt/pd2 or 2_txt/diff names (without extension) that belong to the feature; 'config': regex over ProjectDiablo.json key paths. Order = tie-break order for feature_rules.tsv.",
-  "features": [
-    {"name": "loader", "summary": "How PD2 gets into the process: Storm.dll's renamed import loads PD2_EXT.dll (a version.dll proxy), PD2_EXT patches Game.exe and Fog.dll so the install path is the parent folder (where the vanilla MPQs live) and loads ProjectDiablo.dll after the MPQs open; D2Win.dll was edited on disk so its MPQ names point one folder up and D2Win_10086 loads ProjectDiablo.dll itself.", "tables": [], "config": "installpath|save_path|lng_file"},
-    {"name": "anti-cheat/integrity", "summary": "Hooks around the Warden client module of D2Client and PD2's own client checks. High level only: PD2 enumerates loaded modules and compares their names against a list of known third-party DLLs; the Warden hooks change how the client handles Warden requests.", "tables": [], "config": "^$"},
-    {"name": "save files", "summary": "Character save (.d2s) read/write in D2Game: PD2 widens the save buffers (0x2000 -> 0x20000 bytes), replaces the save/load paths with SaveFunctions.cpp code (S12 save columns of itemstatcost: 'Save Bits S12' etc.), and adds its own data to the file.", "tables": ["itemstatcost"], "config": "save_path|autosync"},
-    {"name": "stash/shared stash", "summary": "Stash and shared-stash handling (extra stash pages, shared stash file).", "tables": ["inventory"], "config": "^$"},
-    {"name": "loot filter", "summary": "Item display on the ground/in tooltips: BH.dll's Item module (PD2's loot filter) hooks D2Client item-name drawing; ProjectDiablo exposes the filter to BH (BHOnPropertyBuild etc.).", "tables": [], "config": "showItemHelpText|controllerMultiButtonLoot|auto_equip"},
-    {"name": "maps/map generation", "summary": "Endgame maps and level generation: DRLG/level-table hooks in D2Common/D2Game, map item stats (map_* in itemstatcost), corrupted zones (pGame->nCorruptedZone).", "tables": ["levels", "lvlprest", "lvlmaze", "lvlsub", "lvltypes", "superuniques", "monpreset"], "config": "always_regenerate_levels|automap"},
-    {"name": "skills", "summary": "Skill behaviour on server (D2Game SKILLS/*) and client (D2Client SKILLS/*, skill bar, descriptions): new skill functions in the game's skill function tables (srvdofunc/cltdofunc, filled by the init-time table writes), changed skill calculations, buff timers / quick cast / skill bar UI.", "tables": ["skills", "skilldesc", "skillcalc", "missiles", "states", "pettype"], "config": "buff_timers|quick_cast|skill_bar|auras"},
-    {"name": "items/crafting/cube", "summary": "Item generation, stats, properties, inventory and cube recipes: new cube outputs/functions (CubeFunctions.cpp), corruption, socketing, item stat callbacks, the bigger ItemStatCost record (PD2 indexes it with stride 0x150 = 336 bytes instead of 0x144 = 324).", "tables": ["itemstatcost", "properties", "cubemain", "uniqueitems", "setitems", "runes", "gems", "magicprefix", "magicsuffix", "automagic", "itemtypes", "weapons", "armor", "misc", "treasureclassex", "itemratio"], "config": "equipment_lock|auto_equip"},
-    {"name": "UI/HUD/panels", "summary": "Client UI: panels, inventory screen, hover-item drawing, HUD texts (hp/mp text, belt status, dps), automap, the window procedure (keyboard/mouse/controller input), D2Win/D2Launch/D2Multi screens.", "tables": [], "config": "^/classic_game_settings/(ui|map|video)|belt_status|dps|translucent_party|wasd_movement|controller|screenshake|mini_panel"},
-    {"name": "sound", "summary": "PD2's own sound engine (client/Sound/*.cpp: Sound, SoundChannel, SoundInstance, SoundSample) replaces the game's sound playback; per-category volumes.", "tables": ["sounds", "soundenviron", "monsounds"], "config": "/audio/"},
-    {"name": "networking/packets", "summary": "Client/server packet build and dispatch (D2Game PlrMsg/SCmd/sunitproxy, D2Client SCmd), D2Net, Battle.net client (Bnclient) and realm settings.", "tables": [], "config": "/bnet/|player_count"},
-    {"name": "chat commands", "summary": "Chat input and PD2's slash commands.", "tables": [], "config": "^$"},
-    {"name": "monsters/AI/combat", "summary": "Monster AI (Ai/AiThink*), monster modes, damage (SUnitDmg), missiles, client unit drawing.", "tables": ["monstats", "monstats2", "monai", "monlvl", "monprop", "monumod", "montype", "monequip", "monmode", "monseq", "hireling", "missiles"], "config": "^$"},
-    {"name": "quests", "summary": "Quest scripts in D2Game (Quests/aNqM.cpp).", "tables": ["events"], "config": "^$"},
-    {"name": "misc", "summary": "Patches no rule could place; see the per-hook notes.", "tables": ["charstats", "experience", "difficultylevels"], "config": "^$"}
-  ]
+ "_comment": "Feature list for FEATURES.md (manual text). 'tables': 2_txt/pd2 or 2_txt/diff names (without extension) that belong to the feature; 'config': regex over ProjectDiablo.json key paths. Order = tie-break order for feature_rules.tsv.",
+ "features": [
+  {
+   "name": "loader",
+   "summary": "How PD2 gets into the process: Storm.dll's renamed import loads PD2_EXT.dll (a version.dll proxy), PD2_EXT patches Game.exe and Fog.dll so the install path is the parent folder (where the vanilla MPQs live) and loads ProjectDiablo.dll after the MPQs open; D2Win.dll was edited on disk so its MPQ names point one folder up and D2Win_10086 loads ProjectDiablo.dll itself.",
+   "tables": [],
+   "config": "installpath|save_path|lng_file"
+  },
+  {
+   "name": "anti-cheat/integrity",
+   "summary": "Integrity checks, described at a high level only. PD2's client check runs in its own code (link unit 45, `_IntegrityCheck_ModuleScan_`): it enumerates the loaded modules and compares their names with a list of known third-party DLLs. Hooks are assigned here only when the patch site is code the reference places in WARDEN/WardenClient.cpp with evidence, or the handler uses the module scan / Warden strings.",
+   "tables": [],
+   "config": "^$"
+  },
+  {
+   "name": "save files",
+   "summary": "Character save (.d2s) read/write in D2Game: PD2 widens the save buffers (0x2000 -> 0x20000 bytes), replaces the save/load paths with SaveFunctions.cpp code (S12 save columns of itemstatcost: 'Save Bits S12' etc.), and adds its own data to the file.",
+   "tables": [
+    "itemstatcost"
+   ],
+   "config": "save_path|autosync"
+  },
+  {
+   "name": "stash/shared stash",
+   "summary": "Stash and shared-stash handling (extra stash pages, shared stash file).",
+   "tables": [
+    "inventory"
+   ],
+   "config": "^$"
+  },
+  {
+   "name": "loot filter",
+   "summary": "Item display on the ground/in tooltips: BH.dll's Item module (PD2's loot filter) hooks D2Client item-name drawing; ProjectDiablo exposes the filter to BH (BHOnPropertyBuild etc.).",
+   "tables": [],
+   "config": "showItemHelpText|controllerMultiButtonLoot|auto_equip"
+  },
+  {
+   "name": "maps/map generation",
+   "summary": "Endgame maps and level generation: DRLG/level-table hooks in D2Common/D2Game, map item stats (map_* in itemstatcost), corrupted zones (pGame->nCorruptedZone).",
+   "tables": [
+    "levels",
+    "lvlprest",
+    "lvlmaze",
+    "lvlsub",
+    "lvltypes",
+    "superuniques",
+    "monpreset"
+   ],
+   "config": "always_regenerate_levels|automap"
+  },
+  {
+   "name": "skills",
+   "summary": "Skill behaviour on server (D2Game SKILLS/*) and client (D2Client SKILLS/*, skill bar, descriptions): new skill functions in the game's skill function tables (srvdofunc/cltdofunc, filled by the init-time table writes), changed skill calculations, buff timers / quick cast / skill bar UI.",
+   "tables": [
+    "skills",
+    "skilldesc",
+    "skillcalc",
+    "missiles",
+    "states",
+    "pettype"
+   ],
+   "config": "buff_timers|quick_cast|skill_bar|auras"
+  },
+  {
+   "name": "items/crafting/cube",
+   "summary": "Item generation, stats, properties, inventory and cube recipes: new cube outputs/functions (CubeFunctions.cpp), corruption, socketing, item stat callbacks, the bigger ItemStatCost record (PD2 indexes it with stride 0x150 = 336 bytes instead of 0x144 = 324).",
+   "tables": [
+    "itemstatcost",
+    "properties",
+    "cubemain",
+    "uniqueitems",
+    "setitems",
+    "runes",
+    "gems",
+    "magicprefix",
+    "magicsuffix",
+    "automagic",
+    "itemtypes",
+    "weapons",
+    "armor",
+    "misc",
+    "treasureclassex",
+    "itemratio"
+   ],
+   "config": "equipment_lock|auto_equip"
+  },
+  {
+   "name": "UI/HUD/panels",
+   "summary": "Client UI: panels, inventory screen, hover-item drawing, HUD texts (hp/mp text, belt status, dps), automap, the window procedure (keyboard/mouse/controller input), D2Win/D2Launch/D2Multi screens.",
+   "tables": [],
+   "config": "^/classic_game_settings/(ui|map|video)|belt_status|dps|translucent_party|wasd_movement|controller|screenshake|mini_panel"
+  },
+  {
+   "name": "sound",
+   "summary": "PD2's own sound engine (client/Sound/*.cpp: Sound, SoundChannel, SoundInstance, SoundSample) replaces the game's sound playback; per-category volumes.",
+   "tables": [
+    "sounds",
+    "soundenviron",
+    "monsounds"
+   ],
+   "config": "/audio/"
+  },
+  {
+   "name": "networking/packets",
+   "summary": "Client/server packet build and dispatch (D2Game PlrMsg/SCmd/sunitproxy, D2Client SCmd), D2Net, Battle.net client (Bnclient) and realm settings.",
+   "tables": [],
+   "config": "/bnet/|player_count"
+  },
+  {
+   "name": "chat commands",
+   "summary": "Chat input and PD2's slash commands.",
+   "tables": [],
+   "config": "^$"
+  },
+  {
+   "name": "monsters/AI/combat",
+   "summary": "Monster AI (Ai/AiThink*), monster modes, damage (SUnitDmg), missiles, client unit drawing.",
+   "tables": [
+    "monstats",
+    "monstats2",
+    "monai",
+    "monlvl",
+    "monprop",
+    "monumod",
+    "montype",
+    "monequip",
+    "monmode",
+    "monseq",
+    "hireling",
+    "missiles"
+   ],
+   "config": "^$"
+  },
+  {
+   "name": "quests",
+   "summary": "Quest scripts in D2Game (Quests/aNqM.cpp).",
+   "tables": [
+    "events"
+   ],
+   "config": "^$"
+  },
+  {
+   "name": "misc",
+   "summary": "Patches no rule could place; see the per-hook notes.",
+   "tables": [
+    "charstats",
+    "experience",
+    "difficultylevels"
+   ],
+   "config": "^$"
+  }
+ ]
 }

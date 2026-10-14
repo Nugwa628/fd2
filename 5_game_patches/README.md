@@ -57,16 +57,16 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 
 * ProjectDiablo main table @ 0x103c7f50: **1198 entries decoded** (the array has 2187 slots; the rest is zero and the installer stops at the first zero entry, so the earlier count of 2,187 was the array capacity), conditional table @ 0x10367ee0: **35** (skipped with `-plugy`), block table @ 0x103681b0: **57**. Undecodable: **0**.
 * Init-time writes: **284** stores in 17 functions. Window subclass: 1. PD2_EXT: 4. On-disk: 21 (D2Win 20, Storm 1). BH: 36 (from `4_pd2_source/BH/patches.tsv`).
-* **1636 records, 1248 hooks** in total.
+* **1636 records, 1245 hooks** in total.
 * Function check of the 1293 records in game code: 1068 reached by recursive descent from the reference function start, 225 inside an entry point the reference did not split off (named `sub_<va>`), 0 only between two reference starts, 0 outside any function. 340 records target game data (.data 286, .rdata 54).
-* Feature assignment: 1160 hooks by rules, 0 by override, 88 unmatched (misc).
+* Feature assignment: 1179 hooks by rules, 5 by override, 61 unmatched (misc).
 
 | Module | BH | PD2 API | PD2 block table | PD2 cond table | PD2 init writes | PD2 table | PD2_EXT | on-disk | records | hooks (groups) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| D2Game.dll |  |  | 7 | 8 | 177 | 689 |  |  | 881 | 671 |
-| D2Client.dll | 20 |  | 47 | 19 | 78 | 419 |  |  | 583 | 477 |
+| D2Game.dll |  |  | 7 | 8 | 177 | 689 |  |  | 881 | 675 |
+| D2Client.dll | 20 |  | 47 | 19 | 78 | 419 |  |  | 583 | 468 |
 | D2Common.dll |  |  | 2 |  | 1 | 82 |  |  | 85 | 62 |
-| D2Net.dll |  |  |  | 2 | 28 |  |  |  | 30 | 2 |
+| D2Net.dll |  |  |  | 2 | 28 |  |  |  | 30 | 4 |
 | D2Win.dll | 1 |  |  | 6 |  | 1 |  | 20 | 28 | 9 |
 | D2Multi.dll | 13 |  |  |  |  |  |  |  | 13 | 13 |
 | Bnclient.dll | 1 |  |  |  |  | 4 |  |  | 5 | 5 |
@@ -77,17 +77,18 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 | D2Launch.dll |  |  | 1 |  |  |  |  |  | 1 | 1 |
 | D2gfx.dll (game window) |  | 1 |  |  |  |  |  |  | 1 | 1 |
 | D2MCPClient.dll | 1 |  |  |  |  |  |  |  | 1 | 1 |
-| **total** | 36 | 1 | 57 | 35 | 284 | 1198 | 4 | 21 | **1636** | **1248** |
+| **total** | 36 | 1 | 57 | 35 | 284 | 1198 | 4 | 21 | **1636** | **1245** |
 
 | Kind (per record) | records |
 |---|---:|
 | call redirect (E8) | 821 |
 | function-pointer swap (table) | 288 |
-| byte change | 148 |
 | constant change (imm32/disp32) | 116 |
+| operand byte change | 93 |
 | NOP fill | 63 |
+| opcode byte change | 55 |
 | data/constant change | 48 |
-| operand/immediate byte change (block) | 29 |
+| operand/immediate byte change (block) | 32 |
 | opcode byte (E8 call) for hook | 23 |
 | call insertion (E8) | 23 |
 | block replace | 21 |
@@ -97,7 +98,6 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 | data-pointer operand (imm32 -> PD2 data) | 4 |
 | NOP fill (block) | 4 |
 | jmp detour (E9) | 4 |
-| opcode change (block) | 3 |
 | jmp detour (E9, on-disk) | 1 |
 | code cave (on-disk) | 1 |
 | added strings (on-disk) | 1 |
@@ -108,24 +108,23 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 
 | Kind (per hook, main part) | hooks |
 |---|---:|
-| call redirect | 787 |
+| call redirect | 821 |
 | constant change (imm32/disp32) | 116 |
-| byte change | 88 |
-| function-pointer swap (table) | 66 |
+| function-pointer swap (table) | 69 |
+| operand byte change | 52 |
 | NOP fill | 40 |
-| call redirect (E8) | 34 |
-| operand/immediate byte change (block) | 29 |
+| opcode byte change | 36 |
+| operand/immediate byte change (block) | 24 |
 | call hook (E8 written) | 23 |
-| block replace | 21 |
+| block replace | 20 |
 | jmp target redirect (E9) | 9 |
 | code-pointer operand (imm32 -> PD2 function) | 8 |
+| data/constant change | 6 |
 | data-pointer operand (imm32 -> PD2 data) | 4 |
 | instruction rewrite (2 bytes) | 4 |
-| NOP fill (block) | 4 |
-| jmp detour (E9) | 4 |
-| opcode change (block) | 3 |
+| jmp detour | 4 |
+| NOP fill (block) | 3 |
 | instruction rewrite (4 bytes) | 2 |
-| data/constant change | 2 |
 | added strings (on-disk) | 1 |
 | import DLL rename (on-disk) | 1 |
 | data block replace | 1 |
@@ -138,11 +137,7 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 * **D2Win.dll**: stored PE checksum 0x2e9e8, shipped file computes to 0x296df; after undoing the changes listed in patches.csv it computes to 0x2e9e8 → **match: these are all the changes**. Reference consistency check (every reference function's call targets, branches and string operands vs. the shipped bytes): 4 function(s) flagged (D2Win_10165: ..\\d2char.mpq; D2Win_10173: ..\\d2Xvideo.mpq, ..\\d2video.mpq; D2Win_10005: ..\\d2Xmusic.mpq, ..\\d2Xtalk.mpq, ..\\d2Xvideo.mpq, ..\\d2char.mpq, ..\\d2music.mpq; D2Win_10086: branch 0x6f8eab47 -> 0x6f8fa2a1 outside .text, ..\\d2data.mpq, ..\\d2delta.mpq, ..\\d2exp.mpq, ..\\d2kfixup.mpq, ..\\d2sfx.mpq, ..\\d2speech.mpq).
 * **Storm.dll**: stored PE checksum 0x622c9, shipped file computes to 0x6871e; after undoing the changes listed in patches.csv it computes to 0x67342 → **no match**: something else differs from the original file (outside code the reference covers), or the original checksum was never valid; not decidable without a vanilla copy. Reference consistency check (every reference function's call targets, branches and string operands vs. the shipped bytes): 0 function(s) flagged.
 
-Without vanilla copies this is best-effort. For D2Win the checksum test is strong evidence (it would have to be
-a compensating change to survive). For Storm the only change found is the import rename; no code differs from
-the reference decompile, but the checksum still does not match after undoing the rename (tried
-`VERSION.dll`, `version.dll`, `VERSION.DLL`, `Version.dll`), so another byte change outside the code the
-reference covers (data, resources, headers) cannot be excluded.
+Without vanilla copies this is best-effort. For D2Win the checksum test is strong evidence (another change would have to compensate exactly to survive it). For Storm the only change found is the import rename; no code differs from the reference decompile, but the checksum still does not match after undoing the rename (original name variants tried: `VERSION.dll`, `version.dll`, `VERSION.DLL`, `Version.dll`), so another byte change outside the code the reference covers (data, resources, headers) cannot be excluded, nor can a stock file whose stored checksum was never valid.
 
 ## Notes
 

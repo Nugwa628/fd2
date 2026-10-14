@@ -39,6 +39,7 @@ class GameModule:
         self.refbase = REF_BASE_OVERRIDE.get(stem.lower(), self.base)
         self.delta = self.base - self.refbase
         self.funcs = {}        # shipped VA -> (name, file)
+        self.conf = {}         # shipped VA -> reference placement confidence (anchor/range/linked/inferred/nearest/gap)
         self.starts = []
         self.globals = {}      # shipped VA -> (label, users)
         self.gstarts = []
@@ -53,6 +54,7 @@ class GameModule:
             for r in csv.DictReader(open(sym, encoding='utf-8', errors='replace')):
                 a = int(r['address'], 16) + self.delta
                 self.funcs[a] = (r['new_name'], r['file'])
+                self.conf[a] = r.get('confidence', '')
         exp = os.path.join(self.refdir, 'exports.tsv')
         self.exports = {}
         if os.path.exists(exp):
@@ -165,7 +167,8 @@ class GameModule:
         seen = self.flow(s, nxt)
         ok = self._covers(seen, va)
         if ok:
-            return dict(func_start=s, name=n, file=fl, offset=va - s, status='flow', boundary=(va in seen))
+            return dict(func_start=s, name=n, file=fl, offset=va - s, status='flow', boundary=(va in seen),
+                        conf=self.conf.get(s, ''))
         # not reached from the reference start: look for a function start the reference did not split off
         # (code after int3/nop padding between the reference start and the patch)
         blob = self.read(s, va - s + 1)
@@ -177,7 +180,7 @@ class GameModule:
                 seen2 = self.flow(p, nxt)
                 if self._covers(seen2, va):
                     return dict(func_start=p, name='sub_%08x' % self.ref_va(p), file=fl, offset=va - p,
-                                status='unref', boundary=(va in seen2), ref_prev=n)
+                                status='unref', boundary=(va in seen2), ref_prev=n, conf=self.conf.get(s, ''))
         return dict(func_start=s, name=n, file=fl, offset=va - s, status='range', boundary=False)
 
     @staticmethod
@@ -191,7 +194,9 @@ class GameModule:
         """start of the instruction covering va, using recursive-descent flow of its function"""
         f = self.func_at(va)
         if f:
-            seen = self.flow(f[0], f[3])
+            loc = self.locate(va)
+            start = loc.get('func_start') or f[0]
+            seen = self.flow(start, f[3])
             for a in range(va, va - 16, -1):
                 if a in seen and a + seen[a] > va:
                     return a
@@ -217,3 +222,28 @@ def disasm(code, va, maxn=12, names=None):
         if len(out) >= maxn:
             break
     return out
+
+
+def _parse_bodies(mod):
+    import glob
+    bodies = {}
+    for f in glob.glob(os.path.join(mod.refdir, '**', '*.cpp'), recursive=True):
+        cur, buf = None, []
+        for l in open(f, encoding='utf-8', errors='replace'):
+            m = re.match(r'// 0x([0-9a-f]+)  \(ghidra', l)
+            if m:
+                if cur:
+                    bodies[cur] = ''.join(buf)
+                cur, buf = int(m.group(1), 16) + mod.delta, []
+            elif cur:
+                buf.append(l)
+        if cur:
+            bodies[cur] = ''.join(buf)
+    return bodies
+
+
+def ref_body(mod, start):
+    """decompiled body of the reference function at shipped VA start ('' if none)"""
+    if not hasattr(mod, '_bodies'):
+        mod._bodies = _parse_bodies(mod) if mod.refdir else {}
+    return mod._bodies.get(start, '')
