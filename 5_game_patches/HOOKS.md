@@ -84,8 +84,8 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | maps/map generation | 41 | 52 |
 | skills | 199 | 397 |
 | items/crafting/cube | 180 | 210 |
-| UI/HUD/panels | 97 | 118 |
-| sound | 268 | 272 |
+| UI/HUD/panels | 98 | 119 |
+| sound | 267 | 271 |
 | networking/packets | 70 | 130 |
 | monsters/AI/combat | 122 | 158 |
 | quests | 39 | 45 |
@@ -546,7 +546,7 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | 0xfa640 | DAT_6fd1a5e8+0x58<br>`PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` | function-pointer swap (table) | `dd D2Game!sub_6fc8a9d0+0x1e0` | `dd sub_102ec2e0` |  | I-0016 PD2 init writes | base pointer DAT_104e4548 = D2Game.dll +0xfa5f8 (DAT_6fd1a5f8) |
 | 0xfbc38 | DAT_6fd1bbf0+0x48<br>`PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` | function-pointer swap (table) | `dd D2Game!sub_6fcc37d0` | `dd sub_Ptr_D2Game_6fd1bc38_10253cd0` | `sub_Ptr_D2Game_6fd1bc38_10253cd0` 0x10253cd0 | M-0188 PD2 table |  |
 
-### D2Game.dll — sound (1)
+### D2Game.dll — UI/HUD/panels (1)
 
 | RVA | Game function (file) | Kind | Original | PD2 | Handler | Hook / src | Notes |
 |---|---|---|---|---|---|---|---|

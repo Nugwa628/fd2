@@ -23,7 +23,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | **done** except layouts of PD2-only/`.bin`-only tables (needs Phase 2/3) |
 | 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | **done** (ProjectDiablo, PD2_EXT, BH) |
 | 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT **done** |
-| 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
+| 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | **done** |
 | 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/{BH,D2GL}`, `7_launcher/` | **done** |
 | 6 Verification + README numbers | orchestrator + verifier | all | `README.md` | not started |
 
@@ -170,3 +170,12 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - **Correction:** the launcher source IS public (`Project-Diablo-2/PD2Launcher`, commit 300ed6f verified); P5c's "non-public" claim fixed in `7_launcher/README.md`.
 - **New open item:** shipped `SGD2FreeRes.dll` differs from tag 3.0.3.1 (missing 640x480 default/gateway table, `"1068x600"` present). INVENTORY updated; decompile + diff is a follow-up.
 - Orchestrator check: no IPs, user paths or host names left unredacted in `6_config/`.
+
+### P4 Game patches and hooks: done (2026-10-14)
+- 1,636 patch records → 1,245 hooks, 0 undecodable, 0 outside a game function (1,068 code records in reference functions, 225 in unsplit entry points named `sub_<va>`, 340 data). Script `tools/patches/build_patches.py` (deterministic, ~15 s); overrides with reasons in `tools/patches/`.
+- **Correction:** main table 0x103c7f50 has 1,198 real entries (2,187 slots, installer stops at offset 0). Conditional table 35 entries (skipped with `-plugy`), block table 57, init-time writes 284 (skill tables, D2Client packet handlers, D2Net packet sizes), 1 window subclass, PD2_EXT 4, on-disk 21, BH 36. No WriteProcessMemory, no IAT hooks.
+- By module: D2Game 881, D2Client 583, D2Common 85, D2Net 30, D2Win 28, others ≤13. By feature (hooks): sound 267, skills 199, items/cube 180, save files 147, monsters/AI 122, UI 98, networking 70, misc 61, maps 41, quests 39, loot filter 14 (BH), loader 6, stash 1.
+- Notable: save buffer 0x2000 → 0x20000; 207 PlaySound calls → PD2 sound engine; stash gold 2.5M → 5M; ItemStatCost stride 0x144 → 0x150 handled by hooking 23 call sites (stride use inferred).
+- On-disk: D2Win has 17 more redirected MPQ-name string operands; undoing all D2Win changes restores its checksum exactly. Storm: only the import rename found, checksum still unexplained.
+- Orchestrator check: 12 random PD2 patch rows — original bytes match the stock DLLs 12/12.
+- **Follow-up (tool bug):** `game_pointers.tsv` has 10 lazy-thunk rows whose address is a PD2 wrapper/jmp stub, not the thunk (e.g. 0x102cbcd0). Phase 4's script handles it; `tools/src` should be fixed.

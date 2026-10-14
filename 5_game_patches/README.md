@@ -145,6 +145,10 @@ Without vanilla copies this is best-effort. For D2Win the checksum test is stron
   (through `{1.13c, 1.13d}` game-pointer pairs; nearly all 1.13d halves are 0) and BH's patches carry 1.13d values.
 * `kind` per record: `call redirect (E8)` = the original instruction already was a `call`, only its target
   changes; `call insertion (E8)` = PD2 writes the `E8` itself (separate 1-byte entry, `opcode byte`);
-  `jmp target redirect (E9)` = an existing `jmp` retargeted; `byte change` = a single byte (often part of a
-  multi-byte instruction rewrite, see the hook's disassembly); `constant change` = imm32/disp32 operand.
+  `jmp target redirect (E9)` = an existing `jmp` retargeted; `opcode/operand byte change` = a single byte at an
+  instruction start / inside an instruction (often part of a multi-byte rewrite written byte by byte, see the
+  hook's disassembly); `constant change` = imm32/disp32 operand; `function-pointer swap (table)` = a pointer in
+  a game data table (callback/vtable-like tables) replaced by a PD2 function.
 * Integrity/anti-cheat hooks are described only at a high level.
+* `game_pointers.tsv` lists 10 lazy-thunk rows whose address is not the thunk itself but a PD2 wrapper or a `jmp` stub that ends in the thunk (0x10218950 Storm_511, 0x10218960 sub_6f8f80f0, 0x1022b130 UI_inv_6fb40f60, 0x10230cd0 sub_6faeba70, 0x10256fa0 UNIT_Monster_6fb00e70, 0x10259e70 sub_6faf8b20, 0x1025b350 D2Net_10024, 0x102cbcd0 sub_6fd020a0, 0x102d0fb0 D2Lang_10011_102d0fb0, 0x102f1200 sub_6fb691c0). This script verifies every thunk by its bytes (`cmp dword ptr [cell], 0`) and names those addresses as wrappers; e.g. the 65 table hooks that call `0x102cbcd0` add a NULL/range guard in front of D2Game `sub_6fd020a0`, they are not plain thunks.
+* 8 records re-point a call or table entry to a PD2 lazy thunk of the very game function that was already there (no change on a stock 1.13c install; marked `no-op` in `notes`).

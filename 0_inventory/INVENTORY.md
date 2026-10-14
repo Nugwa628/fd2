@@ -74,8 +74,11 @@ linker set it, and a patcher that edits bytes almost never updates it:
    base MPQs open.
 
 Both are consistent with the reference decompile (Median XL's D2Win still shows `return 1` there).
-A full byte diff needs vanilla 1.13c `D2Win.dll` and `Storm.dll` (see open questions). Phase 4
-will check these two files for further changes.
+A full byte diff needs vanilla 1.13c `D2Win.dll` and `Storm.dll` (see open questions). Phase 4 checked both
+(`5_game_patches/README.md`): D2Win also has 17 redirected string operands pointing its base-MPQ names at new
+`..\\d2*.mpq` strings in `.rdata` padding; undoing all D2Win changes restores the stored PE checksum exactly.
+Storm: only the import rename was found, but its checksum still mismatches after undoing it, so a non-code
+change (or a stock file with a bad checksum) cannot be ruled out.
 
 ## Third-party components
 

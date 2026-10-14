@@ -2213,10 +2213,20 @@ def write_readme(V, fstats, unused_ov, bh_ok):
           (through `{1.13c, 1.13d}` game-pointer pairs; nearly all 1.13d halves are 0) and BH's patches carry 1.13d values.
         * `kind` per record: `call redirect (E8)` = the original instruction already was a `call`, only its target
           changes; `call insertion (E8)` = PD2 writes the `E8` itself (separate 1-byte entry, `opcode byte`);
-          `jmp target redirect (E9)` = an existing `jmp` retargeted; `byte change` = a single byte (often part of a
-          multi-byte instruction rewrite, see the hook's disassembly); `constant change` = imm32/disp32 operand.
+          `jmp target redirect (E9)` = an existing `jmp` retargeted; `opcode/operand byte change` = a single byte at an
+          instruction start / inside an instruction (often part of a multi-byte rewrite written byte by byte, see the
+          hook's disassembly); `constant change` = imm32/disp32 operand; `function-pointer swap (table)` = a pointer in
+          a game data table (callback/vtable-like tables) replaced by a PD2 function.
         * Integrity/anti-cheat hooks are described only at a high level.
         '''))
+    out.write('* `game_pointers.tsv` lists %d lazy-thunk rows whose address is not the thunk itself but a PD2 wrapper or a '
+              '`jmp` stub that ends in the thunk (%s). This script verifies every thunk by its bytes '
+              '(`cmp dword ptr [cell], 0`) and names those addresses as wrappers; e.g. the 65 table hooks that call '
+              '`0x102cbcd0` add a NULL/range guard in front of D2Game `sub_6fd020a0`, they are not plain thunks.\n' % (
+                  len(gp_wrapper), ', '.join('%s %s' % (h(a), r['pd2_name']) for a, r in sorted(gp_wrapper.items()))))
+    out.write('* %d records re-point a call or table entry to a PD2 lazy thunk of the very game function that was already '
+              'there (no change on a stock 1.13c install; marked `no-op` in `notes`).\n' % sum(
+                  1 for r in RECORDS if 'no-op:' in r['notes']))
     open(f'{OUT}/README.md', 'w', encoding='utf-8').write(out.getvalue())
 
 

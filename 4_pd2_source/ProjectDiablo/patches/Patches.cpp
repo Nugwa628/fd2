@@ -1484,7 +1484,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Game!SKILLS_Skills_6fcbfd00
     //     now: call sub_Hook_SKILLS_Skills_6fcc0830_102ed560
     {D2DLL_D2GAME, 0x0F1696, (DWORD)sub_Hook_SKILLS_Skills_6fcc0830_102ed560, TRUE, 0},  // P0428 call redirect (E8)
-    // --- M-0348 D2Game.dll DAT_6fd1a078+0xa8  [sound] (PLAYER/PlrMsg.cpp)
+    // --- M-0348 D2Game.dll DAT_6fd1a078+0xa8  [UI/HUD/panels] (PLAYER/PlrMsg.cpp)
     //     was: dd D2Game!PLAYER_PlrMsg_6fcedbb0
     //     now: dd sub_Ptr_D2Game_6fd1a120_102df280
     {D2DLL_D2GAME, 0x0FA120, (DWORD)sub_Ptr_D2Game_6fd1a120_102df280, FALSE, 0},  // P0429 function-pointer swap (table)

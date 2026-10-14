@@ -13,8 +13,8 @@ Hooks (see `HOOKS.md`) grouped by feature. The assignment is rule-based (`tools/
 | [maps/map generation](#mapsmap-generation) | 41 | 52 | D2Common.dll 31, D2Game.dll 10 |
 | [skills](#skills) | 199 | 397 | D2Game.dll 136, D2Client.dll 63 |
 | [items/crafting/cube](#itemscraftingcube) | 180 | 210 | D2Game.dll 143, D2Common.dll 21, D2Client.dll 16 |
-| [UI/HUD/panels](#uihudpanels) | 97 | 118 | D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Launch.dll 1, D2gfx.dll (game window) 1 |
-| [sound](#sound) | 268 | 272 | D2Client.dll 267, D2Game.dll 1 |
+| [UI/HUD/panels](#uihudpanels) | 98 | 119 | D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1 |
+| [sound](#sound) | 267 | 271 | D2Client.dll 267 |
 | [networking/packets](#networkingpackets) | 70 | 130 | D2Game.dll 60, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 1 |
 | [monsters/AI/combat](#monstersaicombat) | 122 | 158 | D2Game.dll 102, D2Client.dll 20 |
 | [quests](#quests) | 39 | 45 | D2Game.dll 39 |
@@ -889,9 +889,9 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/equipment_lock`, `/pd2_g
 
 Client UI: panels, inventory screen, hover-item drawing, HUD texts (hp/mp text, belt status, dps), automap, the window procedure (keyboard/mouse/controller input), D2Win/D2Launch/D2Multi screens.
 
-**97 hooks** (D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Launch.dll 1, D2gfx.dll (game window) 1); kinds: call redirect 51, operand/immediate byte change (block) 22, block replace 8, function-pointer swap (table) 5, NOP fill 3, call hook (E8 written) 3, jmp detour 3, operand byte change 1, window subclass (SetWindowLongW GWL_WNDPROC) 1.
+**98 hooks** (D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1); kinds: call redirect 51, operand/immediate byte change (block) 22, block replace 8, function-pointer swap (table) 6, NOP fill 3, call hook (E8 written) 3, jmp detour 3, operand byte change 1, window subclass (SetWindowLongW GWL_WNDPROC) 1.
 
-Handlers (40 distinct; most used first):
+Handlers (41 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -911,6 +911,7 @@ Handlers (40 distinct; most used first):
 | `sub_Hook_sub_6faf3920_102ef5d0` | 0x102ef5d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
 | `functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0` | 0x1022f2d0 | `functions/D2ClientFunctions.cpp` | 1 |
 | `sub_Hook_sub_6fb4fb00_1025bcb0` | 0x1025bcb0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 1 |
+| `sub_Ptr_D2Game_6fd1a120_102df280` | 0x102df280 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
 | `sub_Hook_sub_6faf4b50_1025dee0` | 0x1025dee0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 1 |
 | `functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0` | 0x102bfbc0 | `functions/D2NewFunctions.cpp` | 1 |
 | `client_Sound_Sound_Hook_sub_6fb4cd07_10232a90` | 0x10232a90 | `client/Sound/Sound.cpp` | 1 |
@@ -919,8 +920,7 @@ Handlers (40 distinct; most used first):
 | `sub_Hook_sub_6fb739e0_10258980` | 0x10258980 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
 | `sub_Hook_UI_showitems_6fb08fb0_102f0c90` | 0x102f0c90 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
 | `sub_Hook_sub_6fb12580_1020f470` | 0x1020f470 | `_unattributed/before_client_DrawHoverItem_unit00_10001000.cpp` | 1 |
-| `sub_Hook_sub_6faf4230_10227fc0` | 0x10227fc0 | `_unattributed/between_client_DrawHoverItem_and_functions_D2ClientFunctions_unit05.cpp` | 1 |
-| … 15 more (patches.csv) | | | |
+| … 16 more (patches.csv) | | | |
 
 Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_UI_inv_and_SKILLS_Skills.cpp` (13), D2Multi `_unattributed/code_6f9dc510.cpp` (12), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (10), D2Win `_unattributed/after_Src_D2Comp.cpp` (8), D2Client `_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp` (5), D2Client `_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp` (3), D2Client `WARDEN/WardenClient.cpp` (3), Bnclient `BNetGW.cpp` (2), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (2), D2Client `UI/automap.cpp` (2), D2Client `_unattributed/between_WARDEN_WardenClient_and_UI_inv.cpp` (2).
 
@@ -960,6 +960,7 @@ Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_
 | M-0298 | D2Client.dll | 0x44ec8 | sub_6faf4b50+0x378 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0303 | D2Client.dll | 0x89e34 | sub_6fb39a20+0x414 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(2) |
 | M-0306 | D2Win.dll | 0xf2e2 | D2Win_10065+0x12 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-0348 | D2Game.dll | 0xfa120 | DAT_6fd1a078+0xa8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a120_102df280 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(6) |
 | M-0645 | D2Client.dll | 0x452e6 | sub_6faf52be+0x28 | call hook (E8 written) + 25 NOP | sub_Hook_sub_6faf4b50_1025dee0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
 | M-0712 | D2Client.dll | 0x44f6f | sub_6faf4f4d+0x22 | call hook (E8 written) + 1 NOP | functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
 | M-0775 | D2Client.dll | 0x9cdaf | sub_6fb4cd07+0xa8 | call redirect | client_Sound_Sound_Hook_sub_6fb4cd07_10232a90 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
@@ -1034,9 +1035,9 @@ Config keys (`ProjectDiablo.json`): `/classic_game_settings/video/contrast`, `/c
 
 PD2's own sound engine (client/Sound/*.cpp: Sound, SoundChannel, SoundInstance, SoundSample) replaces the game's sound playback; per-category volumes.
 
-**268 hooks** (D2Client.dll 267, D2Game.dll 1); kinds: call redirect 241, operand byte change 18, function-pointer swap (table) 4, instruction rewrite (2 bytes) 2, NOP fill 2, code-pointer operand (imm32 -> PD2 function) 1.
+**267 hooks** (D2Client.dll 267); kinds: call redirect 241, operand byte change 18, function-pointer swap (table) 3, instruction rewrite (2 bytes) 2, NOP fill 2, code-pointer operand (imm32 -> PD2 function) 1.
 
-Handlers (17 distinct; most used first):
+Handlers (16 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -1046,7 +1047,6 @@ Handlers (17 distinct; most used first):
 | `client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0` | 0x102340c0 | `client/Sound/SoundChannel.cpp` | 3 |
 | `client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0` | 0x102350d0 | `client/Sound/SoundInstance.cpp` | 3 |
 | `client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0` | 0x102343f0 | `client/Sound/SoundInstance.cpp` | 2 |
-| `sub_Ptr_D2Game_6fd1a120_102df280` | 0x102df280 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
 | `client_Sound_Sound_Hook_WARDEN_WardenClient_6fb38dd0_10233840` | 0x10233840 | `client/Sound/Sound.cpp` | 1 |
 | `client_Sound_Sound_Hook_sub_6faf4b50_10232180` | 0x10232180 | `client/Sound/Sound.cpp` | 1 |
 | `client_Sound_SoundInstance_Hook_sub_6faf4b50_102346c0` | 0x102346c0 | `client/Sound/SoundInstance.cpp` | 1 |
@@ -1064,7 +1064,6 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 
 | Hook | Module | RVA | Game function | Kind | Handler | why |
 |---|---|---|---|---|---|---|
-| M-0348 | D2Game.dll | 0xfa120 | DAT_6fd1a078+0xa8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a120_102df280 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(8) |
 | M-0723 | D2Client.dll | 0x892ce | WARDEN_WardenClient_6fb38dd0+0x4fe | call redirect | client_Sound_Sound_Hook_WARDEN_WardenClient_6fb38dd0_102338… | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
 | M-0724 | D2Client.dll | 0x7da1b | sub_6fb2d850+0x1cb | call redirect | client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4), [gt]func:WARDEN_WardenClient_6fb3(7[d… |
 | M-0725 | D2Client.dll | 0x88ae4 | WARDEN_WardenClient_6fb38a70+0x74 | call redirect | client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4), [gt]func:WARDEN_WardenClient_6fb3(7[d… |
