@@ -151,3 +151,9 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Placeholders 126 → 89 by distinct-name count (README method), 128 → 90 by declaration lines (Phase 2 method). Undeclared: 10 CRT internals.
 - Confirmed: the hooked call at Game.exe 0x40763f is `D2Win_10086`.
 - Generator now only deletes/rewrites `.cpp` files carrying its own header, so hand/script-made `patches/` folders are safe. ProjectDiablo regenerates byte-identically.
+
+### P5b Config schemas (started 2026-10-14)
+- Output: `6_config/` (one schema per config file, every key → reading function/address/file or upstream file:line; loot filter grammar). User-specific values redacted; raw configs not committed.
+
+### P5c Launcher + D2GL (started 2026-10-14)
+- Output: `7_launcher/` (new folder: framework, PD2 assemblies decompiled to C#, PROTOCOL.md; secrets redacted; launcher never executed), `4_pd2_source/D2GL/` (closest fork commit, CHANGES.md vs v1.3.3). Layout addition: `7_launcher/` holds the launcher work because it is not game code.
