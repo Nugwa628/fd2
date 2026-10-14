@@ -1,0 +1,12 @@
+{
+  "_comment": "Locations for tools/Fd2Tools. Relative paths resolve against this file's folder; ${key} expands another key or an environment variable; '/' and '\\' both work. Any key can be overridden with --key-name <path>. Defaults are the Linux container layout; on Windows edit them or pass e.g. --reference-root C:\\work\\sigmaRE.",
+  "reference_root":    "${workspace_root}/inputs/sigmaRE/sigmaRE",
+  "workspace_root":    "/home/user/fd2_work",
+  "repo_root":         "..",
+  "ghidra_export_dir": "${workspace_root}/3_ghidra_fixed",
+  "pd2_install_dir":   "${workspace_root}/inputs/ProjectD2/ProjectD2",
+  "game_dir":          "${pd2_install_dir}",
+  "ghidra_headless":   "${workspace_root}/ghidra/support/analyzeHeadless",
+  "reference_out":     "${workspace_root}/reference_rebuild",
+  "system_dll_dirs":   []
+}

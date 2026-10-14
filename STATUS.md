@@ -63,3 +63,12 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Input: `sigmaRE/4_sigma_source/tools/*` (C# generators, Ghidra scripts, rebuild.ps1).
 - Output: `tools/` in this repo: copied tools, paths parameterized, building on Linux with .NET SDK; `ModuleConfig` entries for `ProjectDiablo` and `PD2_EXT`; `tools/README.md`.
 - Done: `dotnet build` succeeds; no hard-coded `C:\Games\median-xl` / `C:\Users\zffit` paths remain; usage documented.
+
+## Sub-agent results
+
+### T1 Tools port: done (2026-10-14)
+- `tools/Fd2Tools.csproj` (net8.0, dotnet-sdk-8.0 from apt) builds with 0 warnings / 0 errors. Driver commands: `paths`, `info`, `namedb`, `pd2-scan`, `pd2`, `sigma [--game]`, `fields`, `undeclared`. Paths in `tools/fd2.paths.json`, overridable by `--key`.
+- New `ModuleConfig`s `ProjectDiablo` and `PD2_EXT` (own-file anchor regex, `Alphabetical` flag, game `__FILE__` paths ignored).
+- Name DB from `sigmaRE/5_game_source`: 21 modules, 2,535 exports, 12,418 attributed functions, 0 address mismatches vs the shipped DLLs (Storm rebase handled).
+- `pd2-scan`: ProjectDiablo.dll has 13 own-file anchors, 23 game paths ignored, **0 game ordinal imports**. It resolves game functions at run time into pointer globals, so Phase 3 must recover a `game_pointers.tsv` (global → module + ordinal/offset) before calls can get reference names.
+- Not tested: `rebuild.ps1` (no PowerShell in the container). Tables.cs/Fields.cs still carry D2Sigma addresses (not applicable to PD2 until its table code is found).

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- fd2 source-tree generators (ported from sigmaRE 4_sigma_source/tools). Build: dotnet build tools/Fd2Tools.csproj -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Fd2Tools</AssemblyName>
+    <RootNamespace>Fd2Tools</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- only tools/src/*.cs: tools/ also holds Python/C++/Java helpers owned by other phases -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- the ported code is C# 5 style (PowerShell Add-Type origin); silence style-only warnings -->
+    <NoWarn>$(NoWarn);CS0168;CS0219;CS0414;CS0649;CS8321</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src/**/*.cs" />
+    <None Include="fd2.paths.json" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+</Project>
