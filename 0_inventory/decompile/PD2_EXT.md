@@ -43,6 +43,8 @@ ID matches, RTTI type descriptors, the vftables, and the function candidates tha
 | Untraced placeholder **declarations** (raw → fixed) | **128 → 90** (−30%); `.extra.c` has 3 more (2 `in_EAX`, 1 `unaff_retaddr`) |
 | Untraced placeholder uses (raw → fixed) | 304 → 205 |
 | FixAndExport repairs | 4 stack params, 43 register params, 6 return types; it converged after pass 4 (passes 5-6 changed the same 2 functions back and forth) |
+| Same with `strict` (`FixAndExport.java <out> 6 strict`, test re-import) | byte-identical export: 0 return types reverted, 90 declarations / 205 uses |
+| Same with `strict guardregs` (test only, not used) | 96 declarations / 218 uses (6 register params reverted); slightly worse here, so the plain/strict result is kept |
 
 The 90 remaining declarations: `unaff_EBP` 23 (SEH funclets and `_EH4_*` helpers that use the parent frame),
 `extraout_var` 19 (upper bytes of `bool` returns), `unaff_retaddr` 8, x87/FPU state (`in_FPUControlWord`,

@@ -21,7 +21,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 |---|---|---|---|---|
 | 0 Inventory/triage | orchestrator | inputs | `0_inventory/` | **done** (see `0_inventory/INVENTORY.md`) |
 | 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | **done** except layouts of PD2-only/`.bin`-only tables (needs Phase 2/3) |
-| 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | not started |
+| 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | **done** (ProjectDiablo, PD2_EXT, BH) |
 | 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | not started |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
 | 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/BH` | not started |
@@ -109,3 +109,8 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Input: `3_ghidra_fixed/ProjectDiablo_*` exports + game_pointers/datafuncs/prototypes TSVs, Ghidra project, sigmaRE name DB.
 - Output: `4_pd2_source/ProjectDiablo/` (tree, include/ incl. `d2structs.h`, symbols.csv, FILES.md, exports/imports.tsv, `game_pointers.tsv`, README with counts); tool fixes in `tools/`.
 - Done: thunk prototypes applied and re-exported (lost-arguments fix); attribution with confidence levels; link-order verdict; undeclared names only STL internals; `tools/rebuild.sh --pd2` regenerates.
+
+### P2b Decompile PD2_EXT.dll + BH.dll: done (2026-10-14)
+- **PD2_EXT:** 470 + 18 added = 488 functions (12 fake forwarder entries to drop); FID 181; placeholders 128 → 90. PD2 code is 4 functions at 0x10001000–0x10001241, the rest static CRT. Runtime patches: Game.exe 0x4082dd call → `FUN_10001080`; Game.exe 0x40763f call → `FUN_10001000` (original data load, then `LoadLibraryA("ProjectDiablo.dll")`); Game.exe 0x4083ef–0x40840f 33 bytes NOP; Fog.dll+0x17ea7 call → `FUN_10001050` (guarded by an 8-byte check at Fog+0xff5f; makes `Fog_10116` InstallPath the parent folder).
+- **BH:** 7,176 + 5,330 added = 12,506 functions; 126 BH RTTI classes, 100 vtables; placeholders 3,832 → 3,674 with `strict guardregs` (new opt-in FixAndExport mode; plain/strict made BH worse via a CRT register-capture routine). Modules: GameSettings, ScreenInfo, Gamefilter, Bnet, Item, Party, StashExport, ChatColor, MapNotify; **no Maphack/AutoTele module**. 56 loot-filter condition classes (PD2: MapTier, CraftLevel, RerollLevel, Automod). Interop: ProjectDiablo calls 8 `BH*` exports; BH calls ProjectDiablo's `D2Client_PlaySoundWithCustomVolumeOrPriority` and D2GL's `d2glIsReady`/`d2glConfigQueryImpl`. 35+ `Patch` objects with 1.13c/1.13d offsets.
+- Decision: FixAndExport mode per binary: ProjectDiablo `strict`, PD2_EXT plain (= strict), BH `strict guardregs`.

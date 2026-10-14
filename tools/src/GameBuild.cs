@@ -63,8 +63,15 @@ public static class GameBuild
         }
         KeyValuePair<uint, string> e;
         if (ex != null && ex.TryGetValue(ordinal, out e) && e.Value != null) return Ident(e.Value);
+        // fd2: documented ordinal-only exports of system DLLs that are not in game_dir (Linux has no SysWOW64)
+        Dictionary<int, string> known; string kn;
+        if (KnownOrdinals.TryGetValue(dll, out known) && known.TryGetValue(ordinal, out kn)) return kn;
         return null;
     }
+    static Dictionary<string, Dictionary<int, string>> KnownOrdinals = new Dictionary<string, Dictionary<int, string>>(StringComparer.OrdinalIgnoreCase) {
+        // xinput1_4.dll: ordinals 2-5 are the documented exports (MSDN), 100+ are the undocumented *Ex variants
+        { "XINPUT1_4.dll", new Dictionary<int, string> { {2, "XInputGetState"}, {3, "XInputSetState"}, {4, "XInputGetCapabilities"}, {5, "XInputEnable"} } },
+    };
     // demangled "Class::member" (as Ghidra prints calls) -> C name of the export
     public static Dictionary<string, string> CppMap = new Dictionary<string, string>();
     public static HashSet<string> CppAmbiguous = new HashSet<string>();
@@ -353,17 +360,48 @@ public static class GameBuild
         return cfg;
     }
 
-    // game_pointers.tsv: "<global>\t<dll>\t<ordinal | +0xOFFSET | 0xVA>" per line ('#' comments). PD2 (D2Template) calls the
-    // game through pointers it fills at run time, so its decompile has no Ordinal_N imports to name.
-    // TODO(phase 3): generate this file from ProjectDiablo's D2Template pointer tables in the Ghidra export.
+    // game_pointers.tsv, two formats ('#' lines are comments):
+    //   simple : "<global>\t<dll>\t<ordinal | +0xOFFSET | 0xVA>" per line (fd2 tools before phase 3)
+    //   table  : the header "address\tkind\tpd2_name\tcell\tcell_name\tcopies\tdll\t..." written by Pd2Pointers.WriteTable
+    //            (phase 3); names come from its columns, so the reference lookup already happened there.
+    // PD2 (D2Template) calls the game through pointers it fills at run time, so its decompile has no Ordinal_N imports to name.
     public static int LoadGamePointers(string path, Dictionary<string, GameModule> mods, ModuleConfig cfg, StringBuilder report)
     {
         int ok = 0, bad = 0;
+        string[] hdr = null;
         foreach (var raw in File.ReadLines(path))
         {
-            string line = raw.Trim();
-            if (line.Length == 0 || line.StartsWith("#")) continue;
+            string line = raw.TrimEnd('\r', '\n');
+            if (line.Trim().Length == 0 || line.StartsWith("#")) continue;
             var c = line.Split('\t');
+            if (hdr == null && c[0] == "address" && c.Length > 5) { hdr = c; continue; }
+            if (hdr != null)
+            {
+                System.Func<string, string> col = k => { int i = Array.IndexOf(hdr, k); return i >= 0 && i < c.Length ? c[i].Trim() : ""; };
+                string fname = col("pd2_name"), cname = col("cell_name"), refName = col("reference_name");
+                if (fname.Length == 0 || cname.Length == 0) { bad++; report.AppendLine(col("address") + "\tunresolved pointer\t" + col("dll") + " " + col("1.13c")); continue; }
+                uint fa = Convert.ToUInt32(col("address").Replace("0x", ""), 16);
+                cfg.FunctionNames[fa] = fname;
+                string target = col("target"), defined = col("defined_in");
+                string note = (col("kind") == "lazy-thunk" ? "cache of thunk " + fname : "cell of accessor " + fname) + ": " + col("dll") + " " + col("1.13c") +
+                              " (1.13d " + col("1.13d") + ")" + (target == "data" ? ", address of game variable " + refName : target == "code" ? ", code address inside " + col("inside") : "") +
+                              ", filled at run time" + (defined.Length > 0 ? "; " + (target == "data" ? "see " : "defined in ") + defined : "");
+                foreach (var g in new[] { col("cell") }.Concat(col("copies").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                {
+                    if (g.Length == 0) continue;
+                    bool copy = g != col("cell");
+                    cfg.GlobalNames[g] = cname;
+                    cfg.GlobalNotes[g] = copy ? "per-file copy of " + cname + " (static initializer): " + note : note;
+                }
+                if (refName.Length > 0) cfg.GamePointerTargets[fname] = refName;
+                string bind = (refName.Length > 0 && refName != fname ? refName + ", " : "") + col("dll") + " " + col("1.13c") + (defined.Length > 0 ? ", " + defined : "");
+                cfg.GameBindingFile[fname] = bind;
+                if (target == "data")
+                    foreach (var g in new[] { col("cell") }.Concat(col("copies").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))) cfg.GlobalTypes[g] = "uint8_t *";
+                report.AppendLine(col("address") + "\t" + col("kind") + "\t" + fname + "\t" + refName);
+                ok++;
+                continue;
+            }
             string name = null; GameModule gm;
             if (c.Length >= 3 && mods.TryGetValue(c[1].Trim(), out gm))
             {

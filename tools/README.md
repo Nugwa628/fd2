@@ -32,6 +32,15 @@ Other phases own `tools/inventory.py`, `tools/ghidra/build_ghidra.sh`, `tools/gh
 | `apply_names_ghidra.py` | Ghidra script that applies `symbols.csv` names and plate comments | only the prompt and category text changed |
 | `rebuild.ps1` / `rebuild.sh` | Build the project and run it (`-Pd2`/`--pd2`, `-Scan`/`--scan`, `-Game`/`--game`) | `.ps1` rewritten around `dotnet`; `.sh` is new |
 | `fd2.paths.json` | Locations (see below) | new |
+| `src/Pd2Pointers.cs` | phase 3: D2Template game-pointer table (`game_pointers.tsv`), thunk prototypes for Ghidra, patch-table handler hints | new |
+| `src/LinkUnits.cs` | phase 3: object files (link units) from the C++ dynamic-initializer table `__xc_a` | new |
+| `src/Pd2Readme.cs` | phase 3: fills `tools/pd2/<Module>.README.md` with the tree's real counts | new |
+| `ghidra/pd2_prototypes.sh` | phase 3: pointer table → `ret N` → prototypes → `ApplyPrototypes` + `FixAndExport strict` on the existing project; keeps the previous export as `*.v1.c` | new |
+| `ghidra/ApplyPrototypes.java` | optional 5th column renames the function; C99 type names and unparsable types fall back to a same-size type | extended (backward compatible) |
+| `pd2/thunk_purge.py` | `ret N` of every thunk target in the 1.13c DLL (capstone, linear scan to the first `ret`) | new |
+| `pd2/struct_evidence.py` | `include/d2structs.h`: community 1.13c layouts + offsets proven by PD2 accesses (type propagation over the tree) | new |
+| `pd2/count_placeholders.py` | untraced-placeholder and empty-thunk-call counts of an export or tree (same counting as `Pd2Readme.cs`) | new |
+| `pd2/ProjectDiablo.README.md` | README template of `4_pd2_source/ProjectDiablo` (`{{key}}` = computed value) | new |
 
 ## Build
 
@@ -70,12 +79,17 @@ info <pe>                   PE header, sections, export/import counts
 namedb                      load sigmaRE/5_game_source as the name database and print counts
 pd2-scan [--module M]       dry run, no Ghidra export needed (rebuild.sh --scan / rebuild.ps1 -Scan)
 pd2 [--module M]            build 4_pd2_source/<M> (rebuild.sh --pd2 / rebuild.ps1 -Pd2), then run Declare
+pd2-pointers [--module M] [--prototypes out.tsv]
+                            only the game-pointer table (+ ApplyPrototypes input); `pd2` regenerates the table itself
+pd2-readme [--module M]     <tree>/README.md from tools/pd2/<M>.README.md
 sigma [--game] [--dll f]    rebuild.ps1's original job, written to <reference_out>
 fields <dll> <symbols.csv> [--vector-ctor 0xADDR]
 undeclared <tree> [out.csv]
 ```
 
-Linux: `tools/rebuild.sh --pd2 [--module ProjectDiablo] [--ghidra /path/to/exports]`.
+Linux: `tools/rebuild.sh --pd2 [--module ProjectDiablo] [--ghidra /path/to/exports]`. Since phase 3 `--pd2` also runs, for
+each module with a `tools/pd2/<Module>.README.md` template, `tools/pd2/struct_evidence.py` (ProjectDiablo only; needs
+python3) and `pd2-readme`. `rebuild.ps1 -Pd2` runs the generator only.
 Windows: `powershell -ExecutionPolicy Bypass -File tools\rebuild.ps1 -Pd2 [-Module ProjectDiablo] [-Ghidra D:\exports]`.
 Neither script is tied to an OS: `rebuild.sh` accepts the `-Pd2`-style spellings as well.
 
@@ -96,6 +110,26 @@ They are set up like D2Sigma's `ModuleConfig` defaults, plus these new options:
   `Decompiled` (`ProjectDiablo_decompiled.c`, `PD2_EXT_decompiled.c`), `OutputSubdir` (`4_pd2_source/<Module>`),
   `GlobalNames` (see below).
 * The image base is always read from the PE. `LibStart = 0` means the CRT start is detected.
+
+### Phase 3 options (all default to off, so D2Sigma, the game modules and PD2_EXT are unchanged)
+
+* `PointerResolver` (ProjectDiablo: `0x102f10f0`): `pd2` first rebuilds `<tree>/game_pointers.tsv` from the export with
+  `Pd2Pointers.Build` (every `resolve(dll, pair[version])` call, thunk or accessor, the per-file copies of each
+  accessor, names through the name database, call sites, prototypes). Thunks are named after their target
+  (`FunctionNames`), cells and copies after it in `globals.h` (`GlobalNames`).
+* `InitTableStart`/`InitTableEnd`/`TuMarker`: link units from `__xc_a` (see `LinkUnits.cs` and the tree's README).
+  `.text$di` is placed per unit; `.text$mn` functions that use a unit's private globals become extra anchors for
+  `ResolveGaps`; unnamed units and the blocks between them get `_unattributed/between_<A>_and_<B>_unitNN` /
+  `_after_unitNN` names in link order. `link_units.tsv` is written.
+* `FileOverrides` / `ManualNames` / `Hints`: hand decisions with a reason, for any module (D2Sigma keeps its own tables).
+* `PatchTables`/`PatchModules`: D2Template patch tables; handlers get `_Hook_<game function>_`.
+* `ConfigFile`: settings JSON in `pd2_install_dir`; functions that use one key get `_Config_<key>_`.
+* `StringConstants`: integer constants that address `.rdata` strings are commented with the string and count as
+  `__FILE__` evidence.
+* Non-Sigma naming adds `_InitPtr_<target>_`/`_init_` (static initializers) and `_Wraps_<Module>_<file>_` (passes a game
+  `__FILE__` string) hints. `_DAT_x` in the export is read as `DAT_x`.
+* `game_pointers.tsv` has a second, tabular format (header `address<TAB>kind<TAB>pd2_name...`); `LoadGamePointers`
+  reads both. `GameBuild.ExternalName` knows the documented XInput ordinals when no system DLLs are available.
 
 ## Name database (base-game names exactly as in the reference)
 
@@ -127,16 +161,22 @@ It then provides three things:
   all worked. The reference tree was unchanged afterwards.
 * `rebuild.ps1` hasn't been run, because there is no PowerShell in the container.
 
+## Verified (phase 3, 2026-10-14, container)
+
+* `tools/ghidra/pd2_prototypes.sh` on the phase 2 project: 969 thunk prototypes applied, 0 failed; FixAndExport strict
+  converged; export split back into main (12,078) + extra (1,709).
+* `tools/rebuild.sh --pd2 --module ProjectDiablo` regenerates `4_pd2_source/ProjectDiablo` (tree, Declare,
+  `d2structs.h`, README) in under a minute; numbers in that README.
+* The reference trees under `sigmaRE/` are only read.
+
 ## Known gaps and TODOs
 
-* **ProjectDiablo imports no game function by ordinal.** It is a D2Template build, so it resolves game functions at
-  run time (GetProcAddress by ordinal, or DLL base + offset) into pointer globals. `imports.tsv` therefore names
-  nothing. Phase 3 must recover those tables from the Ghidra export and write `4_pd2_source/ProjectDiablo/game_pointers.tsv`.
-  The renaming plumbing already exists.
+* **ProjectDiablo imports no game function by ordinal.** Done in phase 3: `game_pointers.tsv` is generated from the
+  export (`Pd2Pointers.cs`).
 * `PD2_EXT` has no `__FILE__` strings, so without other evidence its whole tree is `_unattributed/` chunks. The
   `OwnFileRx` for it is a guess.
-* Two things need checking on the real export: whether link order is alphabetical, and whether `DetectLibStart`
-  finds the VS2022 CRT/STL boundary. Set `LibStart` by hand if the detection fails.
+* Checked in phase 3 for ProjectDiablo: link order is not alphabetical; `DetectLibStart` finds nothing, so
+  `LibStart = 0x103017bb` is set by hand. PD2_EXT is unchanged.
 * `Fields.cs`/`Tables.cs` are D2Sigma-specific (descriptor constructor, table-name patterns). PD2 keeps its tables
   in `.txt`/`.bin` files, so they are not used for PD2.
 * Without system DLLs (Linux), ordinal imports from wsock32/dsound can't be named, and `Undeclared`/`Declare` only

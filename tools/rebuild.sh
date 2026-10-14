@@ -2,7 +2,8 @@
 # Bash equivalent of tools/rebuild.ps1: regenerates source trees with tools/Fd2Tools (.NET 8).
 #   (default)   D2Sigma into <reference_out>/4_sigma_source (needs the sigmaRE Ghidra exports and D2Sigma.dll)
 #   --game      also every Diablo II 1.13c module into <reference_out>/5_game_source
-#   --pd2       ProjectDiablo + PD2_EXT into <repo>/4_pd2_source from <ghidra_export_dir>/<Module>_decompiled.c
+#   --pd2       ProjectDiablo + PD2_EXT into <repo>/4_pd2_source from <ghidra_export_dir>/<Module>_decompiled.c; then, for
+#               modules with a tools/pd2/<Module>.README.md template, include/d2structs.h (ProjectDiablo) and README.md
 #   --scan      PD2 dry run (no Ghidra export needed): PE, import names via the 5_game_source name DB, __FILE__ anchors
 # Locations come from tools/fd2.paths.json (or --config); the options below override single keys.
 # Usage: tools/rebuild.sh [--pd2|--scan] [--module ProjectDiablo] [--game] [--config f] [--ghidra dir]
@@ -32,4 +33,16 @@ if [[ $build == 1 ]]; then
 fi
 exe="$tools/bin/Release/net8.0/Fd2Tools.dll"
 if [[ $cmd == sigma ]]; then extra=("${sigma_opts[@]+"${sigma_opts[@]}"}"); else extra=("${pd2_opts[@]+"${pd2_opts[@]}"}"); fi
-exec dotnet "$exe" "$cmd" "${opts[@]+"${opts[@]}"}" "${extra[@]+"${extra[@]}"}"
+if [[ $cmd != pd2 ]]; then exec dotnet "$exe" "$cmd" "${opts[@]+"${opts[@]}"}" "${extra[@]+"${extra[@]}"}"; fi
+# --pd2: generator (+ Declare), then per module with a README template: d2structs.h (tools/pd2/struct_evidence.py) and README.md
+dotnet "$exe" pd2 "${opts[@]+"${opts[@]}"}" "${extra[@]+"${extra[@]}"}"
+repo="$(dotnet "$exe" paths "${opts[@]+"${opts[@]}"}" | awk '$1=="repo_root"{print $2}')"
+for tpl in "$tools"/pd2/*.README.md; do
+  [[ -f $tpl ]] || continue
+  m="$(basename "$tpl" .README.md)"
+  if [[ ${#pd2_opts[@]} -gt 0 && ${pd2_opts[1]} != "$m" ]]; then continue; fi
+  tree="$repo/4_pd2_source/$m"
+  [[ -d $tree ]] || continue
+  if [[ $m == ProjectDiablo ]] && command -v python3 >/dev/null; then python3 -I "$tools/pd2/struct_evidence.py" "$tree"; fi
+  dotnet "$exe" pd2-readme --module "$m" "${opts[@]+"${opts[@]}"}" | head -1
+done

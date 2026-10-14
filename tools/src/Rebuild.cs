@@ -22,6 +22,8 @@ public class Fn
     public bool IsLib;
     public bool IsFunclet;
     public int Index;
+    public int Unit = -1;        // fd2: link unit (object file) from the static-initializer table, -1 = unknown
+    public bool UnitEvidence;    // fd2: placed by unit evidence (file-private global / initializer), not by __FILE__
 }
 
 public class ModuleConfig
@@ -55,6 +57,33 @@ public class ModuleConfig
     // Filled from <tree>/game_pointers.tsv by GameBuild.ConfigurePd2.
     public Dictionary<string, string> GlobalNames = new Dictionary<string, string>();
     public Dictionary<string, string> GlobalNotes = new Dictionary<string, string>();   // DAT_ -> comment for globals.h
+    public Dictionary<string, string> GlobalTypes = new Dictionary<string, string>();   // DAT_ -> C type for globals.h (default code)
+    public Dictionary<string, string> GameBindingFile = new Dictionary<string, string>();   // thunk/cell name -> defining file (comments)
+    // fd2 phase 3: address of the run-time game-pointer resolver (D2Template GetDllOffset), 0 = none. When set, `pd2`
+    // regenerates <tree>/game_pointers.tsv from the export (Pd2Pointers.cs) before loading it.
+    public uint PointerResolver;
+    // function address -> name for functions identified by a table rather than by their body (game-pointer thunks and
+    // accessors). Applied to FUN_ names only, so names already set in Ghidra win.
+    public Dictionary<uint, string> FunctionNames = new Dictionary<uint, string>();
+    public Dictionary<string, string> GamePointerTargets = new Dictionary<string, string>();   // thunk/accessor name -> reference name
+    // fd2 phase 3: C++ dynamic-initializer table (__xc_a) and the string that marks one object file's common-header
+    // initializer in it (LinkUnits.cs). 0 = not used.
+    public uint InitTableStart, InitTableEnd;
+    public string TuMarker;
+    public bool StringConstants;              // fd2: resolve integer constants that address .rdata strings (anchors + comments)
+    // hand-verified placements: function address -> {file, reason} (all modules; D2Sigma keeps its own table below)
+    public Dictionary<uint, string[]> FileOverrides = new Dictionary<uint, string[]>();
+    // hand-named link units: an address of a function in the unit -> {file, reason}
+    public Dictionary<uint, string[]> UnitFileOverrides = new Dictionary<uint, string[]>();
+    // hand-verified names: function address -> {name, reason}
+    public Dictionary<uint, string[]> ManualNames = new Dictionary<uint, string[]>();
+    public Dictionary<uint, string> Hints = new Dictionary<uint, string>();           // address -> name hint (patch handlers ...)
+    public List<uint> PatchTables = new List<uint>();                                 // D2Template patch tables (20-byte entries)
+    public string[] PatchModules = new string[0];                                     // module-table order the entries index
+    public string ConfigFile;                                                         // settings JSON (pd2_install_dir) for Config_ hints
+    public Dictionary<string, string> ApiHints = new Dictionary<string, string>();    // regex of called names -> hint (body says what it does)
+    public HashSet<string> ConfigKeys = new HashSet<string>();                         // keys of the module's settings file
+    public Dictionary<string, string> ConfigKeyGlobals = new Dictionary<string, string>();   // DAT_ -> key (static std::string)
 }
 
 // Module entries for the fd2 targets, set up the way D2Sigma's defaults above are.
@@ -68,11 +97,49 @@ public static class ModuleConfigs
         return new ModuleConfig
         {
             Sigma = false, Module = "ProjectDiablo", BinaryName = "ProjectDiablo.dll", Product = "Project Diablo 2",
-            LibStart = 0,   // TODO(phase 3): confirm DetectLibStart on the Ghidra export; VS2022 /LTCG may interleave CRT/STL code
+            // phase 3: DetectLibStart finds nothing (FID named too little). The static CRT/msvcprt objects start at the first
+            // unaligned function (0x103017bb, MSVCP140 import thunks, then _Facet_Register, __scrt_*, ...); the EH funclets
+            // of .text$x follow at 0x10303xxx. Everything below is app code (.text$di initializers, then .text$mn).
+            LibStart = 0x103017bb,
             OwnFileRx = new Regex(@"(?i)(?:^|/)D2TemplateSource/ProjectDiablo/(?<path>.+\.(?:cpp|c|cc))$"),
-            Alphabetical = false,   // TODO(phase 3): unknown yet; set true if anchored files appear in name order
+            // phase 3: link order is NOT alphabetical. The link units (LinkUnits.cs) put events/SkillEvents.cpp after
+            // functions/D2ServerFunctions.cpp and functions/D2CommonFunctions.cpp before functions/CubeFunctions.cpp.
+            Alphabetical = false,
             LibraryHints = true,    // nlohmann::json 3.11.2, std::regex, std::filesystem are linked in (RTTI)
             Decompiled = "ProjectDiablo_decompiled.c", OutputSubdir = "4_pd2_source/ProjectDiablo",
+            PointerResolver = 0x102f10f0,   // FUN_102f10f0(__fastcall dll, value): D2Template GetDllOffset (phase 2 report)
+            // C++ dynamic-initializer table __xc_a (phase 2: entries rise through .text$di in link order). Every object
+            // file that includes PD2's common header runs one initializer that builds a static array of act/area
+            // names starting with this string, so it marks one object per occurrence (66 in this build).
+            InitTableStart = 0x1032356c, InitTableEnd = 0x10367298, TuMarker = "the Blood Moor and Den of Evil",
+            StringConstants = true,
+            PatchTables = { 0x103c7f50, 0x10367ee0 },   // 2,187 + 35 entries; 0x103681b0 (block patches) has another layout
+            PatchModules = new[] { "D2Client", "D2CMP", "D2Common", "D2Game", "D2gfx", "D2Lang", "D2MCPClient", "D2Net", "D2sound",
+                "D2Win", "Fog", "Ijl11", "Storm", "D2Gdi", "D2DDraw", "D2Direct3D", "D2Glide", "D2Multi", "D2Launch", "SmackW32",
+                "Binkw32", "Bnclient", "BH", "ddraw", "glide3x", "SGD2FreeDisplayFix", "SGD2FreeRes" },   // module table 0x103c68a0 (FUN_102ad400)
+            ConfigFile = "ProjectDiablo.json",
+            // module enumeration is only used by the client integrity check (unit 45: base64 names of known
+            // third-party/maphack DLLs); labelled, not analysed further
+            ApiHints = { { "K32EnumProcessModules|EnumProcessModules|Module32FirstW?|Module32NextW?", "IntegrityCheck_ModuleScan" } },
+            UnitFileOverrides = {
+                { 0x1022f2d0, new[] { "functions/D2ClientFunctions.cpp",
+                    "its code passes the hand-written file name \"D2ClientFunctions.cpp\" with line 0x562 to D2Common_10202 (0x1022f2d0), as functions/ItemFunctions.cpp passes \"ItemFunctions\" to Fog_10045; folder inferred from its siblings D2CommonFunctions/D2ServerFunctions/D2NewFunctions.cpp" } },
+            },
+            ManualNames = {
+                { 0x102adad0, new[] { "DllMain", "called by dllmain_dispatch (0x103026c9) with the DLL_PROCESS_ATTACH reason" } },
+            },
+            Hints = {
+                { 0x102ad560, "Init" },                // DllMain -> module table, MPQs, patch installer (phase 2 report)
+                { 0x102ad400, "LoadModuleTable" },     // fills the 27 {name, HMODULE} entries at 0x103c68a0
+                { 0x102ad020, "PatchInstaller" },      // VirtualProtect + copy + compare over the patch table 0x103c7f50
+                { 0x102ad1f0, "BlockPatchInstaller" }, // applies the block patches of table 0x103681b0
+                { 0x102f10f0, "GetDllOffset" },        // (dll, value): GetProcAddress(-value) or DLL base + value
+                { 0x10253fc0, "GameVersionIndex" },    // 0 = 1.0.13.60 (1.13c), 1 = 1.0.13.64 (1.13d)
+                { 0x10253f30, "DetectGameVersion" },   // reads Game.exe's file version, MessageBox + exit otherwise
+                { 0x102eeba0, "OpenMpqs" },            // opens pd2data/pd2assets/pd2maps/pd2monchars.mpq through D2Win
+                { 0x10231510, "LoadBH" },              // LoadLibrary BH.dll + its exported hooks
+                { 0x102319a0, "LoadD2GL" },            // glide3x.dll/ddraw.dll d2gl* exports
+            },
         };
     }
 
@@ -114,9 +181,11 @@ public static class Rebuilder
         UndefinedReplaced = 0; OrdinalsResolved = 0; OrdinalsLeft = 0; ForeignFileRefs = 0;
         CallsToModule = new Dictionary<string, int>();
         DataStrCache = new Dictionary<uint, string>();
+        ConstStrCache = new Dictionary<uint, string>();
     }
 
     static Regex HeaderRx = new Regex(@"^//==== (.+) @ ([0-9a-f]{8})$");
+    static Regex UnderDatRx = new Regex(@"(?<![\w])_(DAT_[0-9a-f]{8})\b");
     static Regex FileRx = new Regex(@"""(\.\.\\\\[^""]+?\.cpp|src\\\\[^""]+?\.cpp)""");
     static Regex LineNoRx = new Regex(@"""(?:\.\.\\\\|src\\\\)[^""]+?\.cpp""\s*,\s*(0x[0-9a-f]+|\d+)");
     static Regex WidgetRx = new Regex(@"""([A-Za-z]+):([A-Za-z][A-Za-z0-9]*)-?""");
@@ -215,7 +284,15 @@ public static class Rebuilder
                 if (!f.IsLib && !byAddr[r].IsLib) { adj[f.Addr].Add(r); adj[r].Add(f.Addr); }
 
         var app = funcs.Where(f => !f.IsLib).ToList();
+        if (!Cfg.Sigma) NameProcAddressGlobals(funcs, log);
         var anchorFiles = CollectAnchors(app);
+        // fd2: object files recovered from the static-initializer table place .text$di wholesale and give .text$mn
+        // functions that use file-private globals the role of extra anchors
+        if (Cfg.InitTableStart != 0)
+        {
+            log.Append(LinkUnits.Build(Cfg, funcs));
+            if (LinkUnits.Units.Count > 0) app = PlaceByUnits(app, log);
+        }
 
         // Determine file order by first anchor address and validate monotonic layout
         var fileOrder = app.Where(f => f.Conf == "anchor").GroupBy(f => f.File)
@@ -252,13 +329,20 @@ public static class Rebuilder
         foreach (var f in funcs) Callers[f.Addr] = new List<uint>();
         foreach (var f in funcs) foreach (var r in f.Refs) Callers[r].Add(f.Addr);
         ResolveGaps(app, adj, byAddr, log);
+        if (LinkUnits.Units.Count > 0) FinishUnits(funcs, log);
+        if (!Cfg.Sigma)
+            foreach (var f in funcs)
+            {
+                string[] ov;
+                if (Cfg.FileOverrides.TryGetValue(f.Addr, out ov)) { f.File = ov[0]; f.Conf = "manual"; f.Evidence = ov[1]; }
+            }
         if (Cfg.Sigma)
             foreach (var f in app)
             {
                 string[] ov;
                 if (FileOverrides.TryGetValue(f.Addr, out ov)) { f.File = ov[0]; f.Conf = "manual"; f.Evidence = ov[1]; }
             }
-        if (!Cfg.Sigma) ChunkUnattributed(app);
+        if (!Cfg.Sigma) ChunkUnattributed(funcs.Where(f => !f.IsLib).ToList());
         AssignLibFiles(funcs);
         Name(funcs);
 
@@ -291,7 +375,8 @@ public static class Rebuilder
                 if (seen.Add(cur.Addr)) list.Add(cur); else cur = new Fn();   // the main export wins on duplicates
                 continue;
             }
-            if (cur != null) cur.Lines.Add(line);
+            // fd2: Ghidra writes "_DAT_x" for a global accessed with another size than its symbol; it is the same variable
+            if (cur != null) cur.Lines.Add(line.IndexOf("_DAT_", StringComparison.Ordinal) >= 0 ? UnderDatRx.Replace(line, "$1") : line);
         }
         list.Sort((a, b) => a.Addr.CompareTo(b.Addr));
         for (int i = 0; i < list.Count; i++)
@@ -406,6 +491,15 @@ public static class Rebuilder
                         string ap = AnchorPath(m.Groups[1].Value);
                         if (ap != null) AddFileVote(votes, lines, ap, l.Substring(m.Index + m.Length));
                     }
+                    // fd2: a string passed through an integer-typed parameter prints as its address
+                    if (Cfg.Bin != null && Cfg.StringConstants && l.IndexOf("0x", StringComparison.Ordinal) >= 0)
+                        foreach (Match m in HexConstRx.Matches(l))
+                        {
+                            string sv = ConstString(m.Value);
+                            if (sv == null || !Regex.IsMatch(sv, @"[\\/].*\.(cpp|c|cc)$", RegexOptions.IgnoreCase)) continue;
+                            string ap = AnchorPath(sv);
+                            if (ap != null) AddFileVote(votes, lines, ap, l.Substring(m.Index + m.Length));
+                        }
                     if (Cfg.Bin != null && (l.IndexOf("DAT_") >= 0 || l.IndexOf("s_") >= 0 || l.IndexOf("PTR_") >= 0))
                         foreach (Match m in DataRefRx.Matches(l))
                         {
@@ -563,6 +657,172 @@ public static class Rebuilder
         log.AppendLine("Unattributed gap files created: " + unknownCount);
     }
 
+    // fd2: "DAT_x = GetProcAddress(h, "Name")" -> DAT_x is pfn_Name (BH.dll / d2gl exports and other run-time imports)
+    static Regex ProcAddrRx = new Regex(@"\b(DAT_[0-9a-f]{8}) = (?:\([\w ]+\*?\))?GetProcAddress\([^,]+,""([^""]+)""\)");
+    static void NameProcAddressGlobals(List<Fn> funcs, StringBuilder log)
+    {
+        int n = 0; var taken = new HashSet<string>(Cfg.GlobalNames.Values);
+        foreach (var f in funcs)
+            foreach (var l in f.Lines)
+            {
+                if (l.IndexOf("GetProcAddress", StringComparison.Ordinal) < 0) continue;
+                foreach (Match m in ProcAddrRx.Matches(l))
+                {
+                    if (Cfg.GlobalNames.ContainsKey(m.Groups[1].Value)) continue;
+                    string nm = "pfn_" + Sanitize(Regex.Replace(m.Groups[2].Value.TrimStart('_'), @"@\d+$", ""));
+                    if (!taken.Add(nm)) nm += "_" + m.Groups[1].Value.Substring(4);
+                    Cfg.GlobalNames[m.Groups[1].Value] = nm;
+                    Cfg.GlobalNotes[m.Groups[1].Value] = "GetProcAddress(\"" + m.Groups[2].Value + "\") in 0x" + f.Addr.ToString("x8");
+                    n++;
+                }
+            }
+        if (n > 0) log.AppendLine("run-time imports named from GetProcAddress strings: " + n);
+    }
+
+    // ---- fd2: placement by link units (LinkUnits.cs) ---------------------------------------------------------
+    const string UnitTag = "_unattributed/@unit";
+    static string[] UnitFile;
+    static string[] UnitNote;
+
+    static List<Fn> PlaceByUnits(List<Fn> app, StringBuilder log)
+    {
+        var units = LinkUnits.Units;
+        UnitFile = new string[units.Count];
+        var sorted = LinkUnits.CodeUnit.Keys.OrderBy(x => x).ToArray();
+        // which unit each __FILE__-anchored file belongs to
+        var votes = new Dictionary<string, Dictionary<int, int>>();
+        var between = new Dictionary<string, int[]>();   // anchored file between the evidence of two units: {a, b}
+        foreach (var f in app.Where(x => x.Conf == "anchor"))
+        {
+            int u;
+            if (!LinkUnits.CodeUnit.TryGetValue(f.Addr, out u))
+            {
+                if (f.Addr < LinkUnits.DiEnd) u = LinkUnits.DiUnitOf(f.Addr);
+                else
+                {
+                    int i = Array.BinarySearch(sorted, f.Addr); if (i < 0) i = ~i;
+                    int a = i > 0 ? LinkUnits.CodeUnit[sorted[i - 1]] : -1, b = i < sorted.Length ? LinkUnits.CodeUnit[sorted[i]] : -1;
+                    u = a == b ? a : -1;
+                    if (u < 0 && a >= 0 && b >= 0) between[f.File] = new[] { a, b };
+                }
+            }
+            if (u < 0) continue;
+            Dictionary<int, int> d; if (!votes.TryGetValue(f.File, out d)) { d = new Dictionary<int, int>(); votes[f.File] = d; }
+            int c; d.TryGetValue(u, out c); d[u] = c + 1;
+        }
+        foreach (var kv in votes.OrderByDescending(k => k.Value.Values.Max()))
+        {
+            int u = kv.Value.OrderByDescending(x => x.Value).First().Key;
+            if (UnitFile[u] == null) { UnitFile[u] = kv.Key; units[u].File = kv.Key; }
+            else log.AppendLine("  link unit " + u + " has two anchored files: " + UnitFile[u] + ", " + kv.Key);
+        }
+        // a file whose anchors sit between unit a's and unit b's code belongs to whichever of the two is still unnamed
+        foreach (var kv in between.Where(k => !votes.ContainsKey(k.Key)))
+        {
+            var free = kv.Value.Where(u => UnitFile[u] == null).Distinct().ToList();
+            if (free.Count == 1) { UnitFile[free[0]] = kv.Key; units[free[0]].File = kv.Key; log.AppendLine("  " + kv.Key + " -> unit " + free[0] + " (the unnamed neighbour of its anchors)"); }
+            else log.AppendLine("  " + kv.Key + ": anchors between units " + kv.Value[0] + " and " + kv.Value[1] + ", not decidable");
+        }
+        // hand-named units (ModuleConfig.UnitFileOverrides): the unit that holds the given function
+        UnitNote = new string[units.Count];
+        foreach (var kv in Cfg.UnitFileOverrides)
+        {
+            int u;
+            if (!LinkUnits.CodeUnit.TryGetValue(kv.Key, out u))
+            {
+                int i = Array.BinarySearch(sorted, kv.Key); if (i < 0) i = ~i;
+                int a = i > 0 ? LinkUnits.CodeUnit[sorted[i - 1]] : -1, b = i < sorted.Length ? LinkUnits.CodeUnit[sorted[i]] : -1;
+                u = a == b ? a : -1;
+            }
+            if (u < 0) { log.AppendLine("  unit override 0x" + kv.Key.ToString("x8") + ": function is not inside one unit, ignored"); continue; }
+            if (UnitFile[u] != null) { log.AppendLine("  unit override 0x" + kv.Key.ToString("x8") + ": unit " + u + " is already " + UnitFile[u]); continue; }
+            UnitFile[u] = kv.Value[0]; units[u].File = kv.Value[0]; UnitNote[u] = "unit named by hand: " + kv.Value[1];
+        }
+        for (int u = 0; u < units.Count; u++) if (UnitFile[u] == null) UnitFile[u] = UnitTag + u.ToString("00") + ".cpp";
+        log.AppendLine("link units with an anchored file: " + units.Count(x => x.File != null) + " of " + units.Count);
+
+        var rest = new List<Fn>();
+        foreach (var f in app)
+        {
+            if (f.Addr < LinkUnits.DiEnd)
+            {
+                int u = LinkUnits.DiUnitOf(f.Addr);
+                f.Unit = u; f.UnitEvidence = true; f.File = UnitFile[u];
+                f.Conf = units[u].File != null ? "range" : "gap";
+                f.Evidence = LinkUnits.InitUnit.ContainsKey(f.Addr)
+                    ? "static initializer of link unit " + u + " (its run in the __xc_a table)"
+                    : "in link unit " + u + "'s .text$di block (initializer helper or atexit destructor)";
+                continue;
+            }
+            int cu;
+            if (f.Conf != "anchor" && LinkUnits.CodeUnit.TryGetValue(f.Addr, out cu))
+            {
+                f.Unit = cu; f.UnitEvidence = true; f.File = UnitFile[cu]; f.Conf = "anchor";
+                f.Evidence = "uses " + LinkUnits.CodeEvidence[f.Addr] + ", a file-private global set by link unit " + cu + "'s static initializers";
+            }
+            rest.Add(f);
+        }
+        return rest;
+    }
+
+    // relabels unit-evidence placements, gives unknown files their between_<A>_and_<B> names in link order
+    static void FinishUnits(List<Fn> funcs, StringBuilder log)
+    {
+        var units = LinkUnits.Units;
+        var unitOfFile = new Dictionary<string, int>();
+        for (int u = 0; u < units.Count; u++) unitOfFile[UnitFile[u]] = u;
+        foreach (var f in funcs.Where(x => !x.IsLib))
+        {
+            int u;
+            if (f.File != null && unitOfFile.TryGetValue(f.File, out u)) f.Unit = u;
+            bool unknown = f.File != null && f.File.Contains("_unattributed/");
+            if (f.UnitEvidence && f.Addr >= LinkUnits.DiEnd && f.Conf == "anchor") f.Conf = unknown ? "gap" : "range";
+            if (f.Unit >= 0 && UnitNote[f.Unit] != null && f.File == UnitFile[f.Unit] && f.Conf != "anchor") f.Evidence = "[" + UnitNote[f.Unit] + "] " + f.Evidence;
+            else if (unknown && f.Conf != "gap") { f.Evidence = "file name unknown; " + f.Conf + ": " + f.Evidence; f.Conf = "gap"; }
+        }
+        // link position of every file: units by index; other blocks after the unit of the code just before them
+        var pos = new Dictionary<string, double>();
+        foreach (var kv in unitOfFile) pos[kv.Key] = kv.Value;
+        int lastUnit = -1;
+        foreach (var f in funcs.Where(x => !x.IsLib && x.Addr >= LinkUnits.DiEnd).OrderBy(x => x.Addr))
+        {
+            if (f.File == null) continue;
+            int u;
+            if (unitOfFile.TryGetValue(f.File, out u)) { lastUnit = u; continue; }
+            if (!pos.ContainsKey(f.File)) pos[f.File] = lastUnit + 0.5;
+        }
+        var named = pos.Where(kv => !kv.Key.Contains("_unattributed/")).OrderBy(kv => kv.Value).ToList();
+        var newName = new Dictionary<string, string>();
+        var groups = new Dictionary<string, List<string>>();
+        foreach (var kv in pos.Where(kv => kv.Key.Contains("_unattributed/")).OrderBy(kv => kv.Value))
+        {
+            var p = named.Where(x => x.Value < kv.Value).Select(x => x.Key).LastOrDefault();
+            var n = named.Where(x => x.Value > kv.Value).Select(x => x.Key).FirstOrDefault();
+            string b = p != null && n != null ? "between_" + Stem(p) + "_and_" + Stem(n) : p != null ? "after_" + Stem(p) : n != null ? "before_" + Stem(n) : "code";
+            List<string> l; if (!groups.TryGetValue(b, out l)) { l = new List<string>(); groups[b] = l; }
+            l.Add(kv.Key);
+        }
+        foreach (var g in groups)
+            for (int i = 0; i < g.Value.Count; i++)
+            {
+                string old = g.Value[i];
+                // a link unit keeps its number; a block without unit evidence is named after the unit whose code precedes it
+                int u; double ps = pos[old];
+                string tag = unitOfFile.TryGetValue(old, out u) ? "_unit" + u.ToString("00") : ps >= 0 ? "_after_unit" + ((int)Math.Floor(ps)).ToString("00") : "";
+                if (!unitOfFile.ContainsKey(old) && g.Value.Count(x => !unitOfFile.ContainsKey(x) && Math.Floor(pos[x]) == Math.Floor(ps)) > 1)
+                    tag += "_" + (g.Value.Where(x => !unitOfFile.ContainsKey(x) && Math.Floor(pos[x]) == Math.Floor(ps)).ToList().IndexOf(old) + 1);
+                newName[old] = "_unattributed/" + g.Key + tag + ".cpp";
+            }
+        for (int u = 0; u < units.Count; u++) { string nn; if (newName.TryGetValue(UnitFile[u], out nn)) UnitFile[u] = nn; }
+        foreach (var f in funcs)
+        {
+            string nn;
+            if (f.File != null && newName.TryGetValue(f.File, out nn)) f.File = nn;
+            if (f.Evidence != null) foreach (var kv in newName) if (f.Evidence.Contains(kv.Key)) f.Evidence = f.Evidence.Replace(kv.Key, kv.Value);
+        }
+        log.AppendLine("link units: " + units.Count(x => x.File != null) + " named, " + (units.Count - units.Count(x => x.File != null)) + " unnamed; unattributed files " + newName.Count);
+    }
+
     static string UnknownName(string A, string B)
     {
         if (!Cfg.Sigma)
@@ -635,6 +895,10 @@ public static class Rebuilder
             string addr = f.Addr.ToString("x8");
             string mname;
             if (Cfg.Sigma && Manual.TryGetValue(f.Addr, out mname)) { f.NewName = mname; f.Hint = "manual"; used.Add(mname); continue; }
+            string[] mn;
+            if (!Cfg.Sigma && Cfg.ManualNames.TryGetValue(f.Addr, out mn)) { f.NewName = mn[0]; f.Hint = "manual"; used.Add(mn[0]); continue; }
+            string tn;
+            if (!Cfg.Sigma && f.Name.StartsWith("FUN_") && Cfg.FunctionNames.TryGetValue(f.Addr, out tn)) { f.NewName = tn; f.Hint = "game pointer"; used.Add(tn); continue; }
             string exp;
             if (Cfg.ExportNames.TryGetValue(f.Addr, out exp) && (f.Name.StartsWith("FUN_") || f.Name.StartsWith("Ordinal_") || (!Cfg.Sigma && !f.IsLib && Regex.IsMatch(f.Name, @"^[A-Za-z_]\w*$"))))
             { f.NewName = exp; f.Hint = "export"; used.Add(exp); continue; }
@@ -643,7 +907,8 @@ public static class Rebuilder
             {
                 string st = Stem(f.File ?? "unk");
                 if (st.Contains("_unattributed")) st = "sub";
-                string lh = Cfg.LibraryHints ? LibHint(string.Join("\n", f.Lines)) : null;
+                string body = string.Join("\n", f.Lines);
+                string lh = Pd2Hint(f, body) ?? (Cfg.LibraryHints ? LibHint(body) : null);
                 if (lh != null) f.Hint = lh;
                 f.NewName = Sanitize(st + (lh != null ? "_" + lh : "") + "_" + addr); used.Add(f.NewName);
                 continue;
@@ -675,6 +940,43 @@ public static class Rebuilder
             string nm = Sanitize(stem + (hint != null ? "_" + hint : "") + "_" + addr);
             f.NewName = nm; used.Add(nm);
         }
+    }
+
+    // ---- fd2: hints for the PD2 modules -------------------------------------------------------------------------
+    // From most to least specific: per-file copy of a game pointer (static initializer), other static initializer,
+    // patch-table handler (Hook_<game function it is installed into>), single config key (Config_<key>), and a game
+    // __FILE__ string the function passes on (Wraps_<Module>_<file>: it reimplements or wraps that game code).
+    static Regex CopyInitRx = new Regex(@"\b_?(DAT_[0-9a-f]{8}) = \*\w+;");
+    static Regex StrRx = new Regex(@"L?""((?:[^""\\]|\\.)*)""");
+    static string Pd2Hint(Fn f, string body)
+    {
+        if (LinkUnits.InitUnit.ContainsKey(f.Addr))
+        {
+            foreach (Match m in CopyInitRx.Matches(body))
+            { string g; if (Cfg.GlobalNames.TryGetValue(m.Groups[1].Value, out g)) return "InitPtr_" + (g.StartsWith("p_") ? g.Substring(2) : g); }
+            return "init";
+        }
+        string h; if (Cfg.Hints.TryGetValue(f.Addr, out h)) return h;
+        foreach (var kv in Cfg.ApiHints) if (Regex.IsMatch(body, @"\b(?:" + kv.Key + @")\s*\(")) return kv.Value;
+        if (Cfg.ConfigKeys.Count > 0)
+        {
+            var keys = new HashSet<string>();
+            foreach (Match m in StrRx.Matches(body)) if (Cfg.ConfigKeys.Contains(m.Groups[1].Value)) keys.Add(m.Groups[1].Value);
+            foreach (Match m in DatIdRx.Matches(body)) { string k; if (Cfg.ConfigKeyGlobals.TryGetValue(m.Value, out k)) keys.Add(k); }
+            if (keys.Count == 1) return "Config_" + keys.First();
+            if (keys.Count > 1) return keys.Count >= 8 ? "Settings" : "Config" + keys.Count;
+        }
+        if (Cfg.OwnFileRx != null && body.IndexOf(".cpp", StringComparison.Ordinal) >= 0)
+            foreach (Match m in GenericFileRx.Matches(body))
+            {
+                string raw = m.Groups[1].Value;
+                if (Cfg.OwnFileRx.IsMatch(raw.Replace("\\\\", "/").Replace("\\", "/"))) continue;
+                string p = raw.Replace("\\\\", "/").Replace("\\", "/");
+                int i = p.IndexOf("Source/", StringComparison.OrdinalIgnoreCase); if (i >= 0) p = p.Substring(i + 7);
+                while (p.StartsWith("../")) p = p.Substring(3);
+                return "Wraps_" + Sanitize(Regex.Replace(p, @"\.(cpp|c|cc)$", ""));
+            }
+        return null;
     }
 
     // template code from nlohmann::json or the MSVC STL, recognised by its error strings
@@ -746,8 +1048,33 @@ public static class Rebuilder
     }
 
     // Applies renames and type cleanup outside string literals.
+    // fd2: integer constants that are the address of a C string in the module's read-only data, e.g. a string passed
+    // through a parameter that Ghidra types as an integer: shown as 0x10378370 /* "text" */ (ModuleConfig.StringConstants)
+    static Regex HexConstRx = new Regex(@"(?<![\w.])0x[0-9a-f]{8}\b");
+    static Dictionary<uint, string> ConstStrCache = new Dictionary<uint, string>();
+    static string ConstString(string hex)
+    {
+        uint va = Convert.ToUInt32(hex.Substring(2), 16); string r;
+        if (ConstStrCache.TryGetValue(va, out r)) return r;
+        r = null;
+        var sec = Cfg.Bin.Sections.FirstOrDefault(x => x.Name == ".rdata" && va >= x.Va && va < x.Va + x.VSize);
+        if (sec != null)
+        {
+            string t = Cfg.Bin.CStr(va, 200);
+            if (t != null && t.Length >= 3 && t.All(c => c >= 0x20 && c < 0x7f) && t.Count(char.IsLetter) * 2 >= t.Length) r = t;
+        }
+        ConstStrCache[va] = r;
+        return r;
+    }
+    static string AnnotateConstStrings(string s)
+    {
+        if (Cfg.Bin == null || !Cfg.StringConstants || s.IndexOf("0x", StringComparison.Ordinal) < 0) return s;
+        return HexConstRx.Replace(s, m => { string t = ConstString(m.Value); return t == null ? m.Value : m.Value + " /* \"" + t.Replace("*/", "* /").Replace("\\", "\\\\").Replace("\"", "\\\"") + "\" */"; });
+    }
+
     public static string Clean(string line)
     {
+        line = AnnotateConstStrings(line);
         if (line.IndexOf("undefined") < 0 && line.IndexOf("DAT_") < 0 && line.IndexOf("Ordinal_") < 0 && line.IndexOf("::") < 0 && Cfg.CppNames.Count == 0) return line;
         var parts = Regex.Split(line, "(\"(?:[^\"\\\\]|\\\\.)*\")");
         for (int i = 0; i < parts.Length; i += 2)
@@ -816,7 +1143,8 @@ public static class Rebuilder
         {
             IdentRenames[kv.Key] = kv.Value;
             string note; Cfg.GlobalNotes.TryGetValue(kv.Key, out note);
-            RenameInfo[kv.Value] = new[] { "code", note ?? "game function pointer", kv.Key };
+            string ty; if (!Cfg.GlobalTypes.TryGetValue(kv.Key, out ty)) ty = "code";
+            RenameInfo[kv.Value] = new[] { ty, note ?? "game function pointer", kv.Key };
         }
         var funRx = new Regex(@"\bFUN_[0-9a-f]{8}\b");
         MatchEvaluator ev = m => { string r; return rename.TryGetValue(m.Value, out r) ? r : m.Value; };
@@ -885,6 +1213,7 @@ public static class Rebuilder
         EmitGlobals(globals, globalCount, outDir);
         EmitSymbols(funcs, outDir);
         EmitIndex(funcs, outDir, log);
+        if (LinkUnits.Units.Count > 0) EmitUnits(funcs, outDir);
         log.AppendLine("undefined types replaced: " + UndefinedReplaced + "; " + GlobalKindsSummary + "; ordinal calls resolved: " + OrdinalsResolved + ", unresolved: " + OrdinalsLeft);
     }
 
@@ -917,6 +1246,9 @@ public static class Rebuilder
                 string proto = Prototype(f);
                 if (proto == null) continue;
                 proto = Clean(funRx.Replace(proto, ev));
+                string where;
+                if (Cfg.GameBindingFile.TryGetValue(f.NewName ?? f.Name, out where)) sb.AppendLine(proto + ";   /* game binding -> " + where + " */");
+                else
                 sb.AppendLine(proto + ";");
             }
             sb.AppendLine();
@@ -956,12 +1288,16 @@ public static class Rebuilder
         sb.AppendLine("#pragma once");
         sb.AppendLine();
         sb.AppendLine("/* ---- recovered ---- */");
-        foreach (var kv in globals.Where(k => IdentRenames.ContainsKey(k.Key)).OrderBy(k => IdentRenames[k.Key]))
+        // fd2: several globals can carry one name (D2Template's per-file copies of a game pointer): one declaration each
+        foreach (var grp in globals.Where(k => IdentRenames.ContainsKey(k.Key)).GroupBy(k => IdentRenames[k.Key]).OrderBy(g => g.Key, StringComparer.Ordinal))
         {
-            string nn = IdentRenames[kv.Key]; var info = RenameInfo[nn];
+            string nn = grp.Key; var info = RenameInfo[nn];
             string ty = info[0];
             string decl = ty.EndsWith("*") ? ty + nn : ty + " " + nn;
-            sb.AppendLine("extern " + decl + ";  /* was " + kv.Key + ": " + info[1] + "; x" + counts[kv.Key] + " */");
+            var olds = grp.Select(k => k.Key).OrderBy(x => x).ToList();
+            string note = info[1];
+            if (olds.Count > 1) note = Regex.Replace(note, @"^per-file copy of \S+ \(static initializer\): ", "") + "; " + olds.Count + " globals (the cell and per-file copies)";
+            sb.AppendLine("extern " + decl + ";  /* was " + string.Join(", ", olds) + ": " + note + "; x" + olds.Sum(o => counts[o]) + " */");
         }
         sb.AppendLine();
         sb.AppendLine("/* ---- inferred from usage ---- */");
@@ -988,6 +1324,46 @@ public static class Rebuilder
         foreach (var f in funcs)
             sb.AppendLine("0x" + f.Addr.ToString("x8") + "," + Csv(f.Name) + "," + Csv(f.NewName) + "," + Csv(f.File) + "," + f.Conf + "," + Csv(f.Evidence));
         File.WriteAllText(Path.Combine(outDir, "symbols.csv"), sb.ToString(), new UTF8Encoding(false));
+    }
+
+    // link_units.tsv: one row per object file recovered from the static-initializer table
+    static void EmitUnits(List<Fn> funcs, string outDir)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("# Object files (link units) of " + Cfg.BinaryName + ", in link order, from the __xc_a dynamic-initializer table (tools/src/LinkUnits.cs).");
+        sb.AppendLine("# di_range: its initializers in .text$di; code_evidence: .text$mn functions that use its file-private globals; functions: all placed in it.");
+        sb.AppendLine("# dropped as out of order: " + LinkUnits.Demoted + " (functions whose globals point at a unit that contradicts the link order)");
+        sb.AppendLine("unit\tfile\tdi_range\tinitializers\tpointer_stubs\tprivate_globals\tcode_evidence\tcode_range\tfunctions\tdistinctive_strings\tcode_strings");
+        // string literals of each unit's code that at most one other unit also uses, most frequent first (a lead for the file name)
+        var unitLits = new Dictionary<int, Dictionary<string, int>>();
+        var litUnits = new Dictionary<string, HashSet<int>>();
+        foreach (var u in LinkUnits.Units)
+        {
+            string file = UnitFile[u.Index];
+            var d = new Dictionary<string, int>();
+            foreach (var f in funcs.Where(f => f.Addr >= LinkUnits.DiEnd && f.File != null && (f.File == file || f.File.StartsWith(file.Substring(0, file.Length - 4) + "_"))))
+                foreach (var l in f.Lines)
+                    foreach (Match m in Regex.Matches(l, @"(?<![\w\\])""((?:[^""\\]|\\.){4,48})"""))
+                    {
+                        string t = m.Groups[1].Value;
+                        if (t.Contains("\\Source\\") || t.StartsWith("C:\\") || !Regex.IsMatch(t, "[A-Za-z]{3}")) continue;
+                        int c; d.TryGetValue(t, out c); d[t] = c + 1;
+                        HashSet<int> hs; if (!litUnits.TryGetValue(t, out hs)) { hs = new HashSet<int>(); litUnits[t] = hs; }
+                        hs.Add(u.Index);
+                    }
+            unitLits[u.Index] = d;
+        }
+        foreach (var u in LinkUnits.Units)
+        {
+            string file = UnitFile[u.Index];
+            string codeLits = string.Join(", ", unitLits[u.Index].Where(kv => litUnits[kv.Key].Count <= 2).OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key, StringComparer.Ordinal)
+                .Take(6).Select(kv => "\"" + kv.Key + "\""));
+            var mine = funcs.Where(f => f.File != null && (f.File == file || f.File.StartsWith(file.Substring(0, file.Length - 4) + "_"))).ToList();
+            var code = mine.Where(f => f.Addr >= LinkUnits.DiEnd).Select(f => f.Addr).ToList();
+            sb.AppendLine(string.Join("\t", u.Index, file, "0x" + u.DiStart.ToString("x8") + "-0x" + u.DiEnd.ToString("x8"), u.Initializers.Count, u.Stubs,
+                u.Globals.Count, u.Code.Count, code.Count > 0 ? "0x" + code.Min().ToString("x8") + "-0x" + code.Max().ToString("x8") : "", mine.Count, u.Strings, codeLits));
+        }
+        File.WriteAllText(Path.Combine(outDir, "link_units.tsv"), sb.ToString(), new UTF8Encoding(false));
     }
 
     static void EmitIndex(List<Fn> funcs, string outDir, StringBuilder log)

@@ -18,6 +18,10 @@ commands
   namedb                        load sigmaRE/5_game_source as the read-only name database and print counts
   pd2-scan [--module M]         dry run, no Ghidra export needed: PE + import naming through the name database +
                                 __FILE__ anchor classification for ProjectDiablo / PD2_EXT (M = one module)
+  pd2-pointers [--module M] [--prototypes out.tsv]
+                                game-pointer table (Pd2Pointers.cs) -> 4_pd2_source/<M>/game_pointers.tsv, and with
+                                --prototypes the ApplyPrototypes.java input for the lazy thunks
+  pd2-readme [--module M]       <tree>/README.md from tools/pd2/<M>.README.md with the counts filled in
   pd2 [--module M] [--no-declare]
                                 rebuild 4_pd2_source/<M> from <ghidra_export_dir>/<M>_decompiled.c (+ .extra.c)
   sigma [--dll D2Sigma.dll] [--game] [--table-decompiled f]
@@ -52,6 +56,8 @@ options
                 case "info": return Info(Paths.Native(args[0]));
                 case "namedb": return NameDb();
                 case "pd2-scan": return Pd2(TakeOpt(args, "--module"), true, false);
+                case "pd2-readme": return Pd2ReadmeCmd(TakeOpt(args, "--module") ?? "ProjectDiablo");
+                case "pd2-pointers": return Pd2PointersCmd(TakeOpt(args, "--module") ?? "ProjectDiablo", TakeOpt(args, "--prototypes"));
                 case "pd2": { bool nd = TakeFlag(args, "--no-declare"); return Pd2(TakeOpt(args, "--module"), false, nd); }
                 case "sigma": return Sigma(TakeOpt(args, "--dll"), TakeOpt(args, "--table-decompiled"), TakeFlag(args, "--game"));
                 case "fields": return FieldsCmd(args);
@@ -150,9 +156,22 @@ options
             string dec = ghidra != null ? Path.Combine(ghidra, cfg.Decompiled) : null;
             var imp = new StringBuilder(); var exp = new StringBuilder();
             string outDir = Path.Combine(Paths.Require("repo_root"), Paths.Native(cfg.OutputSubdir));
+            if (!dryRun && cfg.PointerResolver != 0)
+            {
+                cfg.Bin = new Pe(bin);
+                var plog = new StringBuilder();
+                if (BuildPointers(cfg, mods, dec, outDir, plog) != null) Console.Write("   " + plog.ToString());
+            }
             GameBuild.ConfigurePd2(cfg, bin, dec, mods, imp, exp, Path.Combine(outDir, "game_pointers.tsv"));
             Rebuilder.Cfg = cfg;
             Undeclared.AddImportedNames(cfg.Bin, dll => mods.ContainsKey(dll));
+            if (!dryRun && dec != null && File.Exists(dec))
+            {
+                var hlog = new StringBuilder();
+                Pd2Pointers.PatchHints(cfg, mods, Pd2Pointers.ParseExport(dec).Select(f => f.Addr), hlog);
+                if (cfg.ConfigFile != null) LoadConfigKeys(cfg, Paths.FindFile(install, cfg.ConfigFile), hlog);
+                Console.Write("   " + hlog.ToString().Replace("\n", "\n   ").TrimEnd(' '));
+            }
             Console.WriteLine("== " + cfg.Module + "  (" + bin + ")");
             if (dryRun) { Scan(cfg, mods, imp, exp, dec); continue; }
 
@@ -174,8 +193,105 @@ options
         {
             Console.WriteLine("== declarations (prototypes from " + Paths.GameSourceRef + ", read-only)");
             Console.Write(Declare.RunTrees(built, Declare.ModuleTrees(Paths.GameSourceRef), "", "sigmaRE"));
+            foreach (var t in built) AppendGameBindings(t);
         }
         return rc;
+    }
+
+    static int Pd2ReadmeCmd(string module)
+    {
+        var cfg = SelectPd2(module)[0];
+        string outDir = Path.Combine(Paths.Require("repo_root"), Paths.Native(cfg.OutputSubdir));
+        string tpl = Path.Combine(Paths.Require("repo_root"), "tools", "pd2", cfg.Module + ".README.md");
+        if (!File.Exists(tpl)) { Console.Error.WriteLine("error: README template " + tpl + " not found"); return 2; }
+        var pe = new Pe(Paths.FindFile(Paths.Require("pd2_install_dir"), cfg.BinaryName));
+        Undeclared.AddImportedNames(pe, dll => GameBuild.Modules.Any(mm => string.Equals(mm[1], dll, StringComparison.OrdinalIgnoreCase)));
+        Console.Write(Pd2Readme.Write(cfg, outDir, Paths.Require("ghidra_export_dir"), tpl));
+        return 0;
+    }
+
+    // imports.h: every game function/variable bound at run time, with its reference prototype and defining file. Only
+    // as comments: the names are declared where PD2 defines them (thunks in <module>_decomp.h, cells in globals.h).
+    static void AppendGameBindings(string tree)
+    {
+        string gp = Path.Combine(tree, "game_pointers.tsv"), imp = Path.Combine(tree, "include", "imports.h");
+        if (!File.Exists(gp) || !File.Exists(imp)) return;
+        var rows = File.ReadLines(gp).Where(l => !l.StartsWith("#")).Select(l => l.Split('\t')).ToList();
+        var h = rows[0]; rows = rows.Skip(1).ToList();
+        Func<string[], string, string> c = (r, k) => { int i = Array.IndexOf(h, k); return i >= 0 && i < r.Length ? r[i] : ""; };
+        var sb = new StringBuilder();
+        sb.AppendLine();
+        sb.AppendLine("/* ---- game functions and variables PD2 binds at run time (D2Template GetDllOffset; game_pointers.tsv) ----");
+        sb.AppendLine(" * Declared where PD2 defines them: lazy thunks in the module header (named after the target), accessor cells");
+        sb.AppendLine(" * and their per-file copies in globals.h. Listed here once per target with the reference prototype from");
+        sb.AppendLine(" * sigmaRE/5_game_source/<Module>/include and the file that defines it.");
+        sb.AppendLine(" *   <name used in this tree>  <dll value>  <reference prototype>  <defining file> */");
+        int n = 0;
+        foreach (var g in rows.GroupBy(r => c(r, "reference_name")).OrderBy(g => g.Key, StringComparer.Ordinal))
+        {
+            var r = g.First();
+            var names = g.Select(x => c(x, "kind") == "lazy-thunk" ? c(x, "pd2_name") : c(x, "cell_name")).Distinct().ToList();
+            string proto = c(r, "reference_prototype");
+            sb.AppendLine("/* " + string.Join(", ", names) + "  " + c(r, "dll") + " " + c(r, "1.13c") + "  " +
+                          (proto.Length > 0 ? proto : c(r, "target") == "data" ? "(game variable " + g.Key + ")" : c(r, "target") == "code" ? "(code address inside " + c(r, "inside") + ")" : "(no reference prototype)") +
+                          "  " + c(r, "defined_in") + " */");
+            n++;
+        }
+        File.AppendAllText(imp, sb.ToString().Replace("*/\n", "*/\n").Replace("/* ", "/* ").Replace("*/  */", "*/"), new UTF8Encoding(false));
+        Console.WriteLine("   imports.h: " + n + " game bindings listed with their defining files");
+    }
+
+    // every key of the module's settings JSON (objects and leaves), for the Config_<key> name hint
+    static void LoadConfigKeys(ModuleConfig cfg, string path, StringBuilder log)
+    {
+        if (path == null || !File.Exists(path)) return;
+        System.Action<System.Text.Json.JsonElement> walk = null;
+        walk = e =>
+        {
+            if (e.ValueKind == System.Text.Json.JsonValueKind.Object)
+                foreach (var p in e.EnumerateObject())
+                {
+                    // leaf keys only, 4+ characters: section names ("ui", "map") are ordinary words in other strings
+                    if (p.Value.ValueKind != System.Text.Json.JsonValueKind.Object && p.Value.ValueKind != System.Text.Json.JsonValueKind.Array && p.Name.Length >= 4) cfg.ConfigKeys.Add(p.Name);
+                    walk(p.Value);
+                }
+            else if (e.ValueKind == System.Text.Json.JsonValueKind.Array) foreach (var x in e.EnumerateArray()) walk(x);
+        };
+        using (var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(path))) walk(doc.RootElement);
+        log.AppendLine("config keys from " + Path.GetFileName(path) + ": " + cfg.ConfigKeys.Count);
+    }
+
+    // reference prototypes from every 5_game_source/<Module>/include/<module>_decomp.h (read-only)
+    static Dictionary<string, string> RefProtos()
+    {
+        var hdrs = Declare.ModuleTrees(Paths.GameSourceRef).SelectMany(t => Directory.GetFiles(Path.Combine(t, "include"), "*_decomp.h"));
+        return Declare.LoadPrototypes(hdrs);
+    }
+
+    // builds <tree>/game_pointers.tsv for modules with a run-time pointer resolver (ModuleConfig.PointerResolver)
+    static List<GamePtr> BuildPointers(ModuleConfig cfg, Dictionary<string, GameModule> mods, string dec, string outDir, StringBuilder log)
+    {
+        if (cfg.PointerResolver == 0 || dec == null || !File.Exists(dec)) return null;
+        var res = Pd2Pointers.Build(dec, cfg.Bin ?? new Pe(Paths.FindFile(Paths.Require("pd2_install_dir"), cfg.BinaryName)), cfg.PointerResolver, mods, RefProtos(), log,
+                                     Path.Combine(Paths.Require("ghidra_export_dir"), cfg.Module + "_thunk_purge.tsv"));
+        Pd2Pointers.WriteTable(res, Path.Combine(outDir, "game_pointers.tsv"));
+        return res;
+    }
+
+    static int Pd2PointersCmd(string module, string protoOut)
+    {
+        var mods = LoadDb(false);
+        var cfg = SelectPd2(module)[0];
+        string install = Paths.Require("pd2_install_dir");
+        cfg.Bin = new Pe(Paths.FindFile(install, cfg.BinaryName));
+        string dec = Path.Combine(Paths.Require("ghidra_export_dir"), cfg.Decompiled);
+        string outDir = Path.Combine(Paths.Require("repo_root"), Paths.Native(cfg.OutputSubdir));
+        var log = new StringBuilder();
+        var res = BuildPointers(cfg, mods, dec, outDir, log);
+        if (res == null) { Console.Error.WriteLine("error: no pointer resolver configured for " + module + " or export " + dec + " missing"); return 2; }
+        if (protoOut != null) Pd2Pointers.WritePrototypes(res, Paths.Native(protoOut), log);
+        Console.Write(log.ToString());
+        return 0;
     }
 
     // what pd2-scan prints: everything that can be known before the Ghidra export exists

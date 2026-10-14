@@ -3,11 +3,18 @@
 //   in_EAX / unaff_ESI ...              -> the register becomes a parameter (custom storage)
 //   extraout_EAX / EDX / ST0            -> the called function gets a return type
 // Repeats until no more changes, then writes "//==== name @ address" blocks like the original export.
-// Args: <output .c file> [max passes] [strict]
+// Args: <output .c file> [max passes] [strict] [guardregs]
+//   guardregs (optional, fd2; may follow or replace "strict" from the 3rd argument on): a register parameter added
+//   for in_REG/unaff_REG is kept only if it lowers the untraced values in the function plus (up to 60 of) its
+//   callers, the same check fixInStack uses; otherwise it is undone. Without it, a CRT routine that captures all
+//   registers (e.g. the context capture under __invoke_watson) gets reg_EDI, which then spreads through every
+//   noreturn caller up to std::string's destructor (seen in BH.dll: unaff_EDI in 1,469 functions).
 //   strict (optional, fd2): a return type set because of extraout_EAX/EDX/ST0 is kept only if the callee really
 //   writes that register (its decompile shows no in_EAX / in_EDX / in_ST0 afterwards); otherwise it is undone.
 //   Without it, a callee that leaves EDX untouched gets "undefined8" and then reg_EAX/reg_EDX parameters, which
 //   spread to all of its callers (seen in ProjectDiablo.dll: 3,338 functions with a bogus reg_EDX).
+//   strict also leaves functions whose signature source is USER_DEFINED alone (fd2 phase 3: prototypes applied by
+//   ApplyPrototypes.java, e.g. game-pointer thunks, which are pass-through and would otherwise pick up 64-bit returns).
 //@category MedianXL
 import ghidra.app.script.GhidraScript;
 import ghidra.app.decompiler.*;
@@ -30,7 +37,8 @@ public class FixAndExport extends GhidraScript {
     DecompInterface di;
     Map<Function, String> cache = new HashMap<>();
     int addedStack, addedReg, setReturn, skipped, revertedReturn;
-    boolean strict;
+    boolean strict, guardRegs;
+    int revertedReg;
 
     @Override
     public void run() throws Exception {
@@ -38,6 +46,10 @@ public class FixAndExport extends GhidraScript {
         String outPath = args[0];
         int maxPasses = args.length > 1 ? Integer.parseInt(args[1]) : 4;
         strict = args.length > 2 && args[2].equalsIgnoreCase("strict");
+        for (int i = 2; i < args.length; i++) {
+            if (args[i].equalsIgnoreCase("strict")) strict = true;
+            if (args[i].equalsIgnoreCase("guardregs")) guardRegs = true;
+        }
 
         di = new DecompInterface();
         DecompileOptions opts = new DecompileOptions();
@@ -64,6 +76,7 @@ public class FixAndExport extends GhidraScript {
                 String c = r.getDecompiledFunction().getC();
                 cache.put(f, c);
                 if (f.isThunk()) continue;
+                if (strict && f.getSignatureSource() == SourceType.USER_DEFINED) continue;
                 boolean ch = false;
                 try {
                     ch |= fixInStack(f, c);
@@ -102,7 +115,8 @@ public class FixAndExport extends GhidraScript {
         }
         println(String.format("RESULT %s: placeholders %d -> %d; added %d stack params (%d reverted), %d register params, %d return types; %d errors",
                 currentProgram.getName(), before, after, addedStack, revertedStack, addedReg, setReturn, skipped)
-                + (strict ? String.format(" [strict: %d return types reverted]", revertedReturn) : ""));
+                + (strict ? String.format(" [strict: %d return types reverted]", revertedReturn) : "")
+                + (guardRegs ? String.format(" [guardregs: %d register params reverted]", revertedReg) : ""));
     }
 
     // in_stack_XXXXXXXX with a positive offset: the function reads stack arguments its signature lacks
@@ -200,6 +214,17 @@ public class FixAndExport extends GhidraScript {
         for (Parameter p : f.getParameters())
             if (p.isRegisterVariable() && p.getRegister() != null) regs.remove(p.getRegister().getBaseRegister().getName());
         if (regs.isEmpty()) return false;
+        boolean wasCustom = f.hasCustomVariableStorage();
+        List<Variable> saved = new ArrayList<>();
+        for (Parameter p : f.getParameters()) saved.add(new ParameterImpl(p.getName(), p.getDataType(), p.getVariableStorage(), currentProgram));
+        DataType savedRet = f.getReturnType();
+        List<Function> callers = new ArrayList<>();
+        int before = 0;
+        if (guardRegs) {
+            for (Function cf : f.getCallingFunctions(monitor)) if (!cf.isExternal() && callers.size() < 60) callers.add(cf);
+            before = count(c);
+            for (Function cf : callers) before += count(cached(cf));
+        }
         if (!f.hasCustomVariableStorage()) f.setCustomVariableStorage(true);
         List<Variable> params = new ArrayList<>(Arrays.asList(f.getParameters()));
         for (String reg : regs) {
@@ -207,6 +232,19 @@ public class FixAndExport extends GhidraScript {
             params.add(new ParameterImpl("reg_" + reg, Undefined4DataType.dataType, r, currentProgram));
         }
         f.replaceParameters(params, Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.ANALYSIS);
+        if (guardRegs) {
+            int after = count(decompile(f));
+            for (Function cf : callers) after += count(decompile(cf));
+            if (after >= before) {
+                f.replaceParameters(saved, Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.ANALYSIS);
+                f.setReturnType(savedRet, SourceType.ANALYSIS);
+                if (!wasCustom) f.setCustomVariableStorage(false);
+                cache.put(f, decompile(f));
+                for (Function cf : callers) cache.put(cf, decompile(cf));
+                revertedReg += regs.size();
+                return false;
+            }
+        }
         addedReg += regs.size();
         return true;
     }
@@ -232,6 +270,7 @@ public class FixAndExport extends GhidraScript {
             Function callee = getFunctionAt(call.getInput(0).getAddress());
             if (callee == null) continue;
             if (callee.isThunk()) { Function t = callee.getThunkedFunction(true); if (t != null) callee = t; }
+            if (strict && callee.getSignatureSource() == SourceType.USER_DEFINED) continue;
             Register reg = currentProgram.getRegister(out);
             if (reg == null) continue;
             String rn = reg.getBaseRegister().getName();
