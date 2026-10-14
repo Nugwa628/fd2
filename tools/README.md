@@ -118,6 +118,11 @@ They are set up like D2Sigma's `ModuleConfig` defaults, plus these new options:
   `Pd2Pointers.Build` (every `resolve(dll, pair[version])` call, thunk or accessor, the per-file copies of each
   accessor, names through the name database, call sites, prototypes). Thunks are named after their target
   (`FunctionNames`), cells and copies after it in `globals.h` (`GlobalNames`).
+  Every thunk row is checked against the binary (a D2Template thunk starts with `cmp dword ptr [cell], 0`): a function
+  Ghidra merged with the thunk it ends in becomes a `wrapper` or `jmp-stub` row (cell = the real thunk's), the real
+  thunk gets its own `lazy-thunk` row, and the tree names the function like any PD2 function with the hint
+  `Wrap_<Module>_<target>` / `JmpTo_<Module>_<target>`. Ghidra names an earlier table applied (`<target>` or
+  `<target>_<addr>`, via ApplyPrototypes) are overridden by the current table, and callers follow (`TableRenames`).
 * `InitTableStart`/`InitTableEnd`/`TuMarker`: link units from `__xc_a` (see `LinkUnits.cs` and the tree's README).
   `.text$di` is placed per unit; `.text$mn` functions that use a unit's private globals become extra anchors for
   `ResolveGaps`; unnamed units and the blocks between them get `_unattributed/between_<A>_and_<B>_unitNN` /

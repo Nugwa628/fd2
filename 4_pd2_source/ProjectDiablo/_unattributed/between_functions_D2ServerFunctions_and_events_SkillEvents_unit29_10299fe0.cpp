@@ -5995,21 +5995,21 @@ int sub_6faebc10(void)
 }
 
 
-// 0x102a0300  [gap]
+// 0x102a0300  (ghidra: sub_6faeba70_102a0300)  [gap]
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int sub_6faeba70_102a0300(void)
+int sub_6faeba70(void)
 
 {
   int iVar1;
   
-  if (p_sub_6faeba70_102a0300 == (FARPROC)0x0) {
+  if (p_sub_6faeba70 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_sub_6faeba70_102a0300 = sub_GetDllOffset_102f10f0(0,*(int *)(iVar1 * 4 + 0x103c6850));
+    p_sub_6faeba70 = sub_GetDllOffset_102f10f0(0,*(int *)(iVar1 * 4 + 0x103c6850));
   }
                     /* WARNING: Could not recover jumptable at 0x102a0323. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  iVar1 = (*p_sub_6faeba70_102a0300)();
+  iVar1 = (*p_sub_6faeba70)();
   return iVar1;
 }
 

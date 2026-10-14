@@ -8099,7 +8099,7 @@ uint __fastcall client_DrawHoverItem_10220780(char *param_1,int param_2)
   local_14 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   ExceptionList = &local_10;
   if (param_2 == 4) {
-    uVar1 = D2Lang_10011_102d0fb0((byte *)param_1);
+    uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)param_1);
   }
   else {
     sub_1020f990(local_2c,"");
@@ -8113,7 +8113,7 @@ uint __fastcall client_DrawHoverItem_10220780(char *param_1,int param_2)
     client_DrawHoverItem_102250e0(local_2c,pcVar3);
     client_DrawHoverItem_102250d0(local_2c,param_1);
     uVar2 = thunk_FUN_1020fe30((int)local_2c);
-    uVar1 = D2Lang_10011_102d0fb0((byte *)uVar2);
+    uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)uVar2);
     thunk_FUN_1020fc60(local_2c);
   }
   ExceptionList = local_10;

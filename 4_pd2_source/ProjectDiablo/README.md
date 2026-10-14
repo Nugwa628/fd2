@@ -109,30 +109,30 @@ has the evidence for every placement.
 
 PD2 imports no game function by ordinal. D2Template binds the game at run time: `GetDllOffset` (0x102f10f0) takes a
 DLL index and a value from a `{1.13c, 1.13d}` pair (negative = ordinal for `GetProcAddress`, otherwise an offset from
-the DLL base). `game_pointers.tsv` lists all **2,037** bindings: 970 lazy thunks (resolve once, then
+the DLL base). `game_pointers.tsv` lists all **2,041** bindings: 964 lazy thunks (resolve once, then
 `jmp [cell]`) and 1,067 accessors (an inline variable whose address each file copies into its own global in
-a static initializer: 1,193 copies). 569 use an ordinal and 1,468 an offset (for 1.13c).
-1,896 have 0 in their 1.13d half: although `DetectGameVersion` accepts 1.0.13.64, this build fills in
+a static initializer: 1,193 copies). 569 use an ordinal and 1,472 an offset (for 1.13c).
+1,900 have 0 in their 1.13d half: although `DetectGameVersion` accepts 1.0.13.64, this build fills in
 1.13d values for only the remaining bindings.
 
-* **All 2,037 are named** through the reference trees (`sigmaRE/5_game_source`, read-only): ordinals by
-  `exports.tsv`, offsets by the reference function at that address in `symbols.csv`. 1,377 point at a
+* **All 2,041 are named** through the reference trees (`sigmaRE/5_game_source`, read-only): ordinals by
+  `exports.tsv`, offsets by the reference function at that address in `symbols.csv`. 1,381 point at a
   function (each row names the reference file that defines it), 443 at a game variable (named after the
   reference's `DAT_` label, e.g. the player unit `D2Client.dll+0x11bbfc` = `DAT_6fbcbbfc`, cell `p_D2Client_DAT_6fbcbbfc`),
   and 217 at an address inside a reference function: for a thunk that is an entry point the reference decompile
   did not split off (named `sub_<va>` as the reference would have), for an accessor a hook return address.
 * **Lost arguments fixed.** Ghidra had typed the lazy thunks `void(void)`, so their stack arguments vanished at every
-  call site: 5,853 of 5,923 thunk calls passed nothing. `tools/ghidra/pd2_prototypes.sh`
+  call site: 5,852 of 5,916 thunk calls passed nothing. `tools/ghidra/pd2_prototypes.sh`
   now gives each thunk the prototype of its target and re-exports with `FixAndExport.java strict`:
-  717 from the reference header, 81 from the reference with the stack part
-  corrected to the target's own `ret N` in the 1.13c DLL (`tools/pd2/thunk_purge.py`), 168 (targets the
+  713 from the reference header, 81 from the reference with the stack part
+  corrected to the target's own `ret N` in the 1.13c DLL (`tools/pd2/thunk_purge.py`), 166 (targets the
   reference has no function for) from `ret N` alone, 3 by hand (Fog assert/alloc/free, so PD2's own
   `__FILE__` strings show), 1 left alone. Register parameters other than ECX/EDX in the reference
   (96 prototypes) were dropped: compiled C++ can't pass them, and PD2 calls these thunks from C++.
-  Now 174 of 6,068 thunk calls in this tree have an empty argument list: calls to targets
+  Now 174 of 5,920 thunk calls in this tree have an empty argument list: calls to targets
   whose reference prototype has no parameters or that end in a plain `ret` with no caller cleanup.
-* In this tree: 6,068 calls through thunks and 407 calls through per-file pointer copies use the
-  reference names (6,475 game calls named), plus 4,530 lines that read game variables.
+* In this tree: 5,920 calls through thunks and 407 calls through per-file pointer copies use the
+  reference names (6,327 game calls named), plus 4,530 lines that read game variables.
   Indirect calls through a still-unnamed `DAT_` global: 1 (a PD2 callback pointer, not a game
   binding). Pointers PD2 fills with `GetProcAddress(h, "Name")` (BH.dll, d2gl) are
   named `pfn_<Name>`. `Ordinal_` left: 0

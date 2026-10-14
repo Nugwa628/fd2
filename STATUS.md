@@ -178,4 +178,8 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Notable: save buffer 0x2000 → 0x20000; 207 PlaySound calls → PD2 sound engine; stash gold 2.5M → 5M; ItemStatCost stride 0x144 → 0x150 handled by hooking 23 call sites (stride use inferred).
 - On-disk: D2Win has 17 more redirected MPQ-name string operands; undoing all D2Win changes restores its checksum exactly. Storm: only the import rename found, checksum still unexplained.
 - Orchestrator check: 12 random PD2 patch rows — original bytes match the stock DLLs 12/12.
-- **Follow-up (tool bug):** `game_pointers.tsv` has 10 lazy-thunk rows whose address is a PD2 wrapper/jmp stub, not the thunk (e.g. 0x102cbcd0). Phase 4's script handles it; `tools/src` should be fixed.
+- ~~Follow-up (tool bug): 10 `game_pointers.tsv` rows were PD2 wrappers/jmp stubs~~ fixed in F1 below.
+
+### F1 Generator fix + PD2_EXT build attempt: done (2026-10-14)
+- `game_pointers.tsv`: 10 rows reclassified (5 `jmp-stub`, 5 `wrapper`, e.g. 0x102cbcd0 → `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0`), 4 real thunk rows added; now 964 lazy-thunk + 5 wrapper + 5 jmp-stub (2,041 rows). Regeneration byte-identical on re-run. Phase 4 outputs change only in handler names, plus 9 rows moving feature items/cube → monsters/AI (more accurate).
+- **Optional build (PD2_EXT):** hand-cleaned `4_pd2_source/PD2_EXT/build/pd2_ext.cpp` compiles and links with clang-cl 18 + lld (11/12 export ordinals match; lld ignores forwarder ordinals) and with mingw-w64 13 (all 12 exports, ordinals and forwarders match). VS project provided, untested (no MSVC). Not run on Windows.

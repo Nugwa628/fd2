@@ -468,9 +468,28 @@ public static class GameBuild
             {
                 System.Func<string, string> col = k => { int i = Array.IndexOf(hdr, k); return i >= 0 && i < c.Length ? c[i].Trim() : ""; };
                 string fname = col("pd2_name"), cname = col("cell_name"), refName = col("reference_name");
+                string kind = col("kind");
+                if (kind == "wrapper" || kind == "jmp-stub")
+                {
+                    // a PD2 function that ends in a lazy thunk (Pd2Pointers.SplitWrappers): named like any PD2 function, with a
+                    // hint; the name Ghidra was given after the game function (earlier tables) is not kept
+                    uint wa = Convert.ToUInt32(col("address").Replace("0x", ""), 16);
+                    if (refName.Length > 0)
+                    {
+                        string dll = col("dll").Replace(".dll", ""); GameModule wm;
+                        if (mods.TryGetValue(col("dll"), out wm)) dll = wm.Name;
+                        string tgt = refName.StartsWith(dll + "_") ? refName : dll + "_" + refName;
+                        if (!cfg.Hints.ContainsKey(wa)) cfg.Hints[wa] = (kind == "wrapper" ? "Wrap_" : "JmpTo_") + tgt;
+                        cfg.PointerRefNames[wa] = refName;
+                    }
+                    report.AppendLine(col("address") + "\t" + kind + "\t\t" + refName);
+                    ok++;
+                    continue;
+                }
                 if (fname.Length == 0 || cname.Length == 0) { bad++; report.AppendLine(col("address") + "\tunresolved pointer\t" + col("dll") + " " + col("1.13c")); continue; }
                 uint fa = Convert.ToUInt32(col("address").Replace("0x", ""), 16);
                 cfg.FunctionNames[fa] = fname;
+                if (refName.Length > 0) cfg.PointerRefNames[fa] = refName;
                 string target = col("target"), defined = col("defined_in");
                 string note = (col("kind") == "lazy-thunk" ? "cache of thunk " + fname : "cell of accessor " + fname) + ": " + col("dll") + " " + col("1.13c") +
                               " (1.13d " + col("1.13d") + ")" + (target == "data" ? ", address of game variable " + refName : target == "code" ? ", code address inside " + col("inside") : "") +

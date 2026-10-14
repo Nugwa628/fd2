@@ -3838,7 +3838,7 @@ LAB_102f477f:
           uVar15 = D2Common_10973(param_1[2],0xc,0);
           if ((1 < uVar15) || (uVar15 = D2Common_10973(param_1[2],0xd,0), 1 < uVar15)) {
             iVar6 = param_1[2];
-            pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"BRLevelCheck");
+            pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"BRLevelCheck");
             pCVar8 = sub_10237720(pWVar7);
             sub_1020f990(&stack0xffffff88,pCVar8);
             functions_HelperFunctions_102cfd10(iVar6,1);
@@ -3847,7 +3847,7 @@ LAB_102f477f:
           iVar6 = functions_D2NewFunctions_102c6150((void *)*param_1,param_1[2],1);
           piVar9 = (int *)param_1[2];
           if (iVar6 != 0) {
-            pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"BRGearCheck");
+            pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"BRGearCheck");
             pCVar8 = sub_10237720(pWVar7);
             sub_1020f990(&stack0xffffff88,pCVar8);
             functions_HelperFunctions_102cfd10((int)piVar9,1);
@@ -4091,7 +4091,7 @@ LAB_102f4f77:
             if ((*(int *)(iVar6 + 0x1df4) == 0xd) && (*(int *)(iVar6 + 0x2628) == 1)) {
               *(uint32_t *)(iVar6 + 0x2628) = 2;
               iVar6 = *param_1;
-              pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyButcher2");
+              pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyButcher2");
               pCVar8 = sub_10237720(pWVar7);
               sub_1020f990(&stack0xffffff88,pCVar8);
               functions_HelperFunctions_102cfe70(iVar6,1);

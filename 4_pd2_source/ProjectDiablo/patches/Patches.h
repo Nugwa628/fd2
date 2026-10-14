@@ -102,7 +102,7 @@ void sub_Hook_sub_6fcdf2e0_102eeee0();  // 0x102eeee0 _unattributed/after_functi
 void sub_Hook_sub_6fc68950_102eea30();  // 0x102eea30 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_UNIT_sunitproxy_6fcafbe0_102eea70();  // 0x102eea70 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_sub_6fcef810_102ecf80();  // 0x102ecf80 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
-void sub_6faf8b20_10294910();  // 0x10259e70 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_1028e780.cpp
+void sub_6faf8b20();  // 0x10259e70 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_1028e780.cpp
 void sub_Hook_sub_6faf8b20_102eefc0();  // 0x102eefc0 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_sub_6fcdd330_102eef50();  // 0x102eef50 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_D2Common_11104_102eef60();  // 0x102eef60 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
@@ -165,7 +165,7 @@ void functions_ItemFunctions_Hook_sub_6fcde640_102d69d0();  // 0x102d69d0 functi
 void sub_Hook_sub_6fcde640_102f0510();  // 0x102f0510 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
 void sub_Hook_sub_6fb15760_10258b60();  // 0x10258b60 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
 void sub_Hook_sub_6fb207f0_102ef5b0();  // 0x102ef5b0 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
-void D2Net_10024_1028cfc0();  // 0x1025b350 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102851a0.cpp
+void D2Net_10024();  // 0x1025b350 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102851a0.cpp
 void sub_Hook_sub_6faf3920_102ef5d0();  // 0x102ef5d0 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
 void functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0();  // 0x1022f2d0 functions/D2ClientFunctions.cpp
 void sub_Hook_sub_6fb4fb00_1025bcb0();  // 0x1025bcb0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_10259d70.cpp
@@ -230,7 +230,7 @@ void sub_Hook_PLAYER_PlrTrade_6fc919a0_102ee910();  // 0x102ee910 _unattributed/
 void sub_Hook_PLAYER_PlrTrade_6fc916d0_102ee940();  // 0x102ee940 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_GAME_Game_6fc4c830_102ecea0();  // 0x102ecea0 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_GAME_Clients_6fc6b7f0_102f1030();  // 0x102f1030 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
-void sub_6fd020a0();  // 0x102cbcd0 functions/D2NewFunctions.cpp
+void functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0();  // 0x102cbcd0 functions/D2NewFunctions.cpp
 void functions_D2CommonFunctions_Hook_sub_6fc58620_10266e90();  // 0x10266e90 functions/D2CommonFunctions.cpp
 void functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010();  // 0x10267010 functions/D2CommonFunctions.cpp
 void sub_Hook_sub_6fc9b0a0_102efe80();  // 0x102efe80 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
@@ -312,7 +312,7 @@ void sub_Hook_sub_6fb6dca0_102ed850();  // 0x102ed850 _unattributed/after_functi
 void sub_Hook_sub_6fb28fc0_102ed860();  // 0x102ed860 _unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp
 void sub_Hook_sub_6fb739e0_102589a0();  // 0x102589a0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
 void sub_Hook_sub_6fb6f0d0_10256f90();  // 0x10256f90 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
-void UNIT_Monster_6fb00e70();  // 0x10256fa0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
+void sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0();  // 0x10256fa0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
 void sub_Hook_sub_6fb49440_102582c0();  // 0x102582c0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
 void sub_Hook_sub_6fb739e0_10258980();  // 0x10258980 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100cebc0.cpp
 void sub_Hook_UI_showitems_6fb08fb0_102f0c90();  // 0x102f0c90 _unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp
@@ -357,8 +357,8 @@ void sub_Ptr_D2Client_6fb8bdc0_1021ad10();  // 0x1021ad10 _unattributed/before_c
 void sub_Ptr_D2Client_6fb8bdd8_1021b090();  // 0x1021b090 _unattributed/before_client_DrawHoverItem_unit02.cpp
 void sub_Ptr_D2Client_6fb8bde4_1021b4b0();  // 0x1021b4b0 _unattributed/before_client_DrawHoverItem_unit02.cpp
 void sub_Ptr_D2Client_6fb8bdf0_1021b560();  // 0x1021b560 _unattributed/before_client_DrawHoverItem_unit02.cpp
-void Storm_511_102a1770();  // 0x10218950 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.cpp
-void sub_6f8f80f0_102a15e0();  // 0x10218960 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.cpp
+void Storm_511();  // 0x10218950 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.cpp
+void sub_6f8f80f0();  // 0x10218960 _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.cpp
 void sub_Hook_sub_6fb739e0_1025cbd0();  // 0x1025cbd0 _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_10259d70.cpp
 void sub_102d46c0();  // 0x102d46c0 _unattributed/between_functions_HelperFunctions_and_functions_ItemFunctions_after_unit39.cpp
 void sub_102d4750();  // 0x102d4750 _unattributed/between_functions_HelperFunctions_and_functions_ItemFunctions_after_unit39.cpp
@@ -561,7 +561,7 @@ void sub_102f16c0();  // 0x102f16c0 _unattributed/after_functions_SaveFunctions_
 void sub_102f1a20();  // 0x102f1a20 _unattributed/after_functions_SaveFunctions_unit52.cpp
 void sub_102f1b50();  // 0x102f1b50 _unattributed/after_functions_SaveFunctions_unit52.cpp
 void sub_102f1c30();  // 0x102f1c30 _unattributed/after_functions_SaveFunctions_unit52.cpp
-void sub_6fb691c0();  // 0x102f1200 _unattributed/after_functions_SaveFunctions_unit51.cpp
+void sub_Wrap_D2Client_sub_6fb691c0_102f1200();  // 0x102f1200 _unattributed/after_functions_SaveFunctions_unit51.cpp
 void sub_102f12a0();  // 0x102f12a0 _unattributed/after_functions_SaveFunctions_unit51.cpp
 void sub_102f1390();  // 0x102f1390 _unattributed/after_functions_SaveFunctions_unit51.cpp
 void sub_102f13f0();  // 0x102f13f0 _unattributed/after_functions_SaveFunctions_unit51.cpp

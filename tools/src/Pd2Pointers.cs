@@ -10,6 +10,12 @@
 //   lazy thunk : if (!p) p = resolve(dll, pair[ver]); jmp [p]            -> named after the target (D2Common_10973)
 //   accessor   : if (!p) p = resolve(...); return &p;  (inline variable) -> "GetPtr_<target>"; each translation unit
 //                copies *accessor() into its own global in a static initializer; calls go through those copies.
+// Ghidra sometimes folds a lazy thunk into the function that jumps to it (a PD2 wrapper that tests its arguments and
+// then jumps or tail-jumps into the thunk, or a bare 'jmp thunk' stub). Such a function also contains the resolver call,
+// but it is not the thunk: the binary decides (a thunk starts with 'cmp dword ptr [cell], 0'). Those rows become
+//   wrapper / jmp-stub : the PD2 function at `address`; cell/cell_name are the real thunk's pointer global, and the real
+//                        thunk (found by its 'cmp [cell], 0' in .text) has its own lazy-thunk row, added when Ghidra did
+//                        not split it off. The tree names the function like any PD2 function, hint Wrap_/JmpTo_<target>.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +25,9 @@ using System.Text.RegularExpressions;
 
 public class GamePtr
 {
-    public uint Func; public string FuncName; public string Kind;      // lazy-thunk | accessor
+    public uint Func; public string FuncName; public string Kind;      // lazy-thunk | accessor | wrapper | jmp-stub
+    public uint Thunk;               // wrapper / jmp-stub: address of the real lazy thunk it ends in
+    public bool InExport = true;     // false: a real thunk Ghidra folded into its wrapper (no function of its own)
     public string Cell;                                                  // DAT_ that caches the resolved address
     public List<string> Copies = new List<string>();                    // per-TU copies of an accessor's cell
     public int DllIdx = -1; public string Dll; public uint Pair; public int V113c, V113d;
@@ -163,6 +171,7 @@ public static class Pd2Pointers
                 }
         }
 
+        SplitWrappers(res, pd2, new HashSet<uint>(funcs.Select(f => f.Addr)), log);
         NameTargets(res, mods, refProtos);
         CallerCleanup(res, pd2);
         if (purgeFile != null && File.Exists(purgeFile))
@@ -173,9 +182,13 @@ public static class Pd2Pointers
                 var c = line.Split('\t'); GamePtr g;
                 if (c.Length >= 3 && c[2].Length > 0 && byAddr.TryGetValue(Convert.ToUInt32(c[0].Replace("0x", ""), 16), out g)) g.Purge = int.Parse(c[2]);
             }
+            // a thunk Ghidra folded into its wrapper had no function to scan: same target, same 'ret N'
+            foreach (var g in res.Where(x => x.Purge < 0 && x.Kind == "lazy-thunk"))
+                g.Purge = res.Where(x => x.Thunk == g.Func && x.Purge >= 0).Select(x => x.Purge).DefaultIfEmpty(-1).First();
         }
-        foreach (var g in res.Where(x => x.Kind == "lazy-thunk")) MakePrototype(g);
-        log.AppendLine("game pointers: " + res.Count + " resolver calls (" + res.Count(g => g.Kind == "lazy-thunk") + " lazy thunks, " +
+        foreach (var g in res.Where(x => IsThunkLike(x.Kind))) MakePrototype(g);
+        log.AppendLine("game pointers: " + res.Count + " rows (" + res.Count(g => g.Kind == "lazy-thunk") + " lazy thunks, " +
+                       res.Count(g => g.Kind == "wrapper") + " wrappers and " + res.Count(g => g.Kind == "jmp-stub") + " jmp stubs that end in one, " +
                        res.Count(g => g.Kind == "accessor") + " accessors with " + res.Sum(g => g.Copies.Count) + " per-TU copies, " +
                        res.Count(g => g.Kind == "inline") + " inline); named " + res.Count(g => g.RefName != null) +
                        " (functions " + res.Count(g => g.Target == "function") + ", data " + res.Count(g => g.Target == "data") +
@@ -189,6 +202,7 @@ public static class Pd2Pointers
         {
             GameModule gm;
             if (g.Pair == 0 || !mods.TryGetValue(g.Dll, out gm)) { g.Target = "unknown"; continue; }
+            bool thunkLike = IsThunkLike(g.Kind);
             string mod = gm.Name;
             if (g.V113c < 0)
             {
@@ -219,7 +233,7 @@ public static class Pd2Pointers
                     {
                         // a thunk is called, so its target is a function entry the reference decompile did not split off:
                         // named the way the reference names unattributed functions; accessors to code are hook addresses
-                        g.Target = "code"; g.RefName = (g.Kind == "lazy-thunk" ? "sub_" : mod + "_loc_") + refVa.ToString("x8");
+                        g.Target = "code"; g.RefName = (thunkLike ? "sub_" : mod + "_loc_") + refVa.ToString("x8");
                         g.Inside = gm.AddrName[starts[i]] + "+0x" + (refVa - starts[i]).ToString("x");
                     }
                     else { g.Target = "data"; g.RefName = "DAT_" + refVa.ToString("x8"); }
@@ -238,7 +252,7 @@ public static class Pd2Pointers
         var used = new Dictionary<string, int>();
         foreach (var g in res.OrderBy(g => g.Func))
         {
-            if (g.RefName == null) continue;
+            if (g.RefName == null || g.Thunk != 0) continue;   // wrapper / jmp-stub: named in the tree, cell from its thunk
             string mod = g.Dll.Replace(".dll", "");
             GameModule gm; if (mods.TryGetValue(g.Dll, out gm)) mod = gm.Name;
             if (g.Kind == "lazy-thunk")
@@ -255,15 +269,52 @@ public static class Pd2Pointers
             }
         }
         // two accessors for one target would give two cells the same name: keep the first, suffix the others
-        foreach (var grp in res.Where(g => g.Kind != "lazy-thunk" && g.CellName != null).GroupBy(g => g.CellName).Where(x => x.Count() > 1))
+        foreach (var grp in res.Where(g => g.Kind == "accessor" && g.CellName != null).GroupBy(g => g.CellName).Where(x => x.Count() > 1))
             foreach (var g in grp.Skip(1)) { g.CellName += "_" + g.Func.ToString("x8"); g.Name += "_" + g.Func.ToString("x8"); }
+        // wrapper / jmp-stub: the pointer global is the real thunk's
+        var thunkAt = res.Where(g => g.Kind == "lazy-thunk").GroupBy(g => g.Func).ToDictionary(x => x.Key, x => x.First());
+        foreach (var g in res.Where(g => g.Thunk != 0)) { GamePtr t; if (thunkAt.TryGetValue(g.Thunk, out t)) g.CellName = t.CellName; }
+    }
+
+    public static bool IsThunkLike(string kind) { return kind == "lazy-thunk" || kind == "wrapper" || kind == "jmp-stub"; }
+
+    // Rows Ghidra took for lazy thunks are checked against the binary: a D2Template thunk starts with
+    // 'cmp dword ptr [cell], 0' (83 3D <cell> 00). Otherwise the function is a PD2 wrapper or a 'jmp thunk' stub whose
+    // body Ghidra merged with the thunk it ends in; the real thunk is the one place in .text that tests the cell.
+    static void SplitWrappers(List<GamePtr> res, Pe pd2, HashSet<uint> inExport, StringBuilder log)
+    {
+        var text = pd2.Sections.First(s => s.Name == ".text");
+        int t0 = pd2.Off(text.Va), t1 = t0 + (int)Math.Min(text.RawSize, text.VSize) - 7;
+        System.Func<uint, uint, bool> isThunk = (va, cell) =>
+        {
+            int o = pd2.Off(va);
+            return o >= 0 && o + 7 <= pd2.Data.Length && pd2.Data[o] == 0x83 && pd2.Data[o + 1] == 0x3D && BitConverter.ToUInt32(pd2.Data, o + 2) == cell && pd2.Data[o + 6] == 0;
+        };
+        var added = new List<GamePtr>();
+        foreach (var g in res.Where(x => x.Kind == "lazy-thunk").ToList())
+        {
+            uint cell; if (!g.Cell.StartsWith("DAT_") || !uint.TryParse(g.Cell.Substring(4), System.Globalization.NumberStyles.HexNumber, null, out cell)) continue;
+            if (isThunk(g.Func, cell)) continue;
+            var hits = new List<uint>();
+            for (int o = t0; o < t1; o++)
+                if (pd2.Data[o] == 0x83 && pd2.Data[o + 1] == 0x3D && BitConverter.ToUInt32(pd2.Data, o + 2) == cell && pd2.Data[o + 6] == 0) hits.Add((uint)(text.Va + (o - t0)));
+            if (hits.Count != 1) { log.AppendLine("  warning: 0x" + g.Func.ToString("x8") + " is not a lazy thunk of " + g.Cell + " and " + hits.Count + " candidates test the cell; kept as lazy-thunk"); continue; }
+            g.Thunk = hits[0];
+            int fo = pd2.Off(g.Func);
+            g.Kind = pd2.Data[fo] == 0xE9 && (uint)(g.Func + 5 + BitConverter.ToInt32(pd2.Data, fo + 1)) == g.Thunk ? "jmp-stub" : "wrapper";
+            if (res.Any(x => x.Func == g.Thunk && x.Cell == g.Cell) || added.Any(x => x.Func == g.Thunk)) continue;
+            added.Add(new GamePtr { Func = g.Thunk, Kind = "lazy-thunk", Cell = g.Cell, DllIdx = g.DllIdx, Dll = g.Dll, Pair = g.Pair,
+                                    V113c = g.V113c, V113d = g.V113d, InExport = inExport.Contains(g.Thunk) });
+        }
+        res.AddRange(added);
+        var sorted = res.OrderBy(x => x.Func).ToList(); res.Clear(); res.AddRange(sorted);
     }
 
     // stack cleanup at PD2's call sites: "call thunk; add esp,N" means the caller cleans up (cdecl)
     static void CallerCleanup(List<GamePtr> res, Pe pd2)
     {
         var text = pd2.Sections.First(s => s.Name == ".text");
-        var thunks = res.Where(g => g.Kind == "lazy-thunk").GroupBy(g => g.Func).ToDictionary(x => x.Key, x => x.First());
+        var thunks = res.Where(g => IsThunkLike(g.Kind)).GroupBy(g => g.Func).ToDictionary(x => x.Key, x => x.First());
         var caller = new Dictionary<uint, int>(); var callee = new Dictionary<uint, int>();
         var pops = new Dictionary<uint, Dictionary<int, int>>();
         int o0 = (int)text.Raw, o1 = (int)(text.Raw + Math.Min(text.RawSize, text.VSize)) - 8;
@@ -302,6 +353,9 @@ public static class Pd2Pointers
         sb.AppendLine("#       for a thunk an entry point the reference decompile missed, named sub_<va>; for an accessor a code address such as a hook return).");
         sb.AppendLine("# target_ret: 'ret N' of the target in the 1.13c DLL (tools/pd2/thunk_purge.py). prototype_source/applied_prototype: what");
         sb.AppendLine("#       tools/ghidra/ApplyPrototypes.java set on the thunk (reference = <module>_decomp.h of 5_game_source).");
+        sb.AppendLine("#       wrapper / jmp-stub: a PD2 function (guard + jump, or a bare 'jmp') that Ghidra merged with the lazy thunk it ends in;");
+        sb.AppendLine("#       not the game function: no pd2_name here (the tree names it <file>_Wrap_/JmpTo_<target>_<addr>), cell/cell_name are");
+        sb.AppendLine("#       the real thunk's, which has its own lazy-thunk row (call_sites 0 and no prototype when Ghidra made no function of it).");
         sb.AppendLine("# cleanup: who pops the stack arguments at PD2's call sites (caller = __cdecl). call_sites: thunk calls / calls through the copies.");
         sb.AppendLine("address\tkind\tpd2_name\tcell\tcell_name\tcopies\tdll\tpair_table\t1.13c\t1.13d\ttarget\treference_name\tinside\tdefined_in\tcall_sites\tcleanup\ttarget_ret\tprototype_source\tapplied_prototype\treference_prototype");
         foreach (var g in res.OrderBy(g => g.Func))
@@ -404,8 +458,10 @@ public static class Pd2Pointers
         var sb = new StringBuilder();
         sb.AppendLine("# fd2 phase 3: lazy game-function thunks get the prototype of the game function they jump to (Pd2Pointers.cs).");
         sb.AppendLine("# address<TAB>calling convention<TAB>return type<TAB>params (type name, ...)<TAB>new name");
-        foreach (var g in res.Where(g => g.Kind == "lazy-thunk" && g.Name != null && g.Proto != null).OrderBy(g => g.Func))
-            sb.AppendLine("0x" + g.Func.ToString("x8") + "\t" + g.Proto + "\t" + g.Name);
+        // wrappers / jmp stubs forward their arguments unchanged: same prototype, but their default name (they are not the
+        // game function); a thunk Ghidra folded into its wrapper has no function to apply it to
+        foreach (var g in res.Where(g => (g.Kind == "lazy-thunk" && g.Name != null && g.InExport || g.Thunk != 0) && g.Proto != null).OrderBy(g => g.Func))
+            sb.AppendLine("0x" + g.Func.ToString("x8") + "\t" + g.Proto + "\t" + (g.Thunk != 0 ? "FUN_" + g.Func.ToString("x8") : g.Name));
         File.WriteAllText(path, sb.ToString(), new UTF8Encoding(false));
         foreach (var grp in res.Where(g => g.Kind == "lazy-thunk").GroupBy(g => Regex.Replace(g.ProtoSource, @" \(.*", "")))
             log.AppendLine("  thunk prototypes from " + grp.Key + ": " + grp.Count());

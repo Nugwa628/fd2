@@ -5979,20 +5979,20 @@ void functions_HelperFunctions_102d0fa0(int reg_ECX,int reg_EDX)
 }
 
 
-// 0x102d0fb0  [range]
-uint __fastcall D2Lang_10011_102d0fb0(byte *param_1)
+// 0x102d0fb0  (ghidra: D2Lang_10011_102d0fb0)  [range]
+uint __fastcall functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0(byte *param_1)
 
 {
   int iVar1;
   uint uVar2;
   
-  if (p_D2Lang_10011_102d0fb0 == (FARPROC)0x0) {
+  if (p_D2Lang_10011 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_D2Lang_10011_102d0fb0 = sub_GetDllOffset_102f10f0(3,*(int *)(&DAT_103c69b0 + iVar1 * 4));
+    p_D2Lang_10011 = sub_GetDllOffset_102f10f0(3,*(int *)(&DAT_103c69b0 + iVar1 * 4));
   }
                     /* WARNING: Could not recover jumptable at 0x1028de46. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar2 = (*p_D2Lang_10011_102d0fb0)();
+  uVar2 = (*p_D2Lang_10011)();
   return uVar2;
 }
 

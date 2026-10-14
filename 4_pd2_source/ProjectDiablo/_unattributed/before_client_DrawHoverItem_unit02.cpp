@@ -4789,7 +4789,7 @@ void sub_10219aa0(void)
     }
     if ((reg_ECX != (uint8_t *)0x0) && (*(short *)(reg_ECX + 0xc) != 0)) {
       if (DAT_103e7784 != 0) {
-        D2Lang_10011_102d0fb0((byte *)"CurrencyTransmuteTooltip");
+        functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"CurrencyTransmuteTooltip");
         sub_10219580(local_19c,200,&DAT_103774e4);
         D2Win_10085(local_19c,DAT_103d6020,DAT_103d618c - 0x1c,0,1);
         return;
@@ -4921,12 +4921,12 @@ LAB_1021a9bd:
           sub_6fb48dc0(param_1);
           *(uint32_t *)(param_1 + 0x18) = 1;
           *(uint32_t *)(param_1 + 0x1c) = 0;
-          Storm_511_102a1770(param_1);
+          Storm_511(param_1);
         }
         else {
           DAT_103e7894 = 1;
           client_Sound_Sound_10233980(1,0,0,0,0);
-          Storm_511_102a1770(param_1);
+          Storm_511(param_1);
         }
         goto LAB_1021a9bd;
       }
@@ -4940,7 +4940,7 @@ LAB_1021a9bd:
         *(uint32_t *)(param_1 + 0x18) = 1;
         *(uint32_t *)(param_1 + 0x1c) = 0;
         client_Sound_Sound_10233980(4,0,0,0,0);
-        Storm_511_102a1770(param_1);
+        Storm_511(param_1);
         goto LAB_1021a9bd;
       }
       iVar1 = sub_102f0230();
@@ -4953,7 +4953,7 @@ LAB_1021a9bd:
         *(uint32_t *)(param_1 + 0x18) = 1;
         *(uint32_t *)(param_1 + 0x1c) = 0;
         client_Sound_Sound_10233980(4,0,0,0,0);
-        Storm_511_102a1770(param_1);
+        Storm_511(param_1);
         *p_D2Client_DAT_6fbcbe88 = 0;
         return;
       }
@@ -4983,7 +4983,7 @@ LAB_1021a9bd:
   *(uint32_t *)(param_1 + 0x18) = 1;
   client_Sound_Sound_10233980(4,0,0,0,0);
 LAB_1021ace9:
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -5118,7 +5118,7 @@ LAB_1021ae35:
     if ((*p_D2Client_DAT_6fbbb2f8 < uVar6) || (p_D2Client_DAT_6fbbb2f8[3] < uVar7)) goto LAB_1021b05d;
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
     if (((((int)uVar6 < *(int *)(p_D2Client_DAT_6fbbb3b0 + 4)) || (*(int *)(p_D2Client_DAT_6fbbb3b0 + 8) < (int)uVar6)) ||
         ((int)uVar7 < *(int *)(p_D2Client_DAT_6fbbb3b0 + 0xc))) ||
        ((*(int *)(p_D2Client_DAT_6fbbb3b0 + 0x10) < (int)uVar7 || (uStack_68 = *p_D2Client_DAT_6fbcbc38, uStack_68 == 0)))
@@ -5149,7 +5149,7 @@ LAB_1021b04c:
 LAB_1021b05d:
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -5275,7 +5275,7 @@ LAB_1021b115:
     *p_D2Client_DAT_6fbcbeec = 0;
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    piVar5 = (int *)Storm_511_102a1770(param_1);
+    piVar5 = (int *)Storm_511(param_1);
     return piVar5;
   }
   *p_D2Client_DAT_6fbcbe84 = 0;
@@ -5301,7 +5301,7 @@ LAB_1021b115:
 LAB_1021b193:
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
     *p_D2Client_DAT_6fbcbeec = 0;
     *p_D2Client_DAT_6fbcbe84 = 0;
     piVar5 = p_D2Client_DAT_6fbcbe64;
@@ -5323,7 +5323,7 @@ LAB_1021b479:
   *piVar4 = 0;
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  piVar5 = (int *)Storm_511_102a1770(param_1);
+  piVar5 = (int *)Storm_511(param_1);
   return piVar5;
 }
 
@@ -5369,7 +5369,7 @@ void sub_Ptr_D2Client_6fb8bdf0_1021b560(int param_1)
   if (*p_D2Client_DAT_6fbcbc34 == 0xc) {
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
     if (*p_D2Client_DAT_6fbaad94_102a4de0 == 0) {
       UI_inv_6fb3ccb0();
       *p_D2Client_DAT_6fb90ea8 = 0xffffffff;

@@ -72,21 +72,21 @@ LAB_10259e4e:
 }
 
 
-// 0x10259e70  [gap]
+// 0x10259e70  (ghidra: sub_6faf8b20)  [gap]
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void sub_6faf8b20(void)
+void sub_JmpTo_D2Client_sub_6faf8b20_10259e70(void)
 
 {
   int iVar1;
   
-  if (p_sub_6faf8b20_10294910 == (FARPROC)0x0) {
+  if (p_sub_6faf8b20 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_sub_6faf8b20_10294910 = sub_GetDllOffset_102f10f0(0,*(int *)(iVar1 * 4 + 0x103c7bb0));
+    p_sub_6faf8b20 = sub_GetDllOffset_102f10f0(0,*(int *)(iVar1 * 4 + 0x103c7bb0));
   }
                     /* WARNING: Could not recover jumptable at 0x10294933. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (*p_sub_6faf8b20_10294910)();
+  (*p_sub_6faf8b20)();
   return;
 }
 
@@ -111,7 +111,7 @@ void sub_10259e80(uint32_t param_1,uint32_t param_2,uint32_t param_3,uint32_t pa
       if (param_7 != D2Client_loc_6faf8380) {
         return;
       }
-      uVar3 = D2Lang_10011_102d0fb0((byte *)"gamble");
+      uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"gamble");
       sub_102eef90(this_00,param_1,param_2,uVar3,param_4,param_5,param_6,D2Client_loc_6fafabe0,param_8);
       sub_102eef90(this_01,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
       return;
@@ -124,7 +124,7 @@ void sub_10259e80(uint32_t param_1,uint32_t param_2,uint32_t param_3,uint32_t pa
     }
     if (param_7 == pvVar1) {
       sub_102eef90(param_7,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
-      uVar3 = D2Lang_10011_102d0fb0((byte *)"NPCMenuHire");
+      uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NPCMenuHire");
       sub_102eef90(this,param_1,param_2,uVar3,param_4,param_5,param_6,sub_6faf9440,param_8);
       return;
     }
@@ -509,19 +509,19 @@ void sub_1025aa30(void)
   iVar3 = 0;
   iVar2 = 0x14;
   local_20 = DAT_104e6e30;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpTitle");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpTitle");
   D2Win_10150(pvVar1,0x1b2,iVar2,iVar3,iVar4);
   iVar2 = D2Win_10184(7);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x2d;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts1");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts1");
   D2Win_10150(pvVar1,0x2e9,iVar3,iVar4,iVar5);
   D2Win_10184(5);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x46;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts2");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts2");
   D2Win_10150(pvVar1,0x2c6,iVar3,iVar4,iVar5);
   D2gfx_10010(0x2c4,0x68,0x23c,0x68,0x20,0xff);
   D2gfx_10041((uint)local_9c,0x237,0x6d,0xffffffff,5,0);
@@ -530,56 +530,56 @@ void sub_1025aa30(void)
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x55;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts3");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts3");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x55;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts4");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts4");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x61,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 100;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts5");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts5");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 100;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts6");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts6");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x70,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x73;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts7");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts7");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x73;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts8");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts8");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x7f,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x82;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts9");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts9");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x82;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts10");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts10");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x8e,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x91;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts11");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts11");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x91;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts12");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts12");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10010(0x2c4,0xb4,0x295,0xb4,0x20,0xff);
   D2gfx_10041((uint)local_9c,0x290,0xb9,0xffffffff,5,0);
@@ -587,70 +587,70 @@ void sub_1025aa30(void)
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0xaf;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts13");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts13");
   D2Win_10150(pvVar1,0x2c6,iVar3,iVar4,iVar5);
   D2Win_10184(0);
   D2gfx_10041((uint)local_54,0x2c8,0xbb,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xbe;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts14");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts14");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xbe;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts15");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts15");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0xca,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xcd;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts11");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts11");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xcd;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts16");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpShortcuts16");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2Win_10184(5);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0xeb;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats1");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats1");
   D2Win_10150(pvVar1,0x2c6,iVar3,iVar4,iVar5);
   D2Win_10184(0);
   D2gfx_10041((uint)local_54,0x2c8,0xf7,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xfa;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats2");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats2");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xfa;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats3");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats3");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x106,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x109;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats4");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats4");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x109;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats5");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats5");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x2c8,0x115,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x118;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats6");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats6");
   D2Win_10150(pvVar1,0x2d5,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0x118;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpStats7");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpStats7");
   D2Win_10150(pvVar1,0x375,iVar3,iVar4,iVar5);
   D2gfx_10010(0x268,0x110,0x268,0x177,0x20,0xff);
   D2gfx_10041((uint)local_9c,0x264,0x110,0xffffffff,5,0);
@@ -658,18 +658,18 @@ void sub_1025aa30(void)
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x18b;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpCharm1");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpCharm1");
   D2Win_10150(pvVar1,0x1b3,iVar3,iVar4,iVar5);
   D2Win_10184(8);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x1a4;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpCharm2");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpCharm2");
   D2Win_10150(pvVar1,0x18b,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x1b3;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpCharm3");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpCharm3");
   D2Win_10150(pvVar1,0x18b,iVar3,iVar4,iVar5);
   D2gfx_10010(0x174,0x7b,0x19c,0x7b,0x20,0xff);
   D2gfx_10041((uint)local_9c,0x19c,0x7f,0xffffffff,5,0);
@@ -677,88 +677,88 @@ void sub_1025aa30(void)
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x2d;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes1");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes1");
   D2Win_10150(pvVar1,0x50,iVar3,iVar4,iVar5);
   D2Win_10184(0);
   D2gfx_10041((uint)local_54,0x13,0x43,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x46;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes2");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes2");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0x5c,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x5f;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes3");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes3");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0x75,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x78;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes4");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes4");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0x8e,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x91;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes5");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes5");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0xa7,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0xaa;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes6");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes6");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0xc0,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0xc3;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes7");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes7");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0xd9,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0xdc;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes8");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes8");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xeb;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes9");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes9");
   D2Win_10150(pvVar1,0x3e,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 4;
   iVar3 = 0xfa;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes10");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes10");
   D2Win_10150(pvVar1,0x3e,iVar3,iVar4,iVar5);
   D2gfx_10041((uint)local_54,0x13,0x110,0xffffffff,5,0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x113;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes11");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes11");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2Win_10184(8);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x13b;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes12");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes12");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x14a;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes13");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes13");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x159;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes14");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpRecipes14");
   D2Win_10150(pvVar1,0x20,iVar3,iVar4,iVar5);
   D2Win_10184(0);
   iVar5 = 0;
   iVar4 = 0;
   iVar3 = 0x1ea;
-  pvVar1 = (void *)D2Lang_10011_102d0fb0((byte *)"NewHelpChat1");
+  pvVar1 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NewHelpChat1");
   D2Win_10150(pvVar1,0xb2,iVar3,iVar4,iVar5);
   D2gfx_10014(0x7f,*p_D2Client_DAT_6fb8bc4c + -0x67,*p_D2Client_DAT_6fb8bc48 + -500,*p_D2Client_DAT_6fb8bc4c + -0x38,0,1);
   D2Win_10150(&DAT_1037ce00,0x82,0x200,0,0);
@@ -783,20 +783,20 @@ void sub_1025b2f0(void)
 }
 
 
-// 0x1025b350  [gap]
-uint D2Net_10024(ushort param_1,uint param_2,char *param_3)
+// 0x1025b350  (ghidra: D2Net_10024)  [gap]
+uint sub_JmpTo_D2Net_10024_1025b350(ushort param_1,uint param_2,char *param_3)
 
 {
   int iVar1;
   uint uVar2;
   
-  if (p_D2Net_10024_1028cfc0 == (FARPROC)0x0) {
+  if (p_D2Net_10024 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_D2Net_10024_1028cfc0 = sub_GetDllOffset_102f10f0(5,*(int *)(&DAT_103c6e68 + iVar1 * 4));
+    p_D2Net_10024 = sub_GetDllOffset_102f10f0(5,*(int *)(&DAT_103c6e68 + iVar1 * 4));
   }
                     /* WARNING: Could not recover jumptable at 0x1028cfe6. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar2 = (*p_D2Net_10024_1028cfc0)();
+  uVar2 = (*p_D2Net_10024)();
   return uVar2;
 }
 
@@ -2053,7 +2053,7 @@ LAB_1025cd4d:
         sub_1025f140(local_44,pvVar5);
         thunk_FUN_102250f0(local_b4);
       }
-      psVar4 = (short *)D2Lang_10011_102d0fb0((byte *)"HotkeyAssignStatsCtrl");
+      psVar4 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HotkeyAssignStatsCtrl");
       pvVar5 = client_DrawHoverItem_10225480(local_b4,(int)local_5c,psVar4);
       local_8._0_1_ = 4;
       client_DrawHoverItem_10225020(local_2c,(int)pvVar5);
@@ -2073,7 +2073,7 @@ LAB_1025cd4d:
       thunk_FUN_102250f0(local_ac + 4);
       client_DrawHoverItem_10225010(local_2c,(short *)&DAT_1037d0fc);
       client_DrawHoverItem_10225010(local_2c,(short *)&DAT_1037772c);
-      psVar4 = (short *)D2Lang_10011_102d0fb0((byte *)"HotkeyAssignStatsShift");
+      psVar4 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HotkeyAssignStatsShift");
       pvVar5 = client_DrawHoverItem_10225480(local_ac + 4,(int)local_5c,psVar4);
       local_8._0_1_ = 8;
       client_DrawHoverItem_10225020(local_2c,(int)pvVar5);
@@ -2130,7 +2130,7 @@ LAB_1025cfba:
         sub_1025f140(local_5c,pvVar5);
         thunk_FUN_102250f0(local_ac + 4);
       }
-      psVar4 = (short *)D2Lang_10011_102d0fb0((byte *)"HelpTextStatHoverItem");
+      psVar4 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HelpTextStatHoverItem");
       pvVar5 = client_DrawHoverItem_10225480(local_ac + 4,(int)local_44,psVar4);
       local_8._0_1_ = 0xf;
       client_DrawHoverItem_10225020(local_2c,(int)pvVar5);
@@ -2148,7 +2148,7 @@ LAB_1025cfba:
       local_8._0_1_ = 0xe;
       thunk_FUN_102250f0(local_b4);
       client_DrawHoverItem_10225010(local_2c,(short *)&DAT_1037772c);
-      psVar4 = (short *)D2Lang_10011_102d0fb0((byte *)"HelpTextStatHoverBase");
+      psVar4 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HelpTextStatHoverBase");
       pvVar5 = client_DrawHoverItem_10225480(local_ac + 4,(int)local_44,psVar4);
       local_8._0_1_ = 0x13;
       client_DrawHoverItem_10225020(local_2c,(int)pvVar5);

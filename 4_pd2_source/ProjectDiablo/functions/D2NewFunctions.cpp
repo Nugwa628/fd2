@@ -4769,7 +4769,7 @@ functions_D2NewFunctions_102bf370(void *param_1,int *param_2,uint32_t param_3,ui
   local_2c = uVar4;
   if ((uVar4 == 0) || (*(char *)(uVar4 + 4) == '\0')) {
 functions_D2NewFunctions_102bf6cc:
-    pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"TeleportBlocked");
+    pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"TeleportBlocked");
     pCVar8 = sub_10237720(pWVar7);
     sub_1020f990(&stack0xffffff98,pCVar8);
     functions_HelperFunctions_102cfd10((int)param_2,1);
@@ -4907,7 +4907,7 @@ uint32_t functions_D2NewFunctions_102bf6cc(int reg_EBX)
   LPSTR pCVar2;
   uint8_t auStack_18 [24];
   
-  pWVar1 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"TeleportBlocked");
+  pWVar1 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"TeleportBlocked");
   pCVar2 = sub_10237720(pWVar1);
   sub_1020f990(auStack_18,pCVar2);
   functions_HelperFunctions_102cfd10(reg_EBX,1);
@@ -5754,14 +5754,14 @@ uint16_t * functions_D2NewFunctions_102c05e0(int param_1)
       case 0xb1:
       case 0xb2:
       case 0xb3:
-        psVar5 = (short *)D2Lang_10011_102d0fb0((byte *)"Zhar the Mad Map");
+        psVar5 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"Zhar the Mad Map");
         break;
       default:
         psVar5 = (short *)sub_102eccf0();
         break;
       case 0xb5:
       case 0xb6:
-        psVar5 = (short *)D2Lang_10011_102d0fb0((byte *)"Warlord of Blood Map");
+        psVar5 = (short *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"Warlord of Blood Map");
       }
       client_DrawHoverItem_10225220(local_2c,psVar5);
       iVar4 = functions_D2NewFunctions_102cbe30(local_44,(int)local_2c);
@@ -9366,7 +9366,7 @@ void functions_D2NewFunctions_Hook_GAME_Game_6fc4cbe0_102c68d0(int param_1,int p
            (piVar6 = sub_102db160(param_1,param_2,(uint)piVar3,&iStack_18,(int *)&uStack_1c,0x397,1,
                                   iStack_28), piVar6 != (int *)0x0)) {
           *(uint32_t *)(param_1 + 0x2628) = 1;
-          pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyHorazon");
+          pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyHorazon");
           pCVar8 = sub_10237720(pWVar7);
           sub_1020f990(&stack0xffffffb0,pCVar8);
           functions_HelperFunctions_102cfe70(param_1,1);
@@ -9380,7 +9380,7 @@ void functions_D2NewFunctions_Hook_GAME_Game_6fc4cbe0_102c68d0(int param_1,int p
             (piVar6 = sub_102db160(param_1,param_2,(uint)piVar3,&iStack_18,(int *)&uStack_1c,0x399,1
                                    ,iStack_28), piVar6 != (int *)0x0)))) {
           *(int *)(param_1 + 0x2628) = *(int *)(param_1 + 0x2628) + 1;
-          pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyDarkWanderer");
+          pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyDarkWanderer");
           pCVar8 = sub_10237720(pWVar7);
           sub_1020f990(&stack0xffffffb0,pCVar8);
           functions_HelperFunctions_102cfe70(param_1,1);
@@ -9393,7 +9393,7 @@ void functions_D2NewFunctions_Hook_GAME_Game_6fc4cbe0_102c68d0(int param_1,int p
                                   iStack_28), piVar6 != (int *)0x0)) {
           piVar6[0x34] = 0xb;
           *(uint32_t *)(param_1 + 0x2628) = 1;
-          pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyMendeln");
+          pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyMendeln");
           pCVar8 = sub_10237720(pWVar7);
           sub_1020f990(&stack0xffffffb0,pCVar8);
           functions_HelperFunctions_102cfe70(param_1,1);
@@ -9406,7 +9406,7 @@ void functions_D2NewFunctions_Hook_GAME_Game_6fc4cbe0_102c68d0(int param_1,int p
            (piVar6 = sub_102db160(param_1,param_2,(uint)piVar3,&iStack_18,(int *)&uStack_1c,0x3b1,1,
                                   iStack_28), piVar6 != (int *)0x0)) {
           *(int *)(param_1 + 0x2628) = *(int *)(param_1 + 0x2628) + 1;
-          pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTreasure");
+          pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTreasure");
           pCVar8 = sub_10237720(pWVar7);
           sub_1020f990(&stack0xffffffb0,pCVar8);
           functions_HelperFunctions_102cfe70(param_1,1);
@@ -9429,7 +9429,7 @@ void functions_D2NewFunctions_Hook_GAME_Game_6fc4cbe0_102c68d0(int param_1,int p
               sub_102db070(param_1,(uint)piStack_20,iVar4,uVar15 + 2,0x176,2);
               sub_102db070(param_1,(uint)piStack_20,iVar4 + -1,uVar15 - 1,0x176,2);
               *(int *)(param_1 + 0x2628) = *(int *)(param_1 + 0x2628) + 1;
-              pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTainted");
+              pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTainted");
               pCVar8 = sub_10237720(pWVar7);
               sub_1020f990(&stack0xffffffb0,pCVar8);
               functions_HelperFunctions_102cfe70(param_1,1);
@@ -9481,7 +9481,7 @@ LAB_102c6e00:
                                     ,iStack_28), piVar6 != (int *)0x0)) {
             sub_102db070(param_1,(uint)piVar3,iStack_14,uStack_10,0x252,2);
             *(int *)(param_1 + 0x2628) = *(int *)(param_1 + 0x2628) + 1;
-            pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyGheed");
+            pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyGheed");
             pCVar8 = sub_10237720(pWVar7);
             sub_1020f990(&stack0xffffffb0,pCVar8);
             functions_HelperFunctions_102cfe70(param_1,1);
@@ -9495,7 +9495,7 @@ LAB_102c6e00:
                                   iStack_28);
             if (piVar6 != (int *)0x0) {
               *(uint32_t *)(param_1 + 0x2628) = 1;
-              pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyShard");
+              pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyShard");
               pCVar8 = sub_10237720(pWVar7);
               sub_1020f990(&stack0xffffffb0,pCVar8);
               functions_HelperFunctions_102cfe70(param_1,1);
@@ -9509,7 +9509,7 @@ LAB_102c6e00:
              (piVar6 = sub_102db160(param_1,param_2,(uint)piVar3,&iStack_18,(int *)&uStack_1c,0x49e,
                                     1,iStack_28), piVar6 != (int *)0x0)) {
             *(byte *)(param_1 + 0x2628) = bVar1 + 1;
-            pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyInvaders");
+            pWVar7 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyInvaders");
             pCVar8 = sub_10237720(pWVar7);
             sub_1020f990(&stack0xffffffb0,pCVar8);
             functions_HelperFunctions_102cfe70(param_1,1);
@@ -10394,7 +10394,7 @@ uint * functions_D2NewFunctions_102c8430(int param_1,uint32_t param_2,int param_
         D2Common_10826((int)local_98);
         iVar1 = sub_102ed3c0(&local_90,param_4,local_8c,1);
         if (iVar1 != 0) goto LAB_102c856f;
-        sub_6fd020a0((void *)param_4,(int *)local_90);
+        functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0((void *)param_4,(int *)local_90);
       }
       return local_90;
     }
@@ -11163,7 +11163,7 @@ functions_D2NewFunctions_102c94e0(int param_1,uint *param_2,uint32_t param_3,int
   ExceptionList = ppvVar7;
   functions_D2NewFunctions_102cc080(param_4);
   iVar8 = (int)in_XMM0_Qa;
-  pWVar2 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTimer");
+  pWVar2 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MapEventNotifyTimer");
   pCVar3 = sub_10237720(pWVar2);
   sub_1020f990(local_30,pCVar3);
   local_8 = 0;
@@ -12275,7 +12275,7 @@ uint32_t functions_D2NewFunctions_102ca8a0(uint32_t reg_EBX,uint32_t *param_2)
   if (DAT_104e2418 == 0) {
     iVar3 = 5;
   }
-  pvVar2 = (void *)D2Lang_10011_102d0fb0((byte *)"LootAllocationTitle");
+  pvVar2 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"LootAllocationTitle");
   D2Win_10000(DAT_104e6e64,pvVar2,iVar3,0,0);
   return 1;
 }
@@ -12306,7 +12306,7 @@ void functions_D2NewFunctions_102ca910(uint *param_1)
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   uVar5 = 0x9c;
   DAT_104e6e68 = D2Win_10204((void *)0x277,0x78,0x19,0,0,(int *)0x0,(int *)0x0,2,0);
-  pvVar2 = (void *)D2Lang_10011_102d0fb0((byte *)"GameServerTitle");
+  pvVar2 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"GameServerTitle");
   D2Win_10020(DAT_104e6e68,pvVar2);
   local_1c = 0;
   do {
@@ -12319,7 +12319,7 @@ void functions_D2NewFunctions_102ca910(uint *param_1)
     *puVar1 = puVar4;
     local_1c = local_1c + 1;
     sub_10229570(local_18,0x10,"CreateGameGS%d");
-    pvVar2 = (void *)D2Lang_10011_102d0fb0(local_18);
+    pvVar2 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0(local_18);
     D2Win_10192((int *)*puVar1,0,pvVar2,0);
   } while (local_1c < 9);
   if (DAT_104e2408 != 10) {
@@ -12340,7 +12340,7 @@ void functions_D2NewFunctions_102ca910(uint *param_1)
   if (DAT_104e2418 == 0) {
     iVar3 = 5;
   }
-  pvVar2 = (void *)D2Lang_10011_102d0fb0((byte *)"LootAllocationTitle");
+  pvVar2 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"LootAllocationTitle");
   D2Win_10000(DAT_104e6e64,pvVar2,iVar3,0,0);
   D2Win_10098(param_1);
   return;
@@ -12972,12 +12972,12 @@ void functions_D2NewFunctions_102cb7f0(int param_1,uint *param_2)
        ) {
       iVar1 = (**(code **)(p_D2Game_DAT_6fd2d970_102a91f0 + (uint)*(ushort *)(iVar1 + 0xc) * 4))();
       if (iVar1 == 2) {
-        sub_6fd020a0((void *)param_1,(int *)param_2);
+        functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0((void *)param_1,(int *)param_2);
         return;
       }
     }
     else {
-      sub_6fd020a0((void *)param_1,(int *)param_2);
+      functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0((void *)param_1,(int *)param_2);
     }
   }
   return;
@@ -13180,8 +13180,8 @@ void functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40(int param_1,uint *param
 }
 
 
-// 0x102cbcd0  [range]
-void __fastcall sub_6fd020a0(void *param_1,int *param_2)
+// 0x102cbcd0  (ghidra: sub_6fd020a0)  [range]
+void __fastcall functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0(void *param_1,int *param_2)
 
 {
   int iVar1;

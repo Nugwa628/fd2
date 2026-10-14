@@ -65,6 +65,11 @@ public class ModuleConfig
     // function address -> name for functions identified by a table rather than by their body (game-pointer thunks and
     // accessors). Applied to FUN_ names only, so names already set in Ghidra win.
     public Dictionary<uint, string> FunctionNames = new Dictionary<uint, string>();
+    // function address -> reference name of its game-pointer row. A Ghidra name "<reference name>" or "<reference name>_<addr>"
+    // at that address came from an earlier pointer table (ApplyPrototypes), so the current table decides the name.
+    public Dictionary<uint, string> PointerRefNames = new Dictionary<uint, string>();
+    // Ghidra name -> new name for functions renamed that way; their callers use the Ghidra name, not FUN_ (see Clean)
+    public Dictionary<string, string> TableRenames = new Dictionary<string, string>();
     public Dictionary<string, string> GamePointerTargets = new Dictionary<string, string>();   // thunk/accessor name -> reference name
     // fd2 phase 3: C++ dynamic-initializer table (__xc_a) and the string that marks one object file's common-header
     // initializer in it (LinkUnits.cs). 0 = not used.
@@ -225,7 +230,7 @@ public static class Rebuilder
     static void Reset()
     {
         ExactRenames = new List<KeyValuePair<string, string>>();
-        IdentRenames = new Dictionary<string, string>();
+        IdentRenames = new Dictionary<string, string>(); TableRenameRx = null;
         RenameInfo = new Dictionary<string, string[]>();
         SigmaFields = new Dictionary<int, string>();
         GlobalKind = new Dictionary<string, int>();
@@ -410,6 +415,10 @@ public static class Rebuilder
 
         var rename = new Dictionary<string, string>();
         foreach (var f in funcs) if (f.NewName != f.Name) rename[f.Name] = f.NewName;
+        // callers name these by their Ghidra name (one pass, so swapped names such as stub <-> thunk stay right)
+        foreach (var k in Cfg.TableRenames.Where(kv => kv.Value == null).Select(kv => kv.Key).ToList()) Cfg.TableRenames.Remove(k);
+        TableRenameRx = Cfg.TableRenames.Count == 0 ? null :
+            new Regex(@"(?<![\w$])(?:" + string.Join("|", Cfg.TableRenames.Keys.OrderByDescending(k => k.Length).ThenBy(k => k, StringComparer.Ordinal).Select(Regex.Escape)) + @")(?![\w$])");
         // exported functions Ghidra named after their C++ member (e.g. "Nth"): calls by that short name follow the rename
         foreach (var f in funcs)
             if (f.Hint == "export" && !f.Name.StartsWith("FUN_") && !f.Name.StartsWith("Ordinal_") && Regex.IsMatch(f.Name, @"^[A-Z]\w*$") && f.Name != "QueryInterface")
@@ -959,12 +968,17 @@ public static class Rebuilder
             if (Cfg.Sigma && Manual.TryGetValue(f.Addr, out mname)) { f.NewName = mname; f.Hint = "manual"; used.Add(mname); continue; }
             string[] mn;
             if (!Cfg.Sigma && Cfg.ManualNames.TryGetValue(f.Addr, out mn)) { f.NewName = mn[0]; f.Hint = "manual"; used.Add(mn[0]); continue; }
-            string tn;
-            if (!Cfg.Sigma && f.Name.StartsWith("FUN_") && Cfg.FunctionNames.TryGetValue(f.Addr, out tn)) { f.NewName = tn; f.Hint = "game pointer"; used.Add(tn); continue; }
+            string tn, rn;
+            // a name an earlier pointer table gave in Ghidra: the current table decides (a wrapper is not the game function)
+            bool tableNamed = !Cfg.Sigma && Cfg.PointerRefNames.TryGetValue(f.Addr, out rn) &&
+                              (f.Name == rn || f.Name.Length == rn.Length + 9 && f.Name.StartsWith(rn + "_") && Regex.IsMatch(f.Name.Substring(rn.Length + 1), "^[0-9a-f]{8}$"));
+            if (tableNamed && !(Cfg.FunctionNames.TryGetValue(f.Addr, out tn) && tn == f.Name)) Cfg.TableRenames[f.Name] = null;
+            else tableNamed = false;
+            if (!Cfg.Sigma && (f.Name.StartsWith("FUN_") || tableNamed) && Cfg.FunctionNames.TryGetValue(f.Addr, out tn)) { f.NewName = tn; f.Hint = "game pointer"; used.Add(tn); Rename(f); continue; }
             string exp;
             if (Cfg.ExportNames.TryGetValue(f.Addr, out exp) && (f.Name.StartsWith("FUN_") || f.Name.StartsWith("Ordinal_") || (!Cfg.Sigma && !f.IsLib && Regex.IsMatch(f.Name, @"^[A-Za-z_]\w*$"))))
             { f.NewName = exp; f.Hint = "export"; used.Add(exp); continue; }
-            if (f.IsLib || !f.Name.StartsWith("FUN_")) { f.NewName = f.Name; continue; }
+            if (f.IsLib || !f.Name.StartsWith("FUN_") && !tableNamed) { f.NewName = f.Name; continue; }
             if (!Cfg.Sigma)
             {
                 string st = Stem(f.File ?? "unk");
@@ -973,6 +987,7 @@ public static class Rebuilder
                 string lh = Pd2Hint(f, body) ?? (Cfg.LibraryHints ? LibHint(body) : null);
                 if (lh != null) f.Hint = lh;
                 f.NewName = Sanitize(st + (lh != null ? "_" + lh : "") + "_" + addr); used.Add(f.NewName);
+                Rename(f);
                 continue;
             }
 
@@ -1003,6 +1018,8 @@ public static class Rebuilder
             f.NewName = nm; used.Add(nm);
         }
     }
+
+    static void Rename(Fn f) { if (Cfg.TableRenames.ContainsKey(f.Name)) Cfg.TableRenames[f.Name] = f.NewName; }
 
     // ---- fd2: hints for the PD2 modules -------------------------------------------------------------------------
     // From most to least specific: per-file copy of a game pointer (static initializer), other static initializer,
@@ -1066,6 +1083,7 @@ public static class Rebuilder
     static Regex DatIdRx = new Regex(@"\bDAT_[0-9a-f]{8}\b");
     static Regex OrdRx = new Regex(@"\bOrdinal_\d+\b");
     static Regex CppRx = new Regex(@"\b[A-Za-z_]\w*::(?:~?[A-Za-z_]\w*|operator=)");
+    static Regex TableRenameRx;
     static Regex BareRx = new Regex(@"(?<![\w:.>])[A-Za-z_]\w*(?=\s*\()");
     static uint CurFunc;
     static Regex SigmaArithRx = new Regex(@"(?<!\(uint8_t \*\)|\*)\bgpSigmaTables(\s*(?:\+|-(?!>))\s*)");
@@ -1137,7 +1155,7 @@ public static class Rebuilder
     public static string Clean(string line)
     {
         line = AnnotateConstStrings(line);
-        if (line.IndexOf("undefined") < 0 && line.IndexOf("DAT_") < 0 && line.IndexOf("Ordinal_") < 0 && line.IndexOf("::") < 0 && Cfg.CppNames.Count == 0) return line;
+        if (line.IndexOf("undefined") < 0 && line.IndexOf("DAT_") < 0 && line.IndexOf("Ordinal_") < 0 && line.IndexOf("::") < 0 && Cfg.CppNames.Count == 0 && TableRenameRx == null) return line;
         var parts = Regex.Split(line, "(\"(?:[^\"\\\\]|\\\\.)*\")");
         for (int i = 0; i < parts.Length; i += 2)
         {
@@ -1152,6 +1170,7 @@ public static class Rebuilder
                 s = DatIdRx.Replace(s, m => { string r; return IdentRenames.TryGetValue(m.Value, out r) ? r : m.Value; });
                 if (s.IndexOf("gpSigmaTables") >= 0) s = SigmaArithRx.Replace(s, "(uint8_t *)gpSigmaTables$1");
             }
+            if (TableRenameRx != null) s = TableRenameRx.Replace(s, m => Cfg.TableRenames[m.Value]);
             if (Cfg.CppNames.Count > 0)
                 s = BareRx.Replace(s, m => { string r; return m.Value.IndexOf("::") < 0 && Cfg.CppNames.TryGetValue(m.Value, out r) ? r : m.Value; });
             if (s.IndexOf("::") >= 0 && Cfg.CppNames.Count > 0)

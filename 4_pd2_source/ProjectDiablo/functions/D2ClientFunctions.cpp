@@ -3900,7 +3900,7 @@ void functions_D2ClientFunctions_1022da20(int param_1)
   sub_1022a570((uint)*(ushort *)(param_1 + 0xc),(uint)*(ushort *)(param_1 + 0xe));
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -3923,7 +3923,7 @@ void functions_D2ClientFunctions_1022da70(int param_1)
   sub_1022a570((uint)uVar1,(uint)uVar2);
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -3944,7 +3944,7 @@ void functions_D2ClientFunctions_1022dad0(int param_1)
     }
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
     return;
   }
   *(uint32_t *)(param_1 + 0x18) = 0;
@@ -3968,7 +3968,7 @@ void functions_D2ClientFunctions_1022db50(int param_1)
     }
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
     return;
   }
   *(uint32_t *)(param_1 + 0x18) = 0;
@@ -3990,7 +3990,7 @@ void functions_D2ClientFunctions_1022dbc0(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4009,7 +4009,7 @@ void functions_D2ClientFunctions_1022dc20(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4033,7 +4033,7 @@ void functions_D2ClientFunctions_1022dc80(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4055,7 +4055,7 @@ void functions_D2ClientFunctions_1022dd10(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4077,7 +4077,7 @@ void functions_D2ClientFunctions_1022dd90(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4100,7 +4100,7 @@ void functions_D2ClientFunctions_1022de00(int param_1)
   sub_1022a570((uint)uVar1,(uint)uVar2);
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4149,7 +4149,7 @@ LAB_1022df29:
 LAB_1022df4a:
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4188,7 +4188,7 @@ void functions_D2ClientFunctions_1022df70(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4204,7 +4204,7 @@ void functions_D2ClientFunctions_1022e040(int param_1)
   sub_10228f50(0x100);
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4230,7 +4230,7 @@ void functions_D2ClientFunctions_1022e080(int param_1)
 LAB_1022e0c0:
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4268,7 +4268,7 @@ void functions_D2ClientFunctions_1022e0e0(int param_1)
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4302,7 +4302,7 @@ void functions_D2ClientFunctions_1022e1b0(int param_1)
       (*(code *)(&PTR_sub_6faec5b0_103995a0)[*(int *)((int)DAT_104ddd68 + iVar3 * 10) * 3])();
       *(uint32_t *)(param_1 + 0x18) = 1;
       *(uint32_t *)(param_1 + 0x1c) = 0;
-      Storm_511_102a1770(param_1);
+      Storm_511(param_1);
     }
   }
   return;
@@ -4333,7 +4333,7 @@ void functions_D2ClientFunctions_1022e290(int param_1)
     (**(code **)(&DAT_103995a4 + *(int *)((int)DAT_104ddd68 + iVar2 * 10) * 0xc))();
     *(uint32_t *)(param_1 + 0x18) = 1;
     *(uint32_t *)(param_1 + 0x1c) = 0;
-    Storm_511_102a1770(param_1);
+    Storm_511(param_1);
   }
   return;
 }
@@ -4394,7 +4394,7 @@ void functions_D2ClientFunctions_1022e3b0(int param_1)
   *p_D2Client_DAT_6fbcc068 = 1;
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4423,7 +4423,7 @@ void functions_D2ClientFunctions_1022e410(int param_1)
   *p_D2Client_DAT_6fbcc06c = 0;
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4452,7 +4452,7 @@ void functions_D2ClientFunctions_1022e4d0(int param_1)
   client_Sound_Sound_10233980(1,0,0,0,0);
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4479,7 +4479,7 @@ void functions_D2ClientFunctions_1022e550(int param_1)
   client_Sound_Sound_10233980(1,0,0,0,0);
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4533,7 +4533,7 @@ LAB_1022e655:
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4586,7 +4586,7 @@ LAB_1022e746:
   }
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4598,7 +4598,7 @@ void functions_D2ClientFunctions_1022e790(int param_1)
   sub_102f01c0();
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -4613,7 +4613,7 @@ void functions_D2ClientFunctions_1022e7c0(int param_1)
   DAT_1039816c = 0;
   *(uint32_t *)(param_1 + 0x18) = 1;
   *(uint32_t *)(param_1 + 0x1c) = 0;
-  Storm_511_102a1770(param_1);
+  Storm_511(param_1);
   return;
 }
 
@@ -5175,7 +5175,7 @@ void __fastcall functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0(uint3
       uVar2 = *(ushort *)(param_3 + 0xc);
       *(uint32_t *)(param_3 + 0x18) = 1;
       *(uint32_t *)(param_3 + 0x1c) = 0;
-      Storm_511_102a1770(param_3);
+      Storm_511(param_3);
       DVar4 = GetTickCount();
       if (399 < DVar4 - *p_D2Client_DAT_6fbbb228) {
         *p_D2Client_DAT_6fbbb228 = DVar4;

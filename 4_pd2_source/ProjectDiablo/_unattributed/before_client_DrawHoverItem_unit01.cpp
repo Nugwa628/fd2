@@ -4686,18 +4686,18 @@ void __fastcall sub_10213620(uint32_t param_1,uint32_t param_2)
     }
     iVar7 = *p_D2Client_DAT_6fb8bc48;
     iVar10 = iVar7 + -100;
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect1");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect1");
     iVar5 = D2Win_10028(pvVar4);
     D2Win_10150(pvVar4,iVar10 - iVar5,0x69,4,0);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect2");
-    this = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect3");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect2");
+    this = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect3");
     iVar5 = D2Win_10028(pvVar4);
     iVar6 = D2Win_10028(this);
     uVar11 = iVar10 - iVar6;
     D2Win_10150(pvVar4,(uVar11 - iVar5) - 0x14,0x81,4,0);
     sub_10213570((void *)0xd,0x84,0x14,uVar11 - 0x14);
     D2Win_10150(this,uVar11,0x81,4,0);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect4");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect4");
     iVar5 = D2Win_10028(pvVar4);
     D2Win_10150(pvVar4,iVar10 - iVar5,0x99,4,0);
     sub_10213570((void *)0x0,0xb4,0x14,iVar7 + -0xdd);
@@ -4712,35 +4712,35 @@ void __fastcall sub_10213620(uint32_t param_1,uint32_t param_2)
     sub_10213570((void *)0x2,0xcc,0x14,iVar7 + -0xab);
     sub_10213570((void *)0x3,0xcc,0x14,iVar7 + -0x92);
     sub_10213570((void *)0x9,0xcc,0x14,iVar7 + -0x79);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect7");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect7");
     D2Win_10150(pvVar4,0x54,0x69,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xd,0x6c,0x14,iVar7 + 0x54);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect6");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect6");
     D2Win_10150(pvVar4,0x54,0x81,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xf,0x84,0x14,iVar7 + 0x54);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect8");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect8");
     D2Win_10150(pvVar4,0x54,0x99,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0x8,0x9c,0x14,iVar7 + 0x54);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect9");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect9");
     D2Win_10150(pvVar4,0x54,0xb1,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xc,0xb4,0x14,iVar7 + 0x54);
     D2Win_10150(&DAT_103773c0,iVar7 + 0x6d,0xb1,4,0);
     sub_10213570((void *)0x8,0xb4,0x14,iVar7 + 0x79);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect5");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect5");
     D2Win_10150(pvVar4,0x54,0xc9,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xe,0xcc,0x14,iVar7 + 0x54);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect11");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect11");
     D2Win_10150(pvVar4,0x54,0xe1,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xc,0xe4,0x14,iVar7 + 0x54);
     D2Win_10150(&DAT_103773c0,iVar7 + 0x6d,0xe1,4,0);
     sub_10213570((void *)0xe,0xe4,0x14,iVar7 + 0x79);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect10");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect10");
     D2Win_10150(pvVar4,0x54,0xf9,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xc,0xfc,0x14,iVar7 + 0x54);
@@ -4749,7 +4749,7 @@ void __fastcall sub_10213620(uint32_t param_1,uint32_t param_2)
     sub_10213570((void *)0x7,0xfc,0x14,iVar7 + 0x96);
     sub_10213570((void *)0x5,0xfc,0x14,iVar7 + 0xaf);
     sub_10213570((void *)0x6,0xfc,0x14,iVar7 + 200);
-    pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect12");
+    pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerSkillSelect12");
     D2Win_10150(pvVar4,0x54,0x111,4,0);
     iVar7 = D2Win_10028(pvVar4);
     sub_10213570((void *)0xc,0x114,0x14,iVar7 + 0x54);
@@ -4775,13 +4775,13 @@ void __fastcall sub_10213620(uint32_t param_1,uint32_t param_2)
     }
   }
   sub_10213570((void *)0x0,0x52,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryPrimary");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryPrimary");
   D2Win_10150(pvVar4,0x3c4,0x4f,4,0);
   sub_10213570((void *)0x3,0x6a,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryFourth");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryFourth");
   D2Win_10150(pvVar4,0x3c4,0x67,4,0);
   sub_10213570((void *)0x1,0x82,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventorySecondary");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventorySecondary");
   D2Win_10150(pvVar4,0x3c4,0x7f,4,0);
   iVar7 = 3;
   uVar12 = sub_102edf00();
@@ -4805,27 +4805,27 @@ void __fastcall sub_10213620(uint32_t param_1,uint32_t param_2)
     sub_10213570((void *)0x2,0x9a,0x14,0x3ab);
     pcVar9 = "ControllerHelpInventoryThirdAdvancedStats";
   }
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)pcVar9);
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)pcVar9);
   D2Win_10150(pvVar4,0x3c4,0x97,4,0);
   iVar7 = 4;
 LAB_10213db5:
   sub_10213570((void *)0xc,iVar7 * 0x18 + 0x52,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryLeftTrigger");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryLeftTrigger");
   D2Win_10150(pvVar4,0x3c4,iVar7 * 0x18 + 0x4f,4,0);
   sub_10213570((void *)0xd,iVar7 * 0x18 + 0x6a,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryRightTrigger");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerHelpInventoryRightTrigger");
   D2Win_10150(pvVar4,0x3c4,iVar7 * 0x18 + 0x67,4,0);
   sub_10213570((void *)0xf,0x1e8,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerKeybindRightTriggerPress");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerKeybindRightTriggerPress");
   D2Win_10150(pvVar4,0x3c4,0x1e5,4,0);
   sub_10213570((void *)0xe,0x1d0,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerKeybindLeftTriggerPress");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerKeybindLeftTriggerPress");
   D2Win_10150(pvVar4,0x3c4,0x1cd,4,0);
   sub_10213570((void *)0x8,0x1b8,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerKeybindLeftBumperPress");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerKeybindLeftBumperPress");
   D2Win_10150(pvVar4,0x3c4,0x1b5,4,0);
   sub_10213570((void *)0xd,0x1a0,0x14,0x3ab);
-  pvVar4 = (void *)D2Lang_10011_102d0fb0((byte *)"ControllerKeybindRightTriggerAttackPress");
+  pvVar4 = (void *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerKeybindRightTriggerAttackPress");
   D2Win_10150(pvVar4,0x3c4,0x19d,4,0);
   return;
 }
@@ -8314,7 +8314,7 @@ LAB_102184be:
   uVar11 = sub_102141b0(0);
   puVar10 = (uint *)uVar11;
   if ((char)uVar11 != '\0') {
-    UI_inv_6fb40f60(extraout_ECX_03);
+    sub_Wrap_D2Client_UI_inv_6fb40f60_1022b130(extraout_ECX_03);
     puVar10 = extraout_EAX;
   }
 LAB_1021867d:
@@ -8477,39 +8477,39 @@ void sub_10218940(void)
 }
 
 
-// 0x10218950  [gap]
-uint Storm_511(uint param_1)
+// 0x10218950  (ghidra: Storm_511)  [gap]
+uint sub_JmpTo_Storm_511_10218950(uint param_1)
 
 {
   int iVar1;
   uint uVar2;
   
-  if (p_Storm_511_102a1770 == (FARPROC)0x0) {
+  if (p_Storm_511 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_Storm_511_102a1770 = sub_GetDllOffset_102f10f0(10,*(int *)(&DAT_103c7000 + iVar1 * 4));
+    p_Storm_511 = sub_GetDllOffset_102f10f0(10,*(int *)(&DAT_103c7000 + iVar1 * 4));
   }
                     /* WARNING: Could not recover jumptable at 0x102a1796. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar2 = (*p_Storm_511_102a1770)();
+  uVar2 = (*p_Storm_511)();
   return uVar2;
 }
 
 
-// 0x10218960  [gap]
+// 0x10218960  (ghidra: sub_6f8f80f0)  [gap]
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int sub_6f8f80f0(uint32_t param_1)
+int sub_JmpTo_D2Win_sub_6f8f80f0_10218960(uint32_t param_1)
 
 {
   int iVar1;
   
-  if (p_sub_6f8f80f0_102a15e0 == (FARPROC)0x0) {
+  if (p_sub_6f8f80f0 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_sub_6f8f80f0_102a15e0 = sub_GetDllOffset_102f10f0(4,*(int *)(iVar1 * 4 + 0x103d2e94));
+    p_sub_6f8f80f0 = sub_GetDllOffset_102f10f0(4,*(int *)(iVar1 * 4 + 0x103d2e94));
   }
                     /* WARNING: Could not recover jumptable at 0x102a1606. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  iVar1 = (*p_sub_6f8f80f0_102a15e0)();
+  iVar1 = (*p_sub_6f8f80f0)();
   return iVar1;
 }
 

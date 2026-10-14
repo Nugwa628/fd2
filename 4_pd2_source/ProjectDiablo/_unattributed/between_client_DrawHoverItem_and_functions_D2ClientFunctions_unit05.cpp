@@ -5396,7 +5396,7 @@ void sub_10226880(void)
       if (*(int *)(reg_EDI + 0x1b4) != 0) {
         pcVar8 = "SharedStashGoldAmount";
       }
-      D2Lang_10011_102d0fb0((byte *)pcVar8);
+      functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)pcVar8);
       sub_10219580(local_29c,0x80,&DAT_103774e4);
     }
     else {
@@ -5455,7 +5455,7 @@ void sub_10226880(void)
     D2gfx_10041((uint)local_2e4,uVar10 + 0xf,uVar11,0xffffffff,5,0);
     if (DAT_103e7788 != 0) {
       memset(local_19c,0,400);
-      D2Lang_10011_102d0fb0((byte *)"StashTabCurrency");
+      functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"StashTabCurrency");
       sub_10219580(local_19c,200,&DAT_103774e4);
       bVar3 = sub_102282a0(0x61,1);
       if (CONCAT31(extraout_var,bVar3) != 0) {

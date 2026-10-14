@@ -7899,46 +7899,46 @@ void functions_D2CommonFunctions_10268850(uint param_1)
     functions_HelperFunctions_102d0fa0(0xf9b,0);
     return;
   case 1:
-    D2Lang_10011_102d0fb0((byte *)"MercDescfarw");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescfarw");
     return;
   case 2:
-    D2Lang_10011_102d0fb0((byte *)"MercDesccarw");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDesccarw");
     return;
   case 3:
-    D2Lang_10011_102d0fb0((byte *)"MercDesccomb");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDesccomb");
     return;
   case 4:
-    D2Lang_10011_102d0fb0((byte *)"MercDescdef ");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescdef ");
     return;
   case 5:
-    D2Lang_10011_102d0fb0((byte *)"MercDescoff ");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescoff ");
     return;
   case 6:
-    D2Lang_10011_102d0fb0((byte *)"MercDescfire");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescfire");
     return;
   case 7:
-    D2Lang_10011_102d0fb0((byte *)"MercDesccold");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDesccold");
     return;
   case 8:
-    D2Lang_10011_102d0fb0((byte *)"MercDescltng");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescltng");
     return;
   case 9:
-    D2Lang_10011_102d0fb0((byte *)"MercDescmght");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescmght");
     return;
   case 10:
-    D2Lang_10011_102d0fb0((byte *)"MercDescfrnz");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescfrnz");
     return;
   case 0xb:
-    D2Lang_10011_102d0fb0((byte *)"MercDescwwnd");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescwwnd");
     return;
   case 0xc:
-    D2Lang_10011_102d0fb0((byte *)"MercDescascd");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescascd");
     return;
   case 0xd:
-    D2Lang_10011_102d0fb0((byte *)"MercDescascl");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescascl");
     return;
   case 0xe:
-    D2Lang_10011_102d0fb0((byte *)"MercDescparw");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"MercDescparw");
     return;
   default:
     D2Common_10091(param_1);
@@ -10660,7 +10660,7 @@ void functions_D2CommonFunctions_Hook_GAME_Game_6fc4d9b0_1026c310(int param_1,in
   iVar5 = *(int *)(param_2 + 0x174);
   if (iVar5 != 0) {
     local_58 = iVar5;
-    pWVar2 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"CorruptedZoneNotify");
+    pWVar2 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"CorruptedZoneNotify");
     pCVar3 = sub_10237720(pWVar2);
     sub_1020f990(local_4c,pCVar3);
     local_8 = 0;

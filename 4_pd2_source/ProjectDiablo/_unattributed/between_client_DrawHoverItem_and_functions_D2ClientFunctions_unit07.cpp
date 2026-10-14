@@ -4890,7 +4890,7 @@ void sub_1022aab0(void)
   
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   memset(local_198,0,400);
-  uVar1 = D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
+  uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
   sub_10219580(local_198,200,uVar1);
   sub_6fb2d850(local_198,1);
   return;
@@ -4910,10 +4910,10 @@ void sub_1022ab20(void)
   uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   if (DAT_103a7014 != 1) {
-    D2Lang_10011_102d0fb0((byte *)"HOTKEY_D2GLScreen");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HOTKEY_D2GLScreen");
     uStack_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
     memset(auStack_198,0,400);
-    uVar1 = D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
+    uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
     sub_10219580(auStack_198,200,uVar1);
     sub_6fb2d850(auStack_198,1);
     return;
@@ -4947,10 +4947,10 @@ void sub_1022ab50(void)
   uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   if (DAT_103a7014 != 1) {
-    D2Lang_10011_102d0fb0((byte *)"HOTKEY_TooltipScreenShot");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HOTKEY_TooltipScreenShot");
     uStack_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
     memset(auStack_198,0,400);
-    uVar1 = D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
+    uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
     sub_10219580(auStack_198,200,uVar1);
     sub_6fb2d850(auStack_198,1);
     return;
@@ -4982,9 +4982,9 @@ void sub_1022ab70(void)
   uint32_t uStack_c;
   
   if (DAT_103a7014 != 1) {
-    D2Lang_10011_102d0fb0((byte *)"HOTKEY_ItemQuantity");
+    functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"HOTKEY_ItemQuantity");
     memset(auStack_198,0,400);
-    uVar1 = D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
+    uVar1 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"D2GLNotLoaded");
     sub_10219580(auStack_198,200,uVar1);
     sub_6fb2d850(auStack_198,1);
     return;
@@ -7346,8 +7346,8 @@ void sub_1022b100(void)
 }
 
 
-// 0x1022b130  [gap]
-void __fastcall UI_inv_6fb40f60(uint param_1)
+// 0x1022b130  (ghidra: UI_inv_6fb40f60)  [gap]
+void __fastcall sub_Wrap_D2Client_UI_inv_6fb40f60_1022b130(uint param_1)
 
 {
   int iVar1;
@@ -7413,7 +7413,7 @@ void sub_1022b190(void)
   sub_10231680(6,iVar1);
   sub_10229570(local_48,0x40,"BHNotifyLevel%d");
   uVar3 = 4;
-  uVar2 = D2Lang_10011_102d0fb0(local_48);
+  uVar2 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0(local_48);
   sub_6fb2d850(uVar2,uVar3);
   return;
 }

@@ -1,0 +1,16 @@
+; version.def - export table of PD2_EXT.dll (hand-written from ../exports.tsv, which tools/src generates from the
+; shipped DLL): twelve PE forwarders to the system version.dll, same names and ordinals (12 and 13 are unused).
+LIBRARY "PD2_EXT"
+EXPORTS
+    GetFileVersionInfoA     = version.GetFileVersionInfoA     @1
+    GetFileVersionInfoSizeA = version.GetFileVersionInfoSizeA @2
+    GetFileVersionInfoSizeW = version.GetFileVersionInfoSizeW @3
+    GetFileVersionInfoW     = version.GetFileVersionInfoW     @4
+    VerFindFileA            = version.VerFindFileA            @5
+    VerFindFileW            = version.VerFindFileW            @6
+    VerInstallFileA         = version.VerInstallFileA         @7
+    VerInstallFileW         = version.VerInstallFileW         @8
+    VerLanguageNameA        = version.VerLanguageNameA        @9
+    VerLanguageNameW        = version.VerLanguageNameW        @10
+    VerQueryValueA          = version.VerQueryValueA          @11
+    VerQueryValueW          = version.VerQueryValueW          @14

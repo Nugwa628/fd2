@@ -4055,20 +4055,20 @@ void __fastcall sub_1021bc80(int param_1,int param_2,int param_3,uint param_4)
     D2Lang_10003(CONCAT22(extraout_var,*(uint16_t *)(iVar2 + 6)));
     if (iVar1 == 0) {
       if ((param_2 < 1) || (param_2 == param_1)) {
-        uVar3 = D2Lang_10011_102d0fb0((byte *)"ClientDefenseHover");
+        uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ClientDefenseHover");
         sub_1021cb90(local_10c,uVar3);
       }
       else {
-        uVar3 = D2Lang_10011_102d0fb0((byte *)"ClientDefenseHoverMiss");
+        uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ClientDefenseHoverMiss");
         sub_1021cb90(local_10c,uVar3);
       }
     }
     else if ((param_2 < 1) || (param_2 == param_1)) {
-      uVar3 = D2Lang_10011_102d0fb0((byte *)"ClientDefenseBlockHover");
+      uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ClientDefenseBlockHover");
       sub_1021cb90(local_10c,uVar3);
     }
     else {
-      uVar3 = D2Lang_10011_102d0fb0((byte *)"ClientDefenseBlockHoverMiss");
+      uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ClientDefenseBlockHoverMiss");
       sub_1021cb90(local_10c,uVar3);
     }
     D2Win_10013(local_10c,*p_D2Client_DAT_6fbcb9a0 + 0x8b,*p_D2Client_DAT_6fbcb9a4 + *p_D2Client_DAT_6fb8bc4c + -0x13b,DAT_103d6220,2

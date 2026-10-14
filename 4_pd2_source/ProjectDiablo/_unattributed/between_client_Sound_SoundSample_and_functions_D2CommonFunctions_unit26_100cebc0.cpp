@@ -6685,7 +6685,7 @@ void sub_10255e60(void)
         thunk_FUN_102250f0(local_38);
       }
       uVar9 = 0;
-      uVar5 = D2Lang_10011_102d0fb0((byte *)"ChatLog");
+      uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ChatLog");
       sub_6fb2d850(uVar5,uVar9);
       sub_6fae9c30_102a8050();
     }
@@ -7254,10 +7254,10 @@ void sub_Hook_sub_6fb6f0d0_10256f90(int *param_1)
 }
 
 
-// 0x10256fa0  [gap]
+// 0x10256fa0  (ghidra: UNIT_Monster_6fb00e70)  [gap]
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-ulonglong UNIT_Monster_6fb00e70(void)
+ulonglong sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0(void)
 
 {
   int iVar1;
@@ -8018,31 +8018,31 @@ LAB_10257eb2:
       }
       switch(pvVar9) {
       case (void *)0x1:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationParty");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationParty");
         if (iVar8 == 0) {
           local_58 = 5;
         }
         break;
       case (void *)0x2:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationQuest");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationQuest");
         break;
       case (void *)0x3:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationCharacter");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationCharacter");
         break;
       case (void *)0x4:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationInventory");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationInventory");
         break;
       case (void *)0x5:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationSkills");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationSkills");
         break;
       case (void *)0x6:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationHireling");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationHireling");
         if (!bVar1) {
           local_58 = 5;
         }
         break;
       case (void *)0x7:
-        local_5c = (uint8_t *)D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationHotkeys");
+        local_5c = (uint8_t *)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"ControllerMenuNavigationHotkeys");
       }
       iVar5 = D2Win_10028(local_5c);
       local_54[0] = (pvVar7 != pvVar9) + 2;
@@ -8181,7 +8181,7 @@ void sub_Hook_sub_6fb49440_102582c0(int param_1)
       D2gfx_10041((uint)aiStack_258,*p_D2Client_DAT_6fbcb9a0 + 0x24e,*p_D2Client_DAT_6fb8bc4c + *p_D2Client_DAT_6fbcb9a4 + -0x15,
                   0xffffffff,5,0);
       if (DAT_103e765c != 0) {
-        uVar6 = D2Lang_10011_102d0fb0((byte *)"InventoryLock");
+        uVar6 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"InventoryLock");
         sub_1021cb90(auStack_110,uVar6);
         D2Win_10085(auStack_110,*p_D2Client_DAT_6fbcb9a0 + 0x25e,*p_D2Client_DAT_6fb8bc4c + *p_D2Client_DAT_6fbcb9a4 + -0x39,0,1);
       }
@@ -8210,7 +8210,7 @@ void sub_Hook_sub_6fb49440_102582c0(int param_1)
                     0xffffffff,5,0);
         if (DAT_103e7660 == 0) goto LAB_1025893f;
         memset(auStack_210,0,0x100);
-        uVar5 = D2Lang_10011_102d0fb0((byte *)"NPCRefresh");
+        uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"NPCRefresh");
         sub_10219580(auStack_210,0x80,uVar5);
         bVar2 = sub_102282a0(0x59,1);
         if (CONCAT31(extraout_var_02,bVar2) != 0) {
@@ -8260,11 +8260,11 @@ void sub_Hook_sub_6fb49440_102582c0(int param_1)
         if (((DAT_103e7664 != 0) && (DAT_103e764c != 0)) && (DAT_103c39c0 < 10)) {
           memset(auStack_210,0,0x100);
           if (uVar5 == 0) {
-            uVar5 = D2Lang_10011_102d0fb0((byte *)"StashTabPrivate");
+            uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"StashTabPrivate");
             sub_1021cb90(auStack_210,uVar5);
           }
           else {
-            uVar5 = D2Lang_10011_102d0fb0((byte *)"StashTabShared");
+            uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"StashTabShared");
             sub_1021cb90(auStack_210,uVar5);
             sub_10219580(auStack_210,0x80,L"%s %d");
           }
@@ -8299,7 +8299,7 @@ void sub_Hook_sub_6fb49440_102582c0(int param_1)
         D2gfx_10041((uint)aiStack_2a0,iVar3 + 0x4e,uVar5,0xffffffff,5,0);
         if ((DAT_104dbae0 == 0) || (DAT_103e7778 != 0)) goto LAB_1025893f;
         memset(auStack_210,0,0x100);
-        uVar6 = D2Lang_10011_102d0fb0((byte *)"StashSearchHover");
+        uVar6 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"StashSearchHover");
         sub_1021cb90(auStack_210,uVar6);
         uVar5 = uVar5 - 0x18;
         uVar12 = 0;
@@ -8382,7 +8382,7 @@ int sub_Hook_sub_6fb739e0_102589a0(uint32_t reg_EBX)
     return (int)uVar6;
   }
   if (*(int *)(piVar2[5] + 0x1a4) != 0) {
-    uVar3 = D2Lang_10011_102d0fb0((byte *)"PlayerDpsDisplay");
+    uVar3 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"PlayerDpsDisplay");
     sub_1021cb90(auStack_110,uVar3);
     iVar5 = *p_D2Client_DAT_6fb8bc4c;
     D2Win_10184(1);

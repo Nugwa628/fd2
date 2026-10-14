@@ -3770,7 +3770,7 @@ int __fastcall sub_102ec4c0(int *param_1)
       if (iVar5 % 5000 < 2) {
         sub_1020f990(local_2c,*(char **)(param_1[2] + 0x14));
         local_8 = 0;
-        pWVar6 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"PerfectShrine");
+        pWVar6 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"PerfectShrine");
         pCVar7 = sub_10237720(pWVar6);
         sub_1020f990(local_44,pCVar7);
         local_8 = CONCAT31(local_8._1_3_,1);

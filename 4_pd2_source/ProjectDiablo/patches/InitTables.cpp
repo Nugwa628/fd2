@@ -300,7 +300,7 @@ static BOOL sub_102f1de0()
 // 0x102f14d0  sub_102f14d0  (_unattributed/after_functions_SaveFunctions_unit51.cpp)
 static BOOL sub_102f14d0()
 {
-    *(DWORD*)(p_D2Client_DAT_6fb8d8a0 + 0x20) = (DWORD)sub_6fb691c0;  // D2Client.dll 0x6fb8d8c0; was dd D2Client!sub_6fb691c0
+    *(DWORD*)(p_D2Client_DAT_6fb8d8a0 + 0x20) = (DWORD)sub_Wrap_D2Client_sub_6fb691c0_102f1200;  // D2Client.dll 0x6fb8d8c0; was dd D2Client!sub_6fb691c0
     *(DWORD*)(p_D2Client_DAT_6fb8d8a0 + 0x114) = (DWORD)sub_102f12a0;  // D2Client.dll 0x6fb8d9b4; was dd 0x0
     *(DWORD*)(p_D2Client_DAT_6fb8d8a0 + 0x118) = (DWORD)sub_102f1390;  // D2Client.dll 0x6fb8d9b8; was dd 0x0
     *(DWORD*)(p_D2Client_DAT_6fb8d8a0 + 0x11c) = (DWORD)sub_102f13f0;  // D2Client.dll 0x6fb8d9bc; was dd 0x0

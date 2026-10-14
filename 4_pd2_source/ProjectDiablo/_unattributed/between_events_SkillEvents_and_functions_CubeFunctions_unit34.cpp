@@ -8156,7 +8156,7 @@ LAB_102b8c56:
     local_2754 = (int *)((int)local_2754 + 1);
     *(char *)(param_1 + 0x262a) = (char)local_2754;
     functions_HelperFunctions_102d0dd0(param_1,0x10,local_2784,local_2774);
-    pWVar8 = (LPCWSTR)D2Lang_10011_102d0fb0(local_2788);
+    pWVar8 = (LPCWSTR)functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0(local_2788);
     pCVar9 = sub_10237720(pWVar8);
     sub_1020f990(&stack0xffffd80c,pCVar9);
     param_1 = local_2744;

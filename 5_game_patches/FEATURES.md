@@ -12,11 +12,11 @@ Hooks (see `HOOKS.md`) grouped by feature. The assignment is rule-based (`tools/
 | [loot filter](#loot-filter) | 14 | 14 | D2Client.dll 14 |
 | [maps/map generation](#mapsmap-generation) | 41 | 52 | D2Common.dll 31, D2Game.dll 10 |
 | [skills](#skills) | 199 | 397 | D2Game.dll 136, D2Client.dll 63 |
-| [items/crafting/cube](#itemscraftingcube) | 180 | 210 | D2Game.dll 143, D2Common.dll 21, D2Client.dll 16 |
+| [items/crafting/cube](#itemscraftingcube) | 171 | 201 | D2Game.dll 134, D2Common.dll 21, D2Client.dll 16 |
 | [UI/HUD/panels](#uihudpanels) | 98 | 119 | D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1 |
 | [sound](#sound) | 267 | 271 | D2Client.dll 267 |
 | [networking/packets](#networkingpackets) | 70 | 130 | D2Game.dll 60, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 1 |
-| [monsters/AI/combat](#monstersaicombat) | 122 | 158 | D2Game.dll 102, D2Client.dll 20 |
+| [monsters/AI/combat](#monstersaicombat) | 131 | 167 | D2Game.dll 111, D2Client.dll 20 |
 | [quests](#quests) | 39 | 45 | D2Game.dll 39 |
 | [misc](#misc) | 61 | 67 | D2Game.dll 40, D2Client.dll 11, D2Common.dll 9, D2Lang.dll 1 |
 
@@ -72,7 +72,7 @@ Handlers (21 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 5 |
+| `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 5 |
 | `functions_SaveFunctions_Hook_sub_6fc73f10_102e8880` | 0x102e8880 | `functions/SaveFunctions.cpp` | 3 |
 | `sub_Hook_D2Game_10006_102ecf10` | 0x102ecf10 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `sub_Hook_sub_6fc76250_102ee6e0` | 0x102ee6e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
@@ -105,11 +105,11 @@ Game files patched: D2Game `_unattributed/between_GAME_Task_and_PLAYER_PlrSave.c
 | M-0320 | D2Game.dll | 0x2e43f | GAME_Game_6fc4e360+0xdf | call redirect | sub_Hook_GAME_Game_6fc4e360_102ee4f0 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(8) |
 | M-0385 | D2Game.dll | 0x54412 | D2Game_10004+0x12 | call redirect | sub_Hook_GAME_Game_6fc4c830_102ecea0 | rules: between_[A-Za-z_]*PlrSave(6) |
 | M-0387 | D2Game.dll | 0x4b831 | GAME_Clients_6fc6b7f0+0x41 | call redirect | sub_Hook_GAME_Clients_6fc6b7f0_102f1030 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(8) |
-| M-0414 | D2Game.dll | 0x548f7 | PLAYER_PlrSave_6fc74810+0xe7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
-| M-0415 | D2Game.dll | 0x5496b | PLAYER_PlrSave_6fc74810+0x15b | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
-| M-0450 | D2Game.dll | 0xed870 | sub_6fd0d710+0x160 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
-| M-0451 | D2Game.dll | 0xedad6 | sub_6fd0d960+0x176 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
-| M-0452 | D2Game.dll | 0xedd47 | sub_6fd0db50+0x1f7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
+| M-0414 | D2Game.dll | 0x548f7 | PLAYER_PlrSave_6fc74810+0xe7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-0415 | D2Game.dll | 0x5496b | PLAYER_PlrSave_6fc74810+0x15b | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-0450 | D2Game.dll | 0xed870 | sub_6fd0d710+0x160 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
+| M-0451 | D2Game.dll | 0xedad6 | sub_6fd0d960+0x176 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
+| M-0452 | D2Game.dll | 0xedd47 | sub_6fd0db50+0x1f7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
 | M-0521 | D2Game.dll | 0x70fee | PLAYER_PlrTrade_6fc90fb0+0x3e | constant change (imm32/disp32) |  | rules: ^obytes:([0-9a-f]{2} )?[0-9a-f]{2} 2[05](2), ^nbytes:([0-9a-f]{2} )?[0-9a-f]{2} 0[… |
 | M-0522 | D2Game.dll | 0x71000 | PLAYER_PlrTrade_6fc90fb0+0x50 | constant change (imm32/disp32) |  | rules: ^obytes:([0-9a-f]{2} )?[0-9a-f]{2} 2[05](2), ^nbytes:([0-9a-f]{2} )?[0-9a-f]{2} 0[… |
 | M-0523 | D2Game.dll | 0x7167e | PLAYER_PlrTrade_6fc915e0+0x9e | constant change (imm32/disp32) |  | rules: ^obytes:([0-9a-f]{2} )?[0-9a-f]{2} 2[05](2), ^nbytes:([0-9a-f]{2} )?[0-9a-f]{2} 0[… |
@@ -413,7 +413,7 @@ Handlers (66 distinct; most used first):
 | Handler | address | file | records |
 |---|---|---|---:|
 | `sub_Hook_sub_6fc5ae10_102ed340` | 0x102ed340 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 17 |
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 13 |
+| `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 13 |
 | `sub_Hook_GAME_Clients_6fc6b500_102ed4e0` | 0x102ed4e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 8 |
 | `sub_Hook_sub_6fc5b070_102f0d30` | 0x102f0d30 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 7 |
 | `sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0` | 0x102ecbf0 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 7 |
@@ -565,19 +565,19 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0345 | D2Game.dll | 0xb46a6 | sub_6fcd4660+0x46 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0346 | D2Game.dll | 0xb6803 | sub_6fcd67d1+0x32 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0347 | D2Game.dll | 0xf1696 | sub_6fd114f0+0x1a6 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
-| M-0402 | D2Game.dll | 0x37a3d | sub_6fc579e0+0x5d | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0403 | D2Game.dll | 0x3878e | sub_6fc586f0+0x9e | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0404 | D2Game.dll | 0x387c3 | sub_6fc586f0+0xd3 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0405 | D2Game.dll | 0x38885 | sub_6fc58860+0x25 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0406 | D2Game.dll | 0x3e4ff | sub_6fc5e3f0+0x10f | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0407 | D2Game.dll | 0x3e56e | sub_6fc5e510+0x5e | jmp target redirect (E9) | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0408 | D2Game.dll | 0x440c2 | sub_6fc63fa0+0x122 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0411 | D2Game.dll | 0x4c00a | sub_6fc6bf20+0xea | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0412 | D2Game.dll | 0x4c111 | sub_6fc6c050+0xc1 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0413 | D2Game.dll | 0x5199c | sub_6fc718b0+0xec | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0429 | D2Game.dll | 0xa242b | SKILLS_Skills_6fcc22e0+0x14b | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
-| M-0430 | D2Game.dll | 0xa2f52 | sub_6fcc2ee0+0x72 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0435 | D2Game.dll | 0xb5dd5 | sub_6fcd5d9c+0x39 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0402 | D2Game.dll | 0x37a3d | sub_6fc579e0+0x5d | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0403 | D2Game.dll | 0x3878e | sub_6fc586f0+0x9e | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0404 | D2Game.dll | 0x387c3 | sub_6fc586f0+0xd3 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0405 | D2Game.dll | 0x38885 | sub_6fc58860+0x25 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0406 | D2Game.dll | 0x3e4ff | sub_6fc5e3f0+0x10f | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0407 | D2Game.dll | 0x3e56e | sub_6fc5e510+0x5e | jmp target redirect (E9) | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0408 | D2Game.dll | 0x440c2 | sub_6fc63fa0+0x122 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0411 | D2Game.dll | 0x4c00a | sub_6fc6bf20+0xea | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0412 | D2Game.dll | 0x4c111 | sub_6fc6c050+0xc1 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0413 | D2Game.dll | 0x5199c | sub_6fc718b0+0xec | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0429 | D2Game.dll | 0xa242b | SKILLS_Skills_6fcc22e0+0x14b | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-0430 | D2Game.dll | 0xa2f52 | sub_6fcc2ee0+0x72 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0435 | D2Game.dll | 0xb5dd5 | sub_6fcd5d9c+0x39 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0455 | D2Game.dll | 0x3866e | sub_6fc58620+0x4e | call redirect | functions_D2CommonFunctions_Hook_sub_6fc58620_10266e90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0476 | D2Client.dll | 0x7b471 | sub_6fb2b470+0x1 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0650 | D2Game.dll | 0x242eb | sub_6fc44250+0x9b | code-pointer operand (imm32 -> PD2 function) | functions_D2NewFunctions_Hook_sub_6fc441b0_102c0eb0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
@@ -602,7 +602,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-1015 | D2Client.dll | 0x79676 | sub_6fb28fc0+0x6b6 | call redirect | sub_Hook_sub_6fb28fc0_102ed860 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-1016 | D2Client.dll | 0xc3db0 | sub_6fb739e0+0x3d0 | call redirect | sub_Hook_sub_6fb739e0_102589a0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-1017 | D2Client.dll | 0xbf0e2 | sub_6fb6f0d0+0x12 | call redirect | sub_Hook_sub_6fb6f0d0_10256f90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
-| M-1018 | D2Client.dll | 0xc3bbb | sub_6fb739e0+0x1db | call redirect | UNIT_Monster_6fb00e70 (PD2 wrapper that ends in the lazy th… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1018 | D2Client.dll | 0xc3bbb | sub_6fb739e0+0x1db | call redirect | sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0 (PD2 wrapp… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-1022 | D2Client.dll | 0xc0eab | sub_6fb70d30+0x17b | call redirect | sub_Hook_UI_showitems_6fb08fb0_102f0c90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-1063 | D2Game.dll | 0xa3603 | sub_6fcc35d0+0x33 | call redirect | sub_Hook_sub_6fcc35d0_102ed250 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-1075 | D2Game.dll | 0x3af05 | sub_6fc5ae10+0xf5 | call redirect | sub_Hook_sub_6fc5ae10_102eede0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -655,13 +655,12 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/buff_timers`, `/pd2_game
 
 Item generation, stats, properties, inventory and cube recipes: new cube outputs/functions (CubeFunctions.cpp), corruption, socketing, item stat callbacks, the bigger ItemStatCost record (PD2 indexes it with stride 0x150 = 336 bytes instead of 0x144 = 324).
 
-**180 hooks** (D2Game.dll 143, D2Common.dll 21, D2Client.dll 16); kinds: call redirect 140, function-pointer swap (table) 14, opcode byte change 9, NOP fill 6, operand byte change 6, call hook (E8 written) 4, code-pointer operand (imm32 -> PD2 function) 1.
+**171 hooks** (D2Game.dll 134, D2Common.dll 21, D2Client.dll 16); kinds: call redirect 131, function-pointer swap (table) 14, opcode byte change 9, NOP fill 6, operand byte change 6, call hook (E8 written) 4, code-pointer operand (imm32 -> PD2 function) 1.
 
 Handlers (87 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 10 |
 | `sub_Hook_sub_6fc2eae0_102ecc40` | 0x102ecc40 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 7 |
 | `sub_Hook_GAME_Game_6fc4c830_102ecea0` | 0x102ecea0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 7 |
 | `functions_D2NewFunctions_Hook_sub_6fc95900_102cd250` | 0x102cd250 | `functions/D2NewFunctions.cpp` | 6 |
@@ -686,9 +685,10 @@ Handlers (87 distinct; most used first):
 | `sub_Hook_sub_6fc30600_102f0660` | 0x102f0660 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
 | `sub_Hook_sub_6fb04ac0_102ee330` | 0x102ee330 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `sub_Hook_sub_6fc33de0_102ed270` | 0x102ed270 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `functions_ItemFunctions_Hook_sub_6fc303c0_102d7170` | 0x102d7170 | `functions/ItemFunctions.cpp` | 2 |
 | … 62 more (patches.csv) | | | |
 
-Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` (23), D2Game `ITEMS/ItemMode.cpp` (18), D2Game `_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp` (18), D2Game `UNIT/SUnitDmg.cpp` (12), D2Game `PLAYER/PlrMsg.cpp` (11), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (9), D2Common `Stats/StatsEx.cpp` (9), D2Game `PLAYER/PlrModes.cpp` (8), D2Common `ITEMS/Items.cpp` (7), D2Game `GAME/Game.cpp` (7), D2Game `INVENTORY/InvMode.cpp` (6), D2Game `ITEMS/Items.cpp` (5).
+Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` (21), D2Game `_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp` (18), D2Game `ITEMS/ItemMode.cpp` (13), D2Game `UNIT/SUnitDmg.cpp` (12), D2Game `PLAYER/PlrMsg.cpp` (11), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (9), D2Common `Stats/StatsEx.cpp` (9), D2Game `PLAYER/PlrModes.cpp` (8), D2Common `ITEMS/Items.cpp` (7), D2Game `GAME/Game.cpp` (7), D2Game `ITEMS/Items.cpp` (5), D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp` (5).
 
 <details><summary>Hooks</summary>
 
@@ -791,16 +791,7 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-0383 | D2Game.dll | 0x2d8da | D2Game_10006+0xba | call redirect | sub_Hook_GAME_Game_6fc4c830_102ecea0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0384 | D2Game.dll | 0x2de9f | GAME_Game_6fc4de30+0x6f | call redirect | sub_Hook_GAME_Game_6fc4c830_102ecea0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0386 | D2Game.dll | 0x79810 | PLAYER_PlrModes_6fc99730+0xe0 | call redirect | sub_Hook_GAME_Game_6fc4c830_102ecea0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
-| M-0393 | D2Game.dll | 0x1319f | sub_6fc33180+0x1f | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0420 | D2Game.dll | 0x71c93 | PLAYER_PlrTrade_6fc91b00+0x193 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0421 | D2Game.dll | 0x72b8b | sub_6fc92220+0x96b | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0422 | D2Game.dll | 0x72dd8 | sub_6fc92220+0xbb8 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0428 | D2Game.dll | 0x9b510 | INVENTORY_InvMode_6fcbb3b0+0x160 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0441 | D2Game.dll | 0xd2cd6 | ITEMS_ItemMode_6fcf2c70+0x66 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0442 | D2Game.dll | 0xd2d7c | ITEMS_ItemMode_6fcf2cf0+0x8c | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0443 | D2Game.dll | 0xd2e8c | ITEMS_ItemMode_6fcf2d90+0xfc | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0444 | D2Game.dll | 0xd40ab | ITEMS_ItemMode_6fcf3cb0+0x3fb | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-0445 | D2Game.dll | 0xd6dce | ITEMS_ItemMode_6fcf6c80+0x14e | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-0393 | D2Game.dll | 0x1319f | sub_6fc33180+0x1f | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
 | M-0456 | D2Client.dll | 0x1930c | UNIT_Player_6fac91e0+0x12c | call redirect | functions_D2CommonFunctions_Hook_sub_6fc58620_10266e90 | rules: pd2file:functions/(ItemFunctions\|CubeFun(2) |
 | M-0471 | D2Game.dll | 0x9b90c | INVENTORY_InvMode_6fcbb630+0x2dc | call redirect | sub_Hook_sub_6fc9b0a0_102efe80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0472 | D2Game.dll | 0x9b939 | INVENTORY_InvMode_6fcbb630+0x309 | call redirect | sub_Hook_sub_6fc9b0a0_102efe80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
@@ -896,16 +887,16 @@ Handlers (41 distinct; most used first):
 | Handler | address | file | records |
 |---|---|---|---:|
 | `sub_Hook_sub_6fac6910_102f0380` | 0x102f0380 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 12 |
-| `sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Wi…` | 0x10218960 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 4 |
+| `sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x…` | 0x10218960 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 4 |
 | `sub_Hook_sub_6faf2c70_102eded0` | 0x102eded0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `sub_Hook_sub_6faf8b20_102eefc0` | 0x102eefc0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `functions_D2NewFunctions_Hook_BNGatewayAccess_GetGatewayList_102bfab0` | 0x102bfab0 | `functions/D2NewFunctions.cpp` | 2 |
 | `sub_Hook_sub_6faf9440_102ee610` | 0x102ee610 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `functions_D2CommonFunctions_Hook_UI_panel_6fad8bc0_102685c0` | 0x102685c0 | `functions/D2CommonFunctions.cpp` | 2 |
-| `Storm_511_102a1770 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770 -> Storm.d…` | 0x10218950 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 2 |
+| `Storm_511 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770 -> Storm.dll +0x343…` | 0x10218950 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 2 |
 | `Bnet::NextGamePatch` | 0x10088070 | `BH: BH/Modules/Bnet/Bnet.cpp:9` | 2 |
 | `Bnet::NextPassPatch` | 0x10088120 | `BH: BH/Modules/Bnet/Bnet.cpp:11` | 2 |
-| `sub_6faf8b20_10294910 (jmp stub 0x10259e70 -> PD2 lazy thunk 0x10294910 -> D2Cl…` | 0x10259e70 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_1028e780.…` | 1 |
+| `sub_6faf8b20 (jmp stub 0x10259e70 -> PD2 lazy thunk 0x10294910 -> D2Client.dll …` | 0x10259e70 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_1028e780.…` | 1 |
 | `functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0` | 0x102c0be0 | `functions/D2NewFunctions.cpp` | 1 |
 | `sub_Hook_sub_6fb15760_10258b60` | 0x10258b60 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
 | `sub_Hook_sub_6faf3920_102ef5d0` | 0x102ef5d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
@@ -928,7 +919,7 @@ Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_
 
 | Hook | Module | RVA | Game function | Kind | Handler | why |
 |---|---|---|---|---|---|---|
-| M-0102 | D2Client.dll | 0x4a776 | sub_6fafa4f0+0x286 | call redirect | sub_6faf8b20_10294910 (jmp stub 0x10259e70 -> PD2 lazy thun… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-0102 | D2Client.dll | 0x4a776 | sub_6fafa4f0+0x286 | call redirect | sub_6faf8b20 (jmp stub 0x10259e70 -> PD2 lazy thunk 0x10294… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
 | M-0103 | D2Client.dll | 0x48f9a | sub_6faf8b20+0x47a | call redirect | sub_Hook_sub_6faf8b20_102eefc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0104 | D2Client.dll | 0x48fed | sub_6faf8b20+0x4cd | call redirect | sub_Hook_sub_6faf8b20_102eefc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0111 | Bnclient.dll | 0x14bf9 | BNGatewayAccess_GetGatewayList+0x49 | call redirect | functions_D2NewFunctions_Hook_BNGatewayAccess_GetGatewayLis… | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(4) |
@@ -972,12 +963,12 @@ Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_
 | M-1028 | D2Client.dll | 0x6264e | sub_6fb12580+0xce | call redirect | sub_Hook_sub_6fb12580_1020f470 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
 | C-0014 | D2Client.dll | 0x4437c | sub_6faf4230+0x14c | call redirect | sub_Hook_sub_6faf4230_10227fc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
 | C-0020 | D2Client.dll | 0x8d140 | UI_inv_6fb3cfb0+0x190 | call redirect | sub_Hook_sub_6fb730e0_1021b7e0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0029 | D2Win.dll | 0x181e2 | sub_6f8f8190+0x52 | call redirect | Storm_511_102a1770 (jmp stub 0x10218950 -> PD2 lazy thunk 0… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0030 | D2Win.dll | 0x18258 | sub_6f8f8190+0xc8 | call redirect | Storm_511_102a1770 (jmp stub 0x10218950 -> PD2 lazy thunk 0… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0031 | D2Win.dll | 0x1fbd0 | DAT_6f8ffbb4+0x1c | function-pointer swap (table) | sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thun… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0032 | D2Win.dll | 0x1fbdc | DAT_6f8ffbb4+0x28 | function-pointer swap (table) | sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thun… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0033 | D2Win.dll | 0x1fbe8 | DAT_6f8ffbb4+0x34 | function-pointer swap (table) | sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thun… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| C-0034 | D2Win.dll | 0x1fbf4 | DAT_6f8ffbb4+0x40 | function-pointer swap (table) | sub_6f8f80f0_102a15e0 (jmp stub 0x10218960 -> PD2 lazy thun… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| C-0029 | D2Win.dll | 0x181e2 | sub_6f8f8190+0x52 | call redirect | Storm_511 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| C-0030 | D2Win.dll | 0x18258 | sub_6f8f8190+0xc8 | call redirect | Storm_511 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| C-0031 | D2Win.dll | 0x1fbd0 | DAT_6f8ffbb4+0x1c | function-pointer swap (table) | sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a1… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| C-0032 | D2Win.dll | 0x1fbdc | DAT_6f8ffbb4+0x28 | function-pointer swap (table) | sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a1… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| C-0033 | D2Win.dll | 0x1fbe8 | DAT_6f8ffbb4+0x34 | function-pointer swap (table) | sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a1… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| C-0034 | D2Win.dll | 0x1fbf4 | DAT_6f8ffbb4+0x40 | function-pointer swap (table) | sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a1… | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | B-0001 | D2Launch.dll | 0x16dec | sub_6fa56de0+0xc | block replace |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | B-0011 | D2Client.dll | 0x3e745 | sub_6faee5e0+0x165 | block replace |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
 | B-0012 | D2Client.dll | 0x8b6c8 | sub_6fb3b6b0+0x18 | block replace + operand/immediate byte change (block) |  | rules: ([gt]func:\|gfile:.*)(WARDEN_WardenClient(12) |
@@ -1351,14 +1342,14 @@ Handlers (27 distinct; most used first):
 | `sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70` | 0x102f0f70 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 17 |
 | `sub_Hook_sub_6fc9b0a0_102efe80` | 0x102efe80 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 10 |
 | `sub_Hook_PLAYER_PlrModes_6fc97e70_102ef820` | 0x102ef820 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 6 |
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 4 |
+| `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 4 |
 | `sub_Hook_UNIT_sunitproxy_6fcafbe0_102eea70` | 0x102eea70 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_sub_6fcef810_102ecf80` | 0x102ecf80 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1bb80_102ae3a0` | 0x102ae3a0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit32.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1bb94_102ae8a0` | 0x102ae8a0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit32.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1bb98_102aeb10` | 0x102aeb10 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit32.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1bba0_102aeca0` | 0x102aeca0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit32.cpp` | 1 |
-| `D2Net_10024_1028cfc0 (jmp stub 0x1025b350 -> PD2 lazy thunk 0x1028cfc0 -> D2Net…` | 0x1025b350 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102851a0.…` | 1 |
+| `D2Net_10024 (jmp stub 0x1025b350 -> PD2 lazy thunk 0x1028cfc0 -> D2Net.dll ordi…` | 0x1025b350 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102851a0.…` | 1 |
 | `sub_Ptr_D2Game_6fd1a138_102e1ad0` | 0x102e1ad0 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1a140_102e1c70` | 0x102e1c70 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1a170_102e23a0` | 0x102e23a0 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
@@ -1391,7 +1382,7 @@ Game files patched: D2Game `UNIT/sunitproxy.cpp` (21), D2Game `PLAYER/PlrMsg.cpp
 | M-0185 | D2Game.dll | 0xfbb80 | DAT_6fd1bb10+0x70 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1bb80_102ae3a0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
 | M-0186 | D2Game.dll | 0xfbb94 | DAT_6fd1bb10+0x84 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1bb94_102ae8a0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(12), _Wraps_D2Client_GAME_SCmd\|game:.*(SC… |
 | M-0187 | D2Game.dll | 0xfbba0 | DAT_6fd1bb10+0x90 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1bba0_102aeca0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
-| M-0250 | D2Client.dll | 0x144a2 | sub_6fac43e0+0xc2 | call redirect | D2Net_10024_1028cfc0 (jmp stub 0x1025b350 -> PD2 lazy thunk… | override: the call to D2Net_10024 in sub_6fac43e0 is re-pointed to PD2's own D2Net_10024 … |
+| M-0250 | D2Client.dll | 0x144a2 | sub_6fac43e0+0xc2 | call redirect | D2Net_10024 (jmp stub 0x1025b350 -> PD2 lazy thunk 0x1028cf… | override: the call to D2Net_10024 in sub_6fac43e0 is re-pointed to PD2's own D2Net_10024 … |
 | M-0350 | D2Game.dll | 0xfa138 | DAT_6fd1a078+0xc0 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a138_102e1ad0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
 | M-0351 | D2Game.dll | 0xfa140 | DAT_6fd1a078+0xc8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a140_102e1c70 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0357 | D2Game.dll | 0xfa170 | DAT_6fd1a078+0xf8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a170_102e23a0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
@@ -1403,10 +1394,10 @@ Game files patched: D2Game `UNIT/sunitproxy.cpp` (21), D2Game `PLAYER/PlrMsg.cpp
 | M-0369 | D2Game.dll | 0xfa330 | DAT_6fd1a078+0x2b8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a330_102e40f0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0370 | D2Game.dll | 0xfa348 | DAT_6fd1a078+0x2d0 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a348_102e41d0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0371 | D2Game.dll | 0xfa358 | DAT_6fd1a078+0x2e0 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a358_102e41f0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
-| M-0423 | D2Game.dll | 0x799df | sub_6fc99910+0xcf | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
-| M-0424 | D2Game.dll | 0x8f4a7 | UNIT_sunitproxy_6fcaf470+0x37 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
-| M-0425 | D2Game.dll | 0x90213 | UNIT_sunitproxy_6fcb0170+0xa3 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
-| M-0426 | D2Game.dll | 0x902d2 | UNIT_sunitproxy_6fcb0260+0x72 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-0423 | D2Game.dll | 0x799df | sub_6fc99910+0xcf | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
+| M-0424 | D2Game.dll | 0x8f4a7 | UNIT_sunitproxy_6fcaf470+0x37 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-0425 | D2Game.dll | 0x90213 | UNIT_sunitproxy_6fcb0170+0xa3 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-0426 | D2Game.dll | 0x902d2 | UNIT_sunitproxy_6fcb0260+0x72 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0461 | D2Game.dll | 0x7b1b5 | sub_6fc9b0a0+0x115 | call redirect | sub_Hook_sub_6fc9b0a0_102efe80 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(12), _Wraps_D2Client_GAME_SCmd\|game:.*(SC… |
 | M-0462 | D2Game.dll | 0x8ddd0 | GAME_SCmd_6fcadda0+0x30 | call redirect | sub_Hook_sub_6fc9b0a0_102efe80 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
 | M-0463 | D2Game.dll | 0x8de11 | GAME_SCmd_6fcadda0+0x71 | call redirect | sub_Hook_sub_6fc9b0a0_102efe80 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
@@ -1466,13 +1457,13 @@ No hook was assigned to this feature.
 
 Monster AI (Ai/AiThink*), monster modes, damage (SUnitDmg), missiles, client unit drawing.
 
-**122 hooks** (D2Game.dll 102, D2Client.dll 20); kinds: call redirect 76, function-pointer swap (table) 12, opcode byte change 8, NOP fill 6, jmp target redirect (E9) 6, operand byte change 5, call hook (E8 written) 3, instruction rewrite (4 bytes) 2, code-pointer operand (imm32 -> PD2 function) 1, block replace 1, operand/immediate byte change (block) 1, data/constant change 1.
+**131 hooks** (D2Game.dll 111, D2Client.dll 20); kinds: call redirect 85, function-pointer swap (table) 12, opcode byte change 8, NOP fill 6, jmp target redirect (E9) 6, operand byte change 5, call hook (E8 written) 3, instruction rewrite (4 bytes) 2, code-pointer operand (imm32 -> PD2 function) 1, block replace 1, operand/immediate byte change (block) 1, data/constant change 1.
 
 Handlers (40 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 29 |
+| `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 38 |
 | `sub_Hook_sub_6fc5ae10_102ed340` | 0x102ed340 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 7 |
 | `sub_Hook_UNIT_SUnitDmg_6fcfe750_102eeb80` | 0x102eeb80 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
 | `sub_Hook_sub_6fb01d10_102f0890` | 0x102f0890 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 4 |
@@ -1499,7 +1490,7 @@ Handlers (40 distinct; most used first):
 | `sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102efa90` | 0x102efa90 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
 | … 15 more (patches.csv) | | | |
 
-Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (18), D2Game `_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp` (13), D2Game `_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp` (13), D2Game `_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp` (9), D2Client `_unattributed/between_UNIT_Monster_and_UI_showitems.cpp` (7), D2Client `UNIT/CUnit.cpp` (6), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (5), D2Game `PLAYER/PlrModes.cpp` (5), D2Game `UNIT/SUnitInactive.cpp` (4), D2Client `UNIT/Missile.cpp` (3), D2Game `_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp` (3).
+Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (18), D2Game `_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp` (13), D2Game `_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp` (13), D2Game `_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp` (9), D2Client `_unattributed/between_UNIT_Monster_and_UI_showitems.cpp` (7), D2Client `UNIT/CUnit.cpp` (6), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (5), D2Game `ITEMS/ItemMode.cpp` (5), D2Game `PLAYER/PlrModes.cpp` (5), D2Game `UNIT/SUnitInactive.cpp` (4), D2Client `UNIT/Missile.cpp` (3).
 
 <details><summary>Hooks</summary>
 
@@ -1553,35 +1544,44 @@ Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (1
 | M-0307 | D2Client.dll | 0x52f45 | sub_6fb02f10+0x35 | call redirect | sub_Hook_sub_6fb02f10_102ee420 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0308 | D2Client.dll | 0xa9cff | UNIT_CUnit_6fb59c90+0x6f | call redirect | sub_Hook_sub_6fb02f10_102ee420 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
 | M-0309 | D2Client.dll | 0xa9d69 | UNIT_CUnit_6fb59c90+0xd9 | call redirect | sub_Hook_sub_6fb02f10_102ee420 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0388 | D2Game.dll | 0xeb97 | sub_6fc2eae0+0xb7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0389 | D2Game.dll | 0xee86 | sub_6fc2ee70+0x16 | jmp target redirect (E9) | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0390 | D2Game.dll | 0xf24c | sub_6fc2f200+0x4c | jmp target redirect (E9) | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0391 | D2Game.dll | 0xfc0f | sub_6fc2fb70+0x9f | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0392 | D2Game.dll | 0x115ee | sub_6fc31490+0x15e | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0394 | D2Game.dll | 0x20493 | UNIT_SUnitInactive_6fc403d0+0xc3 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0395 | D2Game.dll | 0x204a2 | UNIT_SUnitInactive_6fc403d0+0xd2 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0396 | D2Game.dll | 0x20996 | UNIT_SUnitInactive_6fc40760+0x236 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0397 | D2Game.dll | 0x20a8d | Ai_AiGeneral_6fc409b0+0xdd | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0398 | D2Game.dll | 0x2cd27 | GAME_Game_6fc4cd10+0x17 | jmp target redirect (E9) | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0399 | D2Game.dll | 0x332b5 | sub_6fc53290+0x25 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0400 | D2Game.dll | 0x35b4e | sub_6fc55b00+0x4e | jmp target redirect (E9) | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0401 | D2Game.dll | 0x36599 | sub_6fc56470+0x129 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0409 | D2Game.dll | 0x490c5 | sub_6fc68fc0+0x105 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9) |
-| M-0410 | D2Game.dll | 0x4bae6 | GAME_Clients_6fc6b7f0+0x2f6 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0416 | D2Game.dll | 0x6ccd7 | sub_6fc8cc00+0xd7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0417 | D2Game.dll | 0x6d531 | sub_6fc8d0f0+0x441 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0418 | D2Game.dll | 0x6d560 | sub_6fc8d0f0+0x470 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0419 | D2Game.dll | 0x6fee5 | MISSILES_Missiles_6fc8fec0+0x25 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0427 | D2Game.dll | 0x974d9 | PLAYER_PlayerPets_6fcb7420+0xb9 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0431 | D2Game.dll | 0xa74c7 | Ai_AiThink4_6fcc7410+0xb7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0432 | D2Game.dll | 0xa7ac0 | Ai_AiThink4_6fcc7a10+0xb0 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0433 | D2Game.dll | 0xafd8e | sub_6fccfce0+0xae | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9) |
-| M-0434 | D2Game.dll | 0xb0665 | sub_6fcd0640+0x25 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9) |
-| M-0440 | D2Game.dll | 0xc9071 | Quests_a2q4_6fce8fd0+0xa1 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0446 | D2Game.dll | 0xe1272 | sub_6fd01110+0x162 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0447 | D2Game.dll | 0xe1298 | sub_6fd01110+0x188 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0448 | D2Game.dll | 0xe1371 | sub_6fd012d0+0xa1 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
-| M-0449 | D2Game.dll | 0xe222b | sub_6fd021f0+0x3b | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-0388 | D2Game.dll | 0xeb97 | sub_6fc2eae0+0xb7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0389 | D2Game.dll | 0xee86 | sub_6fc2ee70+0x16 | jmp target redirect (E9) | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0390 | D2Game.dll | 0xf24c | sub_6fc2f200+0x4c | jmp target redirect (E9) | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0391 | D2Game.dll | 0xfc0f | sub_6fc2fb70+0x9f | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0392 | D2Game.dll | 0x115ee | sub_6fc31490+0x15e | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0394 | D2Game.dll | 0x20493 | UNIT_SUnitInactive_6fc403d0+0xc3 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0395 | D2Game.dll | 0x204a2 | UNIT_SUnitInactive_6fc403d0+0xd2 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0396 | D2Game.dll | 0x20996 | UNIT_SUnitInactive_6fc40760+0x236 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0397 | D2Game.dll | 0x20a8d | Ai_AiGeneral_6fc409b0+0xdd | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0398 | D2Game.dll | 0x2cd27 | GAME_Game_6fc4cd10+0x17 | jmp target redirect (E9) | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0399 | D2Game.dll | 0x332b5 | sub_6fc53290+0x25 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0400 | D2Game.dll | 0x35b4e | sub_6fc55b00+0x4e | jmp target redirect (E9) | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0401 | D2Game.dll | 0x36599 | sub_6fc56470+0x129 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0409 | D2Game.dll | 0x490c5 | sub_6fc68fc0+0x105 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0410 | D2Game.dll | 0x4bae6 | GAME_Clients_6fc6b7f0+0x2f6 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0416 | D2Game.dll | 0x6ccd7 | sub_6fc8cc00+0xd7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0417 | D2Game.dll | 0x6d531 | sub_6fc8d0f0+0x441 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0418 | D2Game.dll | 0x6d560 | sub_6fc8d0f0+0x470 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0419 | D2Game.dll | 0x6fee5 | MISSILES_Missiles_6fc8fec0+0x25 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0420 | D2Game.dll | 0x71c93 | PLAYER_PlrTrade_6fc91b00+0x193 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0421 | D2Game.dll | 0x72b8b | sub_6fc92220+0x96b | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0422 | D2Game.dll | 0x72dd8 | sub_6fc92220+0xbb8 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0427 | D2Game.dll | 0x974d9 | PLAYER_PlayerPets_6fcb7420+0xb9 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0428 | D2Game.dll | 0x9b510 | INVENTORY_InvMode_6fcbb3b0+0x160 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0431 | D2Game.dll | 0xa74c7 | Ai_AiThink4_6fcc7410+0xb7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0432 | D2Game.dll | 0xa7ac0 | Ai_AiThink4_6fcc7a10+0xb0 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0433 | D2Game.dll | 0xafd8e | sub_6fccfce0+0xae | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0434 | D2Game.dll | 0xb0665 | sub_6fcd0640+0x25 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0440 | D2Game.dll | 0xc9071 | Quests_a2q4_6fce8fd0+0xa1 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0441 | D2Game.dll | 0xd2cd6 | ITEMS_ItemMode_6fcf2c70+0x66 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0442 | D2Game.dll | 0xd2d7c | ITEMS_ItemMode_6fcf2cf0+0x8c | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0443 | D2Game.dll | 0xd2e8c | ITEMS_ItemMode_6fcf2d90+0xfc | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0444 | D2Game.dll | 0xd40ab | ITEMS_ItemMode_6fcf3cb0+0x3fb | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0445 | D2Game.dll | 0xd6dce | ITEMS_ItemMode_6fcf6c80+0x14e | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0446 | D2Game.dll | 0xe1272 | sub_6fd01110+0x162 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0447 | D2Game.dll | 0xe1298 | sub_6fd01110+0x188 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0448 | D2Game.dll | 0xe1371 | sub_6fd012d0+0xa1 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0449 | D2Game.dll | 0xe222b | sub_6fd021f0+0x3b | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0457 | D2Game.dll | 0xe1e8e | sub_6fd01d90+0xfe | call redirect | functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0460 | D2Client.dll | 0xa748a | UNIT_CUnit_6fb57400+0x8a | call redirect | functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0649 | D2Game.dll | 0xdc478 | UNIT_SUnitDmg_6fcfc0b0+0x3c8 | call redirect | sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102efa90 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
@@ -1643,7 +1643,7 @@ Handlers (16 distinct; most used first):
 | Handler | address | file | records |
 |---|---|---|---:|
 | `D2Common_10887 (PD2 lazy thunk -> D2Common.dll ordinal 10887)` | 0x10273d10 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 4 |
-| `sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2Game.dll +0xe20a0 = …` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 4 |
+| `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 4 |
 | `sub_Hook_sub_6fcdd920_102ef020` | 0x102ef020 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `sub_Hook_sub_6fcde640_102ef0e0` | 0x102ef0e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `sub_Hook_sub_6fcdf990_102eef40` | 0x102eef40 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
@@ -1697,10 +1697,10 @@ Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_
 | M-0324 | D2Game.dll | 0xc0423 | sub_6fce0340+0xe3 | call redirect | functions_D2NewFunctions_Hook_sub_6fcdffa0_102cb3c0 | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0325 | D2Game.dll | 0xc9fc9 | Quests_a2q6_6fce9f60+0x69 | code-pointer operand (imm32 -> PD2 function) | functions_D2NewFunctions_Hook_Quests_a2q6_6fce9f60_102cb690 | rules: [gt]file:Quests/\|between_Quests(3) |
 | M-0326 | D2Game.dll | 0xc16ed | sub_6fce1510+0x1dd | call redirect | sub_Hook_sub_6fce1510_102eeb30 | rules: [gt]file:Quests/\|between_Quests(9) |
-| M-0436 | D2Game.dll | 0xbd9a1 | sub_6fcdd920+0x81 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Quests/\|between_Quests(6) |
-| M-0437 | D2Game.dll | 0xbf017 | sub_6fcdee30+0x1e7 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Quests/\|between_Quests(6) |
-| M-0438 | D2Game.dll | 0xbf051 | sub_6fcdee30+0x221 | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Quests/\|between_Quests(6) |
-| M-0439 | D2Game.dll | 0xc0d4d | sub_6fce0b90+0x1bd | call redirect | sub_6fd020a0 (PD2 wrapper that ends in the lazy thunk of D2… | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-0436 | D2Game.dll | 0xbd9a1 | sub_6fcdd920+0x81 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-0437 | D2Game.dll | 0xbf017 | sub_6fcdee30+0x1e7 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-0438 | D2Game.dll | 0xbf051 | sub_6fcdee30+0x221 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-0439 | D2Game.dll | 0xc0d4d | sub_6fce0b90+0x1bd | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0709 | D2Game.dll | 0xbc0b3 | sub_6fcdc050+0x63 | call redirect | functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40 | rules: [gt]file:Quests/\|between_Quests(6) |
 | B-0004 | D2Game.dll | 0x5d57f | sub_6fc7d520+0x5f | NOP fill (block) |  | rules: [gt]file:Quests/\|between_Quests(9) |
 | I-0019 | D2Game.dll | 0x106f0c | DAT_6fd26b38+0x3d4 | data block replace |  | rules: [gt]file:Quests/\|between_Quests(3) |

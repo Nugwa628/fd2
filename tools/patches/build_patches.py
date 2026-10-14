@@ -120,6 +120,10 @@ for l in open(f'{PD2SRC}/game_pointers.tsv', encoding='utf-8'):
     p = l.rstrip('\n').split('\t')
     row = dict(address=int(p[0], 16), kind=p[1], pd2_name=p[2], cell=p[3], cell_name=p[4], copies=p[5], dll=p[6],
                v113c=p[8], v113d=p[9], target=p[10], ref=p[11], inside=p[12], defined_in=p[13])
+    if row['kind'] in ('wrapper', 'jmp-stub'):
+        # since the generator fix: a PD2 function that ends in the lazy thunk (which has its own row with this cell)
+        gp_wrapper[row['address']] = row
+        continue
     if row['kind'] == 'lazy-thunk':
         # a real D2Template lazy thunk starts with 'cmp dword ptr [cell], 0'; some rows of game_pointers.tsv name a
         # PD2 wrapper or a jmp stub that ends in the thunk instead (kept apart: those are real handlers)
@@ -2219,11 +2223,17 @@ def write_readme(V, fstats, unused_ov, bh_ok):
           a game data table (callback/vtable-like tables) replaced by a PD2 function.
         * Integrity/anti-cheat hooks are described only at a high level.
         '''))
-    out.write('* `game_pointers.tsv` lists %d lazy-thunk rows whose address is not the thunk itself but a PD2 wrapper or a '
-              '`jmp` stub that ends in the thunk (%s). This script verifies every thunk by its bytes '
-              '(`cmp dword ptr [cell], 0`) and names those addresses as wrappers; e.g. the 65 table hooks that call '
-              '`0x102cbcd0` add a NULL/range guard in front of D2Game `sub_6fd020a0`, they are not plain thunks.\n' % (
-                  len(gp_wrapper), ', '.join('%s %s' % (h(a), r['pd2_name']) for a, r in sorted(gp_wrapper.items()))))
+    stale = sorted(a for a, r in gp_wrapper.items() if r['kind'] == 'lazy-thunk')
+    if stale:   # a table from before the generator fix: such rows still say lazy-thunk
+        out.write('* `game_pointers.tsv` lists %d lazy-thunk rows whose address is not the thunk itself but a PD2 wrapper or a '
+                  '`jmp` stub that ends in the thunk (%s). This script verifies every thunk by its bytes '
+                  '(`cmp dword ptr [cell], 0`) and names those addresses as wrappers.\n' % (
+                      len(stale), ', '.join('%s %s' % (h(a), gp_wrapper[a]['pd2_name']) for a in stale)))
+    out.write('* %d functions Ghidra merged with the lazy thunk they end in are `wrapper`/`jmp-stub` rows of '
+              '`game_pointers.tsv` (%s); the real thunk has its own lazy-thunk row, and this script still checks every '
+              'thunk by its bytes (`cmp dword ptr [cell], 0`). E.g. the table hooks that call `0x102cbcd0` reach a PD2 '
+              'NULL/range guard in front of D2Game `sub_6fd020a0`, not a plain thunk.\n' % (
+                  len(gp_wrapper), ', '.join('%s %s' % (h(a), pd2sym.get(a, ('PD2_%08x' % a,))[0]) for a in sorted(gp_wrapper))))
     out.write('* %d records re-point a call or table entry to a PD2 lazy thunk of the very game function that was already '
               'there (no change on a stock 1.13c install; marked `no-op` in `notes`).\n' % sum(
                   1 for r in RECORDS if 'no-op:' in r['notes']))

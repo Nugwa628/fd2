@@ -7976,7 +7976,7 @@ uint64_t sub_102e5480(uint32_t reg_EBX)
           sub_102e6df0(local_1d4);
           local_8._0_1_ = 3;
           thunk_FUN_10225280((int)local_1d4);
-          uVar5 = D2Lang_10011_102d0fb0((byte *)"BNETHomeSetChannel");
+          uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"BNETHomeSetChannel");
           sub_10219580(local_1a4,200,uVar5);
           D2Win_10000(piVar1,local_1a4,3,0,1);
           local_8 = CONCAT31(local_8._1_3_,2);
@@ -7985,7 +7985,7 @@ uint64_t sub_102e5480(uint32_t reg_EBX)
       }
     }
     else if (piVar1 != (int *)0x0) {
-      uVar5 = D2Lang_10011_102d0fb0((byte *)"BNETHomeTooLong");
+      uVar5 = functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0((byte *)"BNETHomeTooLong");
       sub_10219580(local_1a4,200,uVar5);
       D2Win_10000(piVar1,local_1a4,1,0,1);
     }

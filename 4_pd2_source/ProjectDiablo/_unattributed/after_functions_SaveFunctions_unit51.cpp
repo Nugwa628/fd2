@@ -3574,8 +3574,8 @@ void sub_InitPtr_D2Client_DAT_6fb8d8a0_101a4ba0(void)
 }
 
 
-// 0x102f1200  [gap]
-void __fastcall sub_6fb691c0(int *param_1)
+// 0x102f1200  (ghidra: sub_6fb691c0)  [gap]
+void __fastcall sub_Wrap_D2Client_sub_6fb691c0_102f1200(int *param_1)
 
 {
   int iVar1;
@@ -3762,7 +3762,7 @@ uint32_t sub_102f14d0(void)
   int iVar1;
   
   iVar1 = p_D2Client_DAT_6fb8d8a0;
-  *(code **)(p_D2Client_DAT_6fb8d8a0 + 0x20) = sub_6fb691c0;
+  *(code **)(p_D2Client_DAT_6fb8d8a0 + 0x20) = sub_Wrap_D2Client_sub_6fb691c0_102f1200;
   *(code **)(iVar1 + 0x114) = sub_102f12a0;
   *(code **)(iVar1 + 0x118) = sub_102f1390;
   *(code **)(iVar1 + 0x11c) = sub_102f13f0;

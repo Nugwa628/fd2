@@ -470,8 +470,8 @@ void __fastcall sub_10218800(int *param_1,uint param_2,uint32_t reg_EAX,uint32_t
 void __fastcall sub_10218860(int *param_1);
 uint64_t sub_10218890(void);
 void sub_10218940(void);
-uint Storm_511(uint param_1);   /* game binding -> Storm.dll +0x343d0, sigmaRE/5_game_source/Storm/_unattributed/code_6f621bc0.cpp */
-int sub_6f8f80f0(uint32_t param_1);   /* game binding -> D2Win.dll +0x180f0, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
+uint sub_JmpTo_Storm_511_10218950(uint param_1);
+int sub_JmpTo_D2Win_sub_6f8f80f0_10218960(uint32_t param_1);
 int __thiscall sub_10218970(void *this,int param_1);
 int __fastcall sub_10218980(int *param_1);
 void __thiscall sub_10218990(void *this,uint32_t param_1);
@@ -1274,7 +1274,7 @@ void sub_1022b000(void);
 void sub_1022b020(void);
 void __fastcall sub_1022b050(uint32_t param_1,uint32_t param_2);
 void sub_1022b100(void);
-void __fastcall UI_inv_6fb40f60(uint param_1);   /* game binding -> D2Client.dll +0x90f60, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
+void __fastcall sub_Wrap_D2Client_UI_inv_6fb40f60_1022b130(uint param_1);
 void sub_1022b140(void);
 void sub_1022b190(void);
 uint32_t __fastcall sub_1022b200(uint32_t param_1);
@@ -1635,7 +1635,7 @@ void __fastcall sub_10230bd0(int param_1);
 bool sub_10230c10(void);
 void __fastcall sub_10230c20(int param_1);
 void __fastcall sub_10230c70(int param_1);
-int sub_6faeba70(void);   /* game binding -> D2Client.dll +0x3ba70, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
+int sub_Wrap_D2Client_sub_6faeba70_10230cd0(void);
 void sub_Settings_10230ce0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230d00(int param_1);
 void sub_Settings_10230d10(uint32_t reg_EBX,int reg_ECX);
@@ -3160,7 +3160,7 @@ LRESULT sub_10256620(HWND param_1,uint param_2,WPARAM param_3,HRAWINPUT param_4)
 void sub_10256810(void);
 void __fastcall sub_10256df0(int *param_1);
 void sub_Hook_sub_6fb6f0d0_10256f90(int *param_1);
-ulonglong UNIT_Monster_6fb00e70(void);   /* game binding -> D2Client.dll +0x50e70, sigmaRE/5_game_source/D2Client/UNIT/Monster.cpp */
+ulonglong sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0(void);
 void __fastcall sub_10256fb0(int param_1);
 void sub_10257220(void);
 void __fastcall sub_102574e0(int param_1);
@@ -4470,7 +4470,7 @@ void functions_D2NewFunctions_102cb8d0(int *param_1,int *param_2);
 void functions_D2NewFunctions_102cba10(int *param_1,int *param_2);
 void functions_D2NewFunctions_102cbb20(uint32_t param_1,int param_2,int param_3);
 void functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40(int param_1,uint *param_2,int *param_3,int param_4,int *param_5,uint32_t param_6 );
-void __fastcall sub_6fd020a0(void *param_1,int *param_2);   /* game binding -> D2Game.dll +0xe20a0, sigmaRE/5_game_source/D2Game/_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp */
+void __fastcall functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0(void *param_1,int *param_2);
 int __thiscall functions_D2NewFunctions_102cbcf0(void *this,int param_1);
 int __fastcall functions_D2NewFunctions_102cbd10(int *param_1);
 void __thiscall functions_D2NewFunctions_102cbd20(void *this,uint32_t param_1);
@@ -4731,7 +4731,7 @@ void __fastcall functions_HelperFunctions_102d0dd0(int param_1,uint16_t param_2,
 uint32_t __fastcall functions_HelperFunctions_102d0e50(int param_1,uint16_t param_2,uint *param_3);
 void __fastcall functions_HelperFunctions_102d0ed0(uint *param_1);
 void functions_HelperFunctions_102d0fa0(int reg_ECX,int reg_EDX);
-uint __fastcall D2Lang_10011_102d0fb0(byte *param_1);   /* game binding -> D2Lang_10011, D2Lang.dll ordinal 10011, sigmaRE/5_game_source/D2Lang/_unattributed/code.cpp */
+uint __fastcall functions_HelperFunctions_JmpTo_D2Lang_10011_102d0fb0(byte *param_1);
 int __fastcall functions_HelperFunctions_102d0fc0(int param_1);
 uint32_t __fastcall functions_HelperFunctions_102d0fe0(int param_1);
 void functions_HelperFunctions_102d1010(int *reg_ECX,int reg_EDX);
@@ -6356,7 +6356,7 @@ void sub_init_101a2d20(void);
 void sub_init_101a2d80(void);
 void sub_InitPtr_D2Common_DAT_6fde9e1c_101a3760(void);
 void sub_InitPtr_D2Client_DAT_6fb8d8a0_101a4ba0(void);
-void __fastcall sub_6fb691c0(int *param_1);   /* game binding -> D2Client.dll +0xb91c0, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
+void __fastcall sub_Wrap_D2Client_sub_6fb691c0_102f1200(int *param_1);
 void __fastcall sub_102f12a0(int param_1);
 void __fastcall sub_102f1390(int param_1);
 void __fastcall sub_102f13f0(int param_1);
@@ -8180,7 +8180,7 @@ uint32_t __fastcall sub_102541c0(void *param_1,uint32_t param_2,uint32_t param_3
 void sub_10259d70(int *param_1,int *param_2);
 void sub_10259d90(uint32_t param_1,int param_2);
 uint sub_10259df0(int *param_1,uint param_2,uint param_3,int param_4);
-void sub_6faf8b20(void);   /* game binding -> D2Client.dll +0x48b20, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp */
+void sub_JmpTo_D2Client_sub_6faf8b20_10259e70(void);
 void sub_10259e80(uint32_t param_1,uint32_t param_2,uint32_t param_3,uint32_t param_4, uint32_t param_5,uint32_t param_6,void *param_7,uint32_t param_8);
 void sub_10259fc0(uint32_t param_1,int *param_2,uint32_t param_3);
 uint32_t sub_10259ff0(uint32_t param_1,int param_2,uint32_t param_3,uint32_t param_4,uint32_t param_5 ,uint32_t param_6,uint32_t param_7);
@@ -8189,7 +8189,7 @@ void sub_1025a1e0(void);
 void sub_1025a320(void);
 void sub_1025aa30(void);
 void sub_1025b2f0(void);
-uint D2Net_10024(ushort param_1,uint param_2,char *param_3);   /* game binding -> D2Net.dll ordinal 10024, sigmaRE/5_game_source/D2Net/_unattributed/after_SRC_Server.cpp */
+uint sub_JmpTo_D2Net_10024_1025b350(ushort param_1,uint param_2,char *param_3);
 void sub_1025b360(char *param_1,uint32_t param_2);
 uint32_t sub_1025b3d0(int param_1);
 void __fastcall sub_1025bae0(uint32_t param_1,uint32_t param_2,int param_3);
@@ -9511,7 +9511,7 @@ uint32_t * GetPtr_D2Game_DAT_6fd31f70(void);   /* game binding -> DAT_6fd31f70, 
 uint32_t * GetPtr_D2Game_DAT_6fd31f84(void);   /* game binding -> DAT_6fd31f84, D2Game.dll +0x111f84, sigmaRE/5_game_source/D2Game/include/globals.h */
 uint32_t * GetPtr_D2Game_DAT_6fd2e35c(void);   /* game binding -> DAT_6fd2e35c, D2Game.dll +0x10e35c, sigmaRE/5_game_source/D2Game/include/globals.h */
 uint32_t * GetPtr_D2Game_DAT_6fd31c48(void);   /* game binding -> DAT_6fd31c48, D2Game.dll +0x111c48, sigmaRE/5_game_source/D2Game/include/globals.h */
-uint D2Net_10024_1028cfc0(ushort param_1,uint param_2,char *param_3);   /* game binding -> D2Net_10024, D2Net.dll ordinal 10024, sigmaRE/5_game_source/D2Net/_unattributed/after_SRC_Server.cpp */
+uint D2Net_10024(ushort param_1,uint param_2,char *param_3);   /* game binding -> D2Net.dll ordinal 10024, sigmaRE/5_game_source/D2Net/_unattributed/after_SRC_Server.cpp */
 void D2Net_10001(uint param_1,uint param_2,uint param_3);   /* game binding -> D2Net.dll ordinal 10001, sigmaRE/5_game_source/D2Net/_unattributed/after_SRC_Server.cpp */
 uint D2Net_10002(char param_1,uint param_2,byte *param_3,uint param_4);   /* game binding -> D2Net.dll ordinal 10002, sigmaRE/5_game_source/D2Net/_unattributed/after_SRC_Server.cpp */
 void D2Net_10021(int param_1,uint param_2);   /* game binding -> D2Net.dll ordinal 10021, sigmaRE/5_game_source/D2Net/_unattributed/before_SRC_Server.cpp */
@@ -9752,7 +9752,7 @@ uint32_t * GetPtr_D2Client_DAT_6fbaad68(void);   /* game binding -> DAT_6fbaad68
 uint32_t * GetPtr_D2Client_DAT_6fbcbbb0(void);   /* game binding -> DAT_6fbcbbb0, D2Client.dll +0x11bbb0, sigmaRE/5_game_source/D2Client/include/globals.h */
 uint32_t * GetPtr_D2Client_DAT_6fba3ba0(void);   /* game binding -> DAT_6fba3ba0, D2Client.dll +0xf3ba0, sigmaRE/5_game_source/D2Client/include/globals.h */
 uint32_t * GetPtr_D2Client_DAT_6fba42f0(void);   /* game binding -> DAT_6fba42f0, D2Client.dll +0xf42f0, sigmaRE/5_game_source/D2Client/include/globals.h */
-void sub_6faf8b20_10294910(void);   /* game binding -> sub_6faf8b20, D2Client.dll +0x48b20, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp */
+void sub_6faf8b20(void);   /* game binding -> D2Client.dll +0x48b20, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp */
 uint sub_6faf5980(void);   /* game binding -> D2Client.dll +0x45980, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 uint32_t * GetPtr_D2Client_DAT_6fbc9763(void);   /* game binding -> DAT_6fbc9763, D2Client.dll +0x119763, sigmaRE/5_game_source/D2Client/include/globals.h */
 uint32_t * GetPtr_D2Client_DAT_6fbc3a80(void);   /* game binding -> DAT_6fbc3a80, D2Client.dll +0x113a80, sigmaRE/5_game_source/D2Client/include/globals.h */
@@ -10136,7 +10136,7 @@ int sub_6faebfc0(void);   /* game binding -> D2Client.dll +0x3bfc0, sigmaRE/5_ga
 int sub_6faebeb0(void);   /* game binding -> D2Client.dll +0x3beb0, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 int sub_6faec8c0(void);   /* game binding -> D2Client.dll +0x3c8c0, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 int sub_6faebc10(void);   /* game binding -> D2Client.dll +0x3bc10, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
-int sub_6faeba70_102a0300(void);   /* game binding -> sub_6faeba70, D2Client.dll +0x3ba70, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
+int sub_6faeba70(void);   /* game binding -> D2Client.dll +0x3ba70, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 int sub_6faeb8b0(void);   /* game binding -> D2Client.dll +0x3b8b0, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 int sub_6faea690(void);   /* game binding -> D2Client.dll +0x3a690, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
 int sub_6fae9e20(void);   /* game binding -> D2Client.dll +0x39e20, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
@@ -10235,10 +10235,10 @@ int sub_6fb4fc50(uint32_t param_1);   /* game binding -> D2Client.dll +0x9fc50, 
 int sub_6fb44aa0(uint32_t param_1);   /* game binding -> D2Client.dll +0x94aa0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
 int sub_6fb54a20(uint32_t param_1);   /* game binding -> D2Client.dll +0xa4a20, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
 int sub_6fb44ff0(uint32_t param_1);   /* game binding -> D2Client.dll +0x94ff0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
-int sub_6f8f80f0_102a15e0(uint32_t param_1);   /* game binding -> sub_6f8f80f0, D2Win.dll +0x180f0, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
+int sub_6f8f80f0(uint32_t param_1);   /* game binding -> D2Win.dll +0x180f0, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 uint32_t * GetPtr_D2Win_DAT_6f901488(void);   /* game binding -> DAT_6f901488, D2Win.dll +0x21488, sigmaRE/5_game_source/D2Win/include/globals.h */
 uint32_t * GetPtr_D2Win_DAT_6f90148c(void);   /* game binding -> DAT_6f90148c, D2Win.dll +0x2148c, sigmaRE/5_game_source/D2Win/include/globals.h */
-uint Storm_511_102a1770(uint param_1);   /* game binding -> Storm_511, Storm.dll +0x343d0, sigmaRE/5_game_source/Storm/_unattributed/code_6f621bc0.cpp */
+uint Storm_511(uint param_1);   /* game binding -> Storm.dll +0x343d0, sigmaRE/5_game_source/Storm/_unattributed/code_6f621bc0.cpp */
 void UI_inv_6fb3ccb0(void);   /* game binding -> D2Client.dll +0x8ccb0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
 uint32_t * GetPtr_UI_inv_6fb3c4c0(void);   /* game binding -> UI_inv_6fb3c4c0, D2Client.dll +0x8c4c0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
 uint32_t * GetPtr_sub_6fad6320(void);   /* game binding -> sub_6fad6320, D2Client.dll +0x26320, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp */

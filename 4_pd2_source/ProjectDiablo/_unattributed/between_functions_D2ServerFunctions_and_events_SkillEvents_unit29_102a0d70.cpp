@@ -784,21 +784,21 @@ int sub_6fb44ff0(uint32_t param_1)
 }
 
 
-// 0x102a15e0  [gap]
+// 0x102a15e0  (ghidra: sub_6f8f80f0_102a15e0)  [gap]
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int sub_6f8f80f0_102a15e0(uint32_t param_1)
+int sub_6f8f80f0(uint32_t param_1)
 
 {
   int iVar1;
   
-  if (p_sub_6f8f80f0_102a15e0 == (FARPROC)0x0) {
+  if (p_sub_6f8f80f0 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_sub_6f8f80f0_102a15e0 = sub_GetDllOffset_102f10f0(4,*(int *)(iVar1 * 4 + 0x103d2e94));
+    p_sub_6f8f80f0 = sub_GetDllOffset_102f10f0(4,*(int *)(iVar1 * 4 + 0x103d2e94));
   }
                     /* WARNING: Could not recover jumptable at 0x102a1606. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  iVar1 = (*p_sub_6f8f80f0_102a15e0)();
+  iVar1 = (*p_sub_6f8f80f0)();
   return iVar1;
 }
 
@@ -869,20 +869,20 @@ uint32_t * GetPtr_D2Win_DAT_6f90148c(void)
 }
 
 
-// 0x102a1770  [gap]
-uint Storm_511_102a1770(uint param_1)
+// 0x102a1770  (ghidra: Storm_511_102a1770)  [gap]
+uint Storm_511(uint param_1)
 
 {
   int iVar1;
   uint uVar2;
   
-  if (p_Storm_511_102a1770 == (FARPROC)0x0) {
+  if (p_Storm_511 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
-    p_Storm_511_102a1770 = sub_GetDllOffset_102f10f0(10,*(int *)(&DAT_103c7000 + iVar1 * 4));
+    p_Storm_511 = sub_GetDllOffset_102f10f0(10,*(int *)(&DAT_103c7000 + iVar1 * 4));
   }
                     /* WARNING: Could not recover jumptable at 0x102a1796. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar2 = (*p_Storm_511_102a1770)();
+  uVar2 = (*p_Storm_511)();
   return uVar2;
 }
 

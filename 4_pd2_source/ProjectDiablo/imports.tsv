@@ -1,15 +1,15 @@
 # ambiguous ordinals resolved per function from machine code: 0 (function, ordinal) pairs
-# game function pointers (game_pointers.tsv): 2037 named, 0 unresolved
+# game function pointers (game_pointers.tsv): 2041 named, 0 unresolved
 # ordinal imports: 2 resolved, 0 ambiguous, 0 from non-game DLLs
 Ordinal_2	XINPUT1_4.dll	XInputGetState
 Ordinal_3	XINPUT1_4.dll	XInputSetState
-0x10218950	lazy-thunk	Storm_511	Storm_511
-0x10218960	lazy-thunk	sub_6f8f80f0	sub_6f8f80f0
-0x1022b130	lazy-thunk	UI_inv_6fb40f60	UI_inv_6fb40f60
-0x10230cd0	lazy-thunk	sub_6faeba70	sub_6faeba70
-0x10256fa0	lazy-thunk	UNIT_Monster_6fb00e70	UNIT_Monster_6fb00e70
-0x10259e70	lazy-thunk	sub_6faf8b20	sub_6faf8b20
-0x1025b350	lazy-thunk	D2Net_10024	D2Net_10024
+0x10218950	jmp-stub		Storm_511
+0x10218960	jmp-stub		sub_6f8f80f0
+0x1022b130	wrapper		UI_inv_6fb40f60
+0x10230cd0	wrapper		sub_6faeba70
+0x10256fa0	wrapper		UNIT_Monster_6fb00e70
+0x10259e70	jmp-stub		sub_6faf8b20
+0x1025b350	jmp-stub		D2Net_10024
 0x10272df0	lazy-thunk	D2Common_10867	D2Common_10867
 0x10272e20	lazy-thunk	D2Common_10750	D2Common_10750
 0x10272e50	lazy-thunk	D2Common_10688	D2Common_10688
@@ -31,6 +31,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102731d0	lazy-thunk	D2Common_10419	D2Common_10419
 0x10273200	lazy-thunk	D2Common_11016	D2Common_11016
 0x10273230	lazy-thunk	D2Common_10885	D2Common_10885
+0x10273260	lazy-thunk	sub_6fd020a0	sub_6fd020a0
 0x10273290	lazy-thunk	D2Common_10816	D2Common_10816
 0x102732c0	accessor	GetPtr_GAME_Game_6fc4cb80	GAME_Game_6fc4cb80
 0x10273370	accessor	GetPtr_D2Common_10662	D2Common_10662
@@ -787,6 +788,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102851d0	accessor	GetPtr_PLAYER_PlayerPets_6fcb6600	PLAYER_PlayerPets_6fcb6600
 0x10285280	accessor	GetPtr_sub_6fc215d0	sub_6fc215d0
 0x10285330	lazy-thunk	UNIT_Missile_6fb617c0	UNIT_Missile_6fb617c0
+0x10285360	lazy-thunk	sub_6fb691c0	sub_6fb691c0
 0x10285390	lazy-thunk	sub_6faf15a0	sub_6faf15a0
 0x102853c0	accessor	GetPtr_sub_6fcb3d60	sub_6fcb3d60
 0x10285470	accessor	GetPtr_sub_6faf0f00	sub_6faf0f00
@@ -1010,7 +1012,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x1028cdb0	accessor	GetPtr_D2Game_DAT_6fd31f84	DAT_6fd31f84
 0x1028ce60	accessor	GetPtr_D2Game_DAT_6fd2e35c	DAT_6fd2e35c
 0x1028cf10	accessor	GetPtr_D2Game_DAT_6fd31c48	DAT_6fd31c48
-0x1028cfc0	lazy-thunk	D2Net_10024_1028cfc0	D2Net_10024
+0x1028cfc0	lazy-thunk	D2Net_10024	D2Net_10024
 0x1028cff0	lazy-thunk	D2Net_10001	D2Net_10001
 0x1028d020	lazy-thunk	D2Net_10002	D2Net_10002
 0x1028d050	lazy-thunk	D2Net_10021	D2Net_10021
@@ -1249,7 +1251,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x10294700	accessor	GetPtr_D2Client_DAT_6fbcbbb0	DAT_6fbcbbb0
 0x102947b0	accessor	GetPtr_D2Client_DAT_6fba3ba0	DAT_6fba3ba0
 0x10294860	accessor	GetPtr_D2Client_DAT_6fba42f0	DAT_6fba42f0
-0x10294910	lazy-thunk	sub_6faf8b20_10294910	sub_6faf8b20
+0x10294910	lazy-thunk	sub_6faf8b20	sub_6faf8b20
 0x10294940	lazy-thunk	sub_6faf5980	sub_6faf5980
 0x10294970	accessor	GetPtr_D2Client_DAT_6fbc9763	DAT_6fbc9763
 0x10294a20	accessor	GetPtr_D2Client_DAT_6fbc3a80	DAT_6fbc3a80
@@ -1631,7 +1633,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102a0270	lazy-thunk	sub_6faebeb0	sub_6faebeb0
 0x102a02a0	lazy-thunk	sub_6faec8c0	sub_6faec8c0
 0x102a02d0	lazy-thunk	sub_6faebc10	sub_6faebc10
-0x102a0300	lazy-thunk	sub_6faeba70_102a0300	sub_6faeba70
+0x102a0300	lazy-thunk	sub_6faeba70	sub_6faeba70
 0x102a0330	lazy-thunk	sub_6faeb8b0	sub_6faeb8b0
 0x102a0360	lazy-thunk	sub_6faea690	sub_6faea690
 0x102a0390	lazy-thunk	sub_6fae9e20	sub_6fae9e20
@@ -1682,6 +1684,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102a0c00	lazy-thunk	sub_6faea9f0	sub_6faea9f0
 0x102a0c30	lazy-thunk	sub_6faeaee0	sub_6faeaee0
 0x102a0c60	lazy-thunk	sub_6fae9c80	sub_6fae9c80
+0x102a0c90	lazy-thunk	UI_inv_6fb40f60	UI_inv_6fb40f60
 0x102a0cc0	accessor	GetPtr_sub_6fae8cd0	sub_6fae8cd0
 0x102a0d70	lazy-thunk	sub_6fac1240	sub_6fac1240
 0x102a0da0	lazy-thunk	sub_6fac1360	sub_6fac1360
@@ -1728,10 +1731,10 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102a1550	lazy-thunk	sub_6fb44aa0	sub_6fb44aa0
 0x102a1580	lazy-thunk	sub_6fb54a20	sub_6fb54a20
 0x102a15b0	lazy-thunk	sub_6fb44ff0	sub_6fb44ff0
-0x102a15e0	lazy-thunk	sub_6f8f80f0_102a15e0	sub_6f8f80f0
+0x102a15e0	lazy-thunk	sub_6f8f80f0	sub_6f8f80f0
 0x102a1610	accessor	GetPtr_D2Win_DAT_6f901488	DAT_6f901488
 0x102a16c0	accessor	GetPtr_D2Win_DAT_6f90148c	DAT_6f90148c
-0x102a1770	lazy-thunk	Storm_511_102a1770	Storm_511
+0x102a1770	lazy-thunk	Storm_511	Storm_511
 0x102a17a0	lazy-thunk	UI_inv_6fb3ccb0	UI_inv_6fb3ccb0
 0x102a17d0	accessor	GetPtr_UI_inv_6fb3c4c0	UI_inv_6fb3c4c0
 0x102a1880	accessor	GetPtr_sub_6fad6320	sub_6fad6320
@@ -1916,6 +1919,7 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102a7f10	lazy-thunk	D2Common_10062	D2Common_10062
 0x102a7f40	lazy-thunk	D2Common_10673	D2Common_10673
 0x102a7f70	accessor	GetPtr_sub_6fac3ce0	sub_6fac3ce0
+0x102a8020	lazy-thunk	UNIT_Monster_6fb00e70	UNIT_Monster_6fb00e70
 0x102a8050	lazy-thunk	sub_6fae9c30_102a8050	sub_6fae9c30
 0x102a8080	lazy-thunk	sub_6fb4f460	sub_6fb4f460
 0x102a80b0	accessor	GetPtr_D2Client_DAT_6fbcbc10	DAT_6fbcbc10
@@ -2037,6 +2041,6 @@ Ordinal_3	XINPUT1_4.dll	XInputSetState
 0x102ac3f0	accessor	GetPtr_sub_6fb166d0	sub_6fb166d0
 0x102ac4a0	accessor	GetPtr_D2Client_DAT_6fbc9840	DAT_6fbc9840
 0x102ac550	lazy-thunk	D2Common_10858	D2Common_10858
-0x102cbcd0	lazy-thunk	sub_6fd020a0	sub_6fd020a0
-0x102d0fb0	lazy-thunk	D2Lang_10011_102d0fb0	D2Lang_10011
-0x102f1200	lazy-thunk	sub_6fb691c0	sub_6fb691c0
+0x102cbcd0	wrapper		sub_6fd020a0
+0x102d0fb0	jmp-stub		D2Lang_10011
+0x102f1200	wrapper		sub_6fb691c0
