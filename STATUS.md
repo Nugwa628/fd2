@@ -20,7 +20,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | Phase | Owner | Depends on | Output | Status |
 |---|---|---|---|---|
 | 0 Inventory/triage | orchestrator | inputs | `0_inventory/` | **done** (see `0_inventory/INVENTORY.md`) |
-| 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | not started |
+| 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | **done** except layouts of PD2-only/`.bin`-only tables (needs Phase 2/3) |
 | 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | not started |
 | 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | not started |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
@@ -72,3 +72,12 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Name DB from `sigmaRE/5_game_source`: 21 modules, 2,535 exports, 12,418 attributed functions, 0 address mismatches vs the shipped DLLs (Storm rebase handled).
 - `pd2-scan`: ProjectDiablo.dll has 13 own-file anchors, 23 game paths ignored, **0 game ordinal imports**. It resolves game functions at run time into pointer globals, so Phase 3 must recover a `game_pointers.tsv` (global → module + ordinal/offset) before calls can get reference names.
 - Not tested: `rebuild.ps1` (no PowerShell in the container). Tables.cs/Fields.cs still carry D2Sigma addresses (not applicable to PD2 until its table code is found).
+
+### P1 Data: done (2026-10-14)
+- StormLib extractor (`tools/mpq/`), all 8 MPQs listed with 0 unnamed hash entries (patch_d2 named from a 38,234-name candidate list).
+- 98 pd2data tables → `2_txt/pd2/` (93 txt byte copies, 5 .bin-only raw dumps); `patchstring.tbl` 2,980 strings.
+- **PD2's `patch_d2.mpq` is stock** (no listfile/attributes, stock row counts, .bin compiled from .txt) → used as vanilla baseline `2_txt/vanilla_113c/` (62 txt).
+- 66 diffs in `2_txt/diff/`; 33 tables + string/expansionstring.tbl have no baseline (need vanilla d2data/d2exp).
+- PD2-only: `MiniSkillIcons.txt`; `itemstatcost.bin` record 324 → 336 bytes (S12 save columns). Undecoded: `leveldefs.bin`, four `*code.bin`.
+- Orchestrator check: row counts for levels/cubemain/itemstatcost/skills/monstats/misc/runes re-counted, match.
+- Decision: NOT downloading the unverified third-party GitHub repo with a full D2 install; asked the user for vanilla MPQs instead.

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 r"""Decode a Diablo II string table (.tbl) to text.
 
-usage: python3 -I tbl2txt.py <in.tbl> <out.txt> [--encoding latin-1]
+usage: python3 -I tbl2txt.py <in.tbl> <out.txt> [--encoding utf-8]
 
 Output: one line per entry in the table's index order, 'key<TAB>value', UTF-8, CRLF
 (same style as sigmaRE 2_txt/strings). Inside key and value, backslash, tab, CR and LF are
-written as \\, \t, \r, \n. Bytes are decoded with --encoding (default latin-1: lossless for
-the 1-byte Western tables; use cp1250 for pol, cp949 for kor, big5 for chi, shift_jis for jpn).
+written as \\, \t, \r, \n. Bytes are decoded with --encoding (default utf-8: the 1.13c tables,
+stock and PD2, store UTF-8, e.g. the colour code 'ÿc' as C3 BF 63; undecodable bytes become U+FFFD).
 
 Format (D2 1.0x-1.14): header u16 crc, u16 nElements, u32 hashSize, u8 version, u32 dataStart,
 u32 maxTries, u32 fileSize; u16 index[nElements]; hashSize nodes of 17 bytes
@@ -44,7 +44,7 @@ def decode(data, enc):
 def main(argv):
     if len(argv) < 2:
         sys.exit(__doc__)
-    enc = "latin-1"
+    enc = "utf-8"
     if "--encoding" in argv:
         enc = argv[argv.index("--encoding") + 1]
     data = open(argv[0], "rb").read()

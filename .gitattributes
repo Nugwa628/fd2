@@ -1,0 +1,2 @@
+# Decoded tables are byte-for-byte copies (CRLF); never convert line endings
+2_txt/** -text

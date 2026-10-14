@@ -115,7 +115,7 @@ def main(argv):
     # same path with '/' separators normalised
     names = {n.replace("/", "\\") for n in names}
     with open(out, "w", encoding="latin-1", newline="\r\n") as fh:
-        for n in sorted(names, key=str.lower):
+        for n in sorted(names, key=lambda x: (x.lower(), x)):
             fh.write(n + "\n")
     print("%d candidate names -> %s" % (len(names), out))
 
