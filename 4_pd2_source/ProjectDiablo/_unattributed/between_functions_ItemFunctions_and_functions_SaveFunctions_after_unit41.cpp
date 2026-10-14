@@ -354,43 +354,42 @@ uint64_t __fastcall sub_102dec00(int param_1)
 void __fastcall sub_102decd0(int param_1)
 
 {
-  uint16_t uVar1;
-  int iVar2;
+  uint64_t uVar1;
+  uint16_t uVar2;
   int iVar3;
-  uint uVar4;
-  uint64_t uVar5;
+  int iVar4;
+  uint uVar5;
   uint local_10;
   uint16_t uStack_c;
   uint16_t uStack_a;
   
-  uVar5 = sub_6fb54d60();
-  iVar3 = (int)uVar5;
-  if ((iVar3 != 0) && (iVar2 = *(int *)(iVar3 + 0x14), iVar2 != 0)) {
+  iVar4 = sub_6fb54d60();
+  if ((iVar4 != 0) && (iVar3 = *(int *)(iVar4 + 0x14), iVar3 != 0)) {
     switch(*(uint8_t *)(param_1 + 1)) {
     case 0:
-      sub_102d3f00(iVar3);
+      sub_102d3f00(iVar4);
       DAT_104dbf3c = 0;
       return;
     case 1:
-      *(uint32_t *)(iVar2 + 0x26d) = *(uint32_t *)(param_1 + 2);
+      *(uint32_t *)(iVar3 + 0x26d) = *(uint32_t *)(param_1 + 2);
       return;
     case 2:
-      *(uint32_t *)(iVar2 + 0x1b0) = *(uint32_t *)(param_1 + 2);
+      *(uint32_t *)(iVar3 + 0x1b0) = *(uint32_t *)(param_1 + 2);
       return;
     case 3:
-      *(uint32_t *)(iVar2 + 0x271) = *(uint32_t *)(param_1 + 2);
+      *(uint32_t *)(iVar3 + 0x271) = *(uint32_t *)(param_1 + 2);
       return;
     case 4:
-      uVar5 = *(uint64_t *)(param_1 + 2);
-      uVar1 = *(uint16_t *)(param_1 + 10);
-      local_10 = (uint)uVar5;
-      uStack_c = (uint16_t)((ulonglong)uVar5 >> 0x20);
-      uStack_a = (uint16_t)((ulonglong)uVar5 >> 0x30);
-      if ((byte)((ulonglong)uVar5 >> 8) < 0x10) {
-        uVar4 = local_10 >> 8 & 0xff;
-        *(short *)(iVar2 + 0x512 + uVar4 * 8) = (short)((ulonglong)uVar5 >> 0x10);
-        *(uint *)(*(int *)(iVar3 + 0x14) + 0x516 + uVar4 * 8) = CONCAT22(uVar1,uStack_a);
-        *(uint16_t *)(*(int *)(iVar3 + 0x14) + 0x514 + uVar4 * 8) = uStack_c;
+      uVar1 = *(uint64_t *)(param_1 + 2);
+      uVar2 = *(uint16_t *)(param_1 + 10);
+      local_10 = (uint)uVar1;
+      uStack_c = (uint16_t)((ulonglong)uVar1 >> 0x20);
+      uStack_a = (uint16_t)((ulonglong)uVar1 >> 0x30);
+      if ((byte)((ulonglong)uVar1 >> 8) < 0x10) {
+        uVar5 = local_10 >> 8 & 0xff;
+        *(short *)(iVar3 + 0x512 + uVar5 * 8) = (short)((ulonglong)uVar1 >> 0x10);
+        *(uint *)(*(int *)(iVar4 + 0x14) + 0x516 + uVar5 * 8) = CONCAT22(uVar2,uStack_a);
+        *(uint16_t *)(*(int *)(iVar4 + 0x14) + 0x514 + uVar5 * 8) = uStack_c;
       }
     }
   }

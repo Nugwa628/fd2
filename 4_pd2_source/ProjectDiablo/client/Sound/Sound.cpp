@@ -3931,14 +3931,13 @@ void client_Sound_Sound_102322a0(void)
   int iVar4;
   uint *puVar5;
   uint *puVar6;
-  uint64_t uVar7;
   
   piVar2 = (int *)*p_D2Client_DAT_6fbcbbfc;
-  uVar7 = D2Common_10331(piVar2);
-  if ((int)uVar7 == 0) {
+  uVar3 = D2Common_10331(piVar2);
+  if (uVar3 == 0) {
     return;
   }
-  uVar3 = D2Common_10826_10276680((int)uVar7);
+  uVar3 = D2Common_10826_10276680(uVar3);
   if ((int)uVar3 < 0) {
     return;
   }

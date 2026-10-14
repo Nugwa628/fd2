@@ -4018,16 +4018,16 @@ void sub_1022ff90(int param_1,int param_2)
   uint uVar6;
   int iVar7;
   DWORD DVar8;
+  uint uVar9;
   uint32_t extraout_ECX;
   uint extraout_ECX_00;
-  int iVar9;
-  uint uVar10;
+  int iVar10;
   int iVar11;
   uint64_t uVar12;
   uint64_t uVar13;
   
   uVar6 = Fog_10227();
-  iVar9 = 0;
+  iVar10 = 0;
   if (param_1 != 0) {
     iVar11 = 0;
     do {
@@ -4035,18 +4035,18 @@ void sub_1022ff90(int param_1,int param_2)
       piVar2 = (int *)(iVar11 + p_D2Client_DAT_6fb928f8);
       *(uint32_t *)(iVar11 + 8 + p_D2Client_DAT_6fb928f8) = 0;
       if (*piVar2 == 0) goto switchD_10230050_caseD_3;
-      if ((*(int *)(iVar11 + 4 + iVar7) != 0) && (iVar9 < 0x26)) {
+      if ((*(int *)(iVar11 + 4 + iVar7) != 0) && (iVar10 < 0x26)) {
         uVar12 = sub_102edf00();
         *(int *)(iVar11 + 8 + p_D2Client_DAT_6fb928f8) = (int)uVar12;
       }
       uVar12 = sub_102edf00();
       if (((int)uVar12 == 0) ||
          ((((uVar6 == 0 || (*p_D2Client_DAT_6fbc9854_102a2b00 == 0)) &&
-           ((iVar9 == 0x23 || ((iVar9 == 0x24 || (iVar9 == 0x25)))))) ||
+           ((iVar10 == 0x23 || ((iVar10 == 0x24 || (iVar10 == 0x25)))))) ||
           (iVar7 = sub_102f0150(), iVar7 == 0)))) goto switchD_10230050_caseD_3;
-      *(uint32_t *)(p_D2Client_DAT_6fbaad80 + iVar9 * 4) = 0;
+      *(uint32_t *)(p_D2Client_DAT_6fbaad80 + iVar10 * 4) = 0;
       sub_102f0170();
-      switch(iVar9) {
+      switch(iVar10) {
       case 1:
         WARDEN_WardenClient_6fb3bbf0();
       case 4:
@@ -4070,7 +4070,7 @@ switchD_10230050_caseD_c:
           D2gfx_10006(*puVar5);
         }
 LAB_1023017e:
-        sub_102f0110(iVar9);
+        sub_102f0110(iVar10);
         break;
       case 2:
       case 0xf:
@@ -4103,7 +4103,7 @@ LAB_1023017e:
       }
 switchD_10230050_caseD_3:
       iVar11 = iVar11 + 0xc;
-      iVar9 = iVar9 + 1;
+      iVar10 = iVar10 + 1;
     } while (iVar11 < 0x1c8);
   }
   uVar12 = sub_102edf00();
@@ -4113,13 +4113,13 @@ switchD_10230050_caseD_3:
     if ((*piVar2 == 0) && (piVar2[4] == 0x11)) {
       sub_102f0140();
       sub_102f0090(extraout_ECX);
-      uVar12 = D2Common_10331(piVar2);
-      uVar12 = D2Common_10826((int)uVar12);
-      iVar9 = functions_HelperFunctions_102cea70((int)uVar12);
-      if ((iVar9 == 0) && (iVar9 = *p_D2Client_DAT_6fbcb980, (*(byte *)(iVar9 + 0x1eb) & 4) != 0)) {
+      uVar9 = D2Common_10331(piVar2);
+      uVar9 = D2Common_10826(uVar9);
+      iVar10 = functions_HelperFunctions_102cea70(uVar9);
+      if ((iVar10 == 0) && (iVar10 = *p_D2Client_DAT_6fbcb980, (*(byte *)(iVar10 + 0x1eb) & 4) != 0)) {
         sub_6fac4660(extraout_ECX_00);
         puVar3 = p_D2Client_DAT_6fbcc3a0;
-        puVar1 = (ushort *)(iVar9 + 0x1eb);
+        puVar1 = (ushort *)(iVar10 + 0x1eb);
         *puVar1 = *puVar1 | 8;
         *puVar3 = 0;
         *p_D2Client_DAT_6fbcc39c = 0;
@@ -4129,38 +4129,38 @@ switchD_10230050_caseD_3:
     }
     else if (*p_D2Client_DAT_6fbc3a68 == 0) {
       if (0 < *p_D2Client_DAT_6fb8d5d0) {
-        uVar10 = 0;
+        uVar9 = 0;
         do {
           uVar13 = sub_102edf00();
           if (((int)uVar13 == 1) &&
-             (iVar9 = *(int *)(*(int *)(p_D2Client_DAT_6fb8d538 + uVar10 * 4) + 0x24), iVar9 != 0)) {
-            if (iVar9 == 1) {
-              sub_6fb72790(uVar10,1,0);
+             (iVar10 = *(int *)(*(int *)(p_D2Client_DAT_6fb8d538 + uVar9 * 4) + 0x24), iVar10 != 0)) {
+            if (iVar10 == 1) {
+              sub_6fb72790(uVar9,1,0);
             }
             else {
-              if (iVar9 != 4) goto LAB_1023034a;
+              if (iVar10 != 4) goto LAB_1023034a;
               if (*p_D2Client_DAT_6fbc971d != 0) {
                 sub_102f0100();
               }
             }
           }
-          uVar10 = uVar10 + 1;
-        } while ((int)uVar10 < 0x26);
+          uVar9 = uVar9 + 1;
+        } while ((int)uVar9 < 0x26);
       }
-      if ((*piVar2 == 0) && (iVar9 = sub_102f00f0(), iVar9 == 0)) {
+      if ((*piVar2 == 0) && (iVar10 = sub_102f00f0(), iVar10 == 0)) {
         *p_D2Client_DAT_6fbaada4_102a4e90 = 1;
       }
-      uVar10 = D2gfx_10048();
+      uVar9 = D2gfx_10048();
       uVar13 = sub_102edf00();
       if ((int)uVar12 == 0) {
         if ((int)uVar13 == 0) goto LAB_1023034a;
-        sub_102f00d0(8,uVar10,&DAT_10399f60);
+        sub_102f00d0(8,uVar9,&DAT_10399f60);
         DAT_1039816c = 1;
         *p_D2Client_DAT_6fbcc2f8 = 1;
       }
       else {
         if ((int)uVar13 != 0) goto LAB_1023034a;
-        sub_102f00b0(8,uVar10,&DAT_10399f60);
+        sub_102f00b0(8,uVar9,&DAT_10399f60);
         *p_D2Client_DAT_6fbcc2f8 = 0;
       }
       *p_D2Client_DAT_6fbcc2f4 = 0;
@@ -4235,9 +4235,9 @@ LAB_1023034a:
     *p_D2Client_DAT_6fbcc05c = &DAT_103b9f48;
     *puVar3 = &DAT_1039a020;
     *piVar2 = *(int *)*puVar4 + -1;
-    iVar9 = *(int *)*puVar4;
+    iVar10 = *(int *)*puVar4;
     *piVar2 = 1;
-    DAT_103d98e4 = iVar9 + -1;
+    DAT_103d98e4 = iVar10 + -1;
     return;
   case 0xd:
     *p_D2Client_DAT_6fbcc05c = &DAT_103b74b0;
@@ -4262,7 +4262,7 @@ LAB_1023034a:
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_102305f0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_102305f0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -4863,7 +4863,7 @@ void __fastcall sub_10230620(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230640(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230640(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -5464,7 +5464,7 @@ void __fastcall sub_10230670(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230690(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230690(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -6065,7 +6065,7 @@ void __fastcall sub_102306c0(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_102306e0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_102306e0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -6666,7 +6666,7 @@ void __fastcall sub_10230710(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230730(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230730(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -7267,7 +7267,7 @@ void __fastcall sub_10230760(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230780(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230780(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -7868,7 +7868,7 @@ void __fastcall sub_102307b0(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_102307d0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_102307d0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -8469,7 +8469,7 @@ void __fastcall sub_10230800(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230820(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230820(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -9070,7 +9070,7 @@ void __fastcall sub_10230850(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230870(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230870(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -9671,7 +9671,7 @@ void __fastcall sub_102308a0(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_102308c0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_102308c0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -10272,7 +10272,7 @@ void __fastcall sub_102308f0(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230910(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230910(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -10945,7 +10945,7 @@ void __fastcall sub_10230a70(int param_1,uint32_t reg_EBX)
   int iVar1;
   
   DAT_104e21f8 = *(uint32_t *)(param_1 + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   iVar1 = *(int *)(param_1 + 0x124);
   if (iVar1 == 0) {
     D2gfx_10062(1);
@@ -10980,7 +10980,7 @@ void __fastcall sub_10230ae0(int param_1,uint32_t reg_EBX)
       D2gfx_10062(0);
       *p_D2Client_DAT_6fb8d854 = 1;
       DAT_104e21f8 = 2;
-      sub_Config74_10239e00(reg_EBX);
+      sub_Settings_10239e00(reg_EBX);
       return;
     }
   }
@@ -11130,7 +11130,7 @@ int sub_6faeba70(void)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230ce0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230ce0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -11728,7 +11728,7 @@ void __fastcall sub_10230d00(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230d10(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230d10(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -12326,7 +12326,7 @@ void __fastcall sub_10230d30(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230d40(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230d40(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -12924,7 +12924,7 @@ void __fastcall sub_10230d60(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230d70(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230d70(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -13532,7 +13532,7 @@ void sub_10230da0(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e24c2 = *(int *)(reg_ECX + 0x124) != 0;
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((((piVar1 != (int *)0x0) && (*piVar1 == 0)) && (iVar2 = piVar1[5], iVar2 != 0)) &&
      (uStack_f = (uint)DAT_104e24c2, *(uint *)(iVar2 + 0x1a4) != uStack_f)) {
@@ -13559,7 +13559,7 @@ void __fastcall sub_10230dd0(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230de0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230de0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -14157,7 +14157,7 @@ void __fastcall sub_10230e00(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230e10(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230e10(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -14760,7 +14760,7 @@ void sub_10230e40(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_8;
   
   DAT_104e24c8 = *(int *)(reg_ECX + 0x124) != 0;
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   if (DAT_104e24c8 == '\x01') {
     if (*(short *)(DAT_104ddd68 + 0x748) == -1) {
       sub_1022a3d0(&uStack_8,0x5d,1,0x57);
@@ -14798,7 +14798,7 @@ void sub_10230e70(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_8;
   
   DAT_104e24fc._0_1_ = *(int *)(reg_ECX + 0x124) != 0;
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   if (DAT_104e24c8 == '\x01') {
     if (*(short *)(DAT_104ddd68 + 0x748) == -1) {
       sub_1022a3d0(&uStack_8,0x5d,1,0x57);
@@ -14834,7 +14834,7 @@ void sub_10230ea0(uint32_t reg_EBX,int reg_ECX)
 
 {
   DAT_104e2514 = *(uint32_t *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   DAT_103d98d8 = 0;
   DAT_103d98d0 = 0;
   DAT_10398168 = 0xffffffff;
@@ -14855,7 +14855,7 @@ void __fastcall sub_10230ee0(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230ef0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230ef0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -15462,7 +15462,7 @@ bool sub_10230f20(void)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230f30(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230f30(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -16063,7 +16063,7 @@ void __fastcall sub_10230f60(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230f80(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230f80(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -16664,7 +16664,7 @@ void __fastcall sub_10230fb0(int param_1)
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10230fd0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10230fd0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -17274,7 +17274,7 @@ uint8_t sub_10231020(void)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10231030(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10231030(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -17902,7 +17902,7 @@ void __fastcall sub_10231060(int param_1,uint32_t reg_EBX)
     local_8 = 0xffffffff;
     thunk_FUN_1020fc60(local_2c);
   }
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   ExceptionList = local_10;
   return;
 }
@@ -17927,7 +17927,7 @@ void sub_10231130(uint32_t reg_EBX,int reg_ECX)
   case 0:
     DAT_104e2278 = 0;
     DAT_104e2288 = 0;
-    sub_Config74_10239e00(reg_EBX);
+    sub_Settings_10239e00(reg_EBX);
     return;
   case 1:
     DAT_104e2288 = 0;
@@ -17935,7 +17935,7 @@ void sub_10231130(uint32_t reg_EBX,int reg_ECX)
   case 2:
     DAT_104e2278 = 0;
     DAT_104e2288 = 1;
-    sub_Config74_10239e00(reg_EBX);
+    sub_Settings_10239e00(reg_EBX);
     return;
   case 3:
     DAT_104e2288 = 1;
@@ -17945,7 +17945,7 @@ void sub_10231130(uint32_t reg_EBX,int reg_ECX)
   }
   DAT_104e2278 = 1;
 LAB_102311a0:
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   return;
 }
 
@@ -17979,7 +17979,7 @@ void __fastcall sub_102311c0(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10231210(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10231210(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -18577,7 +18577,7 @@ void __fastcall sub_10231230(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10231240(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10231240(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -19175,7 +19175,7 @@ void __fastcall sub_10231260(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_10231270(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_10231270(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -19773,7 +19773,7 @@ void __fastcall sub_10231290(int param_1)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_102312a0(uint32_t reg_EBX,int reg_ECX)
+void sub_Settings_102312a0(uint32_t reg_EBX,int reg_ECX)
 
 {
   char *pcVar1;
@@ -20388,7 +20388,7 @@ void sub_102312f0(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e253c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);
@@ -20449,7 +20449,7 @@ void sub_10231350(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e255c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);
@@ -20510,7 +20510,7 @@ void sub_102313b0(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e254c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);
@@ -20571,7 +20571,7 @@ void sub_10231410(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e256c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);
@@ -20637,7 +20637,7 @@ void sub_10231470(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e252c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);
@@ -20698,7 +20698,7 @@ void sub_102314d0(uint32_t reg_EBX,int reg_ECX)
   uint32_t uStack_b;
   
   DAT_104e257c = *(int *)(reg_ECX + 0x124);
-  sub_Config74_10239e00(reg_EBX);
+  sub_Settings_10239e00(reg_EBX);
   piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
   if ((piVar1 != (int *)0x0) && (*piVar1 == 0)) {
     uStack_f = (uint)(DAT_104e252c != 0);

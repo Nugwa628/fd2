@@ -87,12 +87,15 @@ has the evidence for every placement.
   unknown. The address is always kept.
 * Game-pointer thunks carry the name of the game function they jump to (`D2Common_10973`, or the reference tree's name
   for an offset target such as `UI_inv_6fb40f60`); their accessors are `GetPtr_<target>`. See "Game calls".
-* Hints (4,865 functions) are inserted before the address when the body or a table says what a function is:
+* Hints (4,867 functions) are inserted before the address when the body or a table says what a function is:
   * `_InitPtr_<target>_` (1,193): static initializer that copies a game pointer into the file's own global;
     `_init_` (3,297): any other static initializer.
-  * `_Hook_<game function>_` (273): handler that the patch tables (0x103c7f50, 0x10367ee0) install into that
-    game function; handlers of one feature read alike. Phase 4 decodes the tables themselves.
-  * `_Config_<key>_` / `_ConfigN_` (37): uses one (N) key of `ProjectDiablo.json`.
+  * `_Hook_<game function>_` (227): handler that the patch tables (0x103c7f50, 0x10367ee0) install into that
+    game function; handlers of one feature read alike. `_Ptr_<Module>_<va>_` (46): a handler the tables
+    store outside game code, e.g. into a game function-pointer table. Phase 4 decodes the tables themselves.
+  * `_Config_<key>_` / `_ConfigN_` (6): uses one (N ≤ 7) key of `ProjectDiablo.json`; `_Settings_`
+    (31): uses 8 or more (load/save of the whole file).
+  * `_IntegrityCheck_ModuleScan_` (2): enumerates the loaded modules (see the last section).
   * `_Wraps_<Module>_<file>_` (29): passes a game `__FILE__` string (`..\Source\D2Client\UI\inv.cpp`) to a game
     function, i.e. it reimplements or wraps that game code. These paths are not PD2 files and are never anchors.
   * `_json_` (10), `_stl_` (11), `_regex_` (2), `_iostream_` (0):
@@ -108,8 +111,9 @@ PD2 imports no game function by ordinal. D2Template binds the game at run time: 
 DLL index and a value from a `{1.13c, 1.13d}` pair (negative = ordinal for `GetProcAddress`, otherwise an offset from
 the DLL base). `game_pointers.tsv` lists all **2,037** bindings: 970 lazy thunks (resolve once, then
 `jmp [cell]`) and 1,067 accessors (an inline variable whose address each file copies into its own global in
-a static initializer: 1,193 copies). 569 use an ordinal and 1,468 an offset; 1,896
-have no 1.13d value.
+a static initializer: 1,193 copies). 569 use an ordinal and 1,468 an offset (for 1.13c).
+1,896 have 0 in their 1.13d half: although `DetectGameVersion` accepts 1.0.13.64, this build fills in
+1.13d values for only the remaining bindings.
 
 * **All 2,037 are named** through the reference trees (`sigmaRE/5_game_source`, read-only): ordinals by
   `exports.tsv`, offsets by the reference function at that address in `symbols.csv`. 1,377 point at a
@@ -125,12 +129,12 @@ have no 1.13d value.
   reference has no function for) from `ret N` alone, 3 by hand (Fog assert/alloc/free, so PD2's own
   `__FILE__` strings show), 1 left alone. Register parameters other than ECX/EDX in the reference
   (96 prototypes) were dropped: compiled C++ can't pass them, and PD2 calls these thunks from C++.
-  Now 174 of 6,068 thunk calls in this tree have an empty argument list, and those are
-  genuine zero-argument functions.
+  Now 174 of 6,068 thunk calls in this tree have an empty argument list: calls to targets
+  whose reference prototype has no parameters or that end in a plain `ret` with no caller cleanup.
 * In this tree: 6,068 calls through thunks and 407 calls through per-file pointer copies use the
   reference names (6,475 game calls named), plus 4,530 lines that read game variables.
-  1 indirect calls through a still-unnamed `DAT_` global remain; they are PD2's own function
-  pointers (callbacks), not game bindings. Pointers PD2 fills with `GetProcAddress(h, "Name")` (BH.dll, d2gl) are
+  Indirect calls through a still-unnamed `DAT_` global: 1 (a PD2 callback pointer, not a game
+  binding). Pointers PD2 fills with `GetProcAddress(h, "Name")` (BH.dll, d2gl) are
   named `pfn_<Name>`. `Ordinal_` left: 0
   (2 ordinal imports, both XInput, named `XInputGetState`/`XInputSetState`).
 * `include/imports.h` ends with every game binding (one line per target): the name used here, the DLL value, the
@@ -143,8 +147,8 @@ have no 1.13d value.
 * Ghidra's `undefinedN` types are replaced by `uint8_t`/`uint16_t`/`uint32_t`/`uint64_t`; `_DAT_x` (Ghidra's mark for a
   global accessed at another size) is written `DAT_x`, the same variable.
 * Untraced placeholders (`in_*`, `unaff_*`, `extraout_*`, `in_stack_*`; one declaration per function per name):
-  **3,116 before → 3,241 after** this phase's re-export (+4%; uses 7,188 →
-  7,340). The count went up because the calls now carry their arguments: the arguments and return values
+  **3,116 before → 3,257 after** this phase's re-export (+5%; uses 7,188 →
+  7,374). The count went up because the calls now carry their arguments: the arguments and return values
   that used to vanish silently are now visible, and where a caller keeps using ECX/EDX across such a call or reads
   the upper bytes of a narrow return, Ghidra shows `extraout_*`. Most of the rest are EH funclets using their parent's
   frame (`unaff_EBP`). In the tree, each remaining one is declared locally with `/* not traced by Ghidra */`
@@ -158,14 +162,24 @@ have no 1.13d value.
 
 ## Structures
 
-`include/d2structs.h` has 11 game structures (Unit, PlayerData, ItemData, Inventory, StatList, Stat,
-SkillList, Skill, Path, Room, Act) with the community 1.13c layout. `tools/pd2/struct_evidence.py` types values in this
-tree, starting from the player-unit pointer, through pointer fields, local copies, call arguments and return values,
-and records the offsets PD2 accesses: **16 fields proven** (`/* proven: <PD2 function addresses> */`),
-110 assumed, 6 offsets PD2 uses that the layout has no name for (`unk_<off>`). The types are not
-applied to the decompiled code yet. Doing that needs the types inside Ghidra (a data-type archive from this header,
-applied to the thunk prototypes and to the parameters the propagation types), then another FixAndExport pass, so that
-`*(int *)(iVar1 + 0x60)` becomes `pUnit->pInventory`.
+`include/d2structs.h` has 13 game structures (Unit, PlayerData, ItemData, Inventory, StatList, Stat,
+SkillList, Skill, Path, Room, Act, and the server-side Game and Client) with the community 1.13c layout
+(D2MOO/D2BS/BH names). Two kinds of evidence from PD2's own code mark a field `/* proven: ... */`:
+
+* PD2's diagnostic dump at 0x10269710 (`functions/D2CommonFunctions.cpp`, "pRemovedItem was NULL. Hit Halt #2568")
+  prints fields by name: `"pItemData->dwQuality"`, `"pInventory->dwItemCount"`, `"pClient->ptPlayer"`, ... Each printed
+  value is loaded from its field just before the `to_string` call (read off the disassembly), so offset, size and PD2's
+  own name are proven together, e.g. ItemData +0x28 dwFileIndex, +0x44/+0x45 BodyLocation/ItemLocation, Client +0x174
+  ptPlayer, Inventory +0x18 dwStoresCount. PD2's Game structure is larger than vanilla's: the dump reads
+  `pGame->nCorruptedZone` at +0x26f2 and `pGame->nItemAllocation` at +0x26fa.
+* `tools/pd2/struct_evidence.py` types values in this tree, starting from the dump's parameters and the player-unit
+  pointer (`D2Client.dll+0x11bbfc`), through pointer fields, local copies, call arguments and return values, and
+  records every offset PD2 accesses on a typed value with the accessing function's address.
+
+Result: **43 fields proven**, 102 assumed (layout knowledge only), 6 offsets PD2 uses that the
+layout has no name for (`unk_<off>`). The types are not applied to the decompiled code yet. That needs the types inside
+Ghidra (a data-type archive from this header, applied to the thunk prototypes and to the parameters the propagation
+types), then another FixAndExport pass, so that `*(int *)(iVar1 + 0x60)` becomes `pUnit->pInventory`.
 
 ## Not recovered / open problems
 

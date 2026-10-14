@@ -3575,12 +3575,14 @@ void sub_InitPtr_D2Client_DAT_6fb8d8a0_101a4ba0(void)
 
 
 // 0x102f1200  [gap]
-void __fastcall sub_6fb691c0(int *param_1,uint32_t reg_ESI,uint32_t reg_EDI)
+void __fastcall sub_6fb691c0(int *param_1)
 
 {
   int iVar1;
   uint uVar2;
+  uint32_t unaff_ESI;
   int iVar3;
+  uint32_t unaff_EDI;
   uint uVar4;
   
   if (param_1 != (int *)0x0) {
@@ -3602,7 +3604,7 @@ void __fastcall sub_6fb691c0(int *param_1,uint32_t reg_ESI,uint32_t reg_EDI)
       uVar2 = functions_D2NewFunctions_102c5d10(param_1);
       if (uVar2 % 100 < uVar4) {
         if (p_sub_6fb691c0 == (FARPROC)0x0) {
-          iVar3 = sub_GameVersionIndex_10253fc0(reg_EDI,reg_ESI);
+          iVar3 = sub_GameVersionIndex_10253fc0(unaff_EDI,unaff_ESI);
           p_sub_6fb691c0 = sub_GetDllOffset_102f10f0(0,*(int *)(&DAT_103c7520 + iVar3 * 4));
         }
                     /* WARNING: Could not recover jumptable at 0x10285383. Too many branches */

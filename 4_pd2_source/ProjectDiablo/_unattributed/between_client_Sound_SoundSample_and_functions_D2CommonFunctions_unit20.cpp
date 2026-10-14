@@ -4291,15 +4291,16 @@ void sub_Wraps_D2Common_DATATBLS_ItemTbls_10250de0(uint param_1)
 // 0x10251b90  (ghidra: FUN_10251b90)  [gap]
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 
-uint64_t __fastcall sub_10251b90(int *param_1,int param_2)
+longlong __fastcall sub_10251b90(int *param_1,int param_2)
 
 {
   byte bVar1;
   uint uVar2;
   int iVar3;
   int iVar4;
-  uint32_t uVar5;
-  int iVar6;
+  int iVar5;
+  uint extraout_EDX;
+  uint32_t uVar6;
   int iVar7;
   uint64_t uVar8;
   int local_14;
@@ -4310,63 +4311,58 @@ uint64_t __fastcall sub_10251b90(int *param_1,int param_2)
   
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   uVar2 = D2Common_10059(param_1);
-  uVar8 = D2Common_10450_102794d0(uVar2,local_c);
-  iVar6 = (int)uVar8;
-  if (iVar6 == 0) {
-    return uVar8;
+  iVar3 = D2Common_10450_102794d0(uVar2,local_c);
+  if (iVar3 == 0) {
+    return (ulonglong)extraout_EDX << 0x20;
   }
-  uVar8 = functions_D2NewFunctions_102ce500((int *)(iVar6 + 0x80),(int *)&DAT_1037c354);
-  uVar5 = (uint32_t)((ulonglong)uVar8 >> 0x20);
+  uVar8 = functions_D2NewFunctions_102ce500((int *)(iVar3 + 0x80),(int *)&DAT_1037c354);
+  uVar6 = (uint32_t)((ulonglong)uVar8 >> 0x20);
   if ((int)uVar8 == 0) {
-    uVar8 = functions_D2NewFunctions_102ce500((int *)(iVar6 + 0x80),(int *)&DAT_1037c328);
-    uVar5 = (uint32_t)((ulonglong)uVar8 >> 0x20);
+    uVar8 = functions_D2NewFunctions_102ce500((int *)(iVar3 + 0x80),(int *)&DAT_1037c328);
+    uVar6 = (uint32_t)((ulonglong)uVar8 >> 0x20);
     if ((int)uVar8 == 0) {
-      iVar7 = *(int *)(iVar6 + 0xe0);
-      bVar1 = *(byte *)(iVar6 + 0xfd);
+      iVar7 = *(int *)(iVar3 + 0xe0);
+      bVar1 = *(byte *)(iVar3 + 0xfd);
       local_14 = 0;
-      uVar2 = *(uint *)(iVar6 + 0x88);
+      uVar2 = *(uint *)(iVar3 + 0x88);
       local_10 = 0;
-      if ((uVar2 != 0) && (uVar2 != 0x20202030)) {
-        uVar8 = D2Common_10450_102794d0(uVar2,local_c);
-        iVar3 = (int)uVar8;
-        if (iVar3 != 0) {
-          local_14 = *(int *)(iVar3 + 0xe0);
-          iVar3 = (param_2 - (uint)*(byte *)(iVar3 + 0xfd)) * 0x32;
-          local_10 = 0;
-          if (-2 < iVar3) {
-            local_10 = iVar3 + 1;
-          }
+      if (((uVar2 != 0) && (uVar2 != 0x20202030)) &&
+         (iVar4 = D2Common_10450_102794d0(uVar2,local_c), iVar4 != 0)) {
+        local_14 = *(int *)(iVar4 + 0xe0);
+        iVar4 = (param_2 - (uint)*(byte *)(iVar4 + 0xfd)) * 0x32;
+        local_10 = 0;
+        if (-2 < iVar4) {
+          local_10 = iVar4 + 1;
         }
       }
-      uVar2 = *(uint *)(iVar6 + 0x8c);
+      uVar2 = *(uint *)(iVar3 + 0x8c);
+      iVar4 = 0;
       iVar3 = 0;
-      iVar6 = 0;
       if ((uVar2 != 0) && (uVar2 != 0x20202030)) {
-        uVar8 = D2Common_10450_102794d0(uVar2,local_c);
-        iVar4 = (int)uVar8;
-        if (iVar4 == 0) {
-          iVar6 = 0;
+        iVar5 = D2Common_10450_102794d0(uVar2,local_c);
+        if (iVar5 == 0) {
+          iVar3 = 0;
         }
         else {
-          iVar6 = *(int *)(iVar4 + 0xe0);
-          iVar4 = (param_2 - (uint)*(byte *)(iVar4 + 0xfd)) * 0x19 + 1;
-          if (-1 < iVar4) {
-            iVar3 = iVar4;
+          iVar3 = *(int *)(iVar5 + 0xe0);
+          iVar5 = (param_2 - (uint)*(byte *)(iVar5 + 0xfd)) * 0x19 + 1;
+          if (-1 < iVar5) {
+            iVar4 = iVar5;
           }
         }
       }
-      iVar4 = 5;
+      iVar5 = 5;
       if (5 < param_2) {
-        iVar4 = param_2;
+        iVar5 = param_2;
       }
-      iVar7 = ((((10000 - iVar3) - local_10) * iVar7 + iVar6 * iVar3 + local_14 * local_10) / 10000
-              + (int)((((-(uint)(0x2d < bVar1) & bVar1 - 0x2d) - (uint)(bVar1 >> 1)) + iVar4) * 0xfa
-                     ) / 3) * ((iVar4 * 2 + 1) / 3 + 0x14);
-      iVar6 = iVar7 >> 0x1f;
-      iVar7 = iVar7 / 0xf + iVar6;
-      return CONCAT44(iVar7,iVar7 - iVar6);
+      iVar7 = ((((10000 - iVar4) - local_10) * iVar7 + iVar3 * iVar4 + local_14 * local_10) / 10000
+              + (int)((((-(uint)(0x2d < bVar1) & bVar1 - 0x2d) - (uint)(bVar1 >> 1)) + iVar5) * 0xfa
+                     ) / 3) * ((iVar5 * 2 + 1) / 3 + 0x14);
+      iVar3 = iVar7 >> 0x1f;
+      iVar7 = iVar7 / 0xf + iVar3;
+      return CONCAT44(iVar7,iVar7 - iVar3);
     }
   }
-  return CONCAT44(uVar5,*(uint32_t *)(iVar6 + 0xd4));
+  return CONCAT44(uVar6,*(uint32_t *)(iVar3 + 0xd4));
 }
 

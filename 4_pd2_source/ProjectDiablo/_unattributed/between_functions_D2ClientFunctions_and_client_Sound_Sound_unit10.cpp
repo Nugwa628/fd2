@@ -3595,14 +3595,14 @@ uint32_t __fastcall sub_1022f4a0(short param_1)
 uint32_t __fastcall sub_1022f4d0(int *param_1)
 
 {
-  uint32_t uVar1;
-  uint64_t uVar2;
+  int iVar1;
+  uint32_t uVar2;
   
   if ((param_1 != (int *)0x0) && (*param_1 == 4)) {
-    uVar2 = D2Common_10695(param_1[1]);
-    if ((int)uVar2 != 0) {
-      uVar1 = sub_1022f4a0(*(short *)((int)uVar2 + 0x11e));
-      return uVar1;
+    iVar1 = D2Common_10695(param_1[1]);
+    if (iVar1 != 0) {
+      uVar2 = sub_1022f4a0(*(short *)(iVar1 + 0x11e));
+      return uVar2;
     }
   }
   return 0;

@@ -4007,13 +4007,12 @@ void __fastcall client_DrawHoverItem_1021cbd0(int *param_1,int param_2)
   short *psVar5;
   int iVar6;
   int iVar7;
-  short *psVar8;
+  uint uVar8;
+  short *psVar9;
   uint16_t extraout_var;
-  uint uVar9;
   short *psVar10;
   uint uVar11;
   uint32_t *puVar12;
-  uint64_t uVar13;
   int local_20c;
   short local_208 [256];
   uint local_8;
@@ -4034,11 +4033,11 @@ void __fastcall client_DrawHoverItem_1021cbd0(int *param_1,int param_2)
     local_20c = 1;
     goto LAB_1021ccc2;
   }
-  uVar13 = D2Common_10744((int)param_1,0x23);
-  if ((int)uVar13 == 0) {
-    uVar13 = D2Common_10744((int)param_1,0x1b);
+  uVar11 = D2Common_10744((int)param_1,0x23);
+  if (uVar11 == 0) {
+    uVar11 = D2Common_10744((int)param_1,0x1b);
     puVar12 = (uint32_t *)&DAT_10367b4c;
-    if ((int)uVar13 != 0) goto LAB_1021cc92;
+    if (uVar11 != 0) goto LAB_1021cc92;
   }
   else {
 LAB_1021cc92:
@@ -4051,16 +4050,16 @@ LAB_1021cc92:
   local_20c = *(int *)(&DAT_10367b88 + (iVar6 * 5 + -0x32 + puVar12[uVar11 * 2]) * 4);
 LAB_1021ccc2:
   uVar11 = 0;
-  while (uVar13 = D2Common_10744((int)param_1,(&DAT_10398bc0)[uVar11 * 2]), (int)uVar13 == 0) {
+  while (uVar8 = D2Common_10744((int)param_1,(&DAT_10398bc0)[uVar11 * 2]), uVar8 == 0) {
     uVar11 = uVar11 + 1;
     if (0xe < uVar11) goto LAB_1021cdac;
   }
-  psVar8 = (short *)D2Lang_10003(CONCAT22(extraout_var,(&DAT_10398bc4)[uVar11 * 4]));
-  iVar6 = param_2 - (int)psVar8;
+  psVar9 = (short *)D2Lang_10003(CONCAT22(extraout_var,(&DAT_10398bc4)[uVar11 * 4]));
+  iVar6 = param_2 - (int)psVar9;
   do {
-    sVar1 = *psVar8;
-    psVar8 = psVar8 + 1;
-    *(short *)(iVar6 + -2 + (int)psVar8) = sVar1;
+    sVar1 = *psVar9;
+    psVar9 = psVar9 + 1;
+    *(short *)(iVar6 + -2 + (int)psVar9) = sVar1;
     psVar10 = psVar3;
   } while (sVar1 != 0);
   do {
@@ -4070,18 +4069,18 @@ LAB_1021ccc2:
   uVar11 = (int)psVar10 - (int)psVar3;
   puVar12 = (uint32_t *)(param_2 + -2);
   do {
-    psVar8 = (short *)((int)puVar12 + 2);
+    psVar9 = (short *)((int)puVar12 + 2);
     puVar12 = (uint32_t *)((int)puVar12 + 2);
-  } while (*psVar8 != 0);
-  psVar8 = psVar3;
-  for (uVar9 = uVar11 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
-    *puVar12 = *(uint32_t *)psVar8;
-    psVar8 = psVar8 + 2;
+  } while (*psVar9 != 0);
+  psVar9 = psVar3;
+  for (uVar8 = uVar11 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+    *puVar12 = *(uint32_t *)psVar9;
+    psVar9 = psVar9 + 2;
     puVar12 = puVar12 + 1;
   }
   for (uVar11 = uVar11 & 3; psVar10 = psVar5, uVar11 != 0; uVar11 = uVar11 - 1) {
-    *(char *)puVar12 = (char)*psVar8;
-    psVar8 = (short *)((int)psVar8 + 1);
+    *(char *)puVar12 = (char)*psVar9;
+    psVar9 = (short *)((int)psVar9 + 1);
     puVar12 = (uint32_t *)((int)puVar12 + 1);
   }
   do {
@@ -4091,30 +4090,30 @@ LAB_1021ccc2:
   uVar11 = (int)psVar10 - (int)psVar5;
   puVar12 = (uint32_t *)(param_2 + -2);
   do {
-    psVar8 = (short *)((int)puVar12 + 2);
+    psVar9 = (short *)((int)puVar12 + 2);
     puVar12 = (uint32_t *)((int)puVar12 + 2);
-  } while (*psVar8 != 0);
-  for (uVar9 = uVar11 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
+  } while (*psVar9 != 0);
+  for (uVar8 = uVar11 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar12 = *(uint32_t *)psVar5;
     psVar5 = psVar5 + 2;
     puVar12 = puVar12 + 1;
   }
-  for (uVar11 = uVar11 & 3; psVar8 = psVar3, uVar11 != 0; uVar11 = uVar11 - 1) {
+  for (uVar11 = uVar11 & 3; psVar9 = psVar3, uVar11 != 0; uVar11 = uVar11 - 1) {
     *(char *)puVar12 = (char)*psVar5;
     psVar5 = (short *)((int)psVar5 + 1);
     puVar12 = (uint32_t *)((int)puVar12 + 1);
   }
   do {
-    sVar1 = *psVar8;
-    psVar8 = psVar8 + 1;
+    sVar1 = *psVar9;
+    psVar9 = psVar9 + 1;
   } while (sVar1 != 0);
-  uVar11 = (int)psVar8 - (int)psVar3;
+  uVar11 = (int)psVar9 - (int)psVar3;
   puVar12 = (uint32_t *)(param_2 + -2);
   do {
     psVar5 = (short *)((int)puVar12 + 2);
     puVar12 = (uint32_t *)((int)puVar12 + 2);
   } while (*psVar5 != 0);
-  for (uVar9 = uVar11 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
+  for (uVar8 = uVar11 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar12 = *(uint32_t *)psVar3;
     psVar3 = psVar3 + 2;
     puVar12 = puVar12 + 1;
@@ -4148,7 +4147,7 @@ LAB_1021cdac:
     puVar12 = (uint32_t *)((int)puVar12 + 2);
   } while (*psVar3 != 0);
   psVar3 = local_208;
-  for (uVar9 = uVar11 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
+  for (uVar8 = uVar11 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar12 = *(uint32_t *)psVar3;
     psVar3 = psVar3 + 2;
     puVar12 = puVar12 + 1;
@@ -4168,7 +4167,7 @@ LAB_1021cdac:
     psVar3 = (short *)((int)puVar12 + 2);
     puVar12 = (uint32_t *)((int)puVar12 + 2);
   } while (*psVar3 != 0);
-  for (uVar9 = uVar11 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
+  for (uVar8 = uVar11 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar12 = *(uint32_t *)psVar4;
     psVar4 = psVar4 + 2;
     puVar12 = puVar12 + 1;
@@ -4255,7 +4254,6 @@ void __fastcall client_DrawHoverItem_1021cf80(uint32_t param_1,int param_2,int p
   int *piVar15;
   uint32_t *puVar16;
   uint32_t *puVar17;
-  uint64_t uVar18;
   uint local_52c;
   int *local_528;
   int local_524;
@@ -4280,8 +4278,8 @@ void __fastcall client_DrawHoverItem_1021cf80(uint32_t param_1,int param_2,int p
   psVar4 = (short *)D2Lang_10003(0xf9e);
   piVar15 = (int *)*p_D2Client_DAT_6fbcbbfc;
   local_528 = piVar15;
-  uVar18 = D2Common_10744((int)local_51c,0x26);
-  if ((int)uVar18 != 0) {
+  uVar5 = D2Common_10744((int)local_51c,0x26);
+  if (uVar5 != 0) {
     uVar5 = D2Common_10321(local_51c);
     memset(local_210,0,0x200);
     iVar6 = D2Common_10205((int *)0x0,(uint)local_528,uVar5,1);
@@ -5895,17 +5893,16 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
 
 {
   short sVar1;
-  short *psVar2;
-  short *psVar3;
-  int iVar4;
+  uint uVar2;
+  int iVar3;
+  short *psVar4;
   short *psVar5;
-  uint uVar6;
+  short *psVar6;
   uint uVar7;
   short *psVar8;
   short *psVar9;
   short *psVar10;
   uint32_t *puVar11;
-  uint64_t uVar12;
   uint8_t local_214 [4];
   short local_210;
   uint8_t local_20e [514];
@@ -5914,62 +5911,62 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
   
   local_c = DAT_1039800c ^ (uint)&stack0xfffffffc;
   memset(local_20e,0,0x1fe);
-  uVar12 = D2Common_10744(param_1,0x35);
-  if ((int)uVar12 == 0) {
+  uVar2 = D2Common_10744(param_1,0x35);
+  if (uVar2 == 0) {
     Fog_10024("","D2CLIENT_GetSocketFillerString",0x280);
                     /* WARNING: Subroutine does not return */
     _exit(-1);
   }
   if (param_1 == 0) {
-    uVar7 = 0xffffffff;
+    uVar2 = 0xffffffff;
   }
   else {
-    uVar7 = *(uint *)(param_1 + 4);
+    uVar2 = *(uint *)(param_1 + 4);
   }
-  uVar12 = D2Common_10695(uVar7);
-  if ((int)uVar12 != 0) {
+  iVar3 = D2Common_10695(uVar2);
+  if (iVar3 != 0) {
     *param_2 = 0;
-    psVar2 = (short *)D2Lang_10003(0xf9e);
-    psVar3 = (short *)D2Lang_10003(0xf9b);
-    iVar4 = D2Common_10806(*(int *)((int)uVar12 + 0xf0));
-    if (iVar4 == 0) {
+    psVar4 = (short *)D2Lang_10003(0xf9e);
+    psVar5 = (short *)D2Lang_10003(0xf9b);
+    iVar3 = D2Common_10806(*(int *)(iVar3 + 0xf0));
+    if (iVar3 == 0) {
       Fog_10024("","D2CLIENT_GetSocketFillerString",0x294);
                     /* WARNING: Subroutine does not return */
       _exit(-1);
     }
-    uVar12 = D2Common_10744(param_1,0x14);
-    psVar8 = psVar2;
-    psVar9 = psVar2;
-    local_214 = (uint8_t  [4])psVar2;
-    if ((int)uVar12 == 0) {
-      uVar12 = D2Common_10744(param_1,0x4a);
-      if ((int)uVar12 == 0) {
+    uVar2 = D2Common_10744(param_1,0x14);
+    psVar8 = psVar4;
+    psVar9 = psVar4;
+    local_214 = (uint8_t  [4])psVar4;
+    if (uVar2 == 0) {
+      uVar2 = D2Common_10744(param_1,0x4a);
+      if (uVar2 == 0) {
         return;
       }
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar2;
+      uVar2 = (int)psVar8 - (int)psVar4;
       psVar8 = param_2 + -1;
       do {
-        psVar5 = psVar8 + 1;
+        psVar6 = psVar8 + 1;
         psVar8 = psVar8 + 1;
-      } while (*psVar5 != 0);
-      psVar5 = psVar2;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-        *(uint32_t *)psVar8 = *(uint32_t *)psVar5;
-        psVar5 = psVar5 + 2;
+      } while (*psVar6 != 0);
+      psVar6 = psVar4;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+        *(uint32_t *)psVar8 = *(uint32_t *)psVar6;
+        psVar6 = psVar6 + 2;
         psVar8 = psVar8 + 2;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar8 = (char)*psVar5;
-        psVar5 = (short *)((int)psVar5 + 1);
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar8 = (char)*psVar6;
+        psVar6 = (short *)((int)psVar6 + 1);
         psVar8 = (short *)((int)psVar8 + 1);
       }
       local_210 = 0;
-      psVar5 = (short *)D2Lang_10003(0x2b42);
-      psVar8 = psVar5;
+      psVar6 = (short *)D2Lang_10003(0x2b42);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -5979,13 +5976,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -5994,49 +5991,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e4f0(2,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e4f0(2,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      local_214 = (uint8_t  [4])psVar2;
-      psVar5 = (short *)D2Lang_10003(0x2b41);
-      psVar8 = psVar5;
+      local_214 = (uint8_t  [4])psVar4;
+      psVar6 = (short *)D2Lang_10003(0x2b41);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6046,13 +6043,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6061,49 +6058,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e4f0(1,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e4f0(1,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      local_214 = (uint8_t  [4])psVar2;
-      psVar5 = (short *)D2Lang_10003(0x2b44);
-      psVar8 = psVar5;
+      local_214 = (uint8_t  [4])psVar4;
+      psVar6 = (short *)D2Lang_10003(0x2b44);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6113,13 +6110,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6128,49 +6125,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e4f0(1,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e4f0(1,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      local_214 = (uint8_t  [4])psVar2;
-      psVar5 = (short *)D2Lang_10003(0x2b43);
-      psVar8 = psVar5;
+      local_214 = (uint8_t  [4])psVar4;
+      psVar6 = (short *)D2Lang_10003(0x2b43);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6180,13 +6177,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6195,49 +6192,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-        *puVar11 = *(uint32_t *)psVar3;
-        psVar3 = psVar3 + 2;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+        *puVar11 = *(uint32_t *)psVar5;
+        psVar5 = psVar5 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)puVar11 = (char)*psVar3;
-        psVar3 = (short *)((int)psVar3 + 1);
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)puVar11 = (char)*psVar5;
+        psVar5 = (short *)((int)psVar5 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e4f0(0,param_1,iVar4,param_2,(int)&local_210);
+      client_DrawHoverItem_1021e4f0(0,param_1,iVar3,param_2,(int)&local_210);
     }
     else {
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar2;
+      uVar2 = (int)psVar8 - (int)psVar4;
       psVar8 = param_2 + -1;
       do {
-        psVar5 = psVar8 + 1;
+        psVar6 = psVar8 + 1;
         psVar8 = psVar8 + 1;
-      } while (*psVar5 != 0);
-      psVar5 = psVar2;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-        *(uint32_t *)psVar8 = *(uint32_t *)psVar5;
-        psVar5 = psVar5 + 2;
+      } while (*psVar6 != 0);
+      psVar6 = psVar4;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+        *(uint32_t *)psVar8 = *(uint32_t *)psVar6;
+        psVar6 = psVar6 + 2;
         psVar8 = psVar8 + 2;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar8 = (char)*psVar5;
-        psVar5 = (short *)((int)psVar5 + 1);
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar8 = (char)*psVar6;
+        psVar6 = (short *)((int)psVar6 + 1);
         psVar8 = (short *)((int)psVar8 + 1);
       }
       local_210 = 0;
-      psVar5 = (short *)D2Lang_10003(0x2b42);
-      psVar8 = psVar5;
+      psVar6 = (short *)D2Lang_10003(0x2b42);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6247,13 +6244,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6262,48 +6259,48 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e610(2,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e610(2,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      psVar5 = (short *)D2Lang_10003(0x2b41);
-      psVar8 = psVar5;
+      psVar6 = (short *)D2Lang_10003(0x2b41);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6313,13 +6310,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6328,49 +6325,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e610(1,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e610(1,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      local_214 = (uint8_t  [4])psVar2;
-      psVar5 = (short *)D2Lang_10003(0x2b44);
-      psVar8 = psVar5;
+      local_214 = (uint8_t  [4])psVar4;
+      psVar6 = (short *)D2Lang_10003(0x2b44);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6380,13 +6377,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6395,49 +6392,49 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      psVar8 = psVar3;
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+      psVar8 = psVar5;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
         *puVar11 = *(uint32_t *)psVar8;
         psVar8 = psVar8 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar8;
         psVar8 = (short *)((int)psVar8 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e610(1,param_1,iVar4,param_2,(int)&local_210);
-      psVar8 = psVar2;
+      client_DrawHoverItem_1021e610(1,param_1,iVar3,param_2,(int)&local_210);
+      psVar8 = psVar4;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      psVar5 = param_2 + -1;
+      psVar6 = param_2 + -1;
       do {
-        psVar10 = psVar5 + 1;
-        psVar5 = psVar5 + 1;
+        psVar10 = psVar6 + 1;
+        psVar6 = psVar6 + 1;
       } while (*psVar10 != 0);
-      psVar10 = psVar2;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar2) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(uint32_t *)psVar5 = *(uint32_t *)psVar10;
+      psVar10 = psVar4;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar4) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint32_t *)psVar6 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
-        psVar5 = psVar5 + 2;
+        psVar6 = psVar6 + 2;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar2 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)psVar5 = (char)*psVar10;
+      for (uVar2 = (int)psVar8 - (int)psVar4 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)psVar6 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
-        psVar5 = (short *)((int)psVar5 + 1);
+        psVar6 = (short *)((int)psVar6 + 1);
       }
       local_210 = 0;
-      local_214 = (uint8_t  [4])psVar2;
-      psVar5 = (short *)D2Lang_10003(0x2b43);
-      psVar8 = psVar5;
+      local_214 = (uint8_t  [4])psVar4;
+      psVar6 = (short *)D2Lang_10003(0x2b43);
+      psVar8 = psVar6;
       do {
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
@@ -6447,13 +6444,13 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         psVar10 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar10 != 0);
-      psVar10 = psVar5;
-      for (uVar7 = (uint)((int)psVar8 - (int)psVar5) >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      psVar10 = psVar6;
+      for (uVar2 = (uint)((int)psVar8 - (int)psVar6) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
         *puVar11 = *(uint32_t *)psVar10;
         psVar10 = psVar10 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = (int)psVar8 - (int)psVar5 & 3; psVar8 = psVar3, uVar7 != 0; uVar7 = uVar7 - 1) {
+      for (uVar2 = (int)psVar8 - (int)psVar6 & 3; psVar8 = psVar5, uVar2 != 0; uVar2 = uVar2 - 1) {
         *(char *)puVar11 = (char)*psVar10;
         psVar10 = (short *)((int)psVar10 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
@@ -6462,64 +6459,64 @@ void __fastcall client_DrawHoverItem_1021e690(int param_1,short *param_2)
         sVar1 = *psVar8;
         psVar8 = psVar8 + 1;
       } while (sVar1 != 0);
-      uVar7 = (int)psVar8 - (int)psVar3;
+      uVar2 = (int)psVar8 - (int)psVar5;
       puVar11 = (uint32_t *)(local_214 + 2);
       do {
         psVar8 = (short *)((int)puVar11 + 2);
         puVar11 = (uint32_t *)((int)puVar11 + 2);
       } while (*psVar8 != 0);
-      for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-        *puVar11 = *(uint32_t *)psVar3;
-        psVar3 = psVar3 + 2;
+      for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+        *puVar11 = *(uint32_t *)psVar5;
+        psVar5 = psVar5 + 2;
         puVar11 = puVar11 + 1;
       }
-      for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-        *(char *)puVar11 = (char)*psVar3;
-        psVar3 = (short *)((int)psVar3 + 1);
+      for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(char *)puVar11 = (char)*psVar5;
+        psVar5 = (short *)((int)psVar5 + 1);
         puVar11 = (uint32_t *)((int)puVar11 + 1);
       }
-      client_DrawHoverItem_1021e610(0,param_1,iVar4,param_2,(int)&local_210);
+      client_DrawHoverItem_1021e610(0,param_1,iVar3,param_2,(int)&local_210);
     }
     do {
       sVar1 = *psVar9;
       psVar9 = psVar9 + 1;
     } while (sVar1 != 0);
-    uVar7 = (int)psVar9 - (int)psVar2;
-    psVar3 = param_2 + -1;
+    uVar2 = (int)psVar9 - (int)psVar4;
+    psVar5 = param_2 + -1;
     do {
-      psVar9 = psVar3 + 1;
-      psVar3 = psVar3 + 1;
+      psVar9 = psVar5 + 1;
+      psVar5 = psVar5 + 1;
     } while (*psVar9 != 0);
-    psVar9 = psVar2;
-    for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-      *(uint32_t *)psVar3 = *(uint32_t *)psVar9;
+    psVar9 = psVar4;
+    for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      *(uint32_t *)psVar5 = *(uint32_t *)psVar9;
       psVar9 = psVar9 + 2;
-      psVar3 = psVar3 + 2;
+      psVar5 = psVar5 + 2;
     }
-    for (uVar7 = uVar7 & 3; psVar8 = psVar2, uVar7 != 0; uVar7 = uVar7 - 1) {
-      *(char *)psVar3 = (char)*psVar9;
+    for (uVar2 = uVar2 & 3; psVar8 = psVar4, uVar2 != 0; uVar2 = uVar2 - 1) {
+      *(char *)psVar5 = (char)*psVar9;
       psVar9 = (short *)((int)psVar9 + 1);
-      psVar3 = (short *)((int)psVar3 + 1);
+      psVar5 = (short *)((int)psVar5 + 1);
     }
     do {
       sVar1 = *psVar8;
       psVar8 = psVar8 + 1;
     } while (sVar1 != 0);
-    uVar7 = (int)psVar8 - (int)psVar2;
-    psVar3 = param_2 + -1;
+    uVar2 = (int)psVar8 - (int)psVar4;
+    psVar5 = param_2 + -1;
     do {
-      psVar9 = psVar3 + 1;
-      psVar3 = psVar3 + 1;
+      psVar9 = psVar5 + 1;
+      psVar5 = psVar5 + 1;
     } while (*psVar9 != 0);
-    for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-      *(uint32_t *)psVar3 = *(uint32_t *)psVar2;
-      psVar2 = psVar2 + 2;
-      psVar3 = psVar3 + 2;
+    for (uVar7 = uVar2 >> 2; uVar7 != 0; uVar7 = uVar7 - 1) {
+      *(uint32_t *)psVar5 = *(uint32_t *)psVar4;
+      psVar4 = psVar4 + 2;
+      psVar5 = psVar5 + 2;
     }
-    for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
-      *(char *)psVar3 = (char)*psVar2;
-      psVar2 = (short *)((int)psVar2 + 1);
-      psVar3 = (short *)((int)psVar3 + 1);
+    for (uVar2 = uVar2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+      *(char *)psVar5 = (char)*psVar4;
+      psVar4 = (short *)((int)psVar4 + 1);
+      psVar5 = (short *)((int)psVar5 + 1);
     }
     return;
   }
@@ -6535,20 +6532,19 @@ void __fastcall client_DrawHoverItem_1021ef70(short *param_1)
 {
   short sVar1;
   short *psVar2;
-  short *psVar3;
-  uint uVar4;
+  uint uVar3;
+  short *psVar4;
   uint uVar5;
   short *psVar6;
   short *psVar7;
   short *psVar8;
-  uint64_t uVar9;
   
   psVar2 = (short *)D2Lang_10003(0xf9e);
-  uVar9 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x35);
-  if ((int)uVar9 != 0) {
+  uVar3 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x35);
+  if (uVar3 != 0) {
     client_DrawHoverItem_1021e690(*p_D2Client_DAT_6fbcbc38,param_1);
-    psVar3 = (short *)D2Lang_10003(0x2b48);
-    psVar6 = psVar3;
+    psVar4 = (short *)D2Lang_10003(0x2b48);
+    psVar6 = psVar4;
     do {
       sVar1 = *psVar6;
       psVar6 = psVar6 + 1;
@@ -6558,13 +6554,13 @@ void __fastcall client_DrawHoverItem_1021ef70(short *param_1)
       psVar7 = psVar8 + 1;
       psVar8 = psVar8 + 1;
     } while (*psVar7 != 0);
-    psVar7 = psVar3;
-    for (uVar4 = (uint)((int)psVar6 - (int)psVar3) >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
+    psVar7 = psVar4;
+    for (uVar3 = (uint)((int)psVar6 - (int)psVar4) >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
       *(uint32_t *)psVar8 = *(uint32_t *)psVar7;
       psVar7 = psVar7 + 2;
       psVar8 = psVar8 + 2;
     }
-    for (uVar4 = (int)psVar6 - (int)psVar3 & 3; psVar6 = psVar2, uVar4 != 0; uVar4 = uVar4 - 1) {
+    for (uVar3 = (int)psVar6 - (int)psVar4 & 3; psVar6 = psVar2, uVar3 != 0; uVar3 = uVar3 - 1) {
       *(char *)psVar8 = (char)*psVar7;
       psVar7 = (short *)((int)psVar7 + 1);
       psVar8 = (short *)((int)psVar8 + 1);
@@ -6573,18 +6569,18 @@ void __fastcall client_DrawHoverItem_1021ef70(short *param_1)
       sVar1 = *psVar6;
       psVar6 = psVar6 + 1;
     } while (sVar1 != 0);
-    uVar4 = (int)psVar6 - (int)psVar2;
+    uVar3 = (int)psVar6 - (int)psVar2;
     psVar6 = param_1 + -1;
     do {
-      psVar3 = psVar6 + 1;
+      psVar4 = psVar6 + 1;
       psVar6 = psVar6 + 1;
-    } while (*psVar3 != 0);
-    for (uVar5 = uVar4 >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+    } while (*psVar4 != 0);
+    for (uVar5 = uVar3 >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
       *(uint32_t *)psVar6 = *(uint32_t *)psVar2;
       psVar2 = psVar2 + 2;
       psVar6 = psVar6 + 2;
     }
-    for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
+    for (uVar3 = uVar3 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
       *(char *)psVar6 = (char)*psVar2;
       psVar2 = (short *)((int)psVar2 + 1);
       psVar6 = (short *)((int)psVar6 + 1);
@@ -6608,13 +6604,12 @@ void __fastcall client_DrawHoverItem_1021f050(int param_1,int param_2)
   short *psVar3;
   int *piVar4;
   uint uVar5;
-  int iVar6;
-  short *psVar7;
+  uint uVar6;
+  int iVar7;
   short *psVar8;
-  uint uVar9;
+  short *psVar9;
   short *psVar10;
   uint32_t *puVar11;
-  uint64_t uVar12;
   short local_14 [6];
   uint local_8;
   uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
@@ -6635,99 +6630,98 @@ void __fastcall client_DrawHoverItem_1021f050(int param_1,int param_2)
       do {
         uVar5 = D2Common_11147(piVar4);
         if (uVar5 == 0) break;
-        uVar12 = D2Common_10744(uVar5,0x4a);
-        if ((int)uVar12 != 0) {
-          uVar12 = D2Common_10695(*(uint *)(uVar5 + 4));
-          iVar6 = *(int *)((int)uVar12 + 0xf0);
-          if ((iVar6 != 0) && (iVar6 = D2Common_10806(iVar6), iVar6 != 0)) {
+        uVar6 = D2Common_10744(uVar5,0x4a);
+        if (uVar6 != 0) {
+          iVar7 = D2Common_10695(*(uint *)(uVar5 + 4));
+          if ((*(int *)(iVar7 + 0xf0) != 0) &&
+             (iVar7 = D2Common_10806(*(int *)(iVar7 + 0xf0)), iVar7 != 0)) {
             if (!bVar2) {
               bVar2 = true;
-              psVar7 = (short *)D2Lang_10003(0x501a);
-              psVar8 = psVar7;
+              psVar8 = (short *)D2Lang_10003(0x501a);
+              psVar9 = psVar8;
               do {
-                sVar1 = *psVar8;
-                psVar8 = psVar8 + 1;
+                sVar1 = *psVar9;
+                psVar9 = psVar9 + 1;
               } while (sVar1 != 0);
               puVar11 = (uint32_t *)(param_2 + -2);
               do {
                 psVar10 = (short *)((int)puVar11 + 2);
                 puVar11 = (uint32_t *)((int)puVar11 + 2);
               } while (*psVar10 != 0);
-              psVar10 = psVar7;
-              for (uVar5 = (uint)((int)psVar8 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+              psVar10 = psVar8;
+              for (uVar5 = (uint)((int)psVar9 - (int)psVar8) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
                 *puVar11 = *(uint32_t *)psVar10;
                 psVar10 = psVar10 + 2;
                 puVar11 = puVar11 + 1;
               }
-              for (uVar5 = (int)psVar8 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+              for (uVar5 = (int)psVar9 - (int)psVar8 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
                 *(char *)puVar11 = (char)*psVar10;
                 psVar10 = (short *)((int)psVar10 + 1);
                 puVar11 = (uint32_t *)((int)puVar11 + 1);
               }
             }
             client_DrawHoverItem_10225420(local_14,&DAT_10377630);
-            psVar8 = local_14;
+            psVar9 = local_14;
             do {
-              sVar1 = *psVar8;
-              psVar8 = psVar8 + 1;
+              sVar1 = *psVar9;
+              psVar9 = psVar9 + 1;
             } while (sVar1 != 0);
-            uVar5 = (int)psVar8 - (int)local_14;
+            uVar5 = (int)psVar9 - (int)local_14;
             puVar11 = (uint32_t *)(param_2 + -2);
             do {
-              psVar8 = (short *)((int)puVar11 + 2);
+              psVar9 = (short *)((int)puVar11 + 2);
               puVar11 = (uint32_t *)((int)puVar11 + 2);
-            } while (*psVar8 != 0);
-            psVar8 = local_14;
-            for (uVar9 = uVar5 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
-              *puVar11 = *(uint32_t *)psVar8;
-              psVar8 = psVar8 + 2;
+            } while (*psVar9 != 0);
+            psVar9 = local_14;
+            for (uVar6 = uVar5 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+              *puVar11 = *(uint32_t *)psVar9;
+              psVar9 = psVar9 + 2;
               puVar11 = puVar11 + 1;
             }
             for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-              *(char *)puVar11 = (char)*psVar8;
-              psVar8 = (short *)((int)psVar8 + 1);
+              *(char *)puVar11 = (char)*psVar9;
+              psVar9 = (short *)((int)psVar9 + 1);
               puVar11 = (uint32_t *)((int)puVar11 + 1);
             }
           }
         }
-        uVar12 = D2Common_10464(piVar4);
-        piVar4 = (int *)uVar12;
+        piVar4 = (int *)D2Common_10464(piVar4);
       } while (piVar4 != (int *)0x0);
       if (bVar2) {
         client_DrawHoverItem_10225420(local_14,&DAT_10377630);
-        psVar8 = local_14;
+        psVar9 = local_14;
+        do {
+          sVar1 = *psVar9;
+          psVar9 = psVar9 + 1;
+        } while (sVar1 != 0);
+        uVar5 = (int)psVar9 - (int)local_14;
+        puVar11 = (uint32_t *)(param_2 + -2);
+        do {
+          psVar9 = (short *)((int)puVar11 + 2);
+          puVar11 = (uint32_t *)((int)puVar11 + 2);
+        } while (*psVar9 != 0);
+        psVar9 = local_14;
+        for (uVar6 = uVar5 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+          *puVar11 = *(uint32_t *)psVar9;
+          psVar9 = psVar9 + 2;
+          puVar11 = puVar11 + 1;
+        }
+        for (uVar5 = uVar5 & 3; psVar8 = psVar3, uVar5 != 0; uVar5 = uVar5 - 1) {
+          *(char *)puVar11 = (char)*psVar9;
+          psVar9 = (short *)((int)psVar9 + 1);
+          puVar11 = (uint32_t *)((int)puVar11 + 1);
+        }
         do {
           sVar1 = *psVar8;
           psVar8 = psVar8 + 1;
         } while (sVar1 != 0);
-        uVar5 = (int)psVar8 - (int)local_14;
+        uVar5 = (int)psVar8 - (int)psVar3;
         puVar11 = (uint32_t *)(param_2 + -2);
         do {
-          psVar8 = (short *)((int)puVar11 + 2);
+          psVar9 = (short *)((int)puVar11 + 2);
           puVar11 = (uint32_t *)((int)puVar11 + 2);
-        } while (*psVar8 != 0);
-        psVar8 = local_14;
-        for (uVar9 = uVar5 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
-          *puVar11 = *(uint32_t *)psVar8;
-          psVar8 = psVar8 + 2;
-          puVar11 = puVar11 + 1;
-        }
-        for (uVar5 = uVar5 & 3; psVar7 = psVar3, uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar11 = (char)*psVar8;
-          psVar8 = (short *)((int)psVar8 + 1);
-          puVar11 = (uint32_t *)((int)puVar11 + 1);
-        }
-        do {
-          sVar1 = *psVar7;
-          psVar7 = psVar7 + 1;
-        } while (sVar1 != 0);
-        uVar5 = (int)psVar7 - (int)psVar3;
-        puVar11 = (uint32_t *)(param_2 + -2);
-        do {
-          psVar8 = (short *)((int)puVar11 + 2);
-          puVar11 = (uint32_t *)((int)puVar11 + 2);
-        } while (*psVar8 != 0);
-        for (uVar9 = uVar5 >> 2; uVar9 != 0; uVar9 = uVar9 - 1) {
+        } while (*psVar9 != 0);
+        for (uVar6 = uVar5 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
           *puVar11 = *(uint32_t *)psVar3;
           psVar3 = psVar3 + 2;
           puVar11 = puVar11 + 1;
@@ -6976,14 +6970,13 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
   int *reg_ECX;
   short *psVar2;
   short *psVar3;
-  int iVar4;
-  uint uVar5;
+  uint uVar4;
+  int iVar5;
   short *psVar6;
   short *psVar7;
   uint uVar8;
   short *psVar9;
   uint32_t *puVar10;
-  uint64_t uVar11;
   short local_1c [10];
   uint local_8;
   uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
@@ -7001,49 +6994,49 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
   local_1c[7] = 0;
   psVar2 = (short *)D2Lang_10003(0xf9b);
   psVar3 = (short *)D2Lang_10003(0xf9e);
-  uVar11 = D2Common_10744(reg_EDX,0x33);
+  uVar4 = D2Common_10744(reg_EDX,0x33);
   reg_ECX = (int *)*p_D2Client_DAT_6fbcbbfc;
-  if ((int)uVar11 == 0) {
-    uVar11 = D2Common_10744(reg_EDX,0xf);
-    if ((int)uVar11 == 0) {
+  if (uVar4 == 0) {
+    uVar4 = D2Common_10744(reg_EDX,0xf);
+    if (uVar4 == 0) {
       return;
     }
-    uVar5 = 0x5516;
+    uVar4 = 0x5516;
   }
   else {
-    iVar4 = D2Common_10630((uint)reg_ECX,0x75);
-    if ((iVar4 != 0) && (uVar11 = D2Common_10494_10277e30(reg_ECX,0x65), (int)uVar11 != 0)) {
-      uVar5 = D2Common_10306((int)reg_ECX,iVar4,1);
-      D2Common_10567(reg_ECX,0x75,uVar5,1);
-      D2Common_10297(reg_ECX,0x75,uVar5,1);
+    iVar5 = D2Common_10630((uint)reg_ECX,0x75);
+    if ((iVar5 != 0) && (uVar4 = D2Common_10494_10277e30(reg_ECX,0x65), uVar4 != 0)) {
+      uVar4 = D2Common_10306((int)reg_ECX,iVar5,1);
+      D2Common_10567(reg_ECX,0x75,uVar4,1);
+      D2Common_10297(reg_ECX,0x75,uVar4,1);
     }
-    uVar5 = 0xd8c;
+    uVar4 = 0xd8c;
   }
-  psVar6 = (short *)D2Lang_10003(uVar5);
-  iVar4 = param_1 - (int)psVar6;
+  psVar6 = (short *)D2Lang_10003(uVar4);
+  iVar5 = param_1 - (int)psVar6;
   do {
     sVar1 = *psVar6;
     psVar6 = psVar6 + 1;
-    *(short *)(iVar4 + -2 + (int)psVar6) = sVar1;
+    *(short *)(iVar5 + -2 + (int)psVar6) = sVar1;
     psVar7 = psVar2;
   } while (sVar1 != 0);
   do {
     sVar1 = *psVar7;
     psVar7 = psVar7 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar7 - (int)psVar2;
+  uVar4 = (int)psVar7 - (int)psVar2;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar6 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar6 != 0);
   psVar6 = psVar2;
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar6;
     psVar6 = psVar6 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar6;
     psVar6 = (short *)((int)psVar6 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7054,19 +7047,19 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     sVar1 = *psVar6;
     psVar6 = psVar6 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar6 - (int)local_1c;
+  uVar4 = (int)psVar6 - (int)local_1c;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar6 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar6 != 0);
   psVar6 = local_1c;
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar6;
     psVar6 = psVar6 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; psVar7 = psVar2, uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; psVar7 = psVar2, uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar6;
     psVar6 = (short *)((int)psVar6 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7075,19 +7068,19 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     sVar1 = *psVar7;
     psVar7 = psVar7 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar7 - (int)psVar2;
+  uVar4 = (int)psVar7 - (int)psVar2;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar6 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar6 != 0);
   psVar6 = psVar2;
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar6;
     psVar6 = psVar6 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar6;
     psVar6 = (short *)((int)psVar6 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7104,12 +7097,12 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar9 != 0);
   psVar9 = psVar7;
-  for (uVar5 = (uint)((int)psVar6 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = (uint)((int)psVar6 - (int)psVar7) >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
     *puVar10 = *(uint32_t *)psVar9;
     psVar9 = psVar9 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = (int)psVar6 - (int)psVar7 & 3; psVar6 = psVar2, uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = (int)psVar6 - (int)psVar7 & 3; psVar6 = psVar2, uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar9;
     psVar9 = (short *)((int)psVar9 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7118,18 +7111,18 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     sVar1 = *psVar6;
     psVar6 = psVar6 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar6 - (int)psVar2;
+  uVar4 = (int)psVar6 - (int)psVar2;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar6 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar6 != 0);
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar2;
     psVar2 = psVar2 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar2;
     psVar2 = (short *)((int)psVar2 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7140,19 +7133,19 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     sVar1 = *psVar2;
     psVar2 = psVar2 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar2 - (int)local_1c;
+  uVar4 = (int)psVar2 - (int)local_1c;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar2 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar2 != 0);
   psVar2 = local_1c;
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar2;
     psVar2 = psVar2 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; psVar6 = psVar3, uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; psVar6 = psVar3, uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar2;
     psVar2 = (short *)((int)psVar2 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7161,18 +7154,18 @@ void __fastcall client_DrawHoverItem_1021f4c0(int param_1,int reg_EDX)
     sVar1 = *psVar6;
     psVar6 = psVar6 + 1;
   } while (sVar1 != 0);
-  uVar5 = (int)psVar6 - (int)psVar3;
+  uVar4 = (int)psVar6 - (int)psVar3;
   puVar10 = (uint32_t *)(param_1 + -2);
   do {
     psVar2 = (short *)((int)puVar10 + 2);
     puVar10 = (uint32_t *)((int)puVar10 + 2);
   } while (*psVar2 != 0);
-  for (uVar8 = uVar5 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
+  for (uVar8 = uVar4 >> 2; uVar8 != 0; uVar8 = uVar8 - 1) {
     *puVar10 = *(uint32_t *)psVar3;
     psVar3 = psVar3 + 2;
     puVar10 = puVar10 + 1;
   }
-  for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+  for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
     *(char *)puVar10 = (char)*psVar3;
     psVar3 = (short *)((int)psVar3 + 1);
     puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7196,7 +7189,6 @@ void __fastcall client_DrawHoverItem_1021f770(int param_1,int param_2,int param_
   short *psVar6;
   uint uVar7;
   uint32_t *puVar8;
-  uint64_t uVar9;
   int local_24c;
   short local_248 [256];
   short local_48 [32];
@@ -7221,7 +7213,7 @@ void __fastcall client_DrawHoverItem_1021f770(int param_1,int param_2,int param_
     }
     iVar2 = local_24c + (uint)*(byte *)(iVar2 + 0x49);
     iVar3 = D2Common_10630((uint)reg_ECX,0x75);
-    if ((iVar3 != 0) && (uVar9 = D2Common_10494_10277e30(reg_ECX,0x65), (int)uVar9 != 0)) {
+    if ((iVar3 != 0) && (uVar4 = D2Common_10494_10277e30(reg_ECX,0x65), uVar4 != 0)) {
       uVar4 = D2Common_10306((int)reg_ECX,iVar3,1);
       iVar3 = D2Common_10832(uVar4,0x75);
       iVar2 = iVar2 + iVar3;
@@ -7693,7 +7685,7 @@ void client_DrawHoverItem_Wraps_D2Client_UI_inv_1021ffc0(void *reg_ECX,int *reg_
   uint uVar2;
   void *pvVar3;
   uint uVar4;
-  uint64_t uVar5;
+  int iVar5;
   uint8_t local_44 [28];
   uint32_t local_28;
   uint32_t uStack_24;
@@ -7736,8 +7728,8 @@ void client_DrawHoverItem_Wraps_D2Client_UI_inv_1021ffc0(void *reg_ECX,int *reg_
     pvVar3 = (void *)D2Lang_10003(0xd7d);
     Unicode_strcat(reg_ECX,pvVar3);
     D2Common_10366(reg_EDX);
-    uVar5 = D2Common_10973((int)reg_EDX,0x168,0);
-    if ((int)uVar5 == 0x20) {
+    iVar5 = D2Common_10973((int)reg_EDX,0x168,0);
+    if (iVar5 == 0x20) {
       client_DrawHoverItem_10225460(local_44,L" (%i)%s1*%s3");
       Unicode_strcat(reg_ECX,local_44);
     }
@@ -7758,9 +7750,9 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
 
 {
   short sVar1;
-  short *psVar2;
-  uint uVar3;
-  int iVar4;
+  int iVar2;
+  short *psVar3;
+  uint uVar4;
   short *psVar5;
   uint16_t extraout_var;
   uint unused_ECX;
@@ -7770,8 +7762,7 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
   uint uVar8;
   short *psVar9;
   uint32_t *puVar10;
-  uint64_t uVar11;
-  ulonglong uVar12;
+  ulonglong uVar11;
   short local_21c;
   uint8_t local_21a [252];
   uint32_t uStack_11e;
@@ -7783,12 +7774,11 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   *p_D2Client_DAT_6fb8bc58 = *p_D2Client_DAT_6fb8bc58 - 0x10;
   if (param_1 != 0) {
-    uVar11 = D2Common_10695(*(uint *)(param_1 + 4));
-    iVar4 = (int)uVar11;
-    psVar2 = (short *)D2Lang_10003(CONCAT22(extraout_var,*(uint16_t *)(iVar4 + 0xf4)));
+    iVar2 = D2Common_10695(*(uint *)(param_1 + 4));
+    psVar3 = (short *)D2Lang_10003(CONCAT22(extraout_var,*(uint16_t *)(iVar2 + 0xf4)));
     uVar8 = 0;
-    uVar12 = D2Common_10106(unused_ECX,reg_EDX,(int *)param_1);
-    switch((int)uVar12) {
+    uVar11 = D2Common_10106(unused_ECX,reg_EDX,(int *)param_1);
+    switch((int)uVar11) {
     case 4:
       uVar8 = 3;
       break;
@@ -7808,28 +7798,28 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
       uVar8 = 10;
       break;
     default:
-      uVar3 = D2Common_10202((int *)param_1,0x800,0x5aa,"..\\Source\\D2Client\\UI\\ui.cpp");
-      if ((uVar3 != 0) ||
-         (uVar3 = D2Common_10202((int *)param_1,0x400000,0x5ae,"..\\Source\\D2Client\\UI\\ui.cpp"),
-         uVar3 != 0)) {
+      uVar4 = D2Common_10202((int *)param_1,0x800,0x5aa,"..\\Source\\D2Client\\UI\\ui.cpp");
+      if ((uVar4 != 0) ||
+         (uVar4 = D2Common_10202((int *)param_1,0x400000,0x5ae,"..\\Source\\D2Client\\UI\\ui.cpp"),
+         uVar4 != 0)) {
         uVar8 = 5;
       }
     }
-    if ((*(char *)(iVar4 + 0x12a) != '\0') && (*(int *)(iVar4 + 0x80) != 0x2067656c)) {
+    if ((*(char *)(iVar2 + 0x12a) != '\0') && (*(int *)(iVar2 + 0x80) != 0x2067656c)) {
       uVar8 = 4;
     }
-    iVar4 = *(int *)(iVar4 + 0x80);
-    if (((((iVar4 == 0x20686563) || (iVar4 == 0x20746562)) || (iVar4 == 0x20736574)) ||
-        ((((iVar4 == 0x20646566 || (iVar4 == 0x20616f74)) ||
-          ((iVar4 == 0x206e6864 || ((iVar4 == 0x20796562 || (iVar4 == 0x2072626d)))))) ||
-         (iVar4 == 0x20316b70)))) ||
-       (((iVar4 == 0x20326b70 || (iVar4 == 0x20336b70)) ||
-        (uVar11 = D2Common_10744(param_1,0x4a), (int)uVar11 != 0)))) {
+    iVar2 = *(int *)(iVar2 + 0x80);
+    if (((((iVar2 == 0x20686563) || (iVar2 == 0x20746562)) || (iVar2 == 0x20736574)) ||
+        ((((iVar2 == 0x20646566 || (iVar2 == 0x20616f74)) ||
+          ((iVar2 == 0x206e6864 || ((iVar2 == 0x20796562 || (iVar2 == 0x2072626d)))))) ||
+         (iVar2 == 0x20316b70)))) ||
+       (((iVar2 == 0x20326b70 || (iVar2 == 0x20336b70)) ||
+        (uVar4 = D2Common_10744(param_1,0x4a), uVar4 != 0)))) {
       uVar8 = 8;
     }
     memset((void *)((int)&uStack_11e + 2),0,0x100);
-    iVar4 = D2Common_11088((int *)param_1);
-    if (iVar4 == 4) {
+    iVar2 = D2Common_11088((int *)param_1);
+    if (iVar2 == 4) {
       D2Common_10973_10273ce0(param_1,0xe,0);
       local_1c[8] = 0;
       local_1c[9] = 0;
@@ -7842,11 +7832,11 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
       local_1c[6] = 0;
       local_1c[7] = 0;
       sub_1021cbb0(local_1c,&DAT_103775a4);
-      iVar4 = 0;
+      iVar2 = 0;
       do {
-        sVar1 = *(short *)((int)local_1c + iVar4);
-        *(short *)(local_11a + iVar4 + -2) = sVar1;
-        iVar4 = iVar4 + 2;
+        sVar1 = *(short *)((int)local_1c + iVar2);
+        *(short *)(local_11a + iVar2 + -2) = sVar1;
+        iVar2 = iVar2 + 2;
       } while (sVar1 != 0);
       psVar5 = (short *)D2Lang_10003(0xf9b);
       psVar7 = psVar5;
@@ -7860,12 +7850,12 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
         puVar10 = (uint32_t *)((int)puVar10 + 2);
       } while (*psVar9 != 0);
       psVar9 = psVar5;
-      for (uVar3 = (uint)((int)psVar7 - (int)psVar5) >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
+      for (uVar4 = (uint)((int)psVar7 - (int)psVar5) >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
         *puVar10 = *(uint32_t *)psVar9;
         psVar9 = psVar9 + 2;
         puVar10 = puVar10 + 1;
       }
-      for (uVar3 = (int)psVar7 - (int)psVar5 & 3; psVar7 = psVar2, uVar3 != 0; uVar3 = uVar3 - 1) {
+      for (uVar4 = (int)psVar7 - (int)psVar5 & 3; psVar7 = psVar3, uVar4 != 0; uVar4 = uVar4 - 1) {
         *(char *)puVar10 = (char)*psVar9;
         psVar9 = (short *)((int)psVar9 + 1);
         puVar10 = (uint32_t *)((int)puVar10 + 1);
@@ -7874,45 +7864,45 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
         sVar1 = *psVar7;
         psVar7 = psVar7 + 1;
       } while (sVar1 != 0);
-      uVar3 = (int)psVar7 - (int)psVar2;
+      uVar4 = (int)psVar7 - (int)psVar3;
       puVar10 = &uStack_11e;
       do {
         psVar7 = (short *)((int)puVar10 + 2);
         puVar10 = (uint32_t *)((int)puVar10 + 2);
       } while (*psVar7 != 0);
-      for (uVar6 = uVar3 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
-        *puVar10 = *(uint32_t *)psVar2;
-        psVar2 = psVar2 + 2;
+      for (uVar6 = uVar4 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+        *puVar10 = *(uint32_t *)psVar3;
+        psVar3 = psVar3 + 2;
         puVar10 = puVar10 + 1;
       }
-      for (uVar3 = uVar3 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-        *(char *)puVar10 = (char)*psVar2;
-        psVar2 = (short *)((int)psVar2 + 1);
+      for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
+        *(char *)puVar10 = (char)*psVar3;
+        psVar3 = (short *)((int)psVar3 + 1);
         puVar10 = (uint32_t *)((int)puVar10 + 1);
       }
       if (param_2 != 0) {
         sub_102f0c70((int)&uStack_11e + 2,uVar8);
-        psVar2 = (short *)((int)&uStack_11e + 2);
+        psVar3 = (short *)((int)&uStack_11e + 2);
         do {
-          sVar1 = *psVar2;
-          psVar2 = psVar2 + 1;
+          sVar1 = *psVar3;
+          psVar3 = psVar3 + 1;
         } while (sVar1 != 0);
-        if (param_3 <= (int)psVar2 - (int)local_11a >> 1) {
+        if (param_3 <= (int)psVar3 - (int)local_11a >> 1) {
           Fog_10024("","D2CLIENT_DrawHoverItemGround_INTERCEPT",0x5e0);
                     /* WARNING: Subroutine does not return */
           _exit(-1);
         }
-        psVar2 = (short *)((int)&uStack_11e + 2);
-        iVar4 = param_2 - (int)psVar2;
+        psVar3 = (short *)((int)&uStack_11e + 2);
+        iVar2 = param_2 - (int)psVar3;
         do {
-          sVar1 = *psVar2;
-          psVar2 = psVar2 + 1;
-          *(short *)(iVar4 + -2 + (int)psVar2) = sVar1;
+          sVar1 = *psVar3;
+          psVar3 = psVar3 + 1;
+          *(short *)(iVar2 + -2 + (int)psVar3) = sVar1;
         } while (sVar1 != 0);
         return;
       }
-      psVar2 = (short *)((int)&uStack_11e + 2);
-      uVar3 = *p_D2Client_DAT_6fb8bc58;
+      psVar3 = (short *)((int)&uStack_11e + 2);
+      uVar4 = *p_D2Client_DAT_6fb8bc58;
       uVar6 = *p_D2Client_DAT_6fb8bc54;
     }
     else {
@@ -7920,30 +7910,30 @@ void client_DrawHoverItem_Wraps_D2Client_UI_ui_102200f0(int param_1,int param_2,
       UI_inv_6fb414f0((void *)param_1,(int)&local_21c,0x80);
       if (param_2 != 0) {
         sub_102f0c70(&local_21c,uVar8);
-        psVar2 = &local_21c;
+        psVar3 = &local_21c;
         do {
-          sVar1 = *psVar2;
-          psVar2 = psVar2 + 1;
+          sVar1 = *psVar3;
+          psVar3 = psVar3 + 1;
         } while (sVar1 != 0);
-        if (param_3 <= (int)psVar2 - (int)local_21a >> 1) {
+        if (param_3 <= (int)psVar3 - (int)local_21a >> 1) {
           Fog_10024("","D2CLIENT_DrawHoverItemGround_INTERCEPT",0x5eb);
                     /* WARNING: Subroutine does not return */
           _exit(-1);
         }
-        psVar2 = &local_21c;
-        iVar4 = param_2 - (int)psVar2;
+        psVar3 = &local_21c;
+        iVar2 = param_2 - (int)psVar3;
         do {
-          sVar1 = *psVar2;
-          psVar2 = psVar2 + 1;
-          *(short *)(iVar4 + -2 + (int)psVar2) = sVar1;
+          sVar1 = *psVar3;
+          psVar3 = psVar3 + 1;
+          *(short *)(iVar2 + -2 + (int)psVar3) = sVar1;
         } while (sVar1 != 0);
         return;
       }
-      psVar2 = &local_21c;
-      uVar3 = *p_D2Client_DAT_6fb8bc58;
+      psVar3 = &local_21c;
+      uVar4 = *p_D2Client_DAT_6fb8bc58;
       uVar6 = *p_D2Client_DAT_6fb8bc54;
     }
-    D2Win_10085(psVar2,uVar6,uVar3,uVar8,1);
+    D2Win_10085(psVar3,uVar6,uVar4,uVar8,1);
   }
   return;
 }
@@ -7966,8 +7956,7 @@ void client_DrawHoverItem_102204c0(uint32_t reg_EDI)
   uint reg_EDX;
   short *psVar7;
   uint32_t *puVar8;
-  uint64_t uVar9;
-  ulonglong uVar10;
+  ulonglong uVar9;
   short local_68c [64];
   uint8_t local_60c [4];
   uint8_t local_608 [510];
@@ -7981,7 +7970,7 @@ void client_DrawHoverItem_102204c0(uint32_t reg_EDI)
   memset(local_108,0,0x100);
   memset((void *)((int)&uStack_40a + 2),0,0x300);
   if ((((*p_D2Client_DAT_6fbcc468 != 0) && (*p_D2Client_DAT_6fbcc47c != 0)) &&
-      (uVar9 = D2Common_11017(*(int **)(*p_D2Client_DAT_6fbcbbfc + 0x60)), (int)uVar9 == 0)) &&
+      (iVar2 = D2Common_11017(*(int **)(*p_D2Client_DAT_6fbcbbfc + 0x60)), iVar2 == 0)) &&
      (((*p_D2Client_DAT_6fba538c < 4 || (*p_D2Client_DAT_6fbcc46c != 0)) || (*p_D2Client_DAT_6fbcc470 != 0)))) {
     if (*p_D2Client_DAT_6fbcc47c == 0) {
       uVar5 = 0xffffffff;
@@ -7989,15 +7978,15 @@ void client_DrawHoverItem_102204c0(uint32_t reg_EDI)
     else {
       uVar5 = *(uint *)(*p_D2Client_DAT_6fbcc47c + 4);
     }
-    uVar9 = D2Common_10695(uVar5);
-    if ((int)uVar9 == 0) {
+    iVar2 = D2Common_10695(uVar5);
+    if (iVar2 == 0) {
       Fog_10024("","D2CLIENT_DrawHoverItemBelt_INTERCEPT",0x61d);
                     /* WARNING: Subroutine does not return */
       _exit(-1);
     }
     UI_inv_6fb414f0((void *)*p_D2Client_DAT_6fbcc47c,(int)local_108,0x80);
-    uVar10 = D2Common_10106(unused_ECX,reg_EDX,(int *)*p_D2Client_DAT_6fbcc47c);
-    if ((int)uVar10 != 3) {
+    uVar9 = D2Common_10106(unused_ECX,reg_EDX,(int *)*p_D2Client_DAT_6fbcc47c);
+    if ((int)uVar9 != 3) {
       client_DrawHoverItem_102246b0(local_608,*p_D2Client_DAT_6fbcc47c,1,0,reg_EDI);
     }
     psVar3 = (short *)sub_102f0c70(local_608,3);
@@ -8210,8 +8199,7 @@ void __fastcall client_DrawHoverItem_10220830(short *param_1,int *param_2)
   }
   if ((uVar11 & 0x20000000) == 0) {
     if (cVar13 == '\0') {
-      uVar14 = D2Common_10695(param_2[1]);
-      iVar5 = (int)uVar14;
+      iVar5 = D2Common_10695(param_2[1]);
       local_2173 = '\0';
       if (iVar5 != 0) {
         local_2173 = *(int *)(iVar5 + 0x94) != 0;
@@ -8414,7 +8402,6 @@ void client_DrawHoverItem_10221040(void)
   uint *puVar8;
   short *psVar9;
   uint32_t *puVar10;
-  uint64_t uVar11;
   int local_1114;
   uint local_1110;
   short local_110c [1023];
@@ -8440,8 +8427,8 @@ void client_DrawHoverItem_10221040(void)
     else {
       uVar5 = *(uint *)(*p_D2Client_DAT_6fbcbc38 + 4);
     }
-    uVar11 = D2Common_10695(uVar5);
-    if ((int)uVar11 != 0) {
+    iVar3 = D2Common_10695(uVar5);
+    if (iVar3 != 0) {
       client_DrawHoverItem_1021e290((int)&uStack_90e + 2,*p_D2Client_DAT_6fbcbc38);
       if (*p_D2Client_DAT_6fbcbc34 == 0) {
         psVar4 = (short *)D2Lang_10003(0x89b);
@@ -8603,24 +8590,24 @@ void __fastcall client_DrawHoverItem_Wraps_D2Client_UI_inv_10221380(int *param_1
   short *psVar4;
   uint uVar5;
   int iVar6;
-  short *psVar7;
-  int iVar8;
+  int iVar7;
+  short *psVar8;
   int iVar9;
-  uint32_t uVar10;
-  int iVar11;
-  void *pvVar12;
+  int iVar10;
+  uint uVar11;
+  uint32_t uVar12;
   void *pvVar13;
-  short *psVar14;
+  void *pvVar14;
   short *psVar15;
+  short *psVar16;
   uint16_t extraout_var;
-  uint uVar16;
   uint uVar17;
+  uint uVar18;
+  uint uVar19;
   uint32_t extraout_ECX;
   void *this;
-  short *psVar18;
-  uint32_t *puVar19;
-  uint64_t uVar20;
-  uint64_t uVar21;
+  short *psVar20;
+  uint32_t *puVar21;
   uint64_t uVar22;
   uint local_52c4;
   uint local_52c0;
@@ -8692,767 +8679,766 @@ void __fastcall client_DrawHoverItem_Wraps_D2Client_UI_inv_10221380(int *param_1
       local_52a4 = (int *)*p_D2Client_DAT_6fbcbbfc;
     }
     if ((((*p_D2Client_DAT_6fbcbc2c != 0) || (*p_D2Client_DAT_6fbcbc28 != 0)) && (*p_D2Client_DAT_6fbcbc38 != 0)) &&
-       (uVar20 = D2Common_11017((int *)param_1[0x18]), (int)uVar20 == 0)) {
+       (iVar6 = D2Common_11017((int *)param_1[0x18]), iVar6 == 0)) {
       if (*p_D2Client_DAT_6fbcbc38 == 0) {
         uVar5 = 0xffffffff;
       }
       else {
         uVar5 = *(uint *)(*p_D2Client_DAT_6fbcbc38 + 4);
       }
-      uVar20 = D2Common_10695(uVar5);
-      iVar11 = (int)uVar20;
-      if (iVar11 == 0) {
+      iVar6 = D2Common_10695(uVar5);
+      if (iVar6 == 0) {
         Fog_10024("","D2CLIENT_DrawHoverSetItemDetails",0x6de);
                     /* WARNING: Subroutine does not return */
         _exit(-1);
       }
-      iVar8 = *p_D2Common_DAT_6fde9e1c_10279cd0;
+      iVar9 = *p_D2Common_DAT_6fde9e1c_10279cd0;
       uVar5 = D2Common_10620((int *)*p_D2Client_DAT_6fbcbc38);
-      if (((-1 < (int)uVar5) && (uVar5 < *(uint *)(iVar8 + 0xc1c))) &&
-         ((iVar6 = uVar5 * 0x1b8 + *(int *)(iVar8 + 0xc18), iVar6 != 0 &&
-          ((uVar5 = (uint)*(ushort *)(iVar6 + 0x2c), uVar5 < *(uint *)(iVar8 + 0xc10) &&
-           (local_52a8 = uVar5 * 0x128 + *(int *)(iVar8 + 0xc0c), local_52a8 != 0)))))) {
-        psVar7 = (short *)D2Lang_10003(CONCAT22(extraout_var,*(uint16_t *)(local_52a8 + 2)));
+      if (((-1 < (int)uVar5) && (uVar5 < *(uint *)(iVar9 + 0xc1c))) &&
+         ((iVar7 = uVar5 * 0x1b8 + *(int *)(iVar9 + 0xc18), iVar7 != 0 &&
+          ((uVar5 = (uint)*(ushort *)(iVar7 + 0x2c), uVar5 < *(uint *)(iVar9 + 0xc10) &&
+           (local_52a8 = uVar5 * 0x128 + *(int *)(iVar9 + 0xc0c), local_52a8 != 0)))))) {
+        psVar8 = (short *)D2Lang_10003(CONCAT22(extraout_var,*(uint16_t *)(local_52a8 + 2)));
         piVar3 = local_52a4;
-        psVar15 = psVar7;
+        psVar16 = psVar8;
+        do {
+          sVar1 = *psVar16;
+          *(short *)((int)psVar16 + (int)&uStack_48e + (2 - (int)psVar8)) = sVar1;
+          psVar16 = psVar16 + 1;
+          psVar15 = psVar4;
+        } while (sVar1 != 0);
         do {
           sVar1 = *psVar15;
-          *(short *)((int)psVar15 + (int)&uStack_48e + (2 - (int)psVar7)) = sVar1;
           psVar15 = psVar15 + 1;
-          psVar14 = psVar4;
         } while (sVar1 != 0);
+        uVar5 = (int)psVar15 - (int)psVar4;
+        puVar21 = &uStack_48e;
         do {
-          sVar1 = *psVar14;
-          psVar14 = psVar14 + 1;
-        } while (sVar1 != 0);
-        uVar5 = (int)psVar14 - (int)psVar4;
-        puVar19 = &uStack_48e;
-        do {
-          psVar15 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar15 != 0);
-        psVar15 = psVar4;
-        for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-          *puVar19 = *(uint32_t *)psVar15;
-          psVar15 = psVar15 + 2;
-          puVar19 = puVar19 + 1;
+          psVar16 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar16 != 0);
+        psVar16 = psVar4;
+        for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+          *puVar21 = *(uint32_t *)psVar16;
+          psVar16 = psVar16 + 2;
+          puVar21 = puVar21 + 1;
         }
         for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar15;
-          psVar15 = (short *)((int)psVar15 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+          *(char *)puVar21 = (char)*psVar16;
+          psVar16 = (short *)((int)psVar16 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
         local_5298 = 0;
         local_5294 = 0;
         local_529c = 0;
         D2Common_10244((int *)*p_D2Client_DAT_6fbcbc38,local_52a4,0,&local_5298,&local_5294,&local_529c);
         client_DrawHoverItem_1021dec0((int)local_208c,*p_D2Client_DAT_6fbcbc38);
-        iVar8 = D2Common_11015((int *)*p_D2Client_DAT_6fbcbc38,piVar3);
-        if (1 < iVar8) {
+        iVar9 = D2Common_11015((int *)*p_D2Client_DAT_6fbcbc38,piVar3);
+        if (1 < iVar9) {
           local_52c4 = (uint)(local_529c == 0);
           client_DrawHoverItem_1021e3d0((int)local_268c);
         }
-        iVar8 = 0;
-        iVar6 = 0;
-        uVar20 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x2d);
-        uVar21 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x32);
-        if (((int)uVar20 != 0) || ((int)uVar21 != 0)) {
-          iVar9 = D2Common_10910(*p_D2Client_DAT_6fbcbc38,0x5b,0);
-          if (iVar9 != 0) {
-            uVar22 = functions_HelperFunctions_102ce840(iVar9,100);
-            iVar8 = (int)uVar22;
-            uVar22 = functions_HelperFunctions_102ce840(iVar9,(uint)((ulonglong)uVar22 >> 0x20));
-            iVar6 = (int)uVar22;
+        iVar9 = 0;
+        iVar7 = 0;
+        uVar5 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x2d);
+        uVar17 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x32);
+        if ((uVar5 != 0) || (uVar17 != 0)) {
+          iVar10 = D2Common_10910(*p_D2Client_DAT_6fbcbc38,0x5b,0);
+          if (iVar10 != 0) {
+            uVar22 = functions_HelperFunctions_102ce840(iVar10,100);
+            iVar9 = (int)uVar22;
+            uVar22 = functions_HelperFunctions_102ce840(iVar10,(uint)((ulonglong)uVar22 >> 0x20));
+            iVar7 = (int)uVar22;
           }
-          uVar5 = D2Common_10202((int *)*p_D2Client_DAT_6fbcbc38,0x400000,0x71f,
-                                 "..\\Source\\D2Client\\UI\\inv.cpp");
-          if (uVar5 != 0) {
-            iVar8 = iVar8 + -10;
-            iVar6 = iVar6 + -10;
+          uVar11 = D2Common_10202((int *)*p_D2Client_DAT_6fbcbc38,0x400000,0x71f,
+                                  "..\\Source\\D2Client\\UI\\inv.cpp");
+          if (uVar11 != 0) {
+            iVar9 = iVar9 + -10;
+            iVar7 = iVar7 + -10;
           }
-          if (*(short *)(iVar11 + 0x10a) != 0) {
+          if (*(short *)(iVar6 + 0x10a) != 0) {
             local_52c0 = (uint)(local_5298 == 0);
-            client_DrawHoverItem_1021f370(local_248c,iVar11,iVar8);
+            client_DrawHoverItem_1021f370(local_248c,iVar6,iVar9);
           }
-          if (*(short *)(iVar11 + 0x10c) != 0) {
+          if (*(short *)(iVar6 + 0x10c) != 0) {
             local_52b0 = (int *)(uint)(local_5294 == 0);
-            client_DrawHoverItem_1021f220(local_228c,iVar11,iVar6);
+            client_DrawHoverItem_1021f220(local_228c,iVar6,iVar7);
           }
         }
-        psVar7 = (short *)sub_102f0c70(local_268c,local_52c4);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70(local_268c,local_52c4);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = (uint32_t *)auStack_168e;
+        puVar21 = (uint32_t *)auStack_168e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar15 != 0);
+        psVar15 = psVar8;
+        for (uVar11 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
+          psVar15 = psVar15 + 2;
+          puVar21 = puVar21 + 1;
         }
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+        for (uVar11 = (int)psVar16 - (int)psVar8 & 3; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
+          psVar15 = (short *)((int)psVar15 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        psVar7 = (short *)sub_102f0c70(local_248c,local_52c0);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70(local_248c,local_52c0);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = (uint32_t *)auStack_168e;
+        puVar21 = (uint32_t *)auStack_168e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar15 != 0);
+        psVar15 = psVar8;
+        for (uVar11 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
+          psVar15 = psVar15 + 2;
+          puVar21 = puVar21 + 1;
         }
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+        for (uVar11 = (int)psVar16 - (int)psVar8 & 3; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
+          psVar15 = (short *)((int)psVar15 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        psVar7 = (short *)sub_102f0c70(local_228c,local_52b0);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70(local_228c,local_52b0);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = (uint32_t *)auStack_168e;
+        puVar21 = (uint32_t *)auStack_168e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar15 != 0);
+        psVar15 = psVar8;
+        for (uVar11 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
+          psVar15 = psVar15 + 2;
+          puVar21 = puVar21 + 1;
         }
         piVar3 = (int *)*p_D2Client_DAT_6fbcbc38;
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+        for (uVar11 = (int)psVar16 - (int)psVar8 & 3; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
+          psVar15 = (short *)((int)psVar15 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        uVar5 = D2Common_10822(piVar3);
-        if (uVar5 != 7) {
-          psVar7 = (short *)D2Lang_10003(uVar5 + 0x2aa5);
-          psVar15 = psVar7;
+        uVar11 = D2Common_10822(piVar3);
+        if (uVar11 != 7) {
+          psVar8 = (short *)D2Lang_10003(uVar11 + 0x2aa5);
+          psVar16 = psVar8;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          puVar19 = &uStack_e8e;
+          puVar21 = &uStack_e8e;
           do {
-            psVar14 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar14 != 0);
-          psVar14 = psVar7;
-          for (uVar16 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *puVar19 = *(uint32_t *)psVar14;
-            psVar14 = psVar14 + 2;
-            puVar19 = puVar19 + 1;
-          }
-          for (uVar16 = (int)psVar15 - (int)psVar7 & 3; psVar15 = psVar4, uVar16 != 0;
-              uVar16 = uVar16 - 1) {
-            *(char *)puVar19 = (char)*psVar14;
-            psVar14 = (short *)((int)psVar14 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
-          }
-          do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
-          } while (sVar1 != 0);
-          uVar16 = (int)psVar15 - (int)psVar4;
-          puVar19 = &uStack_e8e;
-          do {
-            psVar15 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
+            psVar15 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
           } while (*psVar15 != 0);
-          uVar10 = 0;
-          psVar15 = psVar4;
-          for (uVar17 = uVar16 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
-            *puVar19 = *(uint32_t *)psVar15;
+          psVar15 = psVar8;
+          for (uVar18 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar18 != 0; uVar18 = uVar18 - 1) {
+            *puVar21 = *(uint32_t *)psVar15;
             psVar15 = psVar15 + 2;
-            puVar19 = puVar19 + 1;
+            puVar21 = puVar21 + 1;
           }
-          for (uVar16 = uVar16 & 3; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *(char *)puVar19 = (char)*psVar15;
+          for (uVar18 = (int)psVar16 - (int)psVar8 & 3; psVar16 = psVar4, uVar18 != 0;
+              uVar18 = uVar18 - 1) {
+            *(char *)puVar21 = (char)*psVar15;
             psVar15 = (short *)((int)psVar15 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
-          if (((local_52a4 != (int *)0x0) && (*local_52a4 == 0)) && (local_52a4[1] != uVar5)) {
-            uVar10 = 1;
-          }
-          psVar7 = (short *)sub_102f0c70((int)&uStack_e8e + 2,uVar10);
-          psVar15 = psVar7;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          puVar19 = (uint32_t *)auStack_168e;
+          uVar18 = (int)psVar16 - (int)psVar4;
+          puVar21 = &uStack_e8e;
           do {
-            psVar14 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar14 != 0);
-          psVar14 = psVar7;
-          for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *puVar19 = *(uint32_t *)psVar14;
-            psVar14 = psVar14 + 2;
-            puVar19 = puVar19 + 1;
+            psVar16 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar16 != 0);
+          uVar12 = 0;
+          psVar16 = psVar4;
+          for (uVar19 = uVar18 >> 2; uVar19 != 0; uVar19 = uVar19 - 1) {
+            *puVar21 = *(uint32_t *)psVar16;
+            psVar16 = psVar16 + 2;
+            puVar21 = puVar21 + 1;
           }
-          for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar14;
-            psVar14 = (short *)((int)psVar14 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+          for (uVar18 = uVar18 & 3; uVar18 != 0; uVar18 = uVar18 - 1) {
+            *(char *)puVar21 = (char)*psVar16;
+            psVar16 = (short *)((int)psVar16 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
+          }
+          if (((local_52a4 != (int *)0x0) && (*local_52a4 == 0)) && (local_52a4[1] != uVar11)) {
+            uVar12 = 1;
+          }
+          psVar8 = (short *)sub_102f0c70((int)&uStack_e8e + 2,uVar12);
+          psVar16 = psVar8;
+          do {
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
+          } while (sVar1 != 0);
+          puVar21 = (uint32_t *)auStack_168e;
+          do {
+            psVar15 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar15 != 0);
+          psVar15 = psVar8;
+          for (uVar11 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+            *puVar21 = *(uint32_t *)psVar15;
+            psVar15 = psVar15 + 2;
+            puVar21 = puVar21 + 1;
+          }
+          for (uVar11 = (int)psVar16 - (int)psVar8 & 3; uVar11 != 0; uVar11 = uVar11 - 1) {
+            *(char *)puVar21 = (char)*psVar15;
+            psVar15 = (short *)((int)psVar15 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
         }
-        psVar7 = (short *)sub_102f0c70(local_208c,0);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70(local_208c,0);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = (uint32_t *)auStack_168e;
+        puVar21 = (uint32_t *)auStack_168e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar15 != 0);
+        psVar15 = psVar8;
+        for (uVar11 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
+          psVar15 = psVar15 + 2;
+          puVar21 = puVar21 + 1;
         }
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+        for (uVar11 = (int)psVar16 - (int)psVar8 & 3; uVar11 != 0; uVar11 = uVar11 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
+          psVar15 = (short *)((int)psVar15 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        if ((int)uVar20 != 0) {
+        if (uVar5 != 0) {
           client_DrawHoverItem_1021cbd0(*p_D2Client_DAT_6fbcbc38,(int)local_28c);
           sub_102f0c70(local_28c,0);
-          psVar15 = local_28c;
+          psVar16 = local_28c;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          uVar5 = (int)psVar15 - (int)local_28c;
-          puVar19 = (uint32_t *)auStack_168e;
+          uVar5 = (int)psVar16 - (int)local_28c;
+          puVar21 = (uint32_t *)auStack_168e;
           do {
-            psVar15 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar15 != 0);
-          psVar15 = local_28c;
-          for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *puVar19 = *(uint32_t *)psVar15;
-            psVar15 = psVar15 + 2;
-            puVar19 = puVar19 + 1;
+            psVar16 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar16 != 0);
+          psVar16 = local_28c;
+          for (uVar11 = uVar5 >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+            *puVar21 = *(uint32_t *)psVar16;
+            psVar16 = psVar16 + 2;
+            puVar21 = puVar21 + 1;
           }
-          iVar8 = *p_D2Client_DAT_6fbcbc38;
+          iVar9 = *p_D2Client_DAT_6fbcbc38;
           for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar15;
-            psVar15 = (short *)((int)psVar15 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+            *(char *)puVar21 = (char)*psVar16;
+            psVar16 = (short *)((int)psVar16 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
-          iVar8 = D2Common_10823(iVar8,0);
-          if ((-1 < iVar8) && (iVar8 = D2Common_10925(*p_D2Client_DAT_6fbcbc38,0), -1 < iVar8)) {
+          iVar9 = D2Common_10823(iVar9,0);
+          if ((-1 < iVar9) && (iVar9 = D2Common_10925(*p_D2Client_DAT_6fbcbc38,0), -1 < iVar9)) {
             client_DrawHoverItem_1021cf80(extraout_ECX,*p_D2Client_DAT_6fbcbc38,(int)local_c8c);
             sub_102f0c70(local_c8c,0);
-            psVar15 = local_c8c;
+            psVar16 = local_c8c;
             do {
-              sVar1 = *psVar15;
-              psVar15 = psVar15 + 1;
+              sVar1 = *psVar16;
+              psVar16 = psVar16 + 1;
             } while (sVar1 != 0);
-            uVar5 = (int)psVar15 - (int)local_c8c;
-            puVar19 = (uint32_t *)auStack_168e;
+            uVar5 = (int)psVar16 - (int)local_c8c;
+            puVar21 = (uint32_t *)auStack_168e;
             do {
-              psVar15 = (short *)((int)puVar19 + 2);
-              puVar19 = (uint32_t *)((int)puVar19 + 2);
-            } while (*psVar15 != 0);
-            psVar15 = local_c8c;
-            for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-              *puVar19 = *(uint32_t *)psVar15;
-              psVar15 = psVar15 + 2;
-              puVar19 = puVar19 + 1;
+              psVar16 = (short *)((int)puVar21 + 2);
+              puVar21 = (uint32_t *)((int)puVar21 + 2);
+            } while (*psVar16 != 0);
+            psVar16 = local_c8c;
+            for (uVar11 = uVar5 >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+              *puVar21 = *(uint32_t *)psVar16;
+              psVar16 = psVar16 + 2;
+              puVar21 = puVar21 + 1;
             }
             for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-              *(char *)puVar19 = (char)*psVar15;
-              psVar15 = (short *)((int)psVar15 + 1);
-              puVar19 = (uint32_t *)((int)puVar19 + 1);
+              *(char *)puVar21 = (char)*psVar16;
+              psVar16 = (short *)((int)psVar16 + 1);
+              puVar21 = (uint32_t *)((int)puVar21 + 1);
             }
           }
         }
-        uVar20 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x33);
-        if ((int)uVar20 != 0) {
+        uVar5 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x33);
+        if (uVar5 != 0) {
           if (((local_52a4 != (int *)0x0) && (*local_52a4 == 0)) &&
              ((local_52a4[1] == 3 &&
               ((uVar5 = D2Common_10089((int *)*p_D2Client_DAT_6fbcbc38), uVar5 == 0 ||
                (uVar5 = D2Common_10822((int *)*p_D2Client_DAT_6fbcbc38), uVar5 == 3)))))) {
             client_DrawHoverItem_1021f4c0((int)local_a8c,*p_D2Client_DAT_6fbcbc38);
             sub_102f0c70(local_a8c,0);
-            psVar15 = local_a8c;
+            psVar16 = local_a8c;
             do {
-              sVar1 = *psVar15;
-              psVar15 = psVar15 + 1;
+              sVar1 = *psVar16;
+              psVar16 = psVar16 + 1;
             } while (sVar1 != 0);
-            uVar5 = (int)psVar15 - (int)local_a8c;
-            puVar19 = (uint32_t *)auStack_168e;
+            uVar5 = (int)psVar16 - (int)local_a8c;
+            puVar21 = (uint32_t *)auStack_168e;
             do {
-              psVar15 = (short *)((int)puVar19 + 2);
-              puVar19 = (uint32_t *)((int)puVar19 + 2);
-            } while (*psVar15 != 0);
-            psVar15 = local_a8c;
-            for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-              *puVar19 = *(uint32_t *)psVar15;
-              psVar15 = psVar15 + 2;
-              puVar19 = puVar19 + 1;
+              psVar16 = (short *)((int)puVar21 + 2);
+              puVar21 = (uint32_t *)((int)puVar21 + 2);
+            } while (*psVar16 != 0);
+            psVar16 = local_a8c;
+            for (uVar11 = uVar5 >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+              *puVar21 = *(uint32_t *)psVar16;
+              psVar16 = psVar16 + 2;
+              puVar21 = puVar21 + 1;
             }
             for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-              *(char *)puVar19 = (char)*psVar15;
-              psVar15 = (short *)((int)psVar15 + 1);
-              puVar19 = (uint32_t *)((int)puVar19 + 1);
+              *(char *)puVar21 = (char)*psVar16;
+              psVar16 = (short *)((int)psVar16 + 1);
+              puVar21 = (uint32_t *)((int)puVar21 + 1);
             }
           }
-          client_DrawHoverItem_1021f770(*p_D2Client_DAT_6fbcbc38,(int)local_88c,iVar11);
+          client_DrawHoverItem_1021f770(*p_D2Client_DAT_6fbcbc38,(int)local_88c,iVar6);
           sub_102f0c70(local_88c,0);
-          psVar15 = local_88c;
+          psVar16 = local_88c;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          uVar5 = (int)psVar15 - (int)local_88c;
-          puVar19 = (uint32_t *)auStack_168e;
+          uVar5 = (int)psVar16 - (int)local_88c;
+          puVar21 = (uint32_t *)auStack_168e;
           do {
-            psVar15 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar15 != 0);
-          psVar15 = local_88c;
-          for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *puVar19 = *(uint32_t *)psVar15;
-            psVar15 = psVar15 + 2;
-            puVar19 = puVar19 + 1;
+            psVar16 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar16 != 0);
+          psVar16 = local_88c;
+          for (uVar11 = uVar5 >> 2; uVar11 != 0; uVar11 = uVar11 - 1) {
+            *puVar21 = *(uint32_t *)psVar16;
+            psVar16 = psVar16 + 2;
+            puVar21 = puVar21 + 1;
           }
           for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar15;
-            psVar15 = (short *)((int)psVar15 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+            *(char *)puVar21 = (char)*psVar16;
+            psVar16 = (short *)((int)psVar16 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
         }
-        if (((int)uVar21 != 0) && (iVar11 = D2Common_10935(*p_D2Client_DAT_6fbcbc38), 0 < iVar11)) {
+        if ((uVar17 != 0) && (iVar6 = D2Common_10935(*p_D2Client_DAT_6fbcbc38), 0 < iVar6)) {
           client_DrawHoverItem_1021f930(local_52a4,(int)local_288c,*p_D2Client_DAT_6fbcbc38);
           sub_102f0c70(local_288c,0);
-          psVar15 = local_288c;
+          psVar16 = local_288c;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          uVar5 = (int)psVar15 - (int)local_288c;
-          puVar19 = (uint32_t *)auStack_168e;
+          uVar5 = (int)psVar16 - (int)local_288c;
+          puVar21 = (uint32_t *)auStack_168e;
           do {
-            psVar15 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar15 != 0);
-          psVar15 = local_288c;
-          for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *puVar19 = *(uint32_t *)psVar15;
-            psVar15 = psVar15 + 2;
-            puVar19 = puVar19 + 1;
+            psVar16 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar16 != 0);
+          psVar16 = local_288c;
+          for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+            *puVar21 = *(uint32_t *)psVar16;
+            psVar16 = psVar16 + 2;
+            puVar21 = puVar21 + 1;
           }
           for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar15;
-            psVar15 = (short *)((int)psVar15 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+            *(char *)puVar21 = (char)*psVar16;
+            psVar16 = (short *)((int)psVar16 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
         }
         UI_inv_6fb414f0((void *)*p_D2Client_DAT_6fbcbc38,(int)local_68c,0x100);
-        uVar10 = 2;
+        uVar12 = 2;
         uVar5 = D2Common_10202((int *)*p_D2Client_DAT_6fbcbc38,0x100,0x77b,"..\\Source\\D2Client\\UI\\inv.cpp")
         ;
         if (uVar5 != 0) {
-          uVar10 = 1;
+          uVar12 = 1;
         }
-        sub_102f0c70(local_68c,uVar10);
-        psVar15 = local_68c;
+        sub_102f0c70(local_68c,uVar12);
+        psVar16 = local_68c;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        uVar5 = (int)psVar15 - (int)local_68c;
-        puVar19 = (uint32_t *)auStack_168e;
+        uVar5 = (int)psVar16 - (int)local_68c;
+        puVar21 = (uint32_t *)auStack_168e;
         do {
-          psVar15 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar15 != 0);
-        psVar15 = local_68c;
-        for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-          *puVar19 = *(uint32_t *)psVar15;
-          psVar15 = psVar15 + 2;
-          puVar19 = puVar19 + 1;
+          psVar16 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar16 != 0);
+        psVar16 = local_68c;
+        for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+          *puVar21 = *(uint32_t *)psVar16;
+          psVar16 = psVar16 + 2;
+          puVar21 = puVar21 + 1;
         }
         local_528c = 0;
         for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar15;
-          psVar15 = (short *)((int)psVar15 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+          *(char *)puVar21 = (char)*psVar16;
+          psVar16 = (short *)((int)psVar16 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
         uVar5 = D2Common_10202((int *)*p_D2Client_DAT_6fbcbc38,0x800,0x784,"..\\Source\\D2Client\\UI\\inv.cpp")
         ;
         if (uVar5 != 0) {
           memset(local_2b3c,0,0x4b0);
           client_DrawHoverItem_Wraps_D2Client_UI_inv_1021ffc0(local_2b3c,*p_D2Client_DAT_6fbcbc38);
-          iVar11 = 0;
+          iVar6 = 0;
           do {
-            sVar1 = *(short *)((int)local_2b3c + iVar11);
-            *(short *)(local_528a + iVar11 + -2) = sVar1;
-            iVar11 = iVar11 + 2;
+            sVar1 = *(short *)((int)local_2b3c + iVar6);
+            *(short *)(local_528a + iVar6 + -2) = sVar1;
+            iVar6 = iVar6 + 2;
           } while (sVar1 != 0);
         }
-        client_DrawHoverItem_102246b0(&local_528c,*p_D2Client_DAT_6fbcbc38,1,0,puVar19);
+        client_DrawHoverItem_102246b0(&local_528c,*p_D2Client_DAT_6fbcbc38,1,0,puVar21);
         piVar3 = local_52a4;
         local_328c = 0;
         sub_102f0bf0(local_52a4,*p_D2Client_DAT_6fbcbc38,&local_328c,0x200);
         local_368c = 0;
-        iVar11 = *p_D2Client_DAT_6fbcbc38;
-        if ((iVar11 != 0) && (*(int *)(iVar11 + 0x10) == 1)) {
-          sub_102f0c10(iVar11,piVar3,&local_368c,0x200);
+        iVar6 = *p_D2Client_DAT_6fbcbc38;
+        if ((iVar6 != 0) && (*(int *)(iVar6 + 0x10) == 1)) {
+          sub_102f0c10(iVar6,piVar3,&local_368c,0x200);
         }
         memset((void *)((int)&uStack_4a8e + 2),0,0x400);
         local_52ac = 0;
         if (0 < *(int *)(local_52a8 + 0xc)) {
           local_52b0 = (int *)(local_52a8 + 0x110);
           do {
-            iVar11 = *local_52b0;
-            if (iVar11 == 0) break;
-            iVar8 = sub_102f0c30();
+            iVar6 = *local_52b0;
+            if (iVar6 == 0) break;
+            iVar9 = sub_102f0c30();
             memset(local_2e8c,0,0x800);
-            uVar2 = *(ushort *)(iVar11 + 0x24);
+            uVar2 = *(ushort *)(iVar6 + 0x24);
             if (uVar2 != 0) {
-              pvVar12 = (void *)D2Lang_10003((uint)uVar2);
-              pvVar13 = (void *)D2Lang_10003(0x2769);
-              UI_inv_6fb40cb0(local_2e8c,pvVar13,pvVar12);
-              psVar15 = psVar4;
+              pvVar13 = (void *)D2Lang_10003((uint)uVar2);
+              pvVar14 = (void *)D2Lang_10003(0x2769);
+              UI_inv_6fb40cb0(local_2e8c,pvVar14,pvVar13);
+              psVar16 = psVar4;
               do {
-                sVar1 = *psVar15;
-                psVar15 = psVar15 + 1;
+                sVar1 = *psVar16;
+                psVar16 = psVar16 + 1;
               } while (sVar1 != 0);
-              puVar19 = (uint32_t *)auStack_2e8e;
+              puVar21 = (uint32_t *)auStack_2e8e;
               do {
-                psVar7 = (short *)((int)puVar19 + 2);
-                puVar19 = (uint32_t *)((int)puVar19 + 2);
-              } while (*psVar7 != 0);
-              psVar7 = psVar4;
-              for (uVar5 = (uint)((int)psVar15 - (int)psVar4) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *puVar19 = *(uint32_t *)psVar7;
-                psVar7 = psVar7 + 2;
-                puVar19 = puVar19 + 1;
+                psVar8 = (short *)((int)puVar21 + 2);
+                puVar21 = (uint32_t *)((int)puVar21 + 2);
+              } while (*psVar8 != 0);
+              psVar8 = psVar4;
+              for (uVar5 = (uint)((int)psVar16 - (int)psVar4) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+                *puVar21 = *(uint32_t *)psVar8;
+                psVar8 = psVar8 + 2;
+                puVar21 = puVar21 + 1;
               }
-              for (uVar5 = (int)psVar15 - (int)psVar4 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *(char *)puVar19 = (char)*psVar7;
-                psVar7 = (short *)((int)psVar7 + 1);
-                puVar19 = (uint32_t *)((int)puVar19 + 1);
+              for (uVar5 = (int)psVar16 - (int)psVar4 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+                *(char *)puVar21 = (char)*psVar8;
+                psVar8 = (short *)((int)psVar8 + 1);
+                puVar21 = (uint32_t *)((int)puVar21 + 1);
               }
             }
-            sub_102f0c70(local_2e8c,(iVar8 != 0) + 1);
-            psVar15 = (short *)local_2e8c;
+            sub_102f0c70(local_2e8c,(iVar9 != 0) + 1);
+            psVar16 = (short *)local_2e8c;
             do {
-              sVar1 = *psVar15;
-              psVar15 = psVar15 + 1;
+              sVar1 = *psVar16;
+              psVar16 = psVar16 + 1;
             } while (sVar1 != 0);
-            uVar5 = (int)psVar15 - (int)local_2e8c;
-            puVar19 = &uStack_4a8e;
+            uVar5 = (int)psVar16 - (int)local_2e8c;
+            puVar21 = &uStack_4a8e;
             do {
-              psVar15 = (short *)((int)puVar19 + 2);
-              puVar19 = (uint32_t *)((int)puVar19 + 2);
-            } while (*psVar15 != 0);
+              psVar16 = (short *)((int)puVar21 + 2);
+              puVar21 = (uint32_t *)((int)puVar21 + 2);
+            } while (*psVar16 != 0);
             local_52b0 = local_52b0 + 1;
-            psVar15 = (short *)local_2e8c;
-            for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-              *puVar19 = *(uint32_t *)psVar15;
-              psVar15 = psVar15 + 2;
-              puVar19 = puVar19 + 1;
+            psVar16 = (short *)local_2e8c;
+            for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+              *puVar21 = *(uint32_t *)psVar16;
+              psVar16 = psVar16 + 2;
+              puVar21 = puVar21 + 1;
             }
             for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-              *(char *)puVar19 = (char)*psVar15;
-              psVar15 = (short *)((int)psVar15 + 1);
-              puVar19 = (uint32_t *)((int)puVar19 + 1);
+              *(char *)puVar21 = (char)*psVar16;
+              psVar16 = (short *)((int)psVar16 + 1);
+              puVar21 = (uint32_t *)((int)puVar21 + 1);
             }
             local_52ac = local_52ac + 1;
           } while (local_52ac < *(int *)(local_52a8 + 0xc));
         }
-        psVar7 = (short *)sub_102f0c70((int)&uStack_4a8e + 2,2);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70((int)&uStack_4a8e + 2,2);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          *(short *)((int)psVar15 + (int)&uStack_1e8e + (2 - (int)psVar7)) = sVar1;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          *(short *)((int)psVar16 + (int)&uStack_1e8e + (2 - (int)psVar8)) = sVar1;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        psVar7 = (short *)sub_102f0c70((int)&uStack_48e + 2,4);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70((int)&uStack_48e + 2,4);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = &uStack_1e8e;
+        puVar21 = &uStack_1e8e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar15 != 0);
+        psVar15 = psVar8;
+        for (uVar5 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
+          psVar15 = psVar15 + 2;
+          puVar21 = puVar21 + 1;
         }
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+        for (uVar5 = (int)psVar16 - (int)psVar8 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
+          psVar15 = (short *)((int)psVar15 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        psVar15 = psVar4;
-        psVar7 = psVar4;
+        psVar16 = psVar4;
+        psVar8 = psVar4;
         if (local_368c != 0) {
           do {
-            sVar1 = *psVar7;
-            psVar7 = psVar7 + 1;
+            sVar1 = *psVar8;
+            psVar8 = psVar8 + 1;
           } while (sVar1 != 0);
-          uVar5 = (int)psVar7 - (int)psVar4;
-          puVar19 = &uStack_1e8e;
+          uVar5 = (int)psVar8 - (int)psVar4;
+          puVar21 = &uStack_1e8e;
           do {
-            psVar7 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar7 != 0);
-          psVar7 = psVar4;
-          for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-            *puVar19 = *(uint32_t *)psVar7;
-            psVar7 = psVar7 + 2;
-            puVar19 = puVar19 + 1;
+            psVar8 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar8 != 0);
+          psVar8 = psVar4;
+          for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+            *puVar21 = *(uint32_t *)psVar8;
+            psVar8 = psVar8 + 2;
+            puVar21 = puVar21 + 1;
           }
           for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar7;
-            psVar7 = (short *)((int)psVar7 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+            *(char *)puVar21 = (char)*psVar8;
+            psVar8 = (short *)((int)psVar8 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
-          psVar14 = (short *)sub_102f0c70(&local_368c,4);
-          psVar7 = psVar14;
+          psVar15 = (short *)sub_102f0c70(&local_368c,4);
+          psVar8 = psVar15;
           do {
-            sVar1 = *psVar7;
-            psVar7 = psVar7 + 1;
+            sVar1 = *psVar8;
+            psVar8 = psVar8 + 1;
           } while (sVar1 != 0);
-          puVar19 = &uStack_1e8e;
+          puVar21 = &uStack_1e8e;
           do {
-            psVar18 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar18 != 0);
-          psVar18 = psVar14;
-          for (uVar5 = (uint)((int)psVar7 - (int)psVar14) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *puVar19 = *(uint32_t *)psVar18;
-            psVar18 = psVar18 + 2;
-            puVar19 = puVar19 + 1;
+            psVar20 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar20 != 0);
+          psVar20 = psVar15;
+          for (uVar5 = (uint)((int)psVar8 - (int)psVar15) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+            *puVar21 = *(uint32_t *)psVar20;
+            psVar20 = psVar20 + 2;
+            puVar21 = puVar21 + 1;
           }
-          for (uVar5 = (int)psVar7 - (int)psVar14 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar18;
-            psVar18 = (short *)((int)psVar18 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+          for (uVar5 = (int)psVar8 - (int)psVar15 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+            *(char *)puVar21 = (char)*psVar20;
+            psVar20 = (short *)((int)psVar20 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
         }
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        uVar5 = (int)psVar15 - (int)psVar4;
-        puVar19 = &uStack_1e8e;
+        uVar5 = (int)psVar16 - (int)psVar4;
+        puVar21 = &uStack_1e8e;
         do {
-          psVar15 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar15 != 0);
-        psVar15 = psVar4;
-        for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-          *puVar19 = *(uint32_t *)psVar15;
-          psVar15 = psVar15 + 2;
-          puVar19 = puVar19 + 1;
+          psVar16 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar16 != 0);
+        psVar16 = psVar4;
+        for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+          *puVar21 = *(uint32_t *)psVar16;
+          psVar16 = psVar16 + 2;
+          puVar21 = puVar21 + 1;
         }
         for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar15;
-          psVar15 = (short *)((int)psVar15 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+          *(char *)puVar21 = (char)*psVar16;
+          psVar16 = (short *)((int)psVar16 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
         if (local_328c != 0) {
-          psVar7 = (short *)sub_102f0c70(&local_328c,2);
-          psVar15 = psVar7;
+          psVar8 = (short *)sub_102f0c70(&local_328c,2);
+          psVar16 = psVar8;
           do {
-            sVar1 = *psVar15;
-            psVar15 = psVar15 + 1;
+            sVar1 = *psVar16;
+            psVar16 = psVar16 + 1;
           } while (sVar1 != 0);
-          puVar19 = &uStack_1e8e;
+          puVar21 = &uStack_1e8e;
           do {
-            psVar14 = (short *)((int)puVar19 + 2);
-            puVar19 = (uint32_t *)((int)puVar19 + 2);
-          } while (*psVar14 != 0);
-          psVar14 = psVar7;
-          for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *puVar19 = *(uint32_t *)psVar14;
-            psVar14 = psVar14 + 2;
-            puVar19 = puVar19 + 1;
+            psVar15 = (short *)((int)puVar21 + 2);
+            puVar21 = (uint32_t *)((int)puVar21 + 2);
+          } while (*psVar15 != 0);
+          psVar15 = psVar8;
+          for (uVar5 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+            *puVar21 = *(uint32_t *)psVar15;
+            psVar15 = psVar15 + 2;
+            puVar21 = puVar21 + 1;
           }
-          for (uVar5 = (int)psVar15 - (int)psVar7 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(char *)puVar19 = (char)*psVar14;
-            psVar14 = (short *)((int)psVar14 + 1);
-            puVar19 = (uint32_t *)((int)puVar19 + 1);
+          for (uVar5 = (int)psVar16 - (int)psVar8 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+            *(char *)puVar21 = (char)*psVar15;
+            psVar15 = (short *)((int)psVar15 + 1);
+            puVar21 = (uint32_t *)((int)puVar21 + 1);
           }
         }
-        psVar7 = (short *)sub_102f0c70(&local_528c,3);
-        psVar15 = psVar7;
+        psVar8 = (short *)sub_102f0c70(&local_528c,3);
+        psVar16 = psVar8;
         do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
         } while (sVar1 != 0);
-        puVar19 = &uStack_1e8e;
+        puVar21 = &uStack_1e8e;
         do {
-          psVar14 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
-        } while (*psVar14 != 0);
-        psVar14 = psVar7;
-        for (uVar5 = (uint)((int)psVar15 - (int)psVar7) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *puVar19 = *(uint32_t *)psVar14;
-          psVar14 = psVar14 + 2;
-          puVar19 = puVar19 + 1;
-        }
-        for (uVar5 = (int)psVar15 - (int)psVar7 & 3; psVar15 = (short *)local_168c, uVar5 != 0;
-            uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar14;
-          psVar14 = (short *)((int)psVar14 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
-        }
-        do {
-          sVar1 = *psVar15;
-          psVar15 = psVar15 + 1;
-        } while (sVar1 != 0);
-        uVar5 = (int)psVar15 - (int)local_168c;
-        puVar19 = &uStack_1e8e;
-        do {
-          psVar15 = (short *)((int)puVar19 + 2);
-          puVar19 = (uint32_t *)((int)puVar19 + 2);
+          psVar15 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
         } while (*psVar15 != 0);
-        psVar15 = (short *)local_168c;
-        for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-          *puVar19 = *(uint32_t *)psVar15;
+        psVar15 = psVar8;
+        for (uVar5 = (uint)((int)psVar16 - (int)psVar8) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+          *puVar21 = *(uint32_t *)psVar15;
           psVar15 = psVar15 + 2;
-          puVar19 = puVar19 + 1;
+          puVar21 = puVar21 + 1;
         }
-        iVar11 = *p_D2Client_DAT_6fbcbc34;
-        for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-          *(char *)puVar19 = (char)*psVar15;
+        for (uVar5 = (int)psVar16 - (int)psVar8 & 3; psVar16 = (short *)local_168c, uVar5 != 0;
+            uVar5 = uVar5 - 1) {
+          *(char *)puVar21 = (char)*psVar15;
           psVar15 = (short *)((int)psVar15 + 1);
-          puVar19 = (uint32_t *)((int)puVar19 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
         }
-        if (((iVar11 == 0) || (iVar11 < 1)) || (9 < iVar11)) {
-          iVar11 = 0;
+        do {
+          sVar1 = *psVar16;
+          psVar16 = psVar16 + 1;
+        } while (sVar1 != 0);
+        uVar5 = (int)psVar16 - (int)local_168c;
+        puVar21 = &uStack_1e8e;
+        do {
+          psVar16 = (short *)((int)puVar21 + 2);
+          puVar21 = (uint32_t *)((int)puVar21 + 2);
+        } while (*psVar16 != 0);
+        psVar16 = (short *)local_168c;
+        for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+          *puVar21 = *(uint32_t *)psVar16;
+          psVar16 = psVar16 + 2;
+          puVar21 = puVar21 + 1;
+        }
+        iVar6 = *p_D2Client_DAT_6fbcbc34;
+        for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+          *(char *)puVar21 = (char)*psVar16;
+          psVar16 = (short *)((int)psVar16 + 1);
+          puVar21 = (uint32_t *)((int)puVar21 + 1);
+        }
+        if (((iVar6 == 0) || (iVar6 < 1)) || (9 < iVar6)) {
+          iVar6 = 0;
           do {
-            sVar1 = *(short *)((int)&uStack_1e8e + iVar11 + 2);
-            *(short *)((int)&uStack_468e + iVar11 + 2) = sVar1;
-            iVar11 = iVar11 + 2;
+            sVar1 = *(short *)((int)&uStack_1e8e + iVar6 + 2);
+            *(short *)((int)&uStack_468e + iVar6 + 2) = sVar1;
+            iVar6 = iVar6 + 2;
           } while (sVar1 != 0);
         }
         else {
           memset(local_8c,0,0x80);
           local_52a8 = 0;
           sub_102f0c50(this,&local_52a8,*p_D2Client_DAT_6fbcbc38,*p_D2Client_DAT_6fb90ea4,local_8c,0x40);
-          iVar11 = 0;
+          iVar6 = 0;
           do {
-            sVar1 = *(short *)((int)&uStack_1e8e + iVar11 + 2);
-            *(short *)((int)&uStack_468e + iVar11 + 2) = sVar1;
-            iVar11 = iVar11 + 2;
+            sVar1 = *(short *)((int)&uStack_1e8e + iVar6 + 2);
+            *(short *)((int)&uStack_468e + iVar6 + 2) = sVar1;
+            iVar6 = iVar6 + 2;
           } while (sVar1 != 0);
           if (local_52a8 == 0) {
             if (*p_D2Client_DAT_6fbcbc34 != 4) {
               memset(local_8c,0,0x80);
-              psVar7 = (short *)D2Lang_10003(0xd05);
-              psVar15 = psVar7;
+              psVar8 = (short *)D2Lang_10003(0xd05);
+              psVar16 = psVar8;
               do {
-                sVar1 = *psVar15;
-                *(short *)((int)psVar15 + ((int)local_8c - (int)psVar7)) = sVar1;
-                psVar15 = psVar15 + 1;
-                psVar14 = psVar4;
+                sVar1 = *psVar16;
+                *(short *)((int)psVar16 + ((int)local_8c - (int)psVar8)) = sVar1;
+                psVar16 = psVar16 + 1;
+                psVar15 = psVar4;
               } while (sVar1 != 0);
-              do {
-                sVar1 = *psVar14;
-                psVar14 = psVar14 + 1;
-              } while (sVar1 != 0);
-              uVar5 = (int)psVar14 - (int)psVar4;
-              puVar19 = &uStack_468e;
-              do {
-                psVar15 = (short *)((int)puVar19 + 2);
-                puVar19 = (uint32_t *)((int)puVar19 + 2);
-              } while (*psVar15 != 0);
-              for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-                *puVar19 = *(uint32_t *)psVar4;
-                psVar4 = psVar4 + 2;
-                puVar19 = puVar19 + 1;
-              }
-              for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *(char *)puVar19 = (char)*psVar4;
-                psVar4 = (short *)((int)psVar4 + 1);
-                puVar19 = (uint32_t *)((int)puVar19 + 1);
-              }
-              psVar15 = (short *)sub_102f0c70(local_8c,1);
-              psVar4 = psVar15;
-              do {
-                sVar1 = *psVar4;
-                psVar4 = psVar4 + 1;
-              } while (sVar1 != 0);
-              puVar19 = &uStack_468e;
-              do {
-                psVar7 = (short *)((int)puVar19 + 2);
-                puVar19 = (uint32_t *)((int)puVar19 + 2);
-              } while (*psVar7 != 0);
-              psVar7 = psVar15;
-              for (uVar5 = (uint)((int)psVar4 - (int)psVar15) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *puVar19 = *(uint32_t *)psVar7;
-                psVar7 = psVar7 + 2;
-                puVar19 = puVar19 + 1;
-              }
-              for (uVar5 = (int)psVar4 - (int)psVar15 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *(char *)puVar19 = (char)*psVar7;
-                psVar7 = (short *)((int)psVar7 + 1);
-                puVar19 = (uint32_t *)((int)puVar19 + 1);
-              }
-            }
-          }
-          else {
-            psVar15 = psVar4;
-            if (local_8c[0] != 0) {
               do {
                 sVar1 = *psVar15;
                 psVar15 = psVar15 + 1;
               } while (sVar1 != 0);
               uVar5 = (int)psVar15 - (int)psVar4;
-              puVar19 = &uStack_468e;
+              puVar21 = &uStack_468e;
               do {
-                psVar15 = (short *)((int)puVar19 + 2);
-                puVar19 = (uint32_t *)((int)puVar19 + 2);
-              } while (*psVar15 != 0);
-              for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-                *puVar19 = *(uint32_t *)psVar4;
+                psVar16 = (short *)((int)puVar21 + 2);
+                puVar21 = (uint32_t *)((int)puVar21 + 2);
+              } while (*psVar16 != 0);
+              for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+                *puVar21 = *(uint32_t *)psVar4;
                 psVar4 = psVar4 + 2;
-                puVar19 = puVar19 + 1;
+                puVar21 = puVar21 + 1;
               }
               for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-                *(char *)puVar19 = (char)*psVar4;
+                *(char *)puVar21 = (char)*psVar4;
                 psVar4 = (short *)((int)psVar4 + 1);
-                puVar19 = (uint32_t *)((int)puVar19 + 1);
+                puVar21 = (uint32_t *)((int)puVar21 + 1);
+              }
+              psVar16 = (short *)sub_102f0c70(local_8c,1);
+              psVar4 = psVar16;
+              do {
+                sVar1 = *psVar4;
+                psVar4 = psVar4 + 1;
+              } while (sVar1 != 0);
+              puVar21 = &uStack_468e;
+              do {
+                psVar8 = (short *)((int)puVar21 + 2);
+                puVar21 = (uint32_t *)((int)puVar21 + 2);
+              } while (*psVar8 != 0);
+              psVar8 = psVar16;
+              for (uVar5 = (uint)((int)psVar4 - (int)psVar16) >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+                *puVar21 = *(uint32_t *)psVar8;
+                psVar8 = psVar8 + 2;
+                puVar21 = puVar21 + 1;
+              }
+              for (uVar5 = (int)psVar4 - (int)psVar16 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+                *(char *)puVar21 = (char)*psVar8;
+                psVar8 = (short *)((int)psVar8 + 1);
+                puVar21 = (uint32_t *)((int)puVar21 + 1);
+              }
+            }
+          }
+          else {
+            psVar16 = psVar4;
+            if (local_8c[0] != 0) {
+              do {
+                sVar1 = *psVar16;
+                psVar16 = psVar16 + 1;
+              } while (sVar1 != 0);
+              uVar5 = (int)psVar16 - (int)psVar4;
+              puVar21 = &uStack_468e;
+              do {
+                psVar16 = (short *)((int)puVar21 + 2);
+                puVar21 = (uint32_t *)((int)puVar21 + 2);
+              } while (*psVar16 != 0);
+              for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+                *puVar21 = *(uint32_t *)psVar4;
+                psVar4 = psVar4 + 2;
+                puVar21 = puVar21 + 1;
+              }
+              for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+                *(char *)puVar21 = (char)*psVar4;
+                psVar4 = (short *)((int)psVar4 + 1);
+                puVar21 = (uint32_t *)((int)puVar21 + 1);
               }
             }
             psVar4 = local_8c;
@@ -9461,21 +9447,21 @@ void __fastcall client_DrawHoverItem_Wraps_D2Client_UI_inv_10221380(int *param_1
               psVar4 = psVar4 + 1;
             } while (sVar1 != 0);
             uVar5 = (int)psVar4 - (int)local_8c;
-            puVar19 = &uStack_468e;
+            puVar21 = &uStack_468e;
             do {
-              psVar4 = (short *)((int)puVar19 + 2);
-              puVar19 = (uint32_t *)((int)puVar19 + 2);
+              psVar4 = (short *)((int)puVar21 + 2);
+              puVar21 = (uint32_t *)((int)puVar21 + 2);
             } while (*psVar4 != 0);
             psVar4 = local_8c;
-            for (uVar16 = uVar5 >> 2; uVar16 != 0; uVar16 = uVar16 - 1) {
-              *puVar19 = *(uint32_t *)psVar4;
+            for (uVar17 = uVar5 >> 2; uVar17 != 0; uVar17 = uVar17 - 1) {
+              *puVar21 = *(uint32_t *)psVar4;
               psVar4 = psVar4 + 2;
-              puVar19 = puVar19 + 1;
+              puVar21 = puVar21 + 1;
             }
             for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-              *(char *)puVar19 = (char)*psVar4;
+              *(char *)puVar21 = (char)*psVar4;
               psVar4 = (short *)((int)psVar4 + 1);
-              puVar19 = (uint32_t *)((int)puVar19 + 1);
+              puVar21 = (uint32_t *)((int)puVar21 + 1);
             }
           }
         }
@@ -9484,12 +9470,12 @@ void __fastcall client_DrawHoverItem_Wraps_D2Client_UI_inv_10221380(int *param_1
         local_5290 = 0;
         D2Win_10177_102aa690((int)&uStack_468e + 2,&local_52a0,(int *)&local_5290);
         uVar5 = *p_D2Client_DAT_6fb90ea8;
-        uVar16 = *p_D2Client_DAT_6fb90eac;
-        if ((uVar16 == local_5290) || ((int)(uVar16 - local_5290) < 0)) {
+        uVar17 = *p_D2Client_DAT_6fb90eac;
+        if ((uVar17 == local_5290) || ((int)(uVar17 - local_5290) < 0)) {
           uVar5 = *p_D2Client_DAT_6fb90eb0;
-          uVar16 = *p_D2Client_DAT_6fb90eb4 + local_5290;
+          uVar17 = *p_D2Client_DAT_6fb90eb4 + local_5290;
         }
-        D2Win_10085((void *)((int)&uStack_468e + 2),uVar5,uVar16,0,1);
+        D2Win_10085((void *)((int)&uStack_468e + 2),uVar5,uVar17,0,1);
       }
     }
   }
@@ -9515,6 +9501,7 @@ void client_DrawHoverItem_Wraps_D2Client_UI_inv_10222470(int *param_1,int param_
   uint8_t uVar9;
   uint uVar10;
   uint32_t extraout_ECX;
+  uint extraout_EDX;
   int *piVar11;
   int iVar12;
   int iVar13;
@@ -9756,19 +9743,17 @@ LAB_10222a2c:
   }
   if ((((*p_D2Client_DAT_6fbcbc2c == 0) && (*p_D2Client_DAT_6fbcbc28 == 0)) || (*p_D2Client_DAT_6fbcbc38 == 0)) ||
      (((int *)piVar11[0x18] == (int *)0x0 ||
-      (uVar15 = D2Common_11017((int *)piVar11[0x18]), (int)uVar15 != 0)))) {
+      (iVar13 = D2Common_11017((int *)piVar11[0x18]), iVar13 != 0)))) {
     return;
   }
   uVar15 = sub_102edf00();
   uVar4 = (uint)((ulonglong)uVar15 >> 0x20);
   if (((int)uVar15 == 0) && (piVar11[0x18] != 0)) {
     uVar4 = 0;
-    if ((int *)*p_D2Client_DAT_6fbcbc38 != (int *)0x0) {
-      uVar15 = D2Common_10391(piVar11[0x18],(int *)*p_D2Client_DAT_6fbcbc38);
-      uVar4 = (uint)((ulonglong)uVar15 >> 0x20);
-      if ((int)uVar15 == 0) {
-        return;
-      }
+    if (((int *)*p_D2Client_DAT_6fbcbc38 != (int *)0x0) &&
+       (uVar10 = D2Common_10391(piVar11[0x18],(int *)*p_D2Client_DAT_6fbcbc38), uVar4 = extraout_EDX,
+       uVar10 == 0)) {
+      return;
     }
   }
   uStack_8014 = 0;
@@ -9981,16 +9966,15 @@ LAB_10222a2c:
   else {
     uVar4 = *(uint *)(*p_D2Client_DAT_6fbcbc38 + 4);
   }
-  uVar15 = D2Common_10695(uVar4);
-  psVar7 = (short *)uVar15;
+  psVar7 = (short *)D2Common_10695(uVar4);
   psStack_8044 = psVar7;
   if (psVar7 == (short *)0x0) {
     Fog_10024("","D2CLIENT_DrawHoverItemDetails",0xfc2);
                     /* WARNING: Subroutine does not return */
     _exit(-1);
   }
-  uVar15 = D2Common_11144((int *)*p_D2Client_DAT_6fbcbc38);
-  if ((int)uVar15 == 0) {
+  iVar13 = D2Common_11144((int *)*p_D2Client_DAT_6fbcbc38);
+  if (iVar13 == 0) {
     client_DrawHoverItem_1021dec0((int)local_5e10,*p_D2Client_DAT_6fbcbc38);
   }
   else {
@@ -10005,16 +9989,16 @@ LAB_10222a2c:
     local_8038 = (uint)(pvStack_8020 == (void *)0x0);
     client_DrawHoverItem_1021e3d0((int)local_6410);
   }
-  uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x35);
-  if ((int)uVar15 != 0) {
+  uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x35);
+  if (uVar4 != 0) {
     client_DrawHoverItem_1021ef70(local_2810);
   }
   uVar4 = D2Common_10757((int *)*p_D2Client_DAT_6fbcbc38);
   if (uVar4 != 0) {
     client_DrawHoverItem_1021f050(*p_D2Client_DAT_6fbcbc38,(int)local_5610);
   }
-  uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0xd);
-  if ((int)uVar15 != 0) {
+  uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0xd);
+  if (uVar4 != 0) {
     psVar6 = (short *)D2Lang_10003(0x4fd6);
     psVar7 = psVar6;
     do {
@@ -10083,20 +10067,20 @@ LAB_10222a2c:
     local_8034 = (uint)(iStack_801c == 0);
     client_DrawHoverItem_1021f370(local_6210,(int)psStack_8044,iVar13);
   }
-  uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x2d);
-  if ((int)uVar15 != 0) {
+  uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x2d);
+  if (uVar4 != 0) {
     iVar13 = D2Common_10823(*p_D2Client_DAT_6fbcbc38,0);
     if ((-1 < iVar13) && (iVar13 = D2Common_10925(*p_D2Client_DAT_6fbcbc38,0), -1 < iVar13)) {
       client_DrawHoverItem_1021cf80(extraout_ECX,*p_D2Client_DAT_6fbcbc38,(int)local_5c10);
     }
     client_DrawHoverItem_1021cbd0(*p_D2Client_DAT_6fbcbc38,(int)local_3010);
   }
-  uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x33);
+  uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x33);
   piVar11 = piStack_8048;
-  if ((int)uVar15 == 0) {
-    uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0xf);
+  if (uVar4 == 0) {
+    uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0xf);
     piVar11 = piStack_8048;
-    if ((((int)uVar15 != 0) && (piStack_8048 != (int *)0x0)) && (piStack_8048[1] == 6)) {
+    if (((uVar4 != 0) && (piStack_8048 != (int *)0x0)) && (piStack_8048[1] == 6)) {
       client_DrawHoverItem_1021f4c0((int)local_7a10,*p_D2Client_DAT_6fbcbc38);
     }
   }
@@ -10108,8 +10092,8 @@ LAB_10222a2c:
     }
     client_DrawHoverItem_1021f770(*p_D2Client_DAT_6fbcbc38,(int)local_5a10,(int)psVar7);
   }
-  uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x32);
-  if (((int)uVar15 != 0) && (iVar13 = D2Common_10935(*p_D2Client_DAT_6fbcbc38), 0 < iVar13)) {
+  uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x32);
+  if ((uVar4 != 0) && (iVar13 = D2Common_10935(*p_D2Client_DAT_6fbcbc38), 0 < iVar13)) {
     client_DrawHoverItem_1021f930(piVar11,(int)local_5810,*p_D2Client_DAT_6fbcbc38);
   }
   bStack_803d = 0;
@@ -10232,7 +10216,7 @@ LAB_10222a2c:
       ((iVar13 == 0x20796562 || (iVar13 == 0x2072626d)))) ||
      ((iVar13 == 0x20316b70 ||
       (((iVar13 == 0x20326b70 || (iVar13 == 0x20336b70)) ||
-       (uVar15 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x4a), (int)uVar15 != 0)))))) {
+       (uVar4 = D2Common_10744(*p_D2Client_DAT_6fbcbc38,0x4a), uVar4 != 0)))))) {
     piStack_8048 = (int *)CONCAT31(piStack_8048._1_3_,8);
   }
   psVar6 = (short *)sub_102f0c70(local_2010,3);
@@ -11072,9 +11056,9 @@ LAB_102242f6:
                         uVar6 = 5;
                       }
                     }
-                    uVar17 = D2Common_10695(piVar2[1]);
-                    if ((*(char *)((int)uVar17 + 0x12a) != '\0') &&
-                       (*(int *)((int)uVar17 + 0x80) != 0x2067656c)) {
+                    iVar7 = D2Common_10695(piVar2[1]);
+                    if ((*(char *)(iVar7 + 0x12a) != '\0') && (*(int *)(iVar7 + 0x80) != 0x2067656c)
+                       ) {
                       uVar6 = 4;
                     }
                     iVar7 = DAT_103d6230 + 1;
@@ -11291,7 +11275,6 @@ void client_DrawHoverItem_10224a40(int param_1,int param_2,void *param_3,uint32_
   void *pvVar7;
   int iVar8;
   int *piVar9;
-  uint64_t uVar10;
   uint8_t auStack_24e4 [7];
   char cStack_24dd;
   int *local_24dc;
@@ -11356,8 +11339,7 @@ void client_DrawHoverItem_10224a40(int param_1,int param_2,void *param_3,uint32_
     while ((puVar4 = puStack_24d4, piVar5 != (int *)0x0 &&
            (uVar3 = D2Common_11147(piVar5), piVar9 = local_24dc, param_3 = local_24d8,
            puVar4 = puStack_24d4, uVar3 != 0))) {
-      uVar10 = D2Common_10464(piVar5);
-      piVar5 = (int *)uVar10;
+      piVar5 = (int *)D2Common_10464(piVar5);
       iVar2 = D2Common_10930(uVar3,local_24cc,(uint)local_24c8);
       param_3 = local_24d8;
       piVar9 = local_24dc;
@@ -11371,7 +11353,7 @@ void client_DrawHoverItem_10224a40(int param_1,int param_2,void *param_3,uint32_
   pvStack_24c0 = (void *)D2Lang_10003(0xf9e);
   local_24c4 = (void *)D2Lang_10003(0xf9b);
   local_24c8 = (void *)D2Lang_10003(0xf0c);
-  if (((param_5 != 0) && (uVar10 = D2Common_10744((int)piVar9,0x39), (int)uVar10 != 0)) &&
+  if (((param_5 != 0) && (uVar3 = D2Common_10744((int)piVar9,0x39), uVar3 != 0)) &&
      (iVar2 = D2Common_10910((int)piVar9,0x7a,0), iVar2 == 0)) {
     sub_6fb04780(local_210);
     Unicode_strcat(param_3,local_210);
@@ -11443,24 +11425,22 @@ LAB_10224dcd:
       piVar9 = local_24dc;
     } while (local_24cc < *(int *)(iVar2 + 0xbdc));
   }
-  if ((piVar9 != (int *)0x0) && (*piVar9 == 4)) {
-    uVar10 = D2Common_10695(piVar9[1]);
-    if ((*(char *)((int)uVar10 + 0x113) == '\0') &&
-       (((*(char *)((int)uVar10 + 0x112) != '\0' &&
-         (iVar2 = D2Common_10973_10273ce0((int)piVar9,0x98,0), iVar2 < 1)) &&
-        (iVar2 = D2Common_11116((int)piVar9), iVar2 == 0)))) {
-      pvVar7 = (void *)D2Lang_10003(0x52f8);
-      if ((cStack_24dd == '\0') || (param_8 != 0)) {
-        Unicode_strcat(param_3,pvVar7);
-        pvVar7 = pvStack_24c0;
-        if (param_8 == 0) goto LAB_10224e94;
-      }
-      else {
-        Unicode_strcat(param_3,local_24c8);
-        Unicode_strcat(param_3,local_24c4);
-      }
+  if (((((piVar9 != (int *)0x0) && (*piVar9 == 4)) &&
+       (iVar2 = D2Common_10695(piVar9[1]), *(char *)(iVar2 + 0x113) == '\0')) &&
+      ((*(char *)(iVar2 + 0x112) != '\0' &&
+       (iVar2 = D2Common_10973_10273ce0((int)piVar9,0x98,0), iVar2 < 1)))) &&
+     (iVar2 = D2Common_11116((int)piVar9), iVar2 == 0)) {
+    pvVar7 = (void *)D2Lang_10003(0x52f8);
+    if ((cStack_24dd == '\0') || (param_8 != 0)) {
       Unicode_strcat(param_3,pvVar7);
+      pvVar7 = pvStack_24c0;
+      if (param_8 == 0) goto LAB_10224e94;
     }
+    else {
+      Unicode_strcat(param_3,local_24c8);
+      Unicode_strcat(param_3,local_24c4);
+    }
+    Unicode_strcat(param_3,pvVar7);
   }
 LAB_10224e94:
   D2Common_11108_102a3820(puVar4);

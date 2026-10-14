@@ -3619,8 +3619,8 @@ uint32_t __fastcall sub_102f1550(int param_1,int param_2)
   ushort uVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
-  uint64_t uVar6;
+  void *pvVar5;
+  uint uVar6;
   int local_90 [9];
   int local_6c;
   int *local_68;
@@ -3636,9 +3636,9 @@ uint32_t __fastcall sub_102f1550(int param_1,int param_2)
   uint8_t  stack0xfffffffc;   /* not traced by Ghidra: address of a stack slot */
   
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
-  if ((((param_1 != 0) && (uVar5 = *(uint *)(param_1 + 4), -1 < (int)uVar5)) &&
-      (uVar5 < *(uint *)(*p_D2Common_DAT_6fde9e1c + 0xb6c))) &&
-     (local_90[8] = uVar5 * 0x1a4 + *(int *)(*p_D2Common_DAT_6fde9e1c + 0xb64), param_2 == 0)) {
+  if ((((param_1 != 0) && (uVar6 = *(uint *)(param_1 + 4), -1 < (int)uVar6)) &&
+      (uVar6 < *(uint *)(*p_D2Common_DAT_6fde9e1c + 0xb6c))) &&
+     (local_90[8] = uVar6 * 0x1a4 + *(int *)(*p_D2Common_DAT_6fde9e1c + 0xb64), param_2 == 0)) {
     local_68 = (int *)param_1;
     iVar3 = D2Common_10737((int *)param_1);
     iVar4 = D2Common_10130((int *)param_1);
@@ -3648,10 +3648,10 @@ uint32_t __fastcall sub_102f1550(int param_1,int param_2)
       uVar1 = *(ushort *)(iVar3 + 2);
       uVar2 = *(ushort *)(iVar3 + 6);
       iVar3 = *(int *)(iVar3 + 0x44);
-      uVar6 = D2Common_10331(local_68);
-      uVar5 = D2Common_10573((void *)uVar6,(uint)uVar1,(uint)uVar2,iVar3 + 1,0x806);
+      pvVar5 = (void *)D2Common_10331(local_68);
+      uVar6 = D2Common_10573(pvVar5,(uint)uVar1,(uint)uVar2,iVar3 + 1,0x806);
       local_5c = local_68;
-      if (uVar5 != 0) {
+      if (uVar6 != 0) {
         uVar1 = *(ushort *)(local_68[5] + 10);
         uVar2 = *(ushort *)(local_68[5] + 0xc);
         memset(&local_64,0,0x5c);
@@ -3699,18 +3699,18 @@ uint32_t __fastcall sub_102f16c0(int param_1,int param_2)
   int iVar9;
   int iVar10;
   uint uVar11;
-  uint uVar12;
-  int iVar13;
-  int *piVar14;
-  int iVar15;
+  void *pvVar12;
+  uint uVar13;
+  int iVar14;
+  int *piVar15;
   int iVar16;
-  uint uVar17;
-  int iVar18;
-  float fVar19;
-  double in_XMM0_Qa;
+  int iVar17;
+  uint uVar18;
+  int iVar19;
   float fVar20;
+  double in_XMM0_Qa;
   float fVar21;
-  uint64_t uVar22;
+  float fVar22;
   int local_78;
   uint local_64;
   int local_60;
@@ -3726,8 +3726,8 @@ uint32_t __fastcall sub_102f16c0(int param_1,int param_2)
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   if (((param_1 != 0) && (uVar7 = *(uint *)(param_1 + 4), -1 < (int)uVar7)) &&
      (uVar7 < *(uint *)(*p_D2Common_DAT_6fde9e1c + 0xb6c))) {
-    iVar16 = uVar7 * 0x1a4 + *(int *)(*p_D2Common_DAT_6fde9e1c + 0xb64);
-    iVar8 = *(int *)(iVar16 + 0x74);
+    iVar17 = uVar7 * 0x1a4 + *(int *)(*p_D2Common_DAT_6fde9e1c + 0xb64);
+    iVar8 = *(int *)(iVar17 + 0x74);
     uVar7 = D2Common_11018((int *)param_1);
     if (((int)uVar7 < iVar8) && (param_2 == 0)) {
       iVar8 = D2Common_10737((int *)param_1);
@@ -3736,94 +3736,94 @@ uint32_t __fastcall sub_102f16c0(int param_1,int param_2)
       if ((((iVar8 <= iVar9) && ((1 < iVar8 && (iVar8 < iVar10)))) &&
           (iVar9 = sub_102ee000(), iVar9 != 0)) && (iVar10 = *(int *)(param_1 + 0x2c), iVar10 != 0))
       {
-        uVar17 = (uint)*(ushort *)(iVar10 + 2);
+        uVar18 = (uint)*(ushort *)(iVar10 + 2);
         uVar11 = (uint)*(ushort *)(iVar10 + 6);
         iVar10 = *(int *)(iVar10 + 0x44);
-        uVar22 = D2Common_10331((int *)param_1);
+        pvVar12 = (void *)D2Common_10331((int *)param_1);
         uVar1 = iVar10 + 1;
-        uVar12 = D2Common_10573((void *)uVar22,uVar17,uVar11,uVar1,0x806);
-        if (uVar12 != 0) {
+        uVar13 = D2Common_10573(pvVar12,uVar18,uVar11,uVar1,0x806);
+        if (uVar13 != 0) {
           uVar2 = *(ushort *)(*(int *)(param_1 + 0x14) + 10);
           uVar3 = *(ushort *)(*(int *)(param_1 + 0x14) + 0xc);
-          local_78 = *(int *)(iVar16 + 0x4c);
+          local_78 = *(int *)(iVar17 + 0x4c);
           if (local_78 == 0) {
             local_78 = 1;
           }
-          iVar10 = *(int *)(iVar16 + 0x50);
+          iVar10 = *(int *)(iVar17 + 0x50);
           if (iVar10 == 0) {
             iVar10 = 1;
           }
-          iVar13 = *(int *)(iVar16 + 0x54);
-          if (iVar13 == 0) {
-            iVar13 = 1;
+          iVar14 = *(int *)(iVar17 + 0x54);
+          if (iVar14 == 0) {
+            iVar14 = 1;
           }
-          iVar4 = *(int *)(iVar16 + 0x6c);
-          iVar5 = *(int *)(iVar16 + 0x70);
+          iVar4 = *(int *)(iVar17 + 0x6c);
+          iVar5 = *(int *)(iVar17 + 0x70);
           memset(&local_64,0,0x5c);
-          local_54 = (int)*(short *)(iVar16 + 0x2c);
+          local_54 = (int)*(short *)(iVar17 + 0x2c);
           local_64 = 0x22;
-          iVar18 = uVar17 - *(ushort *)(*(int *)(iVar9 + 0x2c) + 2);
-          iVar16 = uVar11 - *(ushort *)(*(int *)(iVar9 + 0x2c) + 6);
+          iVar19 = uVar18 - *(ushort *)(*(int *)(iVar9 + 0x2c) + 2);
+          iVar17 = uVar11 - *(ushort *)(*(int *)(iVar9 + 0x2c) + 6);
           local_60 = iVar9;
           local_5c = param_1;
           local_38 = (uint)uVar2;
           local_34 = (uint)uVar3;
-          sub_10218a80(iVar16 * iVar16 + iVar18 * iVar18);
-          fVar21 = (float)iVar16 / (float)in_XMM0_Qa;
+          sub_10218a80(iVar17 * iVar17 + iVar19 * iVar19);
+          fVar22 = (float)iVar17 / (float)in_XMM0_Qa;
           if (0 < local_78) {
-            iVar16 = -((local_78 + -1) / 2) * iVar10;
+            iVar17 = -((local_78 + -1) / 2) * iVar10;
             do {
               iVar9 = 0;
               do {
-                fVar19 = 1.0;
+                fVar20 = 1.0;
                 if (iVar9 == 0) {
-                  fVar20 = fVar19;
-                  fVar19 = 0.0;
-                }
-                else {
+                  fVar21 = fVar20;
                   fVar20 = 0.0;
                 }
-                fVar20 = fVar19 * fVar21 + fVar20 * ((float)iVar18 / (float)in_XMM0_Qa);
-                fVar19 = fVar21 - (fVar20 + fVar20) * fVar19;
+                else {
+                  fVar21 = 0.0;
+                }
+                fVar21 = fVar20 * fVar22 + fVar21 * ((float)iVar19 / (float)in_XMM0_Qa);
+                fVar20 = fVar22 - (fVar21 + fVar21) * fVar20;
                 thunk_FUN_102f1500();
-                fVar19 = fVar19 * 10.185916;
-                if (fVar19 < 0.0) {
-                  fVar19 = fVar19 + 64.0;
+                fVar20 = fVar20 * 10.185916;
+                if (fVar20 < 0.0) {
+                  fVar20 = fVar20 + 64.0;
                 }
-                uVar12 = (int)fVar19 & 0x8000003f;
-                if ((int)uVar12 < 0) {
-                  uVar12 = (uVar12 - 1 | 0xffffffc0) + 1;
+                uVar13 = (int)fVar20 & 0x8000003f;
+                if ((int)uVar13 < 0) {
+                  uVar13 = (uVar13 - 1 | 0xffffffc0) + 1;
                 }
-                uVar12 = uVar12 + iVar16 & 0x8000003f;
-                if ((int)uVar12 < 0) {
-                  uVar12 = (uVar12 - 1 | 0xffffffc0) + 1;
+                uVar13 = uVar13 + iVar17 & 0x8000003f;
+                if ((int)uVar13 < 0) {
+                  uVar13 = (uVar13 - 1 | 0xffffffc0) + 1;
                 }
-                local_48 = *(int *)(p_D2Client_DAT_6fb84390 + uVar12 * 4);
-                local_44 = *(int *)(p_D2Client_DAT_6fb84290 + uVar12 * 4);
-                bVar6 = functions_HelperFunctions_102d2a50((void *)uVar22,uVar17,uVar11,local_48 + uVar17,
-                                     local_44 + uVar11,uVar1);
+                local_48 = *(int *)(p_D2Client_DAT_6fb84390 + uVar13 * 4);
+                local_44 = *(int *)(p_D2Client_DAT_6fb84290 + uVar13 * 4);
+                bVar6 = functions_HelperFunctions_102d2a50(pvVar12,uVar18,uVar11,local_48 + uVar18,local_44 + uVar11,uVar1
+                                    );
                 if (!bVar6) {
-                  piVar14 = UNIT_Missile_6fb630f0(&local_64);
-                  if (piVar14 != (int *)0x0) {
-                    D2Common_10637(piVar14,uVar7 + 1);
+                  piVar15 = UNIT_Missile_6fb630f0(&local_64);
+                  if (piVar15 != (int *)0x0) {
+                    D2Common_10637(piVar15,uVar7 + 1);
                     iVar9 = 0;
-                    if (-1 < iVar8 - iVar13) {
-                      iVar9 = iVar8 - iVar13;
+                    if (-1 < iVar8 - iVar14) {
+                      iVar9 = iVar8 - iVar14;
                     }
-                    iVar15 = iVar9;
-                    if ((uVar7 == 0) && (iVar15 = iVar4, iVar4 < iVar9)) {
-                      iVar15 = iVar9;
+                    iVar16 = iVar9;
+                    if ((uVar7 == 0) && (iVar16 = iVar4, iVar4 < iVar9)) {
+                      iVar16 = iVar9;
                     }
-                    if (iVar15 < iVar5) {
-                      iVar15 = 0;
+                    if (iVar16 < iVar5) {
+                      iVar16 = 0;
                     }
-                    D2Common_10970(piVar14,iVar15);
+                    D2Common_10970(piVar15,iVar16);
                   }
                   break;
                 }
                 iVar9 = iVar9 + 1;
               } while (iVar9 < 2);
-              iVar16 = iVar16 + iVar10;
+              iVar17 = iVar17 + iVar10;
               local_78 = local_78 + -1;
             } while (local_78 != 0);
           }
@@ -3949,7 +3949,7 @@ uint32_t __fastcall sub_102f1c30(int param_1,int param_2)
   uint uVar7;
   int *piVar8;
   uint32_t extraout_ECX;
-  uint64_t uVar9;
+  uint32_t extraout_EDX;
   uint local_64;
   uint local_60;
   uint local_54;
@@ -3978,8 +3978,8 @@ uint32_t __fastcall sub_102f1c30(int param_1,int param_2)
     local_54 = (uint)uVar2;
     piVar8 = UNIT_Missile_6fb630f0(&local_64);
     if (piVar8 != (int *)0x0) {
-      uVar9 = D2Common_10231((int *)param_1,uVar6,*(uint *)(iVar5 + 0x8c),uVar3,uVar7);
-      sub_102efef0(extraout_ECX,(int)((ulonglong)uVar9 >> 0x20));
+      D2Common_10231((int *)param_1,uVar6,*(uint *)(iVar5 + 0x8c),uVar3,uVar7);
+      sub_102efef0(extraout_ECX,extraout_EDX);
       if ((piVar8[0x15] != 0) && (iVar4 = *(int *)(piVar8[0x15] + 0x30), iVar4 != 0)) {
         *(uint32_t *)(iVar4 + 0x10) = *(uint32_t *)(iVar5 + 0x6c);
         *(uint32_t *)(*(int *)(piVar8[0x15] + 0x30) + 0x14) = *(uint32_t *)(iVar5 + 0x70);

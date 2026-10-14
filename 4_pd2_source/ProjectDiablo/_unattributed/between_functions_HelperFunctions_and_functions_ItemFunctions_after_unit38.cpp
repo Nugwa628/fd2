@@ -39,7 +39,6 @@ uint32_t __fastcall sub_102d3c20(int param_1,int param_2)
   int *piVar5;
   int *piVar6;
   int iVar7;
-  uint64_t uVar8;
   
   iVar7 = 10;
   if (param_2 < 0xb) {
@@ -50,8 +49,7 @@ uint32_t __fastcall sub_102d3c20(int param_1,int param_2)
     piVar4 = (int *)D2Common_10460(*(int **)(param_1 + 0x60));
     piVar5 = sub_102d3f60(iVar7);
     while (piVar6 = piVar4, piVar6 != (int *)0x0) {
-      uVar8 = D2Common_10464(piVar6);
-      piVar4 = (int *)uVar8;
+      piVar4 = (int *)D2Common_10464(piVar6);
       if (*(char *)(piVar6[5] + 0x45) == '\x04') {
         iVar7 = *(int *)(piVar6[0xb] + 0xc);
         iVar1 = *(int *)(piVar6[0xb] + 0x10);
@@ -85,7 +83,6 @@ uint32_t __fastcall sub_102d3d10(int param_1,int param_2,int param_3)
   int *piVar6;
   uint uVar7;
   int iVar8;
-  uint64_t uVar9;
   
   iVar8 = 10;
   if (param_2 < 0xb) {
@@ -96,8 +93,7 @@ uint32_t __fastcall sub_102d3d10(int param_1,int param_2,int param_3)
     piVar3 = (int *)D2Common_10460(*(int **)(param_1 + 0x60));
     piVar4 = sub_102d3f60(iVar8);
     while (piVar6 = piVar3, piVar6 != (int *)0x0) {
-      uVar9 = D2Common_10464(piVar6);
-      piVar3 = (int *)uVar9;
+      piVar3 = (int *)D2Common_10464(piVar6);
       if (*(char *)(piVar6[5] + 0x45) == '\x05') {
         uVar7 = *(uint *)(piVar6[0xb] + 0x10);
         uVar1 = *(uint *)(piVar6[0xb] + 0xc);
@@ -172,13 +168,11 @@ void __fastcall sub_102d3f00(int param_1)
 
 {
   int *piVar1;
-  uint64_t uVar2;
   
   if ((param_1 != 0) && (*(int *)(param_1 + 0x14) != 0)) {
     piVar1 = (int *)D2Common_10460(*(int **)(param_1 + 0x60));
     while ((piVar1 != (int *)0x0 && (*(char *)(piVar1[5] + 0x45) != '\x04'))) {
-      uVar2 = D2Common_10464(piVar1);
-      piVar1 = (int *)uVar2;
+      piVar1 = (int *)D2Common_10464(piVar1);
     }
     *(uint32_t *)(*(int *)(param_1 + 0x14) + 0x1b4) = 0;
     sub_102d3d10(param_1,*(int *)(*(int *)(param_1 + 0x14) + 0x1b4),0);

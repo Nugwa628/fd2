@@ -111,8 +111,9 @@ PD2 imports no game function by ordinal. D2Template binds the game at run time: 
 DLL index and a value from a `{1.13c, 1.13d}` pair (negative = ordinal for `GetProcAddress`, otherwise an offset from
 the DLL base). `game_pointers.tsv` lists all **{{gp_total}}** bindings: {{gp_thunks}} lazy thunks (resolve once, then
 `jmp [cell]`) and {{gp_accessors}} accessors (an inline variable whose address each file copies into its own global in
-a static initializer: {{gp_copies}} copies). {{gp_ordinal}} use an ordinal and {{gp_offset}} an offset; {{gp_113d_unset}}
-have no 1.13d value.
+a static initializer: {{gp_copies}} copies). {{gp_ordinal}} use an ordinal and {{gp_offset}} an offset (for 1.13c).
+{{gp_113d_unset}} have 0 in their 1.13d half: although `DetectGameVersion` accepts 1.0.13.64, this build fills in
+1.13d values for only the remaining bindings.
 
 * **All {{gp_named}} are named** through the reference trees (`sigmaRE/5_game_source`, read-only): ordinals by
   `exports.tsv`, offsets by the reference function at that address in `symbols.csv`. {{gp_t_function}} point at a
@@ -128,12 +129,12 @@ have no 1.13d value.
   reference has no function for) from `ret N` alone, {{proto_manual}} by hand (Fog assert/alloc/free, so PD2's own
   `__FILE__` strings show), {{proto_none}} left alone. Register parameters other than ECX/EDX in the reference
   ({{proto_dropped_regs}} prototypes) were dropped: compiled C++ can't pass them, and PD2 calls these thunks from C++.
-  Now {{calls_thunk_noargs}} of {{calls_thunk}} thunk calls in this tree have an empty argument list, and those are
-  genuine zero-argument functions.
+  Now {{calls_thunk_noargs}} of {{calls_thunk}} thunk calls in this tree have an empty argument list: calls to targets
+  whose reference prototype has no parameters or that end in a plain `ret` with no caller cleanup.
 * In this tree: {{calls_thunk}} calls through thunks and {{calls_cell}} calls through per-file pointer copies use the
   reference names ({{calls_game_named}} game calls named), plus {{refs_game_data}} lines that read game variables.
-  {{calls_indirect_dat}} indirect calls through a still-unnamed `DAT_` global remain; they are PD2's own function
-  pointers (callbacks), not game bindings. Pointers PD2 fills with `GetProcAddress(h, "Name")` (BH.dll, d2gl) are
+  Indirect calls through a still-unnamed `DAT_` global: {{calls_indirect_dat}} (a PD2 callback pointer, not a game
+  binding). Pointers PD2 fills with `GetProcAddress(h, "Name")` (BH.dll, d2gl) are
   named `pfn_<Name>`. `Ordinal_` left: {{ordinal_left}}
   ({{ordinal_imports}} ordinal imports, both XInput, named `XInputGetState`/`XInputSetState`).
 * `include/imports.h` ends with every game binding (one line per target): the name used here, the DLL value, the

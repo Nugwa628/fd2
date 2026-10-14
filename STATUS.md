@@ -22,7 +22,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | 0 Inventory/triage | orchestrator | inputs | `0_inventory/` | **done** (see `0_inventory/INVENTORY.md`) |
 | 1 Data (MPQ → txt, diffs) | sub-agent | Phase 0 | `2_txt/` | **done** except layouts of PD2-only/`.bin`-only tables (needs Phase 2/3) |
 | 2 Decompile (PD2 DLLs, BH, rebuilt modules) | sub-agent per binary | Phase 0 | `fd2_work/3_ghidra_fixed/` | **done** (ProjectDiablo, PD2_EXT, BH) |
-| 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | not started |
+| 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT running |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | not started |
 | 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/BH` | not started |
 | 6 Verification + README numbers | orchestrator + verifier | all | `README.md` | not started |
@@ -120,3 +120,14 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - Output: `4_pd2_source/BH/` (README, DIFF.md, src/ for binary-only changes, patches.tsv, interop.md), scripts in `tools/bh/`.
 - Done: closest public commit identified with evidence; every BH class/file classified; no upstream code copied into the repo.
 - Note: PD2_EXT source tree (P3b) waits for P3a, because both use the shared generator in `tools/src`.
+
+### P3a Source tree ProjectDiablo: done (2026-10-14)
+- 13,787 functions (10,980 PD2, 2,807 lib). Of PD2 code: anchor 35, range 1,496, linked 151, inferred 41, nearest 4, gap 9,253 (84%; 3,604 of those are static initializers of unnamed objects). Ordinary code in a named file: 815 / 6,464 (12.6%).
+- 66 object files recovered from the static-initializer table (link order); 14 named (13 `__FILE__` + `functions/D2ClientFunctions.cpp` manual override). **Link order: not alphabetical** (project-file order) → `between_` = located between.
+- Lost-arguments fix: 969 thunks got prototypes (717 from reference headers); empty-arg thunk calls 5,853/5,923 → 174/6,068. Placeholders 3,116 → 3,257 (+5%, because calls now pass arguments and expose `extraout_*`).
+- Game calls: all 2,037 bindings named (569 ordinal, 1,468 by 1.13c offset); 6,475 calls use reference names; 0 `Ordinal_` left. Undeclared: 9 names (STL internals).
+- `d2structs.h`: 13 structs, 43 fields proven, 102 assumed. PD2's Game struct is larger than vanilla's.
+- 1,896 of 2,037 bindings have 1.13d value 0: this build effectively supports 1.13c only.
+- Object file 45 = client integrity check (module scan vs base64-encoded hack-DLL names): labelled, high-level only.
+- Orchestrator check: README counts are generator-filled; second regeneration byte-identical (agent); integrity-check text is high level only.
+- Open: 52 of 66 object files unnamed (`link_units.tsv` gives leads); structs not applied to the code (needs a Ghidra data-type pass + re-export).

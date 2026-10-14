@@ -5012,7 +5012,7 @@ void sub_1022ab70(void)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_1022abb0(uint32_t reg_EBX)
+void sub_Settings_1022abb0(uint32_t reg_EBX)
 
 {
   char *pcVar1;
@@ -5604,7 +5604,7 @@ void sub_Config74_1022abb0(uint32_t reg_EBX)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_1022abe0(uint32_t reg_EBX)
+void sub_Settings_1022abe0(uint32_t reg_EBX)
 
 {
   char *pcVar1;
@@ -6208,7 +6208,7 @@ void sub_1022ac10(uint32_t reg_EBX)
   
   if (DAT_103e7778 == 0) {
     DAT_104e24c2 = DAT_104e24c2 == '\0';
-    sub_Config74_10239e00(reg_EBX);
+    sub_Settings_10239e00(reg_EBX);
     piVar1 = (int *)*p_D2Client_DAT_6fbcbbfc;
     if ((((piVar1 != (int *)0x0) && (*piVar1 == 0)) && (iVar2 = piVar1[5], iVar2 != 0)) &&
        (uStack_f = (uint)DAT_104e24c2, *(uint *)(iVar2 + 0x1a4) != uStack_f)) {
@@ -6228,7 +6228,7 @@ void sub_1022ac10(uint32_t reg_EBX)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Unknown calling convention */
 
-void sub_Config74_1022ac40(uint32_t reg_EBX)
+void sub_Settings_1022ac40(uint32_t reg_EBX)
 
 {
   char *pcVar1;
@@ -7301,8 +7301,8 @@ void __fastcall sub_1022b050(uint32_t param_1,uint32_t param_2)
   bool bVar2;
   int *piVar3;
   uint extraout_EAX;
+  uint uVar4;
   uint32_t extraout_var;
-  uint64_t uVar4;
   uint8_t local_c;
   uint32_t local_b;
   
@@ -7311,8 +7311,8 @@ void __fastcall sub_1022b050(uint32_t param_1,uint32_t param_2)
   GetTickCount64();
   if (((piVar3 != (int *)0x0) && (*p_D2Client_DAT_6fbc97a8 != 0)) && (DAT_103e7774 <= extraout_EAX)) {
     uVar4 = D2Common_10331(piVar3);
-    uVar4 = D2Common_10826((int)uVar4);
-    bVar2 = functions_HelperFunctions_102ce890((int)uVar4);
+    uVar4 = D2Common_10826(uVar4);
+    bVar2 = functions_HelperFunctions_102ce890(uVar4);
     if ((CONCAT31(extraout_var,bVar2) == 0) || (piVar3[1] != 0x93)) {
       sub_102edf70();
       local_c = 0x57;

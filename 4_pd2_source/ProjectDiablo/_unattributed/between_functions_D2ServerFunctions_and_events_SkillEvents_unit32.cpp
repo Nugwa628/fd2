@@ -3576,7 +3576,7 @@ void sub_InitPtr_D2Game_DAT_6fd27338_1010bcf0(void)
 
 // 0x102ae3a0  (ghidra: FUN_102ae3a0)  [gap]
 void __fastcall
-sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI)
+sub_Ptr_D2Game_6fd1bb80_102ae3a0(int param_1,int *param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI)
 
 {
   char cVar1;
@@ -3604,7 +3604,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
   uint uStack_20;
   int iStack_1c;
   int iStack_18;
-  int iStack_14;
+  uint uStack_14;
   double dStack_10;
   uint8_t  stack0xffffffb0;   /* not traced by Ghidra: address of a stack slot */
   
@@ -3625,7 +3625,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
         do {
           piVar3 = (int *)(**(int **)(param_2[5] + 0x44) + iStack_30);
           if (((piVar3 != (int *)0x0) &&
-              (iStack_14 = *(int *)(iStack_18 + 0xbe8) + iStack_1c, iStack_14 != 0)) &&
+              (uStack_14 = *(int *)(iStack_18 + 0xbe8) + iStack_1c, uStack_14 != 0)) &&
              (iStack_24 = *piVar3, iStack_24 != 0)) {
             do {
               piVar3 = (int *)sub_102ecd40();
@@ -3635,7 +3635,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
                   in_stack_ffffffb0 = *(int *)(param_1 + 0xa8) + 1;
                   sub_6fcaea80(param_1,piVar3,2,in_stack_ffffffb0,0,0,0);
                 }
-                if ((((*(byte *)(iStack_14 + 4) & 1) != 0) && (piVar3[4] != 0xc)) &&
+                if ((((*(byte *)(uStack_14 + 4) & 1) != 0) && (piVar3[4] != 0xc)) &&
                    (piVar3[4] != 0)) {
                   sub_10272d30();
                   dStack_10 = in_XMM0_Qa;
@@ -3664,8 +3664,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
     }
     if ((param_2[0x20] != 0) && (piVar3 = (int *)param_2[0x18], piVar3 != (int *)0x0)) {
       in_stack_ffffffb0 = 0x102ae580;
-      uVar9 = D2Common_10973((int)param_2,0xb8,0);
-      iStack_14 = (int)uVar9;
+      uStack_14 = D2Common_10973((int)param_2,0xb8,0);
       piVar3 = (int *)D2Common_10460(piVar3);
       if (piVar3 != (int *)0x0) {
         bVar2 = false;
@@ -3675,10 +3674,9 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
              (uVar7 = functions_D2CommonFunctions_102674f0(piVar3[0x17],0x1e70000,param_2), 0 < (int)uVar7)) {
             bVar2 = true;
             in_stack_ffffffb0 = *(uint *)(param_2[5] + 0x9c);
-            sub_102ede30(piVar3,0,in_stack_ffffffb0,1,0xb8,iStack_14 + 1);
+            sub_102ede30(piVar3,0,in_stack_ffffffb0,1,0xb8,uStack_14 + 1);
           }
-          uVar9 = D2Common_10464(piVar3);
-          piVar3 = (int *)uVar9;
+          piVar3 = (int *)D2Common_10464(piVar3);
         } while (piVar3 != (int *)0x0);
         if (bVar2) {
           sub_102ecfd0();
@@ -3695,10 +3693,10 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
         *(uint32_t *)(param_2[5] + 0x1a8) = 0;
         iVar4 = param_2[5];
       }
-      iStack_14 = *(int *)(iVar4 + 0x1ac);
+      uStack_14 = *(int *)(iVar4 + 0x1ac);
       iStack_18 = *(int *)(iVar4 + 0x1a8);
       *(int *)(iVar4 + 0x1ac) =
-           (iStack_14 * *(int *)(iVar4 + 0x1a4) + iStack_18) / (*(int *)(iVar4 + 0x1a4) + 1);
+           (int)(uStack_14 * *(int *)(iVar4 + 0x1a4) + iStack_18) / (*(int *)(iVar4 + 0x1a4) + 1);
       *(uint32_t *)(param_2[5] + 0x1a8) = 0;
       _Memory = malloc(5);
       if (_Memory != (uint8_t *)0x0) {
@@ -3712,7 +3710,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
         }
         free(_Memory);
       }
-      if ((iStack_14 != 0) || (iStack_18 != 0)) {
+      if ((uStack_14 != 0) || (iStack_18 != 0)) {
         *(int *)(param_2[5] + 0x1a4) = *(int *)(param_2[5] + 0x1a4) + 1;
       }
     }
@@ -3721,7 +3719,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
     }
   }
   if (((*param_2 == 0) && (param_2[5] != 0)) &&
-     (uVar9 = D2Common_10871((int)param_2,0xc), (int)uVar9 != 0)) {
+     (iVar4 = D2Common_10871((int)param_2,0xc), iVar4 != 0)) {
     iStack_18 = *p_D2Common_DAT_6fde9e1c;
     puVar5 = (uint32_t *)D2Common_10511((int)param_2);
     if (((puVar5 != (uint32_t *)0x0) &&
@@ -3729,7 +3727,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
        ((extraout_ECX < *(uint *)(iStack_18 + 0xba0) &&
         ((iVar6 = functions_HelperFunctions_102ce600((uint)*(ushort *)(iVar4 + 0x48)), piVar3 = local_28, iVar6 != 0 &&
          (extraout_ECX_00 < *(uint *)(iStack_18 + 0xb6c))))))) {
-      iStack_14 = *(int *)(param_1 + 0xa8);
+      uStack_14 = *(int *)(param_1 + 0xa8);
       if ((*(char *)(iVar4 + 0x10) == '\x12') &&
          ((*(char *)(iVar4 + 0x13) == '\x06' || (*(char *)(iVar4 + 0x13) == '\x12')))) {
         piVar8 = (int *)param_2[1];
@@ -3753,21 +3751,17 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
           piVar8 = (int *)sub_102aed60((uint *)&local_28);
           sub_10210b20(&stack0xffffffb0,piVar8);
           iVar4 = functions_HelperFunctions_102cfc60(in_stack_ffffffb0,uVar10,uVar11,uVar12,piVar3);
-          if (iStack_14 % iVar4 == 0) {
-            uVar9 = D2Common_10331(piVar3);
-            if (((int)uVar9 != 0) && (piVar3[0xb] != 0)) {
-              uVar9 = D2Common_10826((int)uVar9);
-              iStack_14 = (int)uVar9;
-              iVar4 = functions_HelperFunctions_102cea40(iStack_14);
-              if (iVar4 == 0) {
-                iVar4 = piVar3[0xb];
-                uVar9 = functions_HelperFunctions_102cf710(iStack_14,(uint)*(ushort *)(iVar4 + 2),
-                                     (uint)*(ushort *)(iVar4 + 6));
-                if ((int)uVar9 == 0) {
-                  uVar9 = D2Common_10392(iVar4);
-                  sub_6fcaea80(param_1,piVar3,7,*(int *)(param_1 + 0xa8) + 4,0x102becf0,0xe,
-                               (uint)uVar9);
-                }
+          if ((((int)uStack_14 % iVar4 == 0) && (uVar7 = D2Common_10331(piVar3), uVar7 != 0)) &&
+             (piVar3[0xb] != 0)) {
+            uStack_14 = D2Common_10826(uVar7);
+            iVar4 = functions_HelperFunctions_102cea40(uStack_14);
+            if (iVar4 == 0) {
+              iVar4 = piVar3[0xb];
+              uVar9 = functions_HelperFunctions_102cf710(uStack_14,(uint)*(ushort *)(iVar4 + 2),
+                                   (uint)*(ushort *)(iVar4 + 6));
+              if ((int)uVar9 == 0) {
+                uVar7 = D2Common_10392(iVar4);
+                sub_6fcaea80(param_1,piVar3,7,*(int *)(param_1 + 0xa8) + 4,0x102becf0,0xe,uVar7);
               }
             }
           }
@@ -3780,7 +3774,7 @@ sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param
 
 
 // 0x102ae8a0  (ghidra: FUN_102ae8a0)  [gap]
-void __fastcall sub_Hook_Unwind_6fd178a0_102ae8a0(uint32_t param_1,int *param_2,uint param_3)
+void __fastcall sub_Ptr_D2Game_6fd1bb94_102ae8a0(uint32_t param_1,int *param_2,uint param_3)
 
 {
   short sVar1;
@@ -3802,7 +3796,6 @@ void __fastcall sub_Hook_Unwind_6fd178a0_102ae8a0(uint32_t param_1,int *param_2,
   void *this_01;
   void *this_02;
   byte bVar11;
-  uint64_t uVar12;
   
   this_02 = (void *)*p_D2Common_DAT_6fde9e1c;
   if (param_3 == 0xffffffff) {
@@ -3860,8 +3853,7 @@ void __fastcall sub_Hook_Unwind_6fd178a0_102ae8a0(uint32_t param_1,int *param_2,
         uVar5 = D2Common_10494(param_2,(int)sVar1);
         this_02 = extraout_ECX;
         if (uVar5 != 0) {
-          uVar12 = D2Common_10871((int)param_2,(int)*(short *)(iVar7 + 0x80));
-          iVar7 = (int)uVar12;
+          iVar7 = D2Common_10871((int)param_2,(int)*(short *)(iVar7 + 0x80));
           this_02 = extraout_ECX_00;
           if (iVar7 != 0) {
             iVar8 = D2Common_10680(iVar7,0x15f,0);
@@ -3887,7 +3879,7 @@ void __fastcall sub_Hook_Unwind_6fd178a0_102ae8a0(uint32_t param_1,int *param_2,
 
 
 // 0x102aeb10  (ghidra: FUN_102aeb10)  [gap]
-void __fastcall sub_Hook_Unwind_6fd178a0_102aeb10(void *param_1,int *param_2,void *param_3,uint param_4)
+void __fastcall sub_Ptr_D2Game_6fd1bb98_102aeb10(void *param_1,int *param_2,void *param_3,uint param_4)
 
 {
   short sVar1;
@@ -3902,50 +3894,46 @@ void __fastcall sub_Hook_Unwind_6fd178a0_102aeb10(void *param_1,int *param_2,voi
   short *this;
   short *extraout_ECX_01;
   bool bVar8;
-  uint64_t uVar9;
   
   iVar4 = *p_D2Common_DAT_6fde9e1c;
   if ((-1 < (int)param_4) && (param_4 < *(uint *)(iVar4 + 0xba0))) {
     iVar2 = sub_102ecd50();
     iVar3 = functions_HelperFunctions_102ce5a0(param_4);
     if ((iVar3 != 0) &&
-       (((uint)*(ushort *)(iVar3 + 0x80) < *(uint *)(iVar4 + 0xc0) && (iVar2 == 0)))) {
-      uVar9 = D2Common_10973((int)param_2,0xbf,param_4);
-      iVar4 = (int)uVar9;
-      if (0 < iVar4) {
-        uVar5 = D2Common_10494(param_2,(uint)*(ushort *)(iVar3 + 0x80));
-        if (((uVar5 != 0) || (0xfffd < (ushort)(*(ushort *)(iVar3 + 0x2c) - 1))) ||
-           ((**(code **)(p_D2Game_DAT_6fd27338 + (uint)*(ushort *)(iVar3 + 0x2c) * 4))(param_4,iVar4),
-           this = extraout_ECX, (*(uint *)(iVar3 + 4) & 0x8000) != 0)) {
-          iVar2 = param_2[4];
-          bVar8 = true;
-          if (((iVar2 != 5) && (iVar2 != 1)) && ((iVar2 != 6 && (iVar2 != 2)))) {
-            bVar8 = iVar2 == 3;
-          }
-          puVar6 = (uint32_t *)D2Common_10511((int)param_2);
-          this = extraout_ECX_00;
-          if (puVar6 != (uint32_t *)0x0) {
-            this = (short *)*puVar6;
-            sVar1 = *this;
-            if ((sVar1 == 0x6b) || (this = (short *)0x19f, sVar1 == 0x19f)) goto LAB_102aec5b;
-          }
-          if (bVar8) {
-            puVar7 = functions_D2CommonFunctions_10268980((int)param_2,param_4);
-            if (puVar7 != (uint32_t *)0x0) {
-              D2Common_11103((int)param_2,(uint)puVar7);
-            }
-            functions_D2NewFunctions_102c63c0(param_2,param_1,param_4,iVar4,1,1,0);
-            D2Common_11103((int)param_2,(uint)puVar6);
-            this = extraout_ECX_01;
-          }
+       ((((uint)*(ushort *)(iVar3 + 0x80) < *(uint *)(iVar4 + 0xc0) && (iVar2 == 0)) &&
+        (iVar4 = D2Common_10973((int)param_2,0xbf,param_4), 0 < iVar4)))) {
+      uVar5 = D2Common_10494(param_2,(uint)*(ushort *)(iVar3 + 0x80));
+      if (((uVar5 != 0) || (0xfffd < (ushort)(*(ushort *)(iVar3 + 0x2c) - 1))) ||
+         ((**(code **)(p_D2Game_DAT_6fd27338 + (uint)*(ushort *)(iVar3 + 0x2c) * 4))(param_4,iVar4),
+         this = extraout_ECX, (*(uint *)(iVar3 + 4) & 0x8000) != 0)) {
+        iVar2 = param_2[4];
+        bVar8 = true;
+        if (((iVar2 != 5) && (iVar2 != 1)) && ((iVar2 != 6 && (iVar2 != 2)))) {
+          bVar8 = iVar2 == 3;
         }
+        puVar6 = (uint32_t *)D2Common_10511((int)param_2);
+        this = extraout_ECX_00;
+        if (puVar6 != (uint32_t *)0x0) {
+          this = (short *)*puVar6;
+          sVar1 = *this;
+          if ((sVar1 == 0x6b) || (this = (short *)0x19f, sVar1 == 0x19f)) goto LAB_102aec5b;
+        }
+        if (bVar8) {
+          puVar7 = functions_D2CommonFunctions_10268980((int)param_2,param_4);
+          if (puVar7 != (uint32_t *)0x0) {
+            D2Common_11103((int)param_2,(uint)puVar7);
+          }
+          functions_D2NewFunctions_102c63c0(param_2,param_1,param_4,iVar4,1,1,0);
+          D2Common_11103((int)param_2,(uint)puVar6);
+          this = extraout_ECX_01;
+        }
+      }
 LAB_102aec5b:
-        if ((*(byte *)(iVar3 + 4) & 0x40) == 0) {
-          return;
-        }
-        sub_102edcc0(this,param_4,param_3,param_1,param_2,iVar4,0);
+      if ((*(byte *)(iVar3 + 4) & 0x40) == 0) {
         return;
       }
+      sub_102edcc0(this,param_4,param_3,param_1,param_2,iVar4,0);
+      return;
     }
   }
   sub_6fcc37d0(param_1,param_2,param_3,param_4);
@@ -3956,7 +3944,7 @@ LAB_102aec5b:
 // 0x102aeca0  (ghidra: FUN_102aeca0)  [gap]
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 
-uint64_t __fastcall sub_Hook_Unwind_6fd178a0_102aeca0(int param_1,int *param_2,uint32_t param_3,uint32_t param_4)
+uint64_t __fastcall sub_Ptr_D2Game_6fd1bba0_102aeca0(int param_1,int *param_2,uint32_t param_3,uint32_t param_4)
 
 {
   uint64_t uVar1;

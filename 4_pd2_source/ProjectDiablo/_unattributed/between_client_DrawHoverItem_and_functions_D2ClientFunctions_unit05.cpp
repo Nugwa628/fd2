@@ -5274,7 +5274,6 @@ void __fastcall sub_10226710(int param_1,uint32_t reg_EDI)
   int iVar4;
   int iVar5;
   int iVar6;
-  uint64_t uVar7;
   uint8_t local_20 [4];
   uint8_t local_1c [4];
   uint8_t local_18 [4];
@@ -5287,15 +5286,13 @@ void __fastcall sub_10226710(int param_1,uint32_t reg_EDI)
   local_8 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   if ((DAT_103e7670 != 0) && (*(int *)(param_1 + 0x60) != 0)) {
     sub_10228060();
-    piVar3 = *(int **)(*(int *)(param_1 + 0x60) + 0xc);
-    while (piVar3 != (int *)0x0) {
+    for (piVar3 = *(int **)(*(int *)(param_1 + 0x60) + 0xc); piVar3 != (int *)0x0;
+        piVar3 = (int *)D2Common_10464(piVar3)) {
       if ((*(char *)(piVar3[5] + 0x45) == '\x05') && (cVar1 = sub_1025d380(reg_EDI), cVar1 != '\0'))
       {
         local_c = sub_102d4010(*(uint *)(piVar3[0xb] + 0xc),*(uint *)(piVar3[0xb] + 0x10));
         sub_102280c0(local_20,(uint)&local_c);
       }
-      uVar7 = D2Common_10464(piVar3);
-      piVar3 = (int *)uVar7;
     }
     local_10 = 0;
     local_c = 0;

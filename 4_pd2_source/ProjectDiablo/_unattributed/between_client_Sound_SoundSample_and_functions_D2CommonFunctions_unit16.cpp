@@ -3691,18 +3691,16 @@ void __fastcall sub_10236880(int param_1,int *reg_EDX)
   uint uVar1;
   int iVar2;
   bool bVar3;
-  uint64_t uVar4;
   
   if ((((*p_D2Client_DAT_6fbcc24c != 0) && (-1 < param_1)) && (param_1 < *p_D2Client_DAT_6fbcc250)) &&
      ((iVar2 = *p_D2Client_DAT_6fbcc24c + param_1 * 0x92, iVar2 != 0 && (*(int *)(iVar2 + 0x47) != 4)))) {
     if (*(int *)(iVar2 + 0x60) == 0xca) {
       iVar2 = 0;
-      if ((int *)*p_D2Client_DAT_6fbcbbfc != (int *)0x0) {
-        uVar4 = D2Common_10331((int *)*p_D2Client_DAT_6fbcbbfc);
-        if (((int)uVar4 != 0) && (uVar1 = D2Common_10826_10276680((int)uVar4), uVar1 != 0)) {
-          iVar2 = D2Common_10014(uVar1);
-          iVar2 = *(int *)(iVar2 + 0x21c);
-        }
+      if ((((int *)*p_D2Client_DAT_6fbcbbfc != (int *)0x0) &&
+          (uVar1 = D2Common_10331((int *)*p_D2Client_DAT_6fbcbbfc), uVar1 != 0)) &&
+         (uVar1 = D2Common_10826_10276680(uVar1), uVar1 != 0)) {
+        iVar2 = D2Common_10014(uVar1);
+        iVar2 = *(int *)(iVar2 + 0x21c);
       }
       if (*p_D2Client_DAT_6fbcc254 == 0) {
         return;

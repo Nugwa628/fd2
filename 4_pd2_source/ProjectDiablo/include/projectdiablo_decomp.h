@@ -628,14 +628,14 @@ uint32_t __fastcall sub_10219a00(int param_1,int param_2);
 bool __fastcall sub_10219a40(int param_1);
 void sub_10219a50(int param_1,int reg_ECX,int reg_EDX);
 void sub_10219aa0(void);
-void sub_Hook_FUN_6fb7dbb0_1021a8e0(int param_1,uint32_t reg_EBX);
-void sub_Hook_FUN_6fb7dbb0_1021ad10(int param_1);
-int * sub_Hook_FUN_6fb7dbb0_1021b090(int param_1);
-void sub_Hook_FUN_6fb7dbb0_1021b4b0(int param_1);
-void sub_Hook_FUN_6fb7dbb0_1021b560(int param_1);
+void sub_Ptr_D2Client_6fb8bdcc_1021a8e0(int param_1,uint32_t reg_EBX);
+void sub_Ptr_D2Client_6fb8bdc0_1021ad10(int param_1);
+int * sub_Ptr_D2Client_6fb8bdd8_1021b090(int param_1);
+void sub_Ptr_D2Client_6fb8bde4_1021b4b0(int param_1);
+void sub_Ptr_D2Client_6fb8bdf0_1021b560(int param_1);
 uint32_t sub_Hook_sub_6fb730e0_1021b610(void);
 uint32_t sub_Hook_sub_6fb730e0_1021b6c0(void);
-int sub_Hook_sub_6fb730e0_1021b7e0(int param_1,int param_2,uint param_3);
+void sub_Hook_sub_6fb730e0_1021b7e0(int param_1,int param_2,uint param_3);
 
 /* ---- _unattributed/before_client_DrawHoverItem_unit03.cpp ---- */
 void sub_init_10019000(void);
@@ -1242,10 +1242,10 @@ void sub_1022aab0(void);
 void sub_1022ab20(void);
 void sub_1022ab50(void);
 void sub_1022ab70(void);
-void sub_Config74_1022abb0(uint32_t reg_EBX);
-void sub_Config74_1022abe0(uint32_t reg_EBX);
+void sub_Settings_1022abb0(uint32_t reg_EBX);
+void sub_Settings_1022abe0(uint32_t reg_EBX);
 void sub_1022ac10(uint32_t reg_EBX);
-void sub_Config74_1022ac40(uint32_t reg_EBX);
+void sub_Settings_1022ac40(uint32_t reg_EBX);
 void sub_1022ac70(void);
 void sub_1022ac80(void);
 void sub_1022acd0(void);
@@ -1453,7 +1453,7 @@ uint32_t __fastcall functions_D2ClientFunctions_1022efb0(int param_1,uint reg_EA
 uint8_t functions_D2ClientFunctions_1022f020(void);
 uint8_t __fastcall functions_D2ClientFunctions_1022f030(int param_1);
 uint8_t __fastcall functions_D2ClientFunctions_1022f090(int param_1,uint reg_EBX);
-void __fastcall functions_D2ClientFunctions_Hook_FUN_6fb7dbb0_1022f2d0(uint32_t param_1,uint32_t param_2,int param_3);
+void __fastcall functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0(uint32_t param_1,uint32_t param_2,int param_3);
 void __fastcall functions_D2ClientFunctions_1022f430(uint32_t param_1);
 
 /* ---- _unattributed/between_functions_D2ClientFunctions_and_client_Sound_Sound_unit10.cpp ---- */
@@ -1602,27 +1602,27 @@ void sub_InitPtr_D2Client_DAT_6fbcc418_10060780(void);
 void sub_InitPtr_D2Client_DAT_6fbcc414_10060910(void);
 void sub_InitPtr_D2Client_DAT_6fbcc098_10060e20(void);
 void sub_1022ff90(int param_1,int param_2);
-void sub_Config74_102305f0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_102305f0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230620(int param_1);
-void sub_Config74_10230640(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230640(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230670(int param_1);
-void sub_Config74_10230690(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230690(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102306c0(int param_1);
-void sub_Config74_102306e0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_102306e0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230710(int param_1);
-void sub_Config74_10230730(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230730(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230760(int param_1);
-void sub_Config74_10230780(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230780(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102307b0(int param_1);
-void sub_Config74_102307d0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_102307d0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230800(int param_1);
-void sub_Config74_10230820(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230820(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230850(int param_1);
-void sub_Config74_10230870(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230870(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102308a0(int param_1);
-void sub_Config74_102308c0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_102308c0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102308f0(int param_1);
-void sub_Config74_10230910(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230910(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230940(int param_1);
 void sub_10230960(void);
 void sub_102309c0(void);
@@ -1636,19 +1636,19 @@ bool sub_10230c10(void);
 void __fastcall sub_10230c20(int param_1);
 void __fastcall sub_10230c70(int param_1);
 int sub_6faeba70(void);   /* game binding -> D2Client.dll +0x3ba70, sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp */
-void sub_Config74_10230ce0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230ce0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230d00(int param_1);
-void sub_Config74_10230d10(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230d10(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230d30(int param_1);
-void sub_Config74_10230d40(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230d40(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230d60(int param_1);
-void sub_Config74_10230d70(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230d70(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230d90(int param_1);
 void sub_10230da0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230dd0(int param_1);
-void sub_Config74_10230de0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230de0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230e00(int param_1);
-void sub_Config74_10230e10(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230e10(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230e30(int param_1);
 void sub_10230e40(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230e60(int param_1);
@@ -1656,29 +1656,29 @@ void sub_10230e70(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230e90(int param_1);
 void sub_10230ea0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230ee0(int param_1);
-void sub_Config74_10230ef0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230ef0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230f10(int param_1);
 bool sub_10230f20(void);
-void sub_Config74_10230f30(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230f30(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230f60(int param_1);
-void sub_Config74_10230f80(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230f80(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10230fb0(int param_1);
-void sub_Config74_10230fd0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10230fd0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10231000(int param_1);
 uint8_t sub_10231020(void);
-void sub_Config74_10231030(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10231030(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10231050(int param_1);
 void __fastcall sub_10231060(int param_1,uint32_t reg_EBX);
 void __fastcall sub_10231120(int param_1);
 void sub_10231130(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102311c0(int param_1);
-void sub_Config74_10231210(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10231210(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10231230(int param_1);
-void sub_Config74_10231240(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10231240(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10231260(int param_1);
-void sub_Config74_10231270(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_10231270(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_10231290(int param_1);
-void sub_Config74_102312a0(uint32_t reg_EBX,int reg_ECX);
+void sub_Settings_102312a0(uint32_t reg_EBX,int reg_ECX);
 void __fastcall sub_102312c0(int param_1);
 bool sub_102312d0(void);
 void sub_102312f0(uint32_t reg_EBX,int reg_ECX);
@@ -2350,11 +2350,11 @@ uint8_t sub_10239cb7(void);
 void * sub_10239ce0(void *param_1);
 void sub_10239daf(void);
 uint64_t __fastcall sub_10239de0(uint32_t *param_1);
-void sub_Config74_10239e00(uint32_t reg_EBX);
+void sub_Settings_10239e00(uint32_t reg_EBX);
 void __fastcall sub_1023b020(int param_1);
 void __fastcall sub_1023b040(void *param_1);
 void sub_1023b060(uint32_t reg_EBX);
-void sub_Config74_1023b445(uint32_t reg_EBX);
+void sub_Settings_1023b445(uint32_t reg_EBX);
 void __fastcall sub_1023cae0(int param_1);
 void __fastcall sub_1023cb00(void *param_1);
 void __fastcall thunk_FUN_1023f130(void *param_1);
@@ -2626,7 +2626,7 @@ void sub_InitPtr_D2Common_DAT_6fde9e1c_10279cd0_100a6bd0(void);
 short sub_10250d70(byte *reg_ECX);
 int __cdecl sub_10250db0(int param_1,int param_2);
 void sub_Wraps_D2Common_DATATBLS_ItemTbls_10250de0(uint param_1);
-uint64_t __fastcall sub_10251b90(int *param_1,int param_2);
+longlong __fastcall sub_10251b90(int *param_1,int param_2);
 
 /* ---- _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit21.cpp ---- */
 void sub_init_100aab30(void);
@@ -2797,7 +2797,7 @@ void sub_init_100ba270(void);
 void sub_InitPtr_D2Common_DAT_6fde9e1c_100bac50(void);
 void sub_InitPtr_D2Game_DAT_6fd27338_100bbfb0(void);
 void sub_InitPtr_D2Game_DAT_6fd2f448_100bc150(void);
-void __fastcall sub_Hook_Unwind_6fd178a0_10253cd0(void *param_1,int *param_2,void *param_3,uint param_4);
+void __fastcall sub_Ptr_D2Game_6fd1bc38_10253cd0(void *param_1,int *param_2,void *param_3,uint param_4);
 void __fastcall sub_Hook_sub_6fc417d0_10253de0(int param_1,int *param_2,uint32_t param_3,int param_4);
 
 /* ---- _unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit24.cpp ---- */
@@ -3159,7 +3159,7 @@ char * __fastcall sub_10256420(int param_1);
 LRESULT sub_10256620(HWND param_1,uint param_2,WPARAM param_3,HRAWINPUT param_4);
 void sub_10256810(void);
 void __fastcall sub_10256df0(int *param_1);
-uint64_t sub_Hook_sub_6fb6f0d0_10256f90(int *param_1);
+void sub_Hook_sub_6fb6f0d0_10256f90(int *param_1);
 ulonglong UNIT_Monster_6fb00e70(void);   /* game binding -> D2Client.dll +0x50e70, sigmaRE/5_game_source/D2Client/UNIT/Monster.cpp */
 void __fastcall sub_10256fb0(int param_1);
 void sub_10257220(void);
@@ -3315,7 +3315,7 @@ uint __fastcall functions_D2CommonFunctions_102674f0(int param_1,int param_2,uin
 void functions_D2CommonFunctions_Hook_SKILLS_SkillNec_6fc70250_102677b0(int param_1,int param_2,int param_3,uint param_4);
 void __cdecl functions_D2CommonFunctions_Hook_D2Common_10454_10267860(char *param_1,char *param_2,size_t param_3);
 void functions_D2CommonFunctions_Hook_D2Common_10887_102678a0(int param_1,int param_2,int param_3,uint param_4);
-uint64_t functions_D2CommonFunctions_Hook_sub_6fcdd330_102678d0(int param_1,int param_2);
+void functions_D2CommonFunctions_Hook_sub_6fcdd330_102678d0(int param_1,int param_2);
 uint32_t functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0(int param_1);
 uint32_t functions_D2CommonFunctions_10267970(int param_1,int *param_2);
 int functions_D2CommonFunctions_Hook_Ai_AiThink4_6fcc4a10_10267a10(int *param_1);
@@ -3550,10 +3550,10 @@ void sub_1026e9a0(int *param_1,int param_2,int *param_3);
 void sub_1026e9f0(int *param_1,int *param_2,int param_3);
 void sub_1026ea40(int *param_1,uint32_t param_2,uint32_t param_3,uint32_t param_4, uint32_t param_5);
 int __fastcall sub_1026ea70(int param_1,int param_2,int param_3);
-uint64_t sub_1026eab0(uint param_1,uint param_2,int reg_ECX,uint reg_EDX);
+void sub_1026eab0(uint param_1,uint param_2,int reg_ECX,uint reg_EDX);
 void sub_1026ead0(uint param_1,uint *param_2,int *param_3,uint32_t param_4,uint32_t param_5, int *param_6);
 uint32_t sub_1026ed30(int param_1,int *param_2,int param_3,int param_4,uint32_t param_5,int param_6, uint32_t param_7);
-short * sub_1026edd0(int *param_1,int param_2,int *param_3,byte *param_4);
+void sub_1026edd0(int *param_1,int param_2,int *param_3,byte *param_4);
 uint32_t sub_1026efe0(int param_1,uint32_t param_2,int param_3);
 uint32_t sub_1026f070(uint32_t param_1,uint32_t param_2,int param_3,int *param_4,uint8_t *param_5);
 void sub_1026f190(int *param_1,int *param_2,int param_3);
@@ -3619,10 +3619,10 @@ uint D2Common_10838(int *param_1);   /* game binding -> D2Common.dll ordinal 108
 int D2Common_10014(int param_1);   /* game binding -> D2Common.dll ordinal 10014, sigmaRE/5_game_source/D2Common/DATATBLS/LvlTbls.cpp */
 uint D2Common_10215(uint param_1);   /* game binding -> D2Common.dll ordinal 10215, sigmaRE/5_game_source/D2Common/DATATBLS/LvlTbls.cpp */
 int D2Common_10688_10273110(int param_1);   /* game binding -> D2Common_10688, D2Common.dll ordinal 10688, sigmaRE/5_game_source/D2Common/_unattributed/between_Text_Text_and_DATATBLS_AnimTbls.cpp */
-uint64_t D2Common_10695(uint param_1);   /* game binding -> D2Common.dll ordinal 10695, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
+int D2Common_10695(uint param_1);   /* game binding -> D2Common.dll ordinal 10695, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
 uint D2Common_10582(int param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 10582, sigmaRE/5_game_source/D2Common/DATATBLS/MonsterTbls.cpp */
 uint D2Common_10296(int *param_1);   /* game binding -> D2Common.dll ordinal 10296, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_Drlg_and_UNITS_Units.cpp */
-uint64_t D2Common_10419(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10419, sigmaRE/5_game_source/D2Common/DRLG/Drlg.cpp */
+int D2Common_10419(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10419, sigmaRE/5_game_source/D2Common/DRLG/Drlg.cpp */
 void D2Common_11016(int *param_1);   /* game binding -> D2Common.dll ordinal 11016, sigmaRE/5_game_source/D2Common/_unattributed/between_DATATBLS_DataTbls_and_WayPoint_Waypoint.cpp */
 void D2Common_10885(int param_1,uint32_t param_s2,uint32_t param_s3);   /* game binding -> D2Common.dll ordinal 10885, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 int * D2Common_10816(int param_1,int param_2,int param_3,int *param_4,int *param_5,uint param_6);   /* game binding -> D2Common.dll ordinal 10816, sigmaRE/5_game_source/D2Common/_unattributed/between_ENVIRONMENT_Env_and_Text_Text.cpp */
@@ -3647,7 +3647,7 @@ uint D2Common_10261(uint *param_1,int param_2,int param_3,uint param_4);   /* ga
 void D2Common_10245(uint *param_1,int param_2,int param_3,uint param_4);   /* game binding -> D2Common.dll ordinal 10245, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 uint32_t * GetPtr_Stats_StatsEx_6fd881a0(void);   /* game binding -> Stats_StatsEx_6fd881a0, D2Common.dll +0x381a0, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10587(int param_1,int param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10587, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
-uint64_t D2Common_10973(int param_1,int param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10973, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
+int D2Common_10973(int param_1,int param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10973, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10973_10273ce0(int param_1,int param_2,uint param_3);   /* game binding -> D2Common_10973, D2Common.dll ordinal 10973, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 void D2Common_10887(int *param_1,int param_2,int param_3,uint param_4);   /* game binding -> D2Common.dll ordinal 10887, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 void D2Common_10887_10273d40(int *param_1,int param_2,int param_3,uint param_4);   /* game binding -> D2Common_10887, D2Common.dll ordinal 10887, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
@@ -3664,7 +3664,7 @@ int D2Common_11088(int *param_1);   /* game binding -> D2Common.dll ordinal 1108
 uint D2Common_10108(int param_1);   /* game binding -> D2Common.dll ordinal 10108, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_11034(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 11034, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_11006(int *param_1);   /* game binding -> D2Common.dll ordinal 11006, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
-uint64_t D2Common_10705(int *param_1);   /* game binding -> D2Common.dll ordinal 10705, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
+uint D2Common_10705(int *param_1);   /* game binding -> D2Common.dll ordinal 10705, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10620(int *param_1);   /* game binding -> D2Common.dll ordinal 10620, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint32_t * GetPtr_ITEMS_ItemMode_6fcf1bc0(void);   /* game binding -> ITEMS_ItemMode_6fcf1bc0, D2Game.dll +0xd1bc0, sigmaRE/5_game_source/D2Game/ITEMS/ItemMode.cpp */
 uint D2Common_10757(int *param_1);   /* game binding -> D2Common.dll ordinal 10757, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
@@ -3708,7 +3708,7 @@ void D2Common_10554(int param_1,uint param_2);   /* game binding -> D2Common.dll
 void D2Common_10748(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10748, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 void D2Common_11031(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 11031, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 uint D2Common_10980(int param_1);   /* game binding -> D2Common.dll ordinal 10980, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
-uint64_t D2Common_10649(int param_1);   /* game binding -> D2Common.dll ordinal 10649, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
+uint D2Common_10649(int param_1);   /* game binding -> D2Common.dll ordinal 10649, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 uint D2Common_10179(int param_1);   /* game binding -> D2Common.dll ordinal 10179, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 uint D2Common_10631(int param_1);   /* game binding -> D2Common.dll ordinal 10631, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 uint D2Common_10980_10275060(int param_1);   /* game binding -> D2Common_10980, D2Common.dll ordinal 10980, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
@@ -3729,34 +3729,34 @@ int D2Common_10737(int *param_1);   /* game binding -> D2Common.dll ordinal 1073
 int D2Common_10985(int *param_1);   /* game binding -> D2Common.dll ordinal 10985, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_RoomTile_and_UNITS_Missile.cpp */
 int D2Common_10130(int *param_1);   /* game binding -> D2Common.dll ordinal 10130, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_RoomTile_and_UNITS_Missile.cpp */
 uint D2Common_10839(int *param_1,int *param_2,ushort param_3);   /* game binding -> D2Common.dll ordinal 10839, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
-uint64_t D2Common_10331(int *param_1);   /* game binding -> D2Common.dll ordinal 10331, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Units_and_QuestRecord_QuestRecord.cpp */
+uint D2Common_10331(int *param_1);   /* game binding -> D2Common.dll ordinal 10331, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Units_and_QuestRecord_QuestRecord.cpp */
 uint D2Common_10331_102753f0(int *param_1);   /* game binding -> D2Common_10331, D2Common.dll ordinal 10331, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Units_and_QuestRecord_QuestRecord.cpp */
-uint64_t D2Common_10392(int param_1);   /* game binding -> D2Common.dll ordinal 10392, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
+uint D2Common_10392(int param_1);   /* game binding -> D2Common.dll ordinal 10392, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 void D2Common_10704(int *param_1);   /* game binding -> D2Common.dll ordinal 10704, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 void D2Common_10408(int *param_1);   /* game binding -> D2Common.dll ordinal 10408, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 uint D2Common_10123(int param_1);   /* game binding -> D2Common.dll ordinal 10123, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 void D2Common_11056(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 11056, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 int D2Common_10303(uint param_1,int param_2,int param_3,uint param_4,uint param_5,uint param_6);   /* game binding -> D2Common.dll ordinal 10303, sigmaRE/5_game_source/D2Common/COLLISN/Collisn.cpp */
 uint D2Common_10573(void *param_1,int param_2,int param_3,uint param_4,uint param_5);   /* game binding -> D2Common.dll ordinal 10573, sigmaRE/5_game_source/D2Common/COLLISN/Collisn.cpp */
-uint64_t D2Common_10509(uint param_1,int *param_2,uint param_3,uint param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10509, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
+void D2Common_10509(uint param_1,int *param_2,uint param_3,uint param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10509, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 uint32_t * GetPtr_D2Common_10032(void);   /* game binding -> D2Common_10032, D2Common.dll +0x31850, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 void D2Common_10565(void *param_1,int param_2,int param_3,uint param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10565, sigmaRE/5_game_source/D2Common/COLLISN/Collisn.cpp */
 uint D2Common_10566(int *param_1,int *param_2,uint *param_3,uint *param_4);   /* game binding -> D2Common.dll ordinal 10566, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 void sub_6fc54130(int param_1,int *param_2,int *param_3,int param_4,uint32_t param_s5, uint32_t param_s6);   /* game binding -> D2Game.dll +0x34130, sigmaRE/5_game_source/D2Game/UNIT/_unattributed/between_UNIT_SUnit_and_UNIT_SUnitEvent.cpp */
 uint32_t * GetPtr_sub_6fc54aa0(void);   /* game binding -> sub_6fc54aa0, D2Game.dll +0x34aa0, sigmaRE/5_game_source/D2Game/UNIT/_unattributed/between_UNIT_SUnit_and_UNIT_SUnitEvent.cpp */
-uint64_t D2Common_10391(int param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10391, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
+uint D2Common_10391(int param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10391, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10822(int *param_1);   /* game binding -> D2Common.dll ordinal 10822, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_11015(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 11015, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 ulonglong __fastcall D2Common_10248(uint unused_ECX,uint reg_EDX,int param_3);   /* game binding -> D2Common.dll ordinal 10248, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
 int * D2Common_10079(int param_1);   /* game binding -> D2Common.dll ordinal 10079, sigmaRE/5_game_source/D2Common/DATATBLS/MonsterTbls.cpp */
 int D2Common_10460(int *param_1);   /* game binding -> D2Common.dll ordinal 10460, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
-uint64_t D2Common_10464(int *param_1);   /* game binding -> D2Common.dll ordinal 10464, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
+uint D2Common_10464(int *param_1);   /* game binding -> D2Common.dll ordinal 10464, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10020(int *param_1);   /* game binding -> D2Common.dll ordinal 10020, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_11147(int *param_1);   /* game binding -> D2Common.dll ordinal 11147, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 int D2Common_11088_10275940(int *param_1);   /* game binding -> D2Common_11088, D2Common.dll ordinal 11088, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 void D2Common_10599(int *param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10599, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 void D2Common_10599_102759a0(int *param_1,uint param_2);   /* game binding -> D2Common_10599, D2Common.dll ordinal 10599, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
-uint64_t D2Common_10744(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10744, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
+uint D2Common_10744(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10744, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10607(int param_1,uint *param_2);   /* game binding -> D2Common.dll ordinal 10607, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10607_10275a30(int param_1,uint *param_2);   /* game binding -> D2Common_10607, D2Common.dll ordinal 10607, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_11107(int param_1,uint param_2,int param_3,int param_4,int param_5,uint param_6, byte param_7);   /* game binding -> D2Common.dll ordinal 11107, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
@@ -3772,10 +3772,10 @@ uint D2Common_10828(int param_1);   /* game binding -> D2Common.dll ordinal 1082
 uint D2Common_10507(int param_1);   /* game binding -> D2Common.dll ordinal 10507, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Units_and_QuestRecord_QuestRecord.cpp */
 uint D2Common_10304(int param_1);   /* game binding -> D2Common.dll ordinal 10304, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 int D2Common_10601(uint *param_1,uint32_t param_s2,uint32_t param_s3);   /* game binding -> D2Common.dll ordinal 10601, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
-uint64_t D2Common_11017(int *param_1);   /* game binding -> D2Common.dll ordinal 11017, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
+int D2Common_11017(int *param_1);   /* game binding -> D2Common.dll ordinal 11017, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 void D2Common_10466(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10466, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint32_t * GetPtr_INVENTORY_Inventory_6fd71640(void);   /* game binding -> INVENTORY_Inventory_6fd71640, D2Common.dll +0x21640, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
-uint64_t D2Common_10698(int *param_1);   /* game binding -> D2Common.dll ordinal 10698, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
+int D2Common_10698(int *param_1);   /* game binding -> D2Common.dll ordinal 10698, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 int D2Common_11075(int *param_1);   /* game binding -> D2Common.dll ordinal 11075, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 
 /* ---- _unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit30.cpp ---- */
@@ -3977,10 +3977,10 @@ void sub_init_10109f50(void);
 void sub_init_10109fb0(void);
 void sub_InitPtr_D2Common_DAT_6fde9e1c_1010a990(void);
 void sub_InitPtr_D2Game_DAT_6fd27338_1010bcf0(void);
-void __fastcall sub_Hook_Unwind_6fd178a0_102ae3a0(int param_1,int *param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI);
-void __fastcall sub_Hook_Unwind_6fd178a0_102ae8a0(uint32_t param_1,int *param_2,uint param_3);
-void __fastcall sub_Hook_Unwind_6fd178a0_102aeb10(void *param_1,int *param_2,void *param_3,uint param_4);
-uint64_t __fastcall sub_Hook_Unwind_6fd178a0_102aeca0(int param_1,int *param_2,uint32_t param_3,uint32_t param_4);
+void __fastcall sub_Ptr_D2Game_6fd1bb80_102ae3a0(int param_1,int *param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI);
+void __fastcall sub_Ptr_D2Game_6fd1bb94_102ae8a0(uint32_t param_1,int *param_2,uint param_3);
+void __fastcall sub_Ptr_D2Game_6fd1bb98_102aeb10(void *param_1,int *param_2,void *param_3,uint param_4);
+uint64_t __fastcall sub_Ptr_D2Game_6fd1bba0_102aeca0(int param_1,int *param_2,uint32_t param_3,uint32_t param_4);
 int sub_102aed20(uint *param_1);
 int sub_102aed60(uint *param_1);
 uint32_t sub_102aeda0(void *param_1,uint *param_2);
@@ -4140,14 +4140,14 @@ void __fastcall sub_102b7570(uint param_1,int *param_2,uint param_3);
 void __fastcall sub_102b77b0(uint param_1,uint *param_2,uint *param_3);
 void __fastcall sub_102b91f0(void *param_1,int *param_2,int param_3);
 void __fastcall sub_102b9330(uint param_1,int *param_2,int param_3);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b9560(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b95a0(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b95e0(int param_1,int *param_2,int *param_3,uint *param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b9620(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b9660(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b96a0(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b96e0(int param_1,int *param_2,int *param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102b9720(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5a4_102b9560(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5ac_102b95a0(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5b4_102b95e0(int param_1,int *param_2,int *param_3,uint *param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5bc_102b9620(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5c4_102b9660(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5cc_102b96a0(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5e4_102b96e0(int param_1,int *param_2,int *param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1b5ec_102b9720(int param_1,int *param_2,int *param_3,uint32_t param_4);
 uint32_t sub_102b9760(int param_1,uint32_t param_2,int param_3);
 void __fastcall sub_102b9820(int param_1,int *param_2,int *param_3,uint32_t reg_ESI,uint32_t reg_EDI, uint reg_EBX);
 bool __thiscall sub_102b9ba0(void *this,uint param_2,uint32_t param_3,int *param_4,int *reg_EDX);
@@ -4374,7 +4374,7 @@ void functions_D2NewFunctions_102c1060(int *param_1);
 int __fastcall functions_D2NewFunctions_102c10e0(uint param_1,int param_2,int *param_3);
 uint32_t functions_D2NewFunctions_102c1120(int *param_1,uint32_t param_2,uint32_t param_3,uint param_4);
 void __fastcall functions_D2NewFunctions_102c1160(int param_1,int param_2);
-uint32_t __fastcall functions_D2NewFunctions_Hook_Unwind_6fd178a0_102c11f0(int *param_1,int param_2);
+uint32_t __fastcall functions_D2NewFunctions_Ptr_D2Game_6fd1a498_102c11f0(int *param_1,int param_2);
 uint __fastcall functions_D2NewFunctions_102c5450(uint param_1,int param_2);
 uint32_t __fastcall functions_D2NewFunctions_102c5480(uint32_t param_1,int *param_2,uint32_t param_3,int param_4,int param_5);
 int * __fastcall functions_D2NewFunctions_102c5510(int param_1,int *param_2,int *param_3,uint32_t param_4,int param_5, uint32_t *param_6,uint32_t *param_7,uint32_t param_8,uint32_t param_9, uint32_t reg_EBX);
@@ -4421,11 +4421,11 @@ void functions_D2NewFunctions_102c86a0(uint32_t param_1,int param_2,uint32_t par
 uint64_t functions_D2NewFunctions_102c8830(uint32_t param_1,int param_2,int *param_3,int param_4,int param_5,int param_6);
 int __fastcall functions_D2NewFunctions_102c89a0(uint32_t param_1,uint32_t param_2);
 int * functions_D2NewFunctions_102c89d0(int param_1,int param_2,uint param_3,uint32_t param_4,uint32_t param_5, uint param_6);
-uint64_t __fastcall functions_D2NewFunctions_102c8db0(uint32_t param_1,int *param_2);
+void __fastcall functions_D2NewFunctions_102c8db0(uint32_t param_1,int *param_2);
 uint32_t __fastcall functions_D2NewFunctions_102c8ea0(int param_1,int *param_2,int param_3);
-uint __fastcall functions_D2NewFunctions_102c9030(int param_1,uint *param_2,uint32_t param_3,int param_4,uint param_5);
-uint __fastcall functions_D2NewFunctions_102c90f0(int param_1,int *param_2,uint32_t param_3,uint param_4,uint param_5, uint32_t reg_EBX);
-uint32_t __fastcall functions_D2NewFunctions_102c92c0(uint param_1,int *param_2,int param_3);
+void __fastcall functions_D2NewFunctions_102c9030(int param_1,uint *param_2,uint32_t param_3,int param_4,uint param_5);
+void __fastcall functions_D2NewFunctions_102c90f0(int param_1,int *param_2,uint32_t param_3,uint param_4,uint param_5, uint32_t reg_EBX);
+uint32_t __fastcall functions_D2NewFunctions_102c92c0(uint param_1,int *param_2,uint param_3);
 uint64_t __fastcall functions_D2NewFunctions_102c94e0(int param_1,uint *param_2,uint32_t param_3,int param_4,uint param_5);
 void functions_D2NewFunctions_Hook_sub_6fcdb3b0_102c96f0(uint param_1,int param_2,uint32_t param_3);
 int functions_D2NewFunctions_102c9720(int param_1);
@@ -4520,9 +4520,9 @@ void __thiscall functions_D2NewFunctions_102ccb30(void *this,uint32_t *param_1,u
 uint64_t __fastcall functions_D2NewFunctions_102ccb80(int param_1,uint32_t *param_2,uint32_t *param_3);
 uint64_t __fastcall functions_D2NewFunctions_102ccbe0(uint32_t *param_1);
 uint64_t functions_D2NewFunctions_102ccc30(int *param_1,int param_2);
-uint64_t __fastcall functions_D2NewFunctions_102ccdd0(int param_1,int *param_2,int param_3);
-uint64_t __fastcall functions_D2NewFunctions_102ccf40(int param_1,int *param_2);
-uint functions_D2NewFunctions_102cd0b0(int *param_1,int param_2,int param_3);
+void __fastcall functions_D2NewFunctions_102ccdd0(int param_1,int *param_2,int param_3);
+void __fastcall functions_D2NewFunctions_102ccf40(int param_1,int *param_2);
+void functions_D2NewFunctions_102cd0b0(int *param_1,int param_2,int param_3);
 void functions_D2NewFunctions_Hook_sub_6fc95900_102cd250(int *param_1);
 uint64_t __fastcall functions_D2NewFunctions_102cd360(int *param_1,int param_2,uint32_t reg_EAX);
 int __fastcall functions_D2NewFunctions_102cd380(int *param_1);
@@ -4931,7 +4931,7 @@ void functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0(int param_1,int param_2,
 char * functions_ItemFunctions_102d5e80(int param_1,int param_2,void *param_3,char *param_4,uint32_t reg_EBX);
 uint32_t functions_ItemFunctions_102d67f0(int param_1,int param_2,int param_3);
 uint32_t functions_ItemFunctions_102d68a0(int param_1,int param_2,int param_3,int param_4,int param_5);
-uint64_t functions_ItemFunctions_Hook_sub_6fcde640_102d69d0(int *param_1,uint param_2);
+void functions_ItemFunctions_Hook_sub_6fcde640_102d69d0(int *param_1,uint param_2);
 int functions_ItemFunctions_102d6ba0(int *param_1,int param_2,int *param_3);
 int * functions_ItemFunctions_102d6c60(int param_1,int *param_2,int param_3,uint32_t param_4,int param_5,int param_6, uint32_t reg_EDI);
 uint functions_ItemFunctions_102d6d00(int param_1,int param_2,int param_3);
@@ -5270,33 +5270,33 @@ void __fastcall sub_102df090(int param_1);
 void __fastcall sub_102df0c0(int param_1);
 void sub_102df110(void);
 void __fastcall sub_102df240(int param_1);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102df280(uint param_1,int *param_2,uint param_3,int param_4);
-int __fastcall sub_Hook_Unwind_6fd178a0_102e1970(int param_1,int param_2,int param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a120_102df280(uint param_1,int *param_2,uint param_3,int param_4);
+int __fastcall sub_Ptr_D2Game_6fd1a128_102e1970(int param_1,int param_2,int param_3,uint32_t param_4);
 void sub_102e1ac0(uint32_t param_1);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e1ad0(void *param_1,int param_2,int param_3,int param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e1c70(uint32_t param_1,uint *param_2,uint32_t param_3,int param_4);
-int __fastcall sub_Hook_Unwind_6fd178a0_102e1d00(int param_1,uint *param_2,void *param_3,uint32_t param_4,int reg_EDI);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2170(int param_1,uint *param_2,int param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2200(int param_1,uint *param_2,int param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2280(int param_1,uint *param_2,int param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2310(int param_1,uint *param_2,int param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e23a0(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2440(void *param_1,int param_2,int param_3);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e29e0(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
-void sub_Hook_Unwind_6fd178a0_102e2a50(uint param_1,int param_2,uint reg_ECX,uint reg_EDX);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2a60(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
-int __fastcall sub_Hook_Unwind_6fd178a0_102e2ae0(int param_1,int *param_2,int param_3,int param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2c70(void *param_1,int *param_2,uint32_t param_3,int param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e2f80(int param_1,int param_2,int param_3,int param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e35d0(uint param_1,int *param_2,uint32_t param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e37f0(int param_1,int param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e40b0(uint32_t param_1,int param_2,int param_3);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e40f0(int param_1,int param_2,int param_3);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e41d0(uint32_t param_1,int param_2);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e41f0(uint32_t param_1,int *param_2,int param_3);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e4250(int param_1,int *param_2,uint32_t param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e4290(int param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
-uint32_t __fastcall sub_Hook_Unwind_6fd178a0_102e4330(uint32_t param_1,int param_2,int param_3);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a138_102e1ad0(void *param_1,int param_2,int param_3,int param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a140_102e1c70(uint32_t param_1,uint *param_2,uint32_t param_3,int param_4);
+int __fastcall sub_Ptr_D2Game_6fd1a148_102e1d00(int param_1,uint *param_2,void *param_3,uint32_t param_4,int reg_EDI);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a150_102e2170(int param_1,uint *param_2,int param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a158_102e2200(int param_1,uint *param_2,int param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a160_102e2280(int param_1,uint *param_2,int param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a168_102e2310(int param_1,uint *param_2,int param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a170_102e23a0(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a188_102e2440(void *param_1,int param_2,int param_3);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a1b8_102e29e0(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
+void sub_Ptr_D2Game_6fd1a1e8_102e2a50(uint param_1,int param_2,uint reg_ECX,uint reg_EDX);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a210_102e2a60(uint32_t param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
+int __fastcall sub_Ptr_D2Game_6fd1a250_102e2ae0(int param_1,int *param_2,int param_3,int param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a280_102e2c70(void *param_1,int *param_2,uint32_t param_3,int param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a288_102e2f80(int param_1,int param_2,int param_3,int param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a298_102e35d0(uint param_1,int *param_2,uint32_t param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a2d8_102e37f0(int param_1,int param_2,int param_3,int param_4,uint32_t reg_ESI,uint32_t reg_EDI);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a320_102e40b0(uint32_t param_1,int param_2,int param_3);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a330_102e40f0(int param_1,int param_2,int param_3);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a348_102e41d0(uint32_t param_1,int param_2);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a358_102e41f0(uint32_t param_1,int *param_2,int param_3);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a378_102e4250(int param_1,int *param_2,uint32_t param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a380_102e4290(int param_1,uint *param_2,uint32_t param_3,uint32_t param_4);
+uint32_t __fastcall sub_Ptr_D2Game_6fd1a290_102e4330(uint32_t param_1,int param_2,int param_3);
 void sub_102e43a0(int param_1);
 void sub_102e4480(uint16_t param_1,uint8_t param_2);
 void sub_102e4540(char *param_1,uint16_t param_2);
@@ -6356,7 +6356,7 @@ void sub_init_101a2d20(void);
 void sub_init_101a2d80(void);
 void sub_InitPtr_D2Common_DAT_6fde9e1c_101a3760(void);
 void sub_InitPtr_D2Client_DAT_6fb8d8a0_101a4ba0(void);
-void __fastcall sub_6fb691c0(int *param_1,uint32_t reg_ESI,uint32_t reg_EDI);   /* game binding -> D2Client.dll +0xb91c0, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
+void __fastcall sub_6fb691c0(int *param_1);   /* game binding -> D2Client.dll +0xb91c0, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
 void __fastcall sub_102f12a0(int param_1);
 void __fastcall sub_102f1390(int param_1);
 void __fastcall sub_102f13f0(int param_1);
@@ -8684,7 +8684,7 @@ uint D2Common_10802(int *param_1);   /* game binding -> D2Common.dll ordinal 108
 uint D2Common_11148(int *param_1,int *param_2,int param_3,int param_4,int param_5,int *param_6, int *param_7,uint param_8);   /* game binding -> D2Common.dll ordinal 11148, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10405_10275ea0(int *param_1,int *param_2,uint32_t param_s3);   /* game binding -> D2Common_10405, D2Common.dll ordinal 10405, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 int D2Common_10661(int *param_1);   /* game binding -> D2Common.dll ordinal 10661, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
-uint64_t D2Common_11144(int *param_1);   /* game binding -> D2Common.dll ordinal 11144, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
+int D2Common_11144(int *param_1);   /* game binding -> D2Common.dll ordinal 11144, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10089(int *param_1);   /* game binding -> D2Common.dll ordinal 10089, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10428(uint param_1,uint param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10428, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_10540(int *param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10540, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
@@ -8700,7 +8700,7 @@ uint D2Common_10455(int *param_1,int param_2);   /* game binding -> D2Common.dll
 uint32_t * GetPtr_DUNGEON_Dungeon_6fd8bdd0(void);   /* game binding -> DUNGEON_Dungeon_6fd8bdd0, D2Common.dll +0x3bdd0, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 void D2Common_10003(uint *param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 10003, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10174(uint *param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 10174, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
-uint64_t D2Common_10057(int param_1);   /* game binding -> D2Common.dll ordinal 10057, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
+int D2Common_10057(int param_1);   /* game binding -> D2Common.dll ordinal 10057, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 int D2Common_10057_102763f0(int param_1);   /* game binding -> D2Common_10057, D2Common.dll ordinal 10057, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_11090(uint *param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 11090, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 uint D2Common_11090_10276450(uint *param_1,uint param_2);   /* game binding -> D2Common_11090, D2Common.dll ordinal 11090, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
@@ -8711,9 +8711,9 @@ uint D2Common_10426(int param_1);   /* game binding -> D2Common.dll ordinal 1042
 void D2Common_10346(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10346, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_10459(int param_1);   /* game binding -> D2Common.dll ordinal 10459, sigmaRE/5_game_source/D2Common/_unattributed/between_ITEMS_Items_and_DRLG_Drlg.cpp */
 uint D2Common_10459_10276620(int param_1);   /* game binding -> D2Common_10459, D2Common.dll ordinal 10459, sigmaRE/5_game_source/D2Common/_unattributed/between_ITEMS_Items_and_DRLG_Drlg.cpp */
-uint64_t D2Common_10826(int param_1);   /* game binding -> D2Common.dll ordinal 10826, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
+uint D2Common_10826(int param_1);   /* game binding -> D2Common.dll ordinal 10826, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_10826_10276680(int param_1);   /* game binding -> D2Common_10826, D2Common.dll ordinal 10826, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
-uint64_t D2Common_11010(int param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 11010, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
+int D2Common_11010(int param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 11010, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_10585_102766e0(byte param_1);   /* game binding -> D2Common_10585, D2Common.dll ordinal 10585, sigmaRE/5_game_source/D2Common/_unattributed/between_Stats_StatsEx_and_DUNGEON_Dungeon.cpp */
 uint D2Common_10631_10276710(int param_1);   /* game binding -> D2Common_10631, D2Common.dll ordinal 10631, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 void D2Common_11031_10276740(int param_1,uint param_2);   /* game binding -> D2Common_11031, D2Common.dll ordinal 11031, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
@@ -8725,13 +8725,13 @@ uint D2Common_10364(int *param_1,int param_2);   /* game binding -> D2Common.dll
 uint D2Common_10326(int *param_1);   /* game binding -> D2Common.dll ordinal 10326, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint __thiscall D2Common_10946(void *this,uint3 param_1,int *param_2,uint param_3,int *param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10946, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10435(uint param_1,uint param_2,uint param_3,uint param_4);   /* game binding -> D2Common.dll ordinal 10435, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
-uint64_t D2Common_10786(uint param_1,uint param_2,uint param_3,uint param_4);   /* game binding -> D2Common.dll ordinal 10786, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
+uint D2Common_10786(uint param_1,uint param_2,uint param_3,uint param_4);   /* game binding -> D2Common.dll ordinal 10786, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint D2Common_10786_102769a0(uint param_1,uint param_2,uint param_3,uint param_4);   /* game binding -> D2Common_10786, D2Common.dll ordinal 10786, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint D2Common_10428_102769d0(uint param_1,uint param_2,uint param_3);   /* game binding -> D2Common_10428, D2Common.dll ordinal 10428, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int __fastcall D2Common_10630(uint reg_ECX,uint reg_EDX);   /* game binding -> D2Common.dll ordinal 10630, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
-uint64_t D2Common_10231(int *param_1,uint param_2,uint param_3,int param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10231, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp */
+uint D2Common_10231(int *param_1,uint param_2,uint param_3,int param_4,int param_5);   /* game binding -> D2Common.dll ordinal 10231, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp */
 int D2Common_11029(int *param_1);   /* game binding -> D2Common.dll ordinal 11029, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_RoomTile_and_UNITS_Missile.cpp */
-uint64_t D2Common_10397(int param_1);   /* game binding -> D2Common.dll ordinal 10397, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
+uint D2Common_10397(int param_1);   /* game binding -> D2Common.dll ordinal 10397, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 void D2Common_10137(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10137, sigmaRE/5_game_source/D2Common/_unattributed/between_COLLISN_Collisn_and_SKILLS_Skills.cpp */
 int D2Common_10121(int param_1,int param_2,int param_3,int param_4);   /* game binding -> D2Common.dll ordinal 10121, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 int D2Common_11091(int param_1,int param_2,int param_3,int param_4);   /* game binding -> D2Common.dll ordinal 11091, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
@@ -8739,7 +8739,7 @@ int D2Common_10121_10276b50(int param_1,int param_2,int param_3,int param_4);   
 int D2Common_11091_10276b80(int param_1,int param_2,int param_3,int param_4);   /* game binding -> D2Common_11091, D2Common.dll ordinal 11091, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 int D2Common_10510(uint param_1,int param_2,int param_3,uint32_t param_s4);   /* game binding -> D2Common.dll ordinal 10510, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 int D2Common_10567(int *param_1,int param_2,uint param_3,int param_4);   /* game binding -> D2Common.dll ordinal 10567, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
-uint64_t D2Common_10297(int *param_1,int param_2,uint param_3,int param_4);   /* game binding -> D2Common.dll ordinal 10297, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
+int D2Common_10297(int *param_1,int param_2,uint param_3,int param_4);   /* game binding -> D2Common.dll ordinal 10297, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 int D2Common_10002(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10002, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 int D2Common_10847(int param_1);   /* game binding -> D2Common.dll ordinal 10847, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint32_t * GetPtr_SKILLS_Skills_6fd9f870(void);   /* game binding -> SKILLS_Skills_6fd9f870, D2Common.dll +0x4f870, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
@@ -8758,7 +8758,7 @@ void D2Common_10546(int param_1,int param_2,int param_3);   /* game binding -> D
 void D2Common_10978(int param_1,int param_2,int param_3);   /* game binding -> D2Common.dll ordinal 10978, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 void D2Common_10418(int *param_1);   /* game binding -> D2Common.dll ordinal 10418, sigmaRE/5_game_source/D2Common/_unattributed/between_SKILLS_Skills_and_DATATBLS_MonsterTbls.cpp */
 uint D2Common_11120(int param_1);   /* game binding -> D2Common.dll ordinal 11120, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
-uint64_t D2Common_10044(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10044, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
+int D2Common_10044(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10044, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint32_t * GetPtr_ITEMS_Items_6fd78850(void);   /* game binding -> ITEMS_Items_6fd78850, D2Common.dll +0x28850, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 uint D2Common_10678(int *param_1);   /* game binding -> D2Common.dll ordinal 10678, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint D2Common_10501(int *param_1);   /* game binding -> D2Common.dll ordinal 10501, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
@@ -8806,7 +8806,7 @@ uint __fastcall D2Common_10181(int param_1);   /* game binding -> D2Common.dll o
 void D2Common_11164(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 11164, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 void D2Common_11073(void *param_1,int param_2,int param_3,uint param_4,int param_5);   /* game binding -> D2Common.dll ordinal 11073, sigmaRE/5_game_source/D2Common/COLLISN/Collisn.cpp */
 uint D2Common_11076(int *param_1,int *param_2,int *param_3,ushort param_4);   /* game binding -> D2Common.dll ordinal 11076, sigmaRE/5_game_source/D2Common/_unattributed/between_Logging_ProfCore_and_COLLISN_Collisn.cpp */
-uint64_t D2Common_10686(int *param_1,uint param_2,int param_3,ushort param_4);   /* game binding -> D2Common.dll ordinal 10686, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
+uint D2Common_10686(int *param_1,uint param_2,int param_3,ushort param_4);   /* game binding -> D2Common.dll ordinal 10686, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 uint D2Common_11157(int *param_1);   /* game binding -> D2Common.dll ordinal 11157, sigmaRE/5_game_source/D2Common/SKILLS/Skills.cpp */
 uint D2Common_10717(int param_1);   /* game binding -> D2Common.dll ordinal 10717, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_10239(int *param_1);   /* game binding -> D2Common.dll ordinal 10239, sigmaRE/5_game_source/D2Common/_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp */
@@ -8825,9 +8825,9 @@ int D2Common_11082(uint param_1);   /* game binding -> D2Common.dll ordinal 1108
 int D2Common_10355(uint param_1);   /* game binding -> D2Common.dll ordinal 10355, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 int D2Common_10722(uint param_1);   /* game binding -> D2Common.dll ordinal 10722, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 int D2Common_10370(uint param_1);   /* game binding -> D2Common.dll ordinal 10370, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
-uint64_t D2Common_10494_10277e30(int *param_1,uint param_2);   /* game binding -> D2Common_10494, D2Common.dll ordinal 10494, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
+uint D2Common_10494_10277e30(int *param_1,uint param_2);   /* game binding -> D2Common_10494, D2Common.dll ordinal 10494, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 uint D2Common_10033(uint param_1);   /* game binding -> D2Common.dll ordinal 10033, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
-uint64_t D2Common_10871(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10871, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
+int D2Common_10871(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10871, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10871_10277ec0(int param_1,int param_2);   /* game binding -> D2Common_10871, D2Common.dll ordinal 10871, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 uint D2Common_10195(int param_1,uint param_2);   /* game binding -> D2Common.dll ordinal 10195, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10930(int param_1,int param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10930, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
@@ -8866,7 +8866,7 @@ uint D2Common_10305(int *param_1,uint param_2);   /* game binding -> D2Common.dl
 uint D2Common_10310(int param_1);   /* game binding -> D2Common.dll ordinal 10310, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 uint D2Common_10064(int param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10064, sigmaRE/5_game_source/D2Common/_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp */
 uint D2Common_10278(int *param_1);   /* game binding -> D2Common.dll ordinal 10278, sigmaRE/5_game_source/D2Common/_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp */
-uint64_t D2Common_10383(uint *param_1,uint *param_2,uint *param_3);   /* game binding -> D2Common.dll ordinal 10383, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
+void D2Common_10383(uint *param_1,uint *param_2,uint *param_3);   /* game binding -> D2Common.dll ordinal 10383, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 void D2Common_10383_10278610(uint *param_1,uint *param_2,uint *param_3);   /* game binding -> D2Common_10383, D2Common.dll ordinal 10383, sigmaRE/5_game_source/D2Common/DUNGEON/Dungeon.cpp */
 int D2Common_10038(int param_1);   /* game binding -> D2Common.dll ordinal 10038, sigmaRE/5_game_source/D2Common/DATATBLS/MonsterTbls.cpp */
 int D2Common_10285(int param_1,int param_2);   /* game binding -> D2Common.dll ordinal 10285, sigmaRE/5_game_source/D2Common/DATATBLS/MonsterTbls.cpp */
@@ -8874,16 +8874,16 @@ void D2Common_10993(int *param_1,uint32_t param_s2,uint32_t param_s3);   /* game
 uint32_t * GetPtr_sub_6fc2ebb0(void);   /* game binding -> sub_6fc2ebb0, D2Game.dll +0xebb0, sigmaRE/5_game_source/D2Game/_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp */
 uint D2Common_10202(int *param_1,uint param_2,uint32_t param_s3,uint32_t param_s4);   /* game binding -> D2Common.dll ordinal 10202, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10225(int *param_1);   /* game binding -> D2Common.dll ordinal 10225, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
-uint64_t D2Common_10225_102787e0(int *param_1);   /* game binding -> D2Common_10225, D2Common.dll ordinal 10225, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
+uint D2Common_10225_102787e0(int *param_1);   /* game binding -> D2Common_10225, D2Common.dll ordinal 10225, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 void D2Common_10890(int *param_1);   /* game binding -> D2Common.dll ordinal 10890, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_DrlgRoom_and_Logging_ProfCore.cpp */
 uint D2Common_10865(int *param_1);   /* game binding -> D2Common.dll ordinal 10865, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_11116(int param_1);   /* game binding -> D2Common.dll ordinal 11116, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
-uint64_t D2Common_10087(int *param_1);   /* game binding -> D2Common.dll ordinal 10087, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
+uint D2Common_10087(int *param_1);   /* game binding -> D2Common.dll ordinal 10087, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_11110(uint param_1,uint param_2,void *param_3,int param_4);   /* game binding -> D2Common.dll ordinal 11110, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10790(int param_1,uint *param_2,int param_3);   /* game binding -> D2Common.dll ordinal 10790, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 int D2Common_10872(int param_1,int param_2,uint param_3);   /* game binding -> D2Common.dll ordinal 10872, sigmaRE/5_game_source/D2Common/Stats/StatsEx.cpp */
 uint D2Common_10048(int *param_1);   /* game binding -> D2Common.dll ordinal 10048, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
-uint64_t D2Common_10048_10278990(int *param_1);   /* game binding -> D2Common_10048, D2Common.dll ordinal 10048, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
+uint D2Common_10048_10278990(int *param_1);   /* game binding -> D2Common_10048, D2Common.dll ordinal 10048, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 int D2Common_10463(int *param_1);   /* game binding -> D2Common.dll ordinal 10463, sigmaRE/5_game_source/D2Common/ITEMS/Items.cpp */
 int D2Common_10411(int *param_1);   /* game binding -> D2Common.dll ordinal 10411, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
 uint D2Common_10718(int *param_1);   /* game binding -> D2Common.dll ordinal 10718, sigmaRE/5_game_source/D2Common/INVENTORY/Inventory.cpp */
@@ -8927,7 +8927,7 @@ int D2Common_11065(int param_1);   /* game binding -> D2Common.dll ordinal 11065
 int D2Common_11065_102793c0(int param_1);   /* game binding -> D2Common_11065, D2Common.dll ordinal 11065, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
 uint32_t * GetPtr_ITEMS_ItemMode_6fcf4670(void);   /* game binding -> ITEMS_ItemMode_6fcf4670, D2Game.dll +0xd4670, sigmaRE/5_game_source/D2Game/ITEMS/ItemMode.cpp */
 int D2Common_10450(uint param_1,uint32_t param_s2);   /* game binding -> D2Common.dll ordinal 10450, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
-uint64_t D2Common_10450_102794d0(uint param_1,uint32_t param_s2);   /* game binding -> D2Common_10450, D2Common.dll ordinal 10450, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
+int D2Common_10450_102794d0(uint param_1,uint32_t param_s2);   /* game binding -> D2Common_10450, D2Common.dll ordinal 10450, sigmaRE/5_game_source/D2Common/DATATBLS/ItemTbls.cpp */
 uint D2Common_10747(int *param_1);   /* game binding -> D2Common.dll ordinal 10747, sigmaRE/5_game_source/D2Common/_unattributed/between_UNITS_Units_and_QuestRecord_QuestRecord.cpp */
 uint D2Common_10675(void);   /* game binding -> D2Common.dll ordinal 10675, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_DrlgVer_and_UNITS_MisStream.cpp */
 int D2Common_10783(int param_1);   /* game binding -> D2Common.dll ordinal 10783, sigmaRE/5_game_source/D2Common/_unattributed/between_DRLG_DrlgVer_and_UNITS_MisStream.cpp */
@@ -9091,7 +9091,7 @@ uint32_t * GetPtr_UNIT_SUnitDmg_6fd00310(void);   /* game binding -> UNIT_SUnitD
 int * __fastcall sub_6fd0ef10(int *param_1);   /* game binding -> D2Game.dll +0xeef10, sigmaRE/5_game_source/D2Game/_unattributed/between_Quests_a2q8_and_GAME_Targets.cpp */
 int __fastcall sub_6fd0f650(uint param_1,uint param_2,int param_3,uint param_4,uint param_5,uint param_6, uint param_7,ushort param_8);   /* game binding -> D2Game.dll +0xef650, sigmaRE/5_game_source/D2Game/_unattributed/between_Quests_a2q8_and_GAME_Targets.cpp */
 void sub_6fc67a20(void *param_1,void *param_2);   /* game binding -> D2Game.dll +0x47a20, sigmaRE/5_game_source/D2Game/_unattributed/between_SKILLS_SkillDruid_and_MONSTER_MonsterAI.cpp */
-uint64_t sub_6fc43ca0(int param_1,int *param_2,int param_3);   /* game binding -> D2Game.dll +0x23ca0, sigmaRE/5_game_source/D2Game/_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp */
+void sub_6fc43ca0(int param_1,int *param_2,int param_3);   /* game binding -> D2Game.dll +0x23ca0, sigmaRE/5_game_source/D2Game/_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp */
 void __fastcall sub_6fc468e0(uint param_1,int *param_2,uint param_3,int param_4);   /* game binding -> D2Game.dll +0x268e0, sigmaRE/5_game_source/D2Game/_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp */
 uint32_t * GetPtr_Quests_a2q8_6fd0e7b0(void);   /* game binding -> Quests_a2q8_6fd0e7b0, D2Game.dll +0xee7b0, sigmaRE/5_game_source/D2Game/Quests/a2q8.cpp */
 uint32_t * GetPtr_sub_6fc432b0(void);   /* game binding -> sub_6fc432b0, D2Game.dll +0x232b0, sigmaRE/5_game_source/D2Game/_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp */
@@ -9170,7 +9170,7 @@ void __fastcall sub_6fc99a60(int param_1,int *param_2,uint32_t param_s1,uint32_t
 uint32_t * GetPtr_sub_6fc2ea10(void);   /* game binding -> sub_6fc2ea10, D2Game.dll +0xea10, sigmaRE/5_game_source/D2Game/_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp */
 uint32_t * GetPtr_sub_6fcc3120(void);   /* game binding -> sub_6fcc3120, D2Game.dll +0xa3120, sigmaRE/5_game_source/D2Game/_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp */
 uint32_t * GetPtr_sub_6fcae810(void);   /* game binding -> sub_6fcae810, D2Game.dll +0x8e810, sigmaRE/5_game_source/D2Game/_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp */
-uint64_t __fastcall sub_6fcaea80(int param_1,int *param_2,int param_3,uint param_4,uint param_5,uint param_6, uint param_7);   /* game binding -> D2Game.dll +0x8ea80, sigmaRE/5_game_source/D2Game/_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp */
+int __fastcall sub_6fcaea80(int param_1,int *param_2,int param_3,uint param_4,uint param_5,uint param_6, uint param_7);   /* game binding -> D2Game.dll +0x8ea80, sigmaRE/5_game_source/D2Game/_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp */
 uint32_t * GetPtr_sub_6fcae680(void);   /* game binding -> sub_6fcae680, D2Game.dll +0x8e680, sigmaRE/5_game_source/D2Game/_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp */
 uint32_t * GetPtr_D2Game_loc_6fcfa350(void);   /* game binding -> D2Game_loc_6fcfa350, D2Game.dll +0xda350, sigmaRE/5_game_source/D2Game/ITEMS/ItemMode.cpp */
 uint32_t * GetPtr_SKILLS_Skills_6fcc16a0(void);   /* game binding -> SKILLS_Skills_6fcc16a0, D2Game.dll +0xa16a0, sigmaRE/5_game_source/D2Game/SKILLS/Skills.cpp */
@@ -9571,11 +9571,11 @@ int D2Win_10190(uchar param_1,uchar param_2,uchar param_3);   /* game binding ->
 int D2Win_10190_1028e380(uchar param_1,uchar param_2,uchar param_3);   /* game binding -> D2Win_10190, D2Win.dll ordinal 10190, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 int * D2Win_10098(uint *param_1);   /* game binding -> D2Win.dll ordinal 10098, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 int * __thiscall D2Win_10204(void *this,int param_1,int param_2,int param_3,uint param_4,int *param_5,int *param_6, uint32_t param_s8,uint32_t param_s9);   /* game binding -> D2Win.dll ordinal 10204, sigmaRE/5_game_source/D2Win/Src/_unattributed/between_Src_D2WinTextBox_and_Src_D2WinArchive.cpp */
-uint64_t __fastcall D2Win_10041(int *param_1);   /* game binding -> D2Win.dll ordinal 10041, sigmaRE/5_game_source/D2Win/_unattributed/before_Src_D2WinTextBox.cpp */
+void __fastcall D2Win_10041(int *param_1);   /* game binding -> D2Win.dll ordinal 10041, sigmaRE/5_game_source/D2Win/_unattributed/before_Src_D2WinTextBox.cpp */
 void __fastcall D2Win_10020(int *param_1,void *param_2);   /* game binding -> D2Win.dll ordinal 10020, sigmaRE/5_game_source/D2Win/_unattributed/before_Src_D2WinTextBox.cpp */
 uint __fastcall D2Win_10000(int *param_1,void *param_2,int param_3,uint param_4,int param_5);   /* game binding -> D2Win.dll ordinal 10000, sigmaRE/5_game_source/D2Win/_unattributed/before_Src_D2WinTextBox.cpp */
 uint * __fastcall D2Win_10068(uint param_1,uint param_2,uint param_3,uint param_4,int param_5,uint param_6, uint param_7,int param_8,uint param_9,uint32_t param_s8,uint32_t param_s9);   /* game binding -> D2Win.dll ordinal 10068, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
-uint64_t __fastcall D2Win_10155(int *param_1,uint32_t param_s1);   /* game binding -> D2Win.dll ordinal 10155, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
+void __fastcall D2Win_10155(int *param_1,uint32_t param_s1);   /* game binding -> D2Win.dll ordinal 10155, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 uint __fastcall D2Win_10003(int *param_1);   /* game binding -> D2Win.dll ordinal 10003, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 void __fastcall D2Win_10097(int *param_1,int param_2);   /* game binding -> D2Win.dll ordinal 10097, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 void __fastcall D2Win_10192(int *param_1,int param_2,void *param_3,int param_4);   /* game binding -> D2Win.dll ordinal 10192, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
@@ -9619,7 +9619,7 @@ void sub_6fb47840(void);   /* game binding -> D2Client.dll +0x97840, sigmaRE/5_g
 void sub_6fb6e2e0(void);   /* game binding -> D2Client.dll +0xbe2e0, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
 void sub_6fb6eaf0(void);   /* game binding -> D2Client.dll +0xbeaf0, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
 uint SKILLS_Skills_6fb54d40(void);   /* game binding -> D2Client.dll +0xa4d40, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
-uint64_t sub_6fb54d60(void);   /* game binding -> D2Client.dll +0xa4d60, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
+int sub_6fb54d60(void);   /* game binding -> D2Client.dll +0xa4d60, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
 uint32_t * GetPtr_sub_6fac43e0(void);   /* game binding -> sub_6fac43e0, D2Client.dll +0x143e0, sigmaRE/5_game_source/D2Client/_unattributed/before_UNIT_Player_6fabd3f0.cpp */
 uint32_t * GetPtr_sub_6fac4910(void);   /* game binding -> sub_6fac4910, D2Client.dll +0x14910, sigmaRE/5_game_source/D2Client/_unattributed/before_UNIT_Player_6fabd3f0.cpp */
 uint32_t * GetPtr_sub_6fac49a0(void);   /* game binding -> sub_6fac49a0, D2Client.dll +0x149a0, sigmaRE/5_game_source/D2Client/_unattributed/before_UNIT_Player_6fabd3f0.cpp */
@@ -10233,7 +10233,7 @@ int sub_6fb44df0(uint32_t param_1);   /* game binding -> D2Client.dll +0x94df0, 
 int sub_6fb4a7d0(uint32_t param_1);   /* game binding -> D2Client.dll +0x9a7d0, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_inv_and_SKILLS_Skills.cpp */
 int sub_6fb4fc50(uint32_t param_1);   /* game binding -> D2Client.dll +0x9fc50, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_inv_and_SKILLS_Skills.cpp */
 int sub_6fb44aa0(uint32_t param_1);   /* game binding -> D2Client.dll +0x94aa0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
-uint64_t sub_6fb54a20(uint32_t param_1);   /* game binding -> D2Client.dll +0xa4a20, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
+int sub_6fb54a20(uint32_t param_1);   /* game binding -> D2Client.dll +0xa4a20, sigmaRE/5_game_source/D2Client/SKILLS/Skills.cpp */
 int sub_6fb44ff0(uint32_t param_1);   /* game binding -> D2Client.dll +0x94ff0, sigmaRE/5_game_source/D2Client/UI/inv.cpp */
 int sub_6f8f80f0_102a15e0(uint32_t param_1);   /* game binding -> sub_6f8f80f0, D2Win.dll +0x180f0, sigmaRE/5_game_source/D2Win/_unattributed/after_Src_D2Comp.cpp */
 uint32_t * GetPtr_D2Win_DAT_6f901488(void);   /* game binding -> DAT_6f901488, D2Win.dll +0x21488, sigmaRE/5_game_source/D2Win/include/globals.h */
@@ -10288,7 +10288,7 @@ uint32_t * GetPtr_UNIT_SUnitDmg_6fcffdc0(void);   /* game binding -> UNIT_SUnitD
 void D2Common_10210(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10210, sigmaRE/5_game_source/D2Common/PATH/Path.cpp */
 uint32_t * GetPtr_sub_6fdcc270(void);   /* game binding -> sub_6fdcc270, D2Common.dll +0x7c270, sigmaRE/5_game_source/D2Common/DATATBLS/_unattributed/between_DATATBLS_ItemTbls_and_DATATBLS_MissileTbls.cpp */
 uint32_t * GetPtr_sub_6fd6a130(void);   /* game binding -> sub_6fd6a130, D2Common.dll +0x1a130, sigmaRE/5_game_source/D2Common/_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp */
-uint64_t D2Common_10666(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10666, sigmaRE/5_game_source/D2Common/_unattributed/between_DATATBLS_OverlayTbls_and_DRLG_OutJung.cpp */
+uint D2Common_10666(int *param_1,int *param_2);   /* game binding -> D2Common.dll ordinal 10666, sigmaRE/5_game_source/D2Common/_unattributed/between_DATATBLS_OverlayTbls_and_DRLG_OutJung.cpp */
 uint32_t * GetPtr_sub_6fac61b0(void);   /* game binding -> sub_6fac61b0, D2Client.dll +0x161b0, sigmaRE/5_game_source/D2Client/_unattributed/before_UNIT_Player_6fabd3f0.cpp */
 uint32_t * GetPtr_D2Client_loc_6fb714f7(void);   /* game binding -> D2Client_loc_6fb714f7, D2Client.dll +0xc14f7, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
 uint32_t * GetPtr_D2Client_loc_6fb719a4(void);   /* game binding -> D2Client_loc_6fb719a4, D2Client.dll +0xc19a4, sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp */
@@ -10541,7 +10541,7 @@ uint32_t * GetPtr_sub_6fad9990(void);   /* game binding -> sub_6fad9990, D2Clien
 uint32_t * GetPtr_D2Client_DAT_6fbcc484(void);   /* game binding -> DAT_6fbcc484, D2Client.dll +0x11c484, sigmaRE/5_game_source/D2Client/include/globals.h */
 uint32_t * GetPtr_sub_6fab1400(void);   /* game binding -> sub_6fab1400, D2Client.dll +0x1400, sigmaRE/5_game_source/D2Client/_unattributed/before_UNIT_Player_6fab1000.cpp */
 int __fastcall UNIT_CUnit_6fb55b40(int param_1,int param_2);   /* game binding -> D2Client.dll +0xa5b40, sigmaRE/5_game_source/D2Client/UNIT/CUnit.cpp */
-uint64_t __fastcall sub_6fad16a0_102ac310(int param_1);   /* game binding -> sub_6fad16a0, D2Client.dll +0x216a0, sigmaRE/5_game_source/D2Client/UNIT/_unattributed/between_UNIT_CUnitEvent_and_UNIT_UnitSnd.cpp */
+uint __fastcall sub_6fad16a0_102ac310(int param_1);   /* game binding -> sub_6fad16a0, D2Client.dll +0x216a0, sigmaRE/5_game_source/D2Client/UNIT/_unattributed/between_UNIT_CUnitEvent_and_UNIT_UnitSnd.cpp */
 uint32_t * GetPtr_ENGINE_Gfx_6fb1ba90(void);   /* game binding -> ENGINE_Gfx_6fb1ba90, D2Client.dll +0x6ba90, sigmaRE/5_game_source/D2Client/ENGINE/Gfx.cpp */
 uint32_t * GetPtr_sub_6fb166d0(void);   /* game binding -> sub_6fb166d0, D2Client.dll +0x666d0, sigmaRE/5_game_source/D2Client/_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp */
 uint32_t * GetPtr_D2Client_DAT_6fbc9840(void);   /* game binding -> DAT_6fbc9840, D2Client.dll +0x119840, sigmaRE/5_game_source/D2Client/include/globals.h */
@@ -10551,10 +10551,10 @@ uint __fastcall D2Common_10858(uint *param_1);   /* game binding -> D2Common.dll
 void thunk_FUN_102ad9b0(void);
 void thunk_FUN_102ada30(void);
 void __fastcall thunk_FUN_102ada80(uint32_t param_1,uint param_2,uint32_t reg_EBX);
-int __fastcall sub_102ae080(int param_1,int param_2);
+void __fastcall sub_102ae080(int param_1,int param_2);
 void sub_102ae100(int param_1,int param_2);
-int __fastcall sub_102ae170(int param_1,int param_2);
-int __fastcall sub_Wraps_D2Game_ITEMS_ItemMode_102ae2f0(int param_1,int *param_2);
+void __fastcall sub_102ae170(int param_1,int param_2);
+void __fastcall sub_Wraps_D2Game_ITEMS_ItemMode_102ae2f0(int param_1,int *param_2);
 
 /* ---- _unattributed/between_events_SkillEvents_and_functions_CubeFunctions_after_unit33.cpp ---- */
 void __fastcall sub_102b02d0(int param_1,uint32_t *param_2,uint32_t *param_3);
@@ -10611,7 +10611,7 @@ uint sub_102d42d0(int *param_1);
 char __fastcall sub_102d4390(int param_1);
 uint32_t sub_102d43e0(int param_1,uint32_t param_2);
 int sub_102d4470(int param_1);
-uint32_t sub_102d44e0(int param_1,int param_2);
+void sub_102d44e0(int param_1,int param_2);
 void sub_102d4560(int param_1,uint32_t param_2);
 void sub_102d45a0(int param_1,int *reg_ECX,int reg_EDX);
 int __fastcall sub_102d46c0(int param_1,int param_2,uint32_t param_3,uint32_t param_4,uint32_t param_5, uint32_t param_6,uint32_t param_7);

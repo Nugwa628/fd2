@@ -3270,11 +3270,10 @@ void sub_6fc67a20(void *param_1,void *param_2)
 
 
 // 0x1027eb20  [gap]
-uint64_t sub_6fc43ca0(int param_1,int *param_2,int param_3)
+void sub_6fc43ca0(int param_1,int *param_2,int param_3)
 
 {
   int iVar1;
-  uint32_t extraout_EDX;
   
   if (p_sub_6fc43ca0 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
@@ -3282,8 +3281,8 @@ uint64_t sub_6fc43ca0(int param_1,int *param_2,int param_3)
   }
                     /* WARNING: Could not recover jumptable at 0x1027eb46. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  iVar1 = (*p_sub_6fc43ca0)();
-  return CONCAT44(extraout_EDX,iVar1);
+  (*p_sub_6fc43ca0)();
+  return;
 }
 
 
@@ -5697,13 +5696,12 @@ uint32_t * GetPtr_sub_6fcae810(void)
 
 
 // 0x10281ba0  [gap]
-uint64_t __fastcall
+int __fastcall
 sub_6fcaea80(int param_1,int *param_2,int param_3,uint param_4,uint param_5,uint param_6,
             uint param_7)
 
 {
   int iVar1;
-  uint32_t extraout_EDX;
   
   if (p_sub_6fcaea80 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
@@ -5712,7 +5710,7 @@ sub_6fcaea80(int param_1,int *param_2,int param_3,uint param_4,uint param_5,uint
                     /* WARNING: Could not recover jumptable at 0x10281bc6. Too many branches */
                     /* WARNING: Treating indirect jump as call */
   iVar1 = (*p_sub_6fcaea80)();
-  return CONCAT44(extraout_EDX,iVar1);
+  return iVar1;
 }
 
 

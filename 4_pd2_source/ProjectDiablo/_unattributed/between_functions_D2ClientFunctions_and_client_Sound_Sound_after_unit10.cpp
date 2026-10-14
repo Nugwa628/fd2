@@ -32,7 +32,6 @@ void __fastcall sub_1022f810(int *param_1)
   int *piVar7;
   int *piVar8;
   int *piVar9;
-  uint64_t uVar10;
   int local_58;
   uint local_54;
   int *local_50;
@@ -81,9 +80,8 @@ void __fastcall sub_1022f810(int *param_1)
       if (0 < local_1c[3]) {
         DAT_104e6d54 = local_1c[3];
       }
-      uVar10 = D2Common_10331(local_50);
+      piVar4 = (int *)D2Common_10331(local_50);
       uVar2 = local_54;
-      piVar4 = (int *)uVar10;
       if (piVar4 != (int *)0x0) {
         iVar1 = piVar4[9];
         local_58 = 0;
@@ -92,7 +90,7 @@ void __fastcall sub_1022f810(int *param_1)
             piVar3 = piVar4;
             if (((local_58 == 0) ||
                 (piVar3 = *(int **)(*piVar4 + -4 + local_58 * 4), piVar3 != (int *)0x0)) &&
-               (uVar10 = D2Common_10057((int)piVar3), (int)uVar10 == 0)) {
+               (iVar5 = D2Common_10057((int)piVar3), iVar5 == 0)) {
               for (piVar3 = (int *)piVar3[0x1d]; piVar3 != (int *)0x0; piVar3 = (int *)piVar3[0x3a])
               {
                 if ((((*piVar3 == 4) && ((piVar3[0x25] != 0 || (piVar3[0x26] == 0)))) &&

@@ -3699,32 +3699,31 @@ uint __fastcall sub_10236a30(int param_1,uint32_t *param_2,uint reg_EAX)
 
 {
   int iVar1;
-  int iVar2;
-  uint uVar3;
+  uint uVar2;
+  int iVar3;
   bool bVar4;
-  uint64_t uVar5;
   
   if ((param_2 != (uint32_t *)0x0) && (param_1 != 0)) {
     iVar1 = sub_102591b0(param_2,param_1);
     bVar4 = iVar1 == 0;
     iVar1 = functions_HelperFunctions_102ce5a0((uint)*(ushort *)*param_2);
     if (iVar1 != 0) {
-      uVar5 = D2Common_10331((int *)param_1);
-      if ((int)uVar5 != 0) {
-        iVar2 = functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0((int)uVar5);
+      uVar2 = D2Common_10331((int *)param_1);
+      if (uVar2 != 0) {
+        iVar3 = functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0(uVar2);
         if ((*(uint *)(iVar1 + 4) & 0x100) == 0) {
-          bVar4 = iVar2 == 0 && bVar4;
+          bVar4 = iVar3 == 0 && bVar4;
         }
       }
       if ((*(byte *)(iVar1 + 4) & 0x20) != 0) {
         bVar4 = false;
       }
     }
-    uVar3 = 0;
+    uVar2 = 0;
     if (*(short *)*param_2 != 0x18a) {
-      uVar3 = (uint)bVar4;
+      uVar2 = (uint)bVar4;
     }
-    return uVar3;
+    return uVar2;
   }
   return reg_EAX & 0xffffff00;
 }
@@ -3965,8 +3964,8 @@ LAB_10236f7f:
   if (((cVar11 == '\0') && (iVar7 != 3)) && ((iVar7 != 6 && ((iVar7 != 2 && (!bVar2)))))) {
     return;
   }
-  uVar13 = D2Common_10331((int *)param_1);
-  iVar6 = functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0((int)uVar13);
+  uVar5 = D2Common_10331((int *)param_1);
+  iVar6 = functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0(uVar5);
   local_13 = iVar6 != 0;
   uVar13 = sub_102edf00();
   uVar5 = sub_10236e30();

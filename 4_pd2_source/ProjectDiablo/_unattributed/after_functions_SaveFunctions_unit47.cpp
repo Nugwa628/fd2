@@ -3680,20 +3680,19 @@ int __fastcall sub_102ec4c0(int *param_1)
 {
   char cVar1;
   int *piVar2;
-  uint uVar3;
-  int iVar4;
-  int *piVar5;
-  int iVar6;
-  LPCWSTR pWVar7;
-  LPSTR pCVar8;
+  int iVar3;
+  int *piVar4;
+  int iVar5;
+  LPCWSTR pWVar6;
+  LPSTR pCVar7;
   size_t _Size;
   uint32_t *_Memory;
-  char *pcVar9;
+  char *pcVar8;
   int extraout_EDX;
   char *extraout_EDX_00;
-  char *pcVar10;
-  uint uVar11;
-  uint64_t uVar12;
+  char *pcVar9;
+  uint uVar10;
+  uint64_t uVar11;
   int local_4c;
   uint32_t local_44 [6];
   uint32_t local_2c [6];
@@ -3708,119 +3707,119 @@ int __fastcall sub_102ec4c0(int *param_1)
   local_10 = ExceptionList;
   local_14 = DAT_1039800c ^ (uint)&stack0xfffffffc;
   ExceptionList = &local_10;
-  uVar11 = 0;
+  uVar10 = 0;
   if (param_1[2] != 0) {
     piVar2 = *(int **)(param_1[2] + 0x60);
-    uVar11 = 0x14;
-    piVar5 = D2Common_10010(piVar2,0x14,(int *)0x0);
-    if (piVar5 == (int *)0x0) {
-      uVar11 = 0x7f;
-      piVar5 = D2Common_10010(piVar2,0x7f,(int *)0x0);
+    uVar10 = 0x14;
+    piVar4 = D2Common_10010(piVar2,0x14,(int *)0x0);
+    if (piVar4 == (int *)0x0) {
+      uVar10 = 0x7f;
+      piVar4 = D2Common_10010(piVar2,0x7f,(int *)0x0);
     }
     local_4c = 0;
-    if (piVar5 != (int *)0x0) {
+    if (piVar4 != (int *)0x0) {
       do {
         do {
           if (local_4c != 0) {
             ExceptionList = local_10;
             return local_4c;
           }
-          uVar12 = D2Common_10695(piVar5[1]);
-          if ((((int)uVar12 != 0) && (uVar3 = *(uint *)((int)uVar12 + 0xbc), uVar3 != 0x206e6f6e))
-             && (iVar6 = D2Common_10814(uVar3), iVar6 != -1)) {
-            local_4c = functions_D2NewFunctions_102c7b80(*param_1,param_1[2],iVar6,(int)piVar5);
+          iVar5 = D2Common_10695(piVar4[1]);
+          if (((iVar5 != 0) && (*(uint *)(iVar5 + 0xbc) != 0x206e6f6e)) &&
+             (iVar5 = D2Common_10814(*(uint *)(iVar5 + 0xbc)), iVar5 != -1)) {
+            local_4c = functions_D2NewFunctions_102c7b80(*param_1,param_1[2],iVar5,(int)piVar4);
           }
-          piVar5 = D2Common_10010(piVar2,uVar11,piVar5);
-        } while (piVar5 != (int *)0x0);
-        if (uVar11 != 0x14) break;
-        uVar11 = 0x7f;
-        piVar5 = D2Common_10010(piVar2,0x7f,(int *)0x0);
-      } while (piVar5 != (int *)0x0);
+          piVar4 = D2Common_10010(piVar2,uVar10,piVar4);
+        } while (piVar4 != (int *)0x0);
+        if (uVar10 != 0x14) break;
+        uVar10 = 0x7f;
+        piVar4 = D2Common_10010(piVar2,0x7f,(int *)0x0);
+      } while (piVar4 != (int *)0x0);
       if (local_4c != 0) {
         ExceptionList = local_10;
         return 0;
       }
     }
-    uVar11 = functions_D2NewFunctions_102c5d10((int *)param_1[2]);
-    switch(uVar11 % 6) {
+    uVar10 = functions_D2NewFunctions_102c5d10((int *)param_1[2]);
+    switch(uVar10 % 6) {
     case 0:
-      uVar11 = 0x20766367;
+      uVar10 = 0x20766367;
       break;
     case 1:
-      uVar11 = 0x20796367;
+      uVar10 = 0x20796367;
       break;
     case 2:
-      uVar11 = 0x20626367;
+      uVar10 = 0x20626367;
       break;
     case 3:
-      uVar11 = 0x20676367;
+      uVar10 = 0x20676367;
       break;
     case 4:
-      uVar11 = 0x20726367;
+      uVar10 = 0x20726367;
       break;
     default:
-      uVar11 = 0x20776367;
+      uVar10 = 0x20776367;
     }
-    uVar11 = D2Common_10814(uVar11);
-    if (uVar11 != 0xffffffff) {
-      uVar11 = sub_6fc8b070(*param_1,(int *)param_1[2],uVar11,0);
+    uVar10 = D2Common_10814(uVar10);
+    if (uVar10 != 0xffffffff) {
+      uVar10 = sub_6fc8b070(*param_1,(int *)param_1[2],uVar10,0);
     }
     if (param_1[2] != 0) {
-      iVar6 = rand();
-      uVar11 = iVar6 / 5000;
-      if (iVar6 % 5000 < 2) {
+      iVar5 = rand();
+      uVar10 = iVar5 / 5000;
+      if (iVar5 % 5000 < 2) {
         sub_1020f990(local_2c,*(char **)(param_1[2] + 0x14));
         local_8 = 0;
-        pWVar7 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"PerfectShrine");
-        pCVar8 = sub_10237720(pWVar7);
-        sub_1020f990(local_44,pCVar8);
+        pWVar6 = (LPCWSTR)D2Lang_10011_102d0fb0((byte *)"PerfectShrine");
+        pCVar7 = sub_10237720(pWVar6);
+        sub_1020f990(local_44,pCVar7);
         local_8 = CONCAT31(local_8._1_3_,1);
         client_DrawHoverItem_10224f20((int)local_44);
-        iVar6 = client_DrawHoverItem_10224f20((int)local_2c);
-        _Size = iVar6 + extraout_EDX + 0xc;
+        iVar5 = client_DrawHoverItem_10224f20((int)local_2c);
+        _Size = iVar5 + extraout_EDX + 0xc;
         _Memory = malloc(_Size);
         if (_Memory != (uint32_t *)0x0) {
           *_Memory = 0x2000426;
           _Memory[1] = 0;
           *(uint16_t *)(_Memory + 2) = 0x360b;
-          uVar12 = thunk_FUN_1020fe30((int)local_2c);
-          pcVar9 = (char *)uVar12;
-          pcVar10 = (char *)((int)_Memory + 10);
+          uVar11 = thunk_FUN_1020fe30((int)local_2c);
+          pcVar8 = (char *)uVar11;
+          pcVar9 = (char *)((int)_Memory + 10);
           do {
-            cVar1 = *pcVar9;
-            pcVar9 = pcVar9 + 1;
-            *pcVar10 = cVar1;
-            pcVar10 = pcVar10 + 1;
-          } while (cVar1 != '\0');
-          thunk_FUN_1020fe30((int)local_44);
-          iVar6 = client_DrawHoverItem_10224f20((int)local_2c);
-          pcVar9 = (char *)(iVar6 + 0xb + (int)_Memory);
-          pcVar10 = extraout_EDX_00;
-          do {
-            cVar1 = *pcVar10;
-            pcVar10 = pcVar10 + 1;
+            cVar1 = *pcVar8;
+            pcVar8 = pcVar8 + 1;
             *pcVar9 = cVar1;
             pcVar9 = pcVar9 + 1;
           } while (cVar1 != '\0');
-          iVar6 = 0x1120;
+          thunk_FUN_1020fe30((int)local_44);
+          iVar5 = client_DrawHoverItem_10224f20((int)local_2c);
+          pcVar8 = (char *)(iVar5 + 0xb + (int)_Memory);
+          pcVar9 = extraout_EDX_00;
           do {
-            if (((*(int *)(iVar6 + *param_1) != 0) &&
-                (iVar4 = *(int *)(*(int *)(*(int *)(iVar6 + *param_1) + 0x14) + 0x9c), iVar4 != 0))
-               && (*(int *)(iVar4 + 4) == 4)) {
-              sub_102ecd00(iVar4,_Memory,_Size);
+            cVar1 = *pcVar9;
+            pcVar9 = pcVar9 + 1;
+            *pcVar8 = cVar1;
+            pcVar8 = pcVar8 + 1;
+          } while (cVar1 != '\0');
+          iVar5 = 0x1120;
+          do {
+            if (((*(int *)(iVar5 + *param_1) != 0) &&
+                (iVar3 = *(int *)(*(int *)(*(int *)(iVar5 + *param_1) + 0x14) + 0x9c), iVar3 != 0))
+               && (*(int *)(iVar3 + 4) == 4)) {
+              sub_102ecd00(iVar3,_Memory,_Size);
             }
-            iVar6 = iVar6 + 4;
-          } while (iVar6 < 0x1320);
+            iVar5 = iVar5 + 4;
+          } while (iVar5 < 0x1320);
           free(_Memory);
         }
         thunk_FUN_1020fc60(local_44);
-        uVar12 = thunk_FUN_1020fc60(local_2c);
-        uVar11 = (uint)uVar12;
+        uVar11 = thunk_FUN_1020fc60(local_2c);
+        uVar10 = (uint)uVar11;
       }
     }
   }
   ExceptionList = local_10;
-  return uVar11;
+  return uVar10;
 }
 
 

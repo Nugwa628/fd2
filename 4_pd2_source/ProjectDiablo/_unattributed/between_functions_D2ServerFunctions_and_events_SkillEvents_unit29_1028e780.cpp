@@ -795,11 +795,10 @@ uint SKILLS_Skills_6fb54d40(void)
 
 
 // 0x1028f460  [gap]
-uint64_t sub_6fb54d60(void)
+int sub_6fb54d60(void)
 
 {
   int iVar1;
-  uint32_t extraout_EDX;
   
   if (p_sub_6fb54d60 == (FARPROC)0x0) {
     iVar1 = sub_GameVersionIndex_10253fc0();
@@ -808,7 +807,7 @@ uint64_t sub_6fb54d60(void)
                     /* WARNING: Could not recover jumptable at 0x1028f483. Too many branches */
                     /* WARNING: Treating indirect jump as call */
   iVar1 = (*p_sub_6fb54d60)();
-  return CONCAT44(extraout_EDX,iVar1);
+  return iVar1;
 }
 
 

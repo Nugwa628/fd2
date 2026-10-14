@@ -3587,7 +3587,7 @@ void sub_InitPtr_D2Game_DAT_6fd2f448_100bc150(void)
 
 
 // 0x10253cd0  (ghidra: FUN_10253cd0)  [gap]
-void __fastcall sub_Hook_Unwind_6fd178a0_10253cd0(void *param_1,int *param_2,void *param_3,uint param_4)
+void __fastcall sub_Ptr_D2Game_6fd1bc38_10253cd0(void *param_1,int *param_2,void *param_3,uint param_4)
 
 {
   int iVar1;
@@ -3597,7 +3597,6 @@ void __fastcall sub_Hook_Unwind_6fd178a0_10253cd0(void *param_1,int *param_2,voi
   void *extraout_ECX;
   void *extraout_ECX_00;
   void *this;
-  uint64_t uVar5;
   
   iVar3 = *p_D2Common_DAT_6fde9e1c;
   if (((int)param_4 < 0) || (*(uint *)(iVar3 + 0xba0) <= param_4)) {
@@ -3607,11 +3606,9 @@ LAB_10253dc9:
   }
   iVar1 = sub_102ecd50();
   iVar2 = functions_HelperFunctions_102ce5a0(param_4);
-  if ((iVar2 == 0) || ((*(uint *)(iVar3 + 0xc0) <= (uint)*(ushort *)(iVar2 + 0x80) || (iVar1 != 0)))
-     ) goto LAB_10253dc9;
-  uVar5 = D2Common_10973((int)param_2,0xbf,param_4);
-  iVar3 = (int)uVar5;
-  if (iVar3 < 1) goto LAB_10253dc9;
+  if ((iVar2 == 0) ||
+     (((*(uint *)(iVar3 + 0xc0) <= (uint)*(ushort *)(iVar2 + 0x80) || (iVar1 != 0)) ||
+      (iVar3 = D2Common_10973((int)param_2,0xbf,param_4), iVar3 < 1)))) goto LAB_10253dc9;
   uVar4 = D2Common_10494(param_2,(uint)*(ushort *)(iVar2 + 0x80));
   if ((uVar4 == 0) && ((ushort)(*(ushort *)(iVar2 + 0x2c) - 1) < 0xfffe)) {
     (**(code **)(p_D2Game_DAT_6fd27338 + (uint)*(ushort *)(iVar2 + 0x2c) * 4))(param_4,iVar3);

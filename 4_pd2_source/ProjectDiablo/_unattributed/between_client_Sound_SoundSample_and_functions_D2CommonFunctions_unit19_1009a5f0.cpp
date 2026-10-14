@@ -4116,7 +4116,7 @@ sub_102399c0(uint32_t param_1,char *param_2,uint32_t param_3,char *param_4,uint3
     if (bVar1) {
       puVar4 = (uint32_t *)sub_1023d910(local_2c);
       client_DrawHoverItem_102250e0((void *)*puVar4,param_4);
-      sub_Config74_10239e00(reg_EBX);
+      sub_Settings_10239e00(reg_EBX);
     }
     thunk_FUN_1020fc60(local_2c);
     uVar2 = 1;
@@ -4165,7 +4165,7 @@ sub_10239a70(uint32_t param_1,char *param_2,uint32_t param_3,uint32_t param_4,
     if (bVar1) {
       puVar4 = (uint32_t *)sub_1023d9f0(local_2c);
       *(uint32_t *)*puVar4 = param_4;
-      sub_Config74_10239e00(reg_EBX);
+      sub_Settings_10239e00(reg_EBX);
     }
     thunk_FUN_1020fc60(local_2c);
     uVar2 = 1;
@@ -4436,7 +4436,7 @@ uint64_t __fastcall sub_10239de0(uint32_t *param_1)
 // 0x10239e00  (ghidra: FUN_10239e00)  [gap]
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 
-void sub_Config74_10239e00(uint32_t reg_EBX)
+void sub_Settings_10239e00(uint32_t reg_EBX)
 
 {
   char *pcVar1;
@@ -5131,7 +5131,7 @@ void sub_1023b060(uint32_t reg_EBX)
     sub_1023b020((int)local_c8);
   }
   local_8 = 2;
-  sub_Config74_1023b445(reg_EBX);
+  sub_Settings_1023b445(reg_EBX);
   return;
 }
 
@@ -5221,7 +5221,7 @@ uint32_t Catch_1023b357(void)
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void sub_Config74_1023b445(uint32_t reg_EBX)
+void sub_Settings_1023b445(uint32_t reg_EBX)
 
 {
   uint8_t uVar1;
@@ -6481,7 +6481,7 @@ void sub_Config74_1023b445(uint32_t reg_EBX)
   *(uint8_t *)(unaff_EBP + -4) = 2;
   DAT_104e257c = sub_10239b20();
   if (DAT_103e2d3f != '\0') {
-    sub_Config74_10239e00(reg_EBX);
+    sub_Settings_10239e00(reg_EBX);
   }
   sub_1023cae0(unaff_EBP + -0x234);
   sub_1023cae0(unaff_EBP + -0x2ec);

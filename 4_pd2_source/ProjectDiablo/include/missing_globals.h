@@ -4686,7 +4686,7 @@ extern uint32_t uRam104e2580;  /* x1 */
 extern uint32_t uRam104e2584;  /* x1 */
 extern uint32_t uRam104e6d44;  /* x1 */
 extern uint8_t *uVar13;  /* x13 */
-extern uint32_t uVar16;  /* x17 */
+extern uint32_t uVar16;  /* x11 */
 extern uint32_t uVar2;  /* x5 */
 extern uint32_t uVar3;  /* x9 */
 extern uint32_t vftable;  /* x1 */

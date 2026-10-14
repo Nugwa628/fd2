@@ -4831,7 +4831,7 @@ void sub_10219aa0(void)
 // 0x1021a8e0  (ghidra: FUN_1021a8e0)  [gap]
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 
-void sub_Hook_FUN_6fb7dbb0_1021a8e0(int param_1,uint32_t reg_EBX)
+void sub_Ptr_D2Client_6fb8bdcc_1021a8e0(int param_1,uint32_t reg_EBX)
 
 {
   int iVar1;
@@ -4845,7 +4845,6 @@ void sub_Hook_FUN_6fb7dbb0_1021a8e0(int param_1,uint32_t reg_EBX)
   uint32_t extraout_ECX_01;
   uint uVar7;
   uint uVar8;
-  uint64_t uVar9;
   uint8_t local_64;
   uint16_t uStack_63;
   uint8_t uStack_61;
@@ -4887,8 +4886,8 @@ LAB_1021a9bd:
       iVar1 = sub_102f0270(extraout_ECX);
       if ((iVar1 != 0) || (iVar1 = sub_102f0200(extraout_ECX_00), iVar1 != 0)) {
         if (DAT_103e7784 == 0) {
-          uVar9 = D2Common_11017(*(int **)(*p_D2Client_DAT_6fbcbbfc + 0x60));
-          if (((int)uVar9 == 0) && (CONCAT13(uStack_61,CONCAT21(uStack_63,local_64)) != 0)) {
+          iVar1 = D2Common_11017(*(int **)(*p_D2Client_DAT_6fbcbbfc + 0x60));
+          if ((iVar1 == 0) && (CONCAT13(uStack_61,CONCAT21(uStack_63,local_64)) != 0)) {
             iVar1 = *p_D2Client_DAT_6fbcbbfc;
             local_64 = (uint8_t)iVar1;
             uStack_63 = (uint16_t)((uint)iVar1 >> 8);
@@ -4992,7 +4991,7 @@ LAB_1021ace9:
 // 0x1021ad10  (ghidra: FUN_1021ad10)  [gap]
 /* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
 
-void sub_Hook_FUN_6fb7dbb0_1021ad10(int param_1)
+void sub_Ptr_D2Client_6fb8bdc0_1021ad10(int param_1)
 
 {
   int *piVar1;
@@ -5031,12 +5030,12 @@ void sub_Hook_FUN_6fb7dbb0_1021ad10(int param_1)
   if (*(int *)(local_60 + 0x10) == 0x11) {
     return;
   }
-  uVar8 = D2Common_11017(*(int **)(local_60 + 0x60));
+  iVar2 = D2Common_11017(*(int **)(local_60 + 0x60));
   uVar6 = (uint)*(ushort *)(param_1 + 0xc);
   uVar7 = (uint)*(ushort *)(param_1 + 0xe);
-  uStack_70 = (uint8_t)uVar8;
-  uStack_6f = (uint16_t)((ulonglong)uVar8 >> 8);
-  uStack_6d = (uint8_t)((ulonglong)uVar8 >> 0x18);
+  uStack_70 = (uint8_t)iVar2;
+  uStack_6f = (uint16_t)((uint)iVar2 >> 8);
+  uStack_6d = (uint8_t)((uint)iVar2 >> 0x18);
   uStack_5c = (uint)(DAT_104dbf3c == 10);
   uStack_68 = (uint)*(ushort *)(param_1 + 8);
   if ((((*(int *)(p_D2Client_DAT_6fbbb3e0 + 4) <= (int)uVar6) && ((int)uVar6 <= *(int *)(p_D2Client_DAT_6fbbb3e0 + 8))) &&
@@ -5156,7 +5155,7 @@ LAB_1021b05d:
 
 
 // 0x1021b090  (ghidra: FUN_1021b090)  [gap]
-int * sub_Hook_FUN_6fb7dbb0_1021b090(int param_1)
+int * sub_Ptr_D2Client_6fb8bdd8_1021b090(int param_1)
 
 {
   ushort uVar1;
@@ -5214,8 +5213,8 @@ LAB_1021b115:
     }
     DAT_103e7894 = 0;
     DAT_103d6014 = 0;
-    uVar10 = D2Common_11017(piVar5);
-    if ((int)uVar10 == 0) {
+    iVar6 = D2Common_11017(piVar5);
+    if (iVar6 == 0) {
       uVar8 = sub_6fb3bd90((uint)uVar2,(uint)uVar1);
       iVar6 = *p_D2Client_DAT_6fbaade4;
       if (uVar8 != 0) {
@@ -5330,7 +5329,7 @@ LAB_1021b479:
 
 
 // 0x1021b4b0  (ghidra: FUN_1021b4b0)  [gap]
-void sub_Hook_FUN_6fb7dbb0_1021b4b0(int param_1)
+void sub_Ptr_D2Client_6fb8bde4_1021b4b0(int param_1)
 
 {
   uint uVar1;
@@ -5364,7 +5363,7 @@ void sub_Hook_FUN_6fb7dbb0_1021b4b0(int param_1)
 
 
 // 0x1021b560  (ghidra: FUN_1021b560)  [gap]
-void sub_Hook_FUN_6fb7dbb0_1021b560(int param_1)
+void sub_Ptr_D2Client_6fb8bdf0_1021b560(int param_1)
 
 {
   if (*p_D2Client_DAT_6fbcbc34 == 0xc) {
@@ -5398,23 +5397,23 @@ uint32_t sub_Hook_sub_6fb730e0_1021b610(void)
   int iVar1;
   uint uVar2;
   uint uVar3;
-  uint *puVar4;
-  uint64_t uVar5;
+  uint uVar4;
+  uint *puVar5;
   
   iVar1 = (**(code **)(*(int *)*p_D2Client_DAT_6fbaad64 + 0x2c))();
   uVar2 = (**(code **)(*(int *)*p_D2Client_DAT_6fbaad64 + 0x30))(0);
-  puVar4 = p_D2Client_DAT_6fbcbbb0;
+  puVar5 = p_D2Client_DAT_6fbcbbb0;
   if ((int *)*p_D2Client_DAT_6fbaad68 != (int *)0x0) {
     uVar3 = (**(code **)(*(int *)*p_D2Client_DAT_6fbaad68 + 0x2c))();
-    puVar4 = p_D2Client_DAT_6fbcbbb0;
+    puVar5 = p_D2Client_DAT_6fbcbbb0;
     *p_D2Client_DAT_6fbcbbb0 = uVar3;
   }
-  uVar3 = *puVar4;
-  uVar5 = D2Common_10973(*p_D2Client_DAT_6fbcbbfc,(*p_D2Client_DAT_6fbaad5c == 4) + 0xe,0);
+  uVar3 = *puVar5;
+  uVar4 = D2Common_10973(*p_D2Client_DAT_6fbcbbfc,(*p_D2Client_DAT_6fbaad5c == 4) + 0xe,0);
   if (iVar1 == 1) {
     uVar3 = uVar3 + uVar2;
-    if ((uint)uVar5 < uVar3) {
-      uVar3 = (uint)uVar5;
+    if (uVar4 < uVar3) {
+      uVar3 = uVar4;
     }
   }
   else if (iVar1 == 2) {
@@ -5496,18 +5495,15 @@ switchD_1021b72a_default:
 
 
 // 0x1021b7e0  (ghidra: FUN_1021b7e0)  [gap]
-int sub_Hook_sub_6fb730e0_1021b7e0(int param_1,int param_2,uint param_3)
+void sub_Hook_sub_6fb730e0_1021b7e0(int param_1,int param_2,uint param_3)
 
 {
-  int iVar1;
-  uint64_t uVar2;
-  
   if ((((param_2 == 0xf) && (param_1 != 0)) && (*(int *)(param_1 + 0x14) != 0)) &&
      (*(int *)(*(int *)(param_1 + 0x14) + 0x1b4) != 0)) {
-    iVar1 = functions_HelperFunctions_102d0430(param_1);
-    return iVar1;
+    functions_HelperFunctions_102d0430(param_1);
+    return;
   }
-  uVar2 = D2Common_10973(param_1,param_2,param_3);
-  return (int)uVar2;
+  D2Common_10973(param_1,param_2,param_3);
+  return;
 }
 
