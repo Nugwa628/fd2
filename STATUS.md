@@ -25,7 +25,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 | 3 Source trees | sub-agent per binary | Phase 2 | `4_pd2_source/` | ProjectDiablo **done**; PD2_EXT **done** |
 | 4 Game patches / hooks | sub-agent | Phase 3 | `5_game_patches/` | **done** |
 | 5 Config, BH diff, launcher | sub-agents | Phase 3 | `6_config/`, `4_pd2_source/{BH,D2GL}`, `7_launcher/` | **done** |
-| 6 Verification + README numbers | orchestrator + verifier | all | `README.md` | not started |
+| 6 Verification + README numbers | orchestrator + verifier | all | `VERIFICATION.md`, `README.md` | **done** |
 
 ### Phase 0 checklist
 - [x] SHA-256 of root and `Live\` → `0_inventory/hashes.csv`; `Live\` = 47 files, all identical to root
@@ -124,10 +124,10 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 ### P3a Source tree ProjectDiablo: done (2026-10-14)
 - 13,787 functions (10,980 PD2, 2,807 lib). Of PD2 code: anchor 35, range 1,496, linked 151, inferred 41, nearest 4, gap 9,253 (84%; 3,604 of those are static initializers of unnamed objects). Ordinary code in a named file: 815 / 6,464 (12.6%).
 - 66 object files recovered from the static-initializer table (link order); 14 named (13 `__FILE__` + `functions/D2ClientFunctions.cpp` manual override). **Link order: not alphabetical** (project-file order) → `between_` = located between.
-- Lost-arguments fix: 969 thunks got prototypes (717 from reference headers); empty-arg thunk calls 5,853/5,923 → 174/6,068. Placeholders 3,116 → 3,257 (+5%, because calls now pass arguments and expose `extraout_*`).
-- Game calls: all 2,037 bindings named (569 ordinal, 1,468 by 1.13c offset); 6,475 calls use reference names; 0 `Ordinal_` left. Undeclared: 9 names (STL internals).
+- Lost-arguments fix: 969 thunks got prototypes (717 from reference headers); empty-arg thunk calls 5,852/5,916 → 174/5,920 (corrected by verification). Placeholders 3,116 → 3,257 (+5%, because calls now pass arguments and expose `extraout_*`).
+- Game calls: all 2,037 bindings named (569 ordinal, 1,472 by 1.13c offset after F1); 6,327 calls use reference names (corrected by verification); 0 `Ordinal_` left. Undeclared: 9 names (STL internals).
 - `d2structs.h`: 13 structs, 43 fields proven, 102 assumed. PD2's Game struct is larger than vanilla's.
-- 1,896 of 2,037 bindings have 1.13d value 0: this build effectively supports 1.13c only.
+- 1,900 of 2,041 bindings (after F1) have 1.13d value 0: this build effectively supports 1.13c only.
 - Object file 45 = client integrity check (module scan vs base64-encoded hack-DLL names): labelled, high-level only.
 - Orchestrator check: README counts are generator-filled; second regeneration byte-identical (agent); integrity-check text is high level only.
 - Open: 52 of 66 object files unnamed (`link_units.tsv` gives leads); structs not applied to the code (needs a Ghidra data-type pass + re-export).
@@ -174,7 +174,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 ### P4 Game patches and hooks: done (2026-10-14)
 - 1,636 patch records → 1,245 hooks, 0 undecodable, 0 outside a game function (1,068 code records in reference functions, 225 in unsplit entry points named `sub_<va>`, 340 data). Script `tools/patches/build_patches.py` (deterministic, ~15 s); overrides with reasons in `tools/patches/`.
 - **Correction:** main table 0x103c7f50 has 1,198 real entries (2,187 slots, installer stops at offset 0). Conditional table 35 entries (skipped with `-plugy`), block table 57, init-time writes 284 (skill tables, D2Client packet handlers, D2Net packet sizes), 1 window subclass, PD2_EXT 4, on-disk 21, BH 36. No WriteProcessMemory, no IAT hooks.
-- By module: D2Game 881, D2Client 583, D2Common 85, D2Net 30, D2Win 28, others ≤13. By feature (hooks): sound 267, skills 199, items/cube 180, save files 147, monsters/AI 122, UI 98, networking 70, misc 61, maps 41, quests 39, loot filter 14 (BH), loader 6, stash 1.
+- By module: D2Game 881, D2Client 583, D2Common 85, D2Net 30, D2Win 28, others ≤13. By feature (hooks): sound 267, skills 199, items/cube 171, save files 147, monsters/AI 131 (after F1), UI 98, networking 70, misc 61, maps 41, quests 39, loot filter 14 (BH), loader 6, stash 1.
 - Notable: save buffer 0x2000 → 0x20000; 207 PlaySound calls → PD2 sound engine; stash gold 2.5M → 5M; ItemStatCost stride 0x144 → 0x150 handled by hooking 23 call sites (stride use inferred).
 - On-disk: D2Win has 17 more redirected MPQ-name string operands; undoing all D2Win changes restores its checksum exactly. Storm: only the import rename found, checksum still unexplained.
 - Orchestrator check: 12 random PD2 patch rows — original bytes match the stock DLLs 12/12.
@@ -183,3 +183,7 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 ### F1 Generator fix + PD2_EXT build attempt: done (2026-10-14)
 - `game_pointers.tsv`: 10 rows reclassified (5 `jmp-stub`, 5 `wrapper`, e.g. 0x102cbcd0 → `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0`), 4 real thunk rows added; now 964 lazy-thunk + 5 wrapper + 5 jmp-stub (2,041 rows). Regeneration byte-identical on re-run. Phase 4 outputs change only in handler names, plus 9 rows moving feature items/cube → monsters/AI (more accurate).
 - **Optional build (PD2_EXT):** hand-cleaned `4_pd2_source/PD2_EXT/build/pd2_ext.cpp` compiles and links with clang-cl 18 + lld (11/12 export ordinals match; lld ignores forwarder ordinals) and with mingw-w64 13 (all 12 exports, ordinals and forwarders match). VS project provided, untested (no MSVC). Not run on Windows.
+
+### P6 Verification: done (2026-10-14) — verdict PASS
+- Independent agent, seed 20261014. 30/30 functions match Ghidra (and all 14,263 for file/name/comment); 35/35 anchors; 1,636/1,636 patch rows re-decoded from the binaries; 30/30 game_pointers rows; build 0 errors; regeneration of trees + patches identical to the commit; 31,942 data-diff claims hold.
+- Discrepancies D1–D6 were documentation only: D1–D4 documented in `tools/README.md` ("Known quirks"), D5 `__pycache__/` added to `.gitignore`, D6 stale STATUS numbers corrected above. Details in `VERIFICATION.md`.

@@ -211,3 +211,10 @@ It then provides three things:
   that the `__FILE__` paths are visible. DAT_ references are also resolved through the PE.
 * Optionally, `<Module>_decompiled.extra.c` from AddFunctions.java, for functions that are reached only through data.
 * Run with `tools/ghidra/run_all.sh --out <ghidra_export_dir> --work <scratch> --ghidra <analyzeHeadless> --pd2-dir <install>`.
+
+## Known quirks (from the Phase 6 verification, `VERIFICATION.md`)
+
+* **D1 Names with `@`, `:` or backticks:** `symbols.csv` keeps Ghidra's spelling (`Unwind@103068c8`); the source tree uses a C-safe spelling (`Unwind_103068c8`). 2,596 names are affected; map one to the other by replacing those characters with `_`.
+* **D2 `unaff_retaddr`:** Declare.cs rewrites it as `(uint32_t)_ReturnAddress()` (21 sites, 14 functions, mostly CRT). In PD2_EXT `__math_exit` (0x1000c4fb) the slot is probably an x87 control word, not a return address.
+* **D3 `inferred`:** means "no caller in another file decided the placement". 2 inferred functions (0x10233d40, 0x102daa90) do have callers in another file, but sit between same-file `linked` functions.
+* **D4 `undeclared` command:** run standalone, it does not apply the module's import filter and reports 154 (ProjectDiablo) / 81 (PD2_EXT) names. The `pd2` command applies the filter: 9 / 10 names, all STL/CRT internals. The READMEs list 8 of them as examples, not exhaustively.

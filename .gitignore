@@ -30,3 +30,4 @@ fd2_work/
 bin/
 obj/
 .vs/
+__pycache__/
