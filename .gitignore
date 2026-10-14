@@ -1,0 +1,32 @@
+# Binaries and game assets: never commit
+*.dll
+*.exe
+*.mpq
+*.bin
+*.dc6
+*.dcc
+*.dt1
+*.ds1
+*.cof
+*.pl2
+*.dat
+*.wav
+*.bik
+*.smk
+*.pdb
+*.lib
+*.obj
+*.zip
+*.7z
+# Ghidra projects and raw exports
+*.gpr
+*.rep/
+*.lock
+*.lock~
+3_ghidra*/
+ghidra_projects/
+# Workspace / build output
+fd2_work/
+bin/
+obj/
+.vs/
