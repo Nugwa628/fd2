@@ -114,3 +114,9 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 - **PD2_EXT:** 470 + 18 added = 488 functions (12 fake forwarder entries to drop); FID 181; placeholders 128 → 90. PD2 code is 4 functions at 0x10001000–0x10001241, the rest static CRT. Runtime patches: Game.exe 0x4082dd call → `FUN_10001080`; Game.exe 0x40763f call → `FUN_10001000` (original data load, then `LoadLibraryA("ProjectDiablo.dll")`); Game.exe 0x4083ef–0x40840f 33 bytes NOP; Fog.dll+0x17ea7 call → `FUN_10001050` (guarded by an 8-byte check at Fog+0xff5f; makes `Fog_10116` InstallPath the parent folder).
 - **BH:** 7,176 + 5,330 added = 12,506 functions; 126 BH RTTI classes, 100 vtables; placeholders 3,832 → 3,674 with `strict guardregs` (new opt-in FixAndExport mode; plain/strict made BH worse via a CRT register-capture routine). Modules: GameSettings, ScreenInfo, Gamefilter, Bnet, Item, Party, StashExport, ChatColor, MapNotify; **no Maphack/AutoTele module**. 56 loot-filter condition classes (PD2: MapTier, CraftLevel, RerollLevel, Automod). Interop: ProjectDiablo calls 8 `BH*` exports; BH calls ProjectDiablo's `D2Client_PlaySoundWithCustomVolumeOrPriority` and D2GL's `d2glIsReady`/`d2glConfigQueryImpl`. 35+ `Patch` objects with 1.13c/1.13d offsets.
 - Decision: FixAndExport mode per binary: ProjectDiablo `strict`, PD2_EXT plain (= strict), BH `strict guardregs`.
+
+### P5a BH fork diff (started 2026-10-14)
+- Input: BH decompile + Ghidra project, `0_inventory/decompile/BH.md`, clone of `github.com/Project-Diablo-2/BH`.
+- Output: `4_pd2_source/BH/` (README, DIFF.md, src/ for binary-only changes, patches.tsv, interop.md), scripts in `tools/bh/`.
+- Done: closest public commit identified with evidence; every BH class/file classified; no upstream code copied into the repo.
+- Note: PD2_EXT source tree (P3b) waits for P3a, because both use the shared generator in `tools/src`.
