@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="PD2Launcherv2.Views.FiltersView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:PD2Launcherv2.ViewModels" xmlns:converters="clr-namespace:PD2Launcherv2.Converters" xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" Width="750" Height="550" Title="FiltersView" xmlns:views="clr-namespace:PD2Launcherv2.Views" DataContext="{Binding FiltersViewModel, Source={StaticResource ViewModelLocator}}" Loaded="FiltersView_Loaded">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converters:NullIfWhiteSpaceToNullConverter x:Key="NullIfWhiteSpaceToNullConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Image Source="pack://application:,,,/Resources/Images/bg_plain.jpg" Stretch="Fill" />
+    <Button Name="CloseButton" Style="{StaticResource CloseButtonStyle}" FontFamily="{StaticResource BlizzHeavy}" FontSize="25" Content="X" Command="{Binding CloseCommand}" />
+    <TextBlock Name="Filter" Text="Filters" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0" Foreground="{StaticResource GoldBrush}" FontFamily="{StaticResource BlizzHeavy}" />
+    <Button Content="Help" Style="{StaticResource CustomColorChangeButton}" FontFamily="{StaticResource BlizzMedium}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="180,30,0,0" Command="{Binding OpenHelpPageCommand}" FocusVisualStyle="{x:Null}" />
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,70,0,0">
+      <TextBlock Text="Author" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="{StaticResource BlizzMedium}" Foreground="{StaticResource GoldBrush}" />
+      <ListBox Name="AuthorsListBox" ItemContainerStyle="{StaticResource CustomListBoxItemStyle}" FontFamily="{StaticResource BlizzMedium}" FontSize="18" DisplayMemberPath="Author" Background="#FF000000" BorderBrush="{StaticResource GoldBrush}" BorderThickness="2" Height="400" Width="200" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AuthorsList}" SelectedItem="{Binding SelectedAuthor, Mode=TwoWay}" FocusVisualStyle="{x:Null}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBar}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ListBox>
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20,70,0,0">
+      <TextBlock FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="{StaticResource BlizzMedium}" Foreground="{StaticResource GoldLighterBrush}" Text="{Binding SelectedAuthor.Name}" />
+      <ListBox Name="FiltersListBox" FontFamily="{StaticResource BlizzLight}" FontSize="16" DisplayMemberPath="DisplayName" Background="#FF000000" BorderBrush="{StaticResource GoldBrush}" BorderThickness="2" Height="400" Width="300" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding FiltersList}" FocusVisualStyle="{x:Null}" SelectedItem="{Binding SelectedFilter, Mode=TwoWay}">
+        <ItemsControl.ItemContainerStyle>
+          <Style BasedOn="{StaticResource CustomListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{Binding Description, Converter={StaticResource NullIfWhiteSpaceToNullConverter}}" />
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBar}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ListBox>
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,35,0">
+      <Button Content="Save Filter" FontFamily="{StaticResource BlizzMedium}" FontSize="18" Margin="0,0,0,50" Command="{Binding SaveFilterCommand}" FocusVisualStyle="{x:Null}" IsEnabled="{Binding SelectedFilter, Converter={StaticResource NullToBooleanConverter}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource CustomColorChangeButton}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#FF808080" />
+                <Setter Property="Foreground" Value="#FFD3D3D3" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <Button Content="Authors Page" Style="{StaticResource CustomColorChangeButton}" FontFamily="{StaticResource BlizzMedium}" FontSize="18" Margin="0,0,0,50" Command="{Binding OpenAuthorsPageCommand}" FocusVisualStyle="{x:Null}" />
+      <Button Content="Preview Filter" FontFamily="{StaticResource BlizzMedium}" FontSize="18" Margin="0,0,0,50" Command="{Binding OpenFilterBirdCommand}" FocusVisualStyle="{x:Null}" IsEnabled="{Binding SelectedFilter, Converter={StaticResource NullToBooleanConverter}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource CustomColorChangeButton}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#FF808080" />
+                <Setter Property="Foreground" Value="#FFD3D3D3" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <Button Content="Copy to Local" FontFamily="{StaticResource BlizzMedium}" FontSize="18" Margin="0,0,0,50" ToolTip="Copy this filter to local storage. Note: Local filters will not receive automatic updates." Command="{Binding CopyToLocalCommand}" FocusVisualStyle="{x:Null}" IsEnabled="{Binding SelectedFilter, Converter={StaticResource NullToBooleanConverter}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource CustomColorChangeButton}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#FF808080" />
+                <Setter Property="Foreground" Value="#FFD3D3D3" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <Button Content="Close Preview" Style="{StaticResource CustomColorChangeButton}" FontFamily="{StaticResource BlizzMedium}" FontSize="18" Margin="0,0,0,0" Command="{Binding CloseFilterPreviewCommand}" FocusVisualStyle="{x:Null}" Visibility="{Binding IsWebViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </StackPanel>
+    <Grid Visibility="{Binding IsWebViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <Image Source="pack://application:,,,/Resources/Images/bg_plain.jpg" Stretch="Fill" Panel.ZIndex="1" />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" ZIndex="3">
+        <TextBlock Text="FilterBird" FontSize="24" FontFamily="{StaticResource BlizzHeavy}" Foreground="{StaticResource GoldBrush}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Button Content="info" Style="{StaticResource CustomColorChangeButton}" FontFamily="{StaticResource BlizzMedium}" Margin="10,5,0,0" FontSize="10" Panel.ZIndex="3" Command="{Binding FilterPreviewICommand}" FocusVisualStyle="{x:Null}" />
+      </StackPanel>
+      <wv2:WebView2 Name="FilterWebView2" HorizontalAlignment="Center" VerticalAlignment="Center" DefaultBackgroundColor="Transparent" Margin="0,40,0,0" Height="475" Width="745" Panel.ZIndex="2" />
+      <TextBlock Text="NOTE:  Filterbird is not the game's lootfilter code. There is a chance it shows/hides something that would be different in game." VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,40,0" Width="190" Foreground="{StaticResource SoftWhite}" Background="#00FFFFFF" FontSize="10" FontFamily="{StaticResource BlizzLight}" TextWrapping="Wrap" Panel.ZIndex="99" />
+      <Button Content="X" FontSize="30" Style="{StaticResource CloseButtonStyle}" FontFamily="{StaticResource BlizzHeavy}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Background="#00FFFFFF" Foreground="{StaticResource GoldBrush}" Width="50" Height="50" Panel.ZIndex="99" Command="{Binding CloseFilterPreviewCommand}" />
+    </Grid>
+  </Grid>
+</Page>

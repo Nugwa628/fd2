@@ -1,0 +1,8 @@
+# bundle v6.0 id=Gv0sGB7htKBjaBhJOa3uHzxNi3B9_o8= files=7 flags=0x0
+    256512        253          0 RuntimeConfigJson  SteamPD2.runtimeconfig.json
+    258048      14336          0 Assembly           Crc32.NET.dll
+    274432      89088          0 Assembly           MadMilkman.Ini.dll
+    364544    1718784          0 Assembly           Newtonsoft.Json.dll
+   2084864     150528          0 Assembly           PD2Shared.dll
+   2236416     165376          0 Assembly           SteamPD2.dll
+   2401792       4391          0 DepsJson           SteamPD2.deps.json

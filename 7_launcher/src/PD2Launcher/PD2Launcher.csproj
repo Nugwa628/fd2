@@ -1,0 +1,130 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>PD2Launcher</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>netcoreapp6.0</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>11.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="resources/images/minimize.jpg" />
+    <None Remove="resources/images/loot.jpg" />
+    <None Remove="resources/styles/colors.baml" />
+    <None Remove="resources/images/logo.gif" />
+    <None Remove="resources/fonts/exocet-blizzard-medium.ttf" />
+    <None Remove="resources/images/btn_switch.jpg" />
+    <None Remove="resources/images/btn_more_pressed.jpg" />
+    <None Remove="resources/images/thin_prev.jpg" />
+    <None Remove="resources/images/btn_more.jpg" />
+    <None Remove="resources/images/play_pressed.jpg" />
+    <None Remove="resources/images/donate.jpg" />
+    <None Remove="resources/images/btn_no_updates3.jpg" />
+    <None Remove="resources/images/thin_next.jpg" />
+    <None Remove="views/aboutview.baml" />
+    <None Remove="resources/images/updating_disabled.jpg" />
+    <None Remove="resources/fonts/exocet-blizzard-light.ttf" />
+    <None Remove="resources/fonts/exocet-blizzard-heavy.otf" />
+    <None Remove="resources/images/donate_pressed.jpg" />
+    <None Remove="resources/images/minimize_pressed.jpg" />
+    <None Remove="resources/images/empty_button.png" />
+    <None Remove="resources/images/bg_plain.jpg" />
+    <None Remove="resources/images/options_pressed.jpg" />
+    <None Remove="resources/icons/icon.ico" />
+    <None Remove="resources/icons/icon.png" />
+    <None Remove="resources/images/checkbox_checked.png" />
+    <None Remove="resources/images/checkbox_unchecked.png" />
+    <None Remove="resources/images/bg1.jpg" />
+    <None Remove="resources/images/bg2.jpg" />
+    <None Remove="resources/images/btn_live.jpg" />
+    <None Remove="mainwindow.baml" />
+    <None Remove="resources/images/custom_notif.jpg" />
+    <None Remove="resources/styles/controlstyles.baml" />
+    <None Remove="resources/images/play.jpg" />
+    <None Remove="resources/images/loot_pressed.jpg" />
+    <None Remove="views/filtersview.baml" />
+    <None Remove="resources/images/btn_beta.jpg" />
+    <None Remove="resources/images/close_pressed.jpg" />
+    <None Remove="resources/images/btn_switch_pressed.jpg" />
+    <None Remove="resources/images/close.jpg" />
+    <None Remove="resources/images/options.jpg" />
+    <None Remove="views/optionsview.baml" />
+    <None Remove="app.baml" />
+    <EmbeddedResource Include="resources/images/minimize.jpg" LogicalName="resources/images/minimize.jpg" />
+    <EmbeddedResource Include="resources/images/loot.jpg" LogicalName="resources/images/loot.jpg" />
+    <EmbeddedResource Include="resources/styles/colors.baml" LogicalName="resources/styles/colors.baml" />
+    <EmbeddedResource Include="resources/images/logo.gif" LogicalName="resources/images/logo.gif" />
+    <EmbeddedResource Include="resources/fonts/exocet-blizzard-medium.ttf" LogicalName="resources/fonts/exocet-blizzard-medium.ttf" />
+    <EmbeddedResource Include="resources/images/btn_switch.jpg" LogicalName="resources/images/btn_switch.jpg" />
+    <EmbeddedResource Include="resources/images/btn_more_pressed.jpg" LogicalName="resources/images/btn_more_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/thin_prev.jpg" LogicalName="resources/images/thin_prev.jpg" />
+    <EmbeddedResource Include="resources/images/btn_more.jpg" LogicalName="resources/images/btn_more.jpg" />
+    <EmbeddedResource Include="resources/images/play_pressed.jpg" LogicalName="resources/images/play_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/donate.jpg" LogicalName="resources/images/donate.jpg" />
+    <EmbeddedResource Include="resources/images/btn_no_updates3.jpg" LogicalName="resources/images/btn_no_updates3.jpg" />
+    <EmbeddedResource Include="resources/images/thin_next.jpg" LogicalName="resources/images/thin_next.jpg" />
+    <EmbeddedResource Include="views/aboutview.baml" LogicalName="views/aboutview.baml" />
+    <EmbeddedResource Include="resources/images/updating_disabled.jpg" LogicalName="resources/images/updating_disabled.jpg" />
+    <EmbeddedResource Include="resources/fonts/exocet-blizzard-light.ttf" LogicalName="resources/fonts/exocet-blizzard-light.ttf" />
+    <EmbeddedResource Include="resources/fonts/exocet-blizzard-heavy.otf" LogicalName="resources/fonts/exocet-blizzard-heavy.otf" />
+    <EmbeddedResource Include="resources/images/donate_pressed.jpg" LogicalName="resources/images/donate_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/minimize_pressed.jpg" LogicalName="resources/images/minimize_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/empty_button.png" LogicalName="resources/images/empty_button.png" />
+    <EmbeddedResource Include="resources/images/bg_plain.jpg" LogicalName="resources/images/bg_plain.jpg" />
+    <EmbeddedResource Include="resources/images/options_pressed.jpg" LogicalName="resources/images/options_pressed.jpg" />
+    <EmbeddedResource Include="resources/icons/icon.ico" LogicalName="resources/icons/icon.ico" />
+    <EmbeddedResource Include="resources/icons/icon.png" LogicalName="resources/icons/icon.png" />
+    <EmbeddedResource Include="resources/images/checkbox_checked.png" LogicalName="resources/images/checkbox_checked.png" />
+    <EmbeddedResource Include="resources/images/checkbox_unchecked.png" LogicalName="resources/images/checkbox_unchecked.png" />
+    <EmbeddedResource Include="resources/images/bg1.jpg" LogicalName="resources/images/bg1.jpg" />
+    <EmbeddedResource Include="resources/images/bg2.jpg" LogicalName="resources/images/bg2.jpg" />
+    <EmbeddedResource Include="resources/images/btn_live.jpg" LogicalName="resources/images/btn_live.jpg" />
+    <EmbeddedResource Include="mainwindow.baml" LogicalName="mainwindow.baml" />
+    <EmbeddedResource Include="resources/images/custom_notif.jpg" LogicalName="resources/images/custom_notif.jpg" />
+    <EmbeddedResource Include="resources/styles/controlstyles.baml" LogicalName="resources/styles/controlstyles.baml" />
+    <EmbeddedResource Include="resources/images/play.jpg" LogicalName="resources/images/play.jpg" />
+    <EmbeddedResource Include="resources/images/loot_pressed.jpg" LogicalName="resources/images/loot_pressed.jpg" />
+    <EmbeddedResource Include="views/filtersview.baml" LogicalName="views/filtersview.baml" />
+    <EmbeddedResource Include="resources/images/btn_beta.jpg" LogicalName="resources/images/btn_beta.jpg" />
+    <EmbeddedResource Include="resources/images/close_pressed.jpg" LogicalName="resources/images/close_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/btn_switch_pressed.jpg" LogicalName="resources/images/btn_switch_pressed.jpg" />
+    <EmbeddedResource Include="resources/images/close.jpg" LogicalName="resources/images/close.jpg" />
+    <EmbeddedResource Include="resources/images/options.jpg" LogicalName="resources/images/options.jpg" />
+    <EmbeddedResource Include="views/optionsview.baml" LogicalName="views/optionsview.baml" />
+    <EmbeddedResource Include="app.baml" LogicalName="app.baml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PD2Shared">
+      <HintPath>../../extracted/PD2Launcher/PD2Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>../../extracted/PD2Launcher/Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf">
+      <HintPath>../../extracted/PD2Launcher/Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>../../extracted/PD2Launcher/GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>../../extracted/PD2Launcher/Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MadMilkman.Ini">
+      <HintPath>../../extracted/PD2Launcher/MadMilkman.Ini.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>../../extracted/PD2Launcher/Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>../../extracted/PD2Launcher/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -157,3 +157,9 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 
 ### P5c Launcher + D2GL (started 2026-10-14)
 - Output: `7_launcher/` (new folder: framework, PD2 assemblies decompiled to C#, PROTOCOL.md; secrets redacted; launcher never executed), `4_pd2_source/D2GL/` (closest fork commit, CHANGES.md vs v1.3.3). Layout addition: `7_launcher/` holds the launcher work because it is not game code.
+
+### P5c Launcher + D2GL: done (2026-10-14)
+- Launcher: .NET 6 single-file bundles (PD2Launcher = WPF + MvvmLight + WebView2; SteamPD2/UpdateUtility console). PD2 assemblies PD2Launcher, PD2Shared, SteamPD2, UpdateUtility decompiled (64 .cs + 7 .xaml, ~7.6k lines) into `7_launcher/src`; no secrets; nothing executed or contacted. PROTOCOL.md: GCS-style manifest (crc32c), UpdateUtility arg formats, game launch line, filter fetching.
+- Launcher bug noted: metadata holds MD5 but the launcher compares SHA-1, so files re-download whenever metadata changes (overwriting ProjectDiablo.cfg, ddraw.ini, default.filter).
+- D2GL: shipped glide3x.dll = public fork `Project-Diablo-2/d2gl` commit 9443840 (2026-04-23); fork vs v1.3.3: 36 files +992/−623 (excl. vendored libs). No private changes detected (string/export/disassembly evidence).
+- Orchestrator check: no binaries or secret-looking strings in `7_launcher/`, `tools/launcher/`, `4_pd2_source/D2GL/`.

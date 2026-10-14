@@ -1,0 +1,4 @@
+# bundle v6.0 id=lamKW_Z5vytZR1Bu0v4ad3cgBVSDYKY= files=3 flags=0x0
+    117760        253          0 RuntimeConfigJson  UpdateUtility.runtimeconfig.json
+    118784      64000          0 Assembly           UpdateUtility.dll
+    182784       1534          0 DepsJson           UpdateUtility.deps.json

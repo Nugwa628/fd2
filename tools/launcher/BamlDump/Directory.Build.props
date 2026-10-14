@@ -1,0 +1,8 @@
+<Project>
+  <!-- keep build output out of the repo; override with FD2_BUILD_DIR -->
+  <PropertyGroup>
+    <FD2_BUILD_DIR Condition="'$(FD2_BUILD_DIR)'==''">/tmp/fd2-bamldump</FD2_BUILD_DIR>
+    <BaseOutputPath>$(FD2_BUILD_DIR)/bin/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(FD2_BUILD_DIR)/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
