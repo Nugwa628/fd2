@@ -14,7 +14,8 @@
 //   Without it, a callee that leaves EDX untouched gets "undefined8" and then reg_EAX/reg_EDX parameters, which
 //   spread to all of its callers (seen in ProjectDiablo.dll: 3,338 functions with a bogus reg_EDX).
 //   strict also leaves functions whose signature source is USER_DEFINED alone (fd2 phase 3: prototypes applied by
-//   ApplyPrototypes.java, e.g. game-pointer thunks, which are pass-through and would otherwise pick up 64-bit returns).
+//   ApplyPrototypes.java, e.g. game-pointer thunks, which are pass-through and would otherwise pick up 64-bit returns),
+//   except that a void/narrow return may still become 32-bit when callers use EAX after the call.
 //@category MedianXL
 import ghidra.app.script.GhidraScript;
 import ghidra.app.decompiler.*;
@@ -270,22 +271,25 @@ public class FixAndExport extends GhidraScript {
             Function callee = getFunctionAt(call.getInput(0).getAddress());
             if (callee == null) continue;
             if (callee.isThunk()) { Function t = callee.getThunkedFunction(true); if (t != null) callee = t; }
-            if (strict && callee.getSignatureSource() == SourceType.USER_DEFINED) continue;
+
             Register reg = currentProgram.getRegister(out);
             if (reg == null) continue;
             String rn = reg.getBaseRegister().getName();
+            // a prototype set by hand only gets a 32-bit return where it had none (PD2 uses EAX after the call), never EDX/ST0
+            if (strict && callee.getSignatureSource() == SourceType.USER_DEFINED && !rn.equals("EAX")) continue;
             DataType cur = callee.getReturnType();
             DataType want = null;
             if (rn.equals("EAX") && (cur == null || cur instanceof VoidDataType || cur.getLength() < 4)) want = Undefined4DataType.dataType;
             else if (rn.equals("EDX") && (cur == null || cur.getLength() <= 4)) want = Undefined8DataType.dataType;
             else if (rn.startsWith("ST") && (cur == null || !(cur instanceof AbstractFloatDataType))) want = Float10DataType.dataType;
             if (want == null) continue;
-            callee.setReturnType(want, SourceType.ANALYSIS);
+            boolean user = callee.getSignatureSource() == SourceType.USER_DEFINED;
+            callee.setReturnType(want, user ? SourceType.USER_DEFINED : SourceType.ANALYSIS);
             if (strict) {
                 String cc = decompile(callee);
                 String in = rn.startsWith("ST") ? "in_ST0" : "in_" + rn;
                 if (cc == null || Pattern.compile("\\b" + in + "\\b").matcher(cc).find()) {
-                    callee.setReturnType(cur, SourceType.ANALYSIS);
+                    callee.setReturnType(cur, user ? SourceType.USER_DEFINED : SourceType.ANALYSIS);
                     revertedReturn++;
                     continue;
                 }
