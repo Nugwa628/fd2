@@ -3,7 +3,11 @@
 //   in_EAX / unaff_ESI ...              -> the register becomes a parameter (custom storage)
 //   extraout_EAX / EDX / ST0            -> the called function gets a return type
 // Repeats until no more changes, then writes "//==== name @ address" blocks like the original export.
-// Args: <output .c file> [max passes]
+// Args: <output .c file> [max passes] [strict]
+//   strict (optional, fd2): a return type set because of extraout_EAX/EDX/ST0 is kept only if the callee really
+//   writes that register (its decompile shows no in_EAX / in_EDX / in_ST0 afterwards); otherwise it is undone.
+//   Without it, a callee that leaves EDX untouched gets "undefined8" and then reg_EAX/reg_EDX parameters, which
+//   spread to all of its callers (seen in ProjectDiablo.dll: 3,338 functions with a bogus reg_EDX).
 //@category MedianXL
 import ghidra.app.script.GhidraScript;
 import ghidra.app.decompiler.*;
@@ -25,13 +29,15 @@ public class FixAndExport extends GhidraScript {
 
     DecompInterface di;
     Map<Function, String> cache = new HashMap<>();
-    int addedStack, addedReg, setReturn, skipped;
+    int addedStack, addedReg, setReturn, skipped, revertedReturn;
+    boolean strict;
 
     @Override
     public void run() throws Exception {
         String[] args = getScriptArgs();
         String outPath = args[0];
         int maxPasses = args.length > 1 ? Integer.parseInt(args[1]) : 4;
+        strict = args.length > 2 && args[2].equalsIgnoreCase("strict");
 
         di = new DecompInterface();
         DecompileOptions opts = new DecompileOptions();
@@ -95,7 +101,8 @@ public class FixAndExport extends GhidraScript {
             }
         }
         println(String.format("RESULT %s: placeholders %d -> %d; added %d stack params (%d reverted), %d register params, %d return types; %d errors",
-                currentProgram.getName(), before, after, addedStack, revertedStack, addedReg, setReturn, skipped));
+                currentProgram.getName(), before, after, addedStack, revertedStack, addedReg, setReturn, skipped)
+                + (strict ? String.format(" [strict: %d return types reverted]", revertedReturn) : ""));
     }
 
     // in_stack_XXXXXXXX with a positive offset: the function reads stack arguments its signature lacks
@@ -235,6 +242,15 @@ public class FixAndExport extends GhidraScript {
             else if (rn.startsWith("ST") && (cur == null || !(cur instanceof AbstractFloatDataType))) want = Float10DataType.dataType;
             if (want == null) continue;
             callee.setReturnType(want, SourceType.ANALYSIS);
+            if (strict) {
+                String cc = decompile(callee);
+                String in = rn.startsWith("ST") ? "in_ST0" : "in_" + rn;
+                if (cc == null || Pattern.compile("\\b" + in + "\\b").matcher(cc).find()) {
+                    callee.setReturnType(cur, SourceType.ANALYSIS);
+                    revertedReturn++;
+                    continue;
+                }
+            }
             setReturn++;
             changed.add(callee);
             any = true;

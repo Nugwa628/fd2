@@ -94,3 +94,13 @@ Consequences: the container is ephemeral, so the workspace may need re-uploading
 
 ### P2b Decompile PD2_EXT.dll then BH.dll (started 2026-10-14)
 - Same as P2a for both binaries; reports `0_inventory/decompile/PD2_EXT.md`, `0_inventory/decompile/BH.md`.
+
+### P2a Decompile ProjectDiablo.dll: done (2026-10-14)
+- 12,078 Ghidra functions + 1,709 added from data (static-init table, patch tables, handler tables) = 13,787. Not packed.
+- Untraced placeholder declarations 3,472 → 3,088 (−11%) + 141 in `.extra.c`. Uses per pass 7,839 → 6,901, converged at pass 6.
+- `FixAndExport.java` gained an optional `strict` mode: without it a trivial callee got a fake 64-bit return and 3,338 functions got bogus `reg_EDX` params. **Decision:** use `strict` for all PD2 binaries.
+- Libraries: CRT/VCRUNTIME/MSVCP140/OpenSSL dynamic; STL, std::regex, std::filesystem, nlohmann::json inlined at ~0x1020f250–0x10266e27. FID named only 47.
+- Phase 3/4 leads: DllMain `FUN_102adad0` → init `FUN_102ad560` (27-entry module table 0x103c68a0, opens 4 PD2 MPQs) → patch installer `FUN_102ad020`. Patch tables: 0x103c7f50 (2,187 × `{dll, offset, data, relative, size}`), 0x10367ee0 (35, conditional), 0x103681b0 (block patches, `FUN_102ad1f0`).
+- Game pointers resolved by `FUN_102f10f0(dll, value)`, negative = ordinal, else offset; each entry is a **{1.13c, 1.13d} pair** chosen by a version check (`FUN_10253fc0`). 1,051 accessors + 842 lazy thunks → `ProjectDiablo_game_pointers.tsv` (527 ordinals named; offsets to be named via reference symbols in Phase 3).
+- **Open issue for Phase 3:** 871 lazy thunks are `void(void)`, so 5,883 call sites lose their arguments. Apply reference prototypes (`ApplyPrototypes.java`) and re-export.
+- Static-init jump-stub table at 0x1032356c (64,961 stubs) is in link order: use it as file-boundary evidence.
