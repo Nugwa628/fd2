@@ -9,16 +9,9 @@
 #! tree=4_pd2_source/ProjectDiablo
 #! out=4_pd2_source/ProjectDiablo/features/Controller
 #! binary=${work}/bin/ProjectDiablo.dll
-#! game_dir=${work}/inputs/ProjectD2/ProjectD2
-#! reference=${work}/inputs/sigmaRE/sigmaRE/5_game_source
 #! patches=5_game_patches/patches.csv
 #! rt_table=0x103c7f50
 #! rt_entry=20
-#! rt_slots=2187
-#! rt_init=0x100f3330
-#! rt_byte_helper=0x102ce4d0
-#! module_table=0x103c68a0
-#! module_count=27
 #! state_template=${repo}/tools/features/controller_state.h.in
 #
 # ============================================================================================ core
@@ -180,7 +173,7 @@
 #
 # ============================================================================================ hook records
 -	section	-	-	11. patch records
-P1600	hook-record	high	patches.csv P1600 (group W-0001): window subclass (SetWindowLongW GWL_WNDPROC) by 0x102ad9b0; new procedure 0x10256620 (patches.csv names the HWND getter D2gfx_10048 as handler)	installs the controller's WM_INPUT path
+P1600	hook-record	high	patches.csv P1600 (group W-0001): window subclass (SetWindowLongW GWL_WNDPROC) by 0x102ad9b0; new procedure 0x10256620	installs the controller's WM_INPUT path
 P1125	hook-record	high	D2Client sub_6fb739e0+0x3d0 call -> 0x102589a0	in-game poll/dispatch point (per frame)
 P1129	hook-record	high	D2Client sub_6fb739e0+0x380 call -> 0x10258980	loot-glyph drawing point
 P1126	hook-record	medium	D2Client sub_6fb6f0d0+0x12 -> 0x10256f90	target-glyph drawing point (shared HUD hook)
@@ -253,7 +246,7 @@ rt:2113-2116	hook-record	high	runtime entries -> shims 0x102f0950/0x102f0990	con
 0x104e24ca	config-key	high	readers 0x1022ca30, 0x10256420, 0x102589a0; menu 0x10230ef0/0x10230f10/0x10230f20; load 0x1023b445, save 0x10239e00	bool, default true (0x102ac5e0); off = no polling, controller mode forced off	/pd2_game_settings/controller_movement
 0x104e24cc	config-key	high	reader 0x102158c0; menu 0x10230f30/0x10230f60	int 0..100, default 50: cursor speed (s-50)*0.04+4 px/5 ms	/pd2_game_settings/controller_sensitivity
 0x104e24dc	config-key	high	reader 0x10214da0; menu 0x10230f80/0x10230fb0	int 0..2, default 1: aim assist search radius	/pd2_game_settings/controller_aim_assist
-0x104e24ec	config-key	high	reader 0x10214350 (6_config lists only the menu getter); menu 0x10230fd0/0x10231000	int 0..40, default 20: dead zone (d-20)*0.01 + 0.4 XInput / + 0.3 PlayStation	/pd2_game_settings/controller_deadzone
+0x104e24ec	config-key	high	reader 0x10214350; menu 0x10230fd0/0x10231000	int 0..40, default 20: dead zone (d-20)*0.01 + 0.4 XInput / + 0.3 PlayStation	/pd2_game_settings/controller_deadzone
 0x104e2514	config-key	high	readers 0x1022b730, 0x10220830; menu 0x10230ea0/0x10230ee0	int 0..2, default 0: glyphs 0 auto (device kind), 1 Xbox, 2 PlayStation	/pd2_game_settings/controller_button_style
 0x104e2524	config-key	high	reader 0x10215240; menu 0x10231270/0x10231290	bool, default false: up to 48 loot labels with two-press selection (else 9)	/pd2_game_settings/controllerMultiButtonLoot
 #

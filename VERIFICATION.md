@@ -57,3 +57,11 @@ Both trees and `5_game_patches/` regenerate byte-identically from the documented
 documentation-level: stale STATUS numbers, an undocumented name sanitisation, an undocumented and not always exact
 `_ReturnAddress()` rewrite, the inferred-rule wording, and the undeclared command's import filter. None of them changes a
 result.
+
+
+## Addendum (2026-10-15, orchestrator)
+
+Check 3 passed on the data it saw, but that data was incomplete: 988 main-table entries are written at load time by
+the initializer at 0x100f3330 and are zero in the file, so neither Phase 4 nor this verification decoded them. The
+controller deep-dive found the gap; F3 (`STATUS.md`) decoded them, and the orchestrator confirmed the end-marker write
+and sampled 15 load-time rows (15/15 original bytes match). Totals are now 2,624 records / 2,156 hooks.

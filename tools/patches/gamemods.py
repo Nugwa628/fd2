@@ -171,16 +171,19 @@ class GameModule:
                         conf=self.conf.get(s, ''))
         # not reached from the reference start: look for a function start the reference did not split off
         # (code after int3/nop padding between the reference start and the patch)
+        # Starts after alignment padding are tried first: a C3/C2 byte may just as well be part of an operand
+        # (e.g. `mov eax, [0x6fbcc3ec]`), so an entry point right after it is only a fallback.
         blob = self.read(s, va - s + 1)
-        for p in range(va, s, -1):
-            o = p - s
-            pad = blob[o - 1] in (0xcc, 0x90) and blob[o] not in (0xcc, 0x90) and p % 4 == 0
-            after_ret = blob[o - 1] == 0xc3 or (o >= 3 and blob[o - 3] == 0xc2 and blob[o - 1] == 0)
-            if pad or after_ret:
-                seen2 = self.flow(p, nxt)
-                if self._covers(seen2, va):
-                    return dict(func_start=p, name='sub_%08x' % self.ref_va(p), file=fl, offset=va - p,
-                                status='unref', boundary=(va in seen2), ref_prev=n, conf=self.conf.get(s, ''))
+        for want_pad in (True, False):
+            for p in range(va, s, -1):
+                o = p - s
+                pad = blob[o - 1] in (0xcc, 0x90) and blob[o] not in (0xcc, 0x90) and p % 4 == 0
+                after_ret = blob[o - 1] == 0xc3 or (o >= 3 and blob[o - 3] == 0xc2 and blob[o - 1] == 0)
+                if (pad if want_pad else after_ret):
+                    seen2 = self.flow(p, nxt)
+                    if self._covers(seen2, va):
+                        return dict(func_start=p, name='sub_%08x' % self.ref_va(p), file=fl, offset=va - p,
+                                    status='unref', boundary=(va in seen2), ref_prev=n, conf=self.conf.get(s, ''))
         return dict(func_start=s, name=n, file=fl, offset=va - s, status='range', boundary=False)
 
     @staticmethod

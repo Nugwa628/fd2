@@ -144,7 +144,7 @@ typedef struct PadDeviceList {
 /* /pd2_game_settings/controller_movement 0x104e24ca  bool, default true (0x102ac5e0); off = no polling, controller mode forced off  [high] readers 0x1022ca30, 0x10256420, 0x102589a0; menu 0x10230ef0/0x10230f10/0x10230f20; load 0x1023b445, save 0x10239e00 */
 /* /pd2_game_settings/controller_sensitivity 0x104e24cc  int 0..100, default 50: cursor speed (s-50)*0.04+4 px/5 ms  [high] reader 0x102158c0; menu 0x10230f30/0x10230f60 */
 /* /pd2_game_settings/controller_aim_assist 0x104e24dc  int 0..2, default 1: aim assist search radius  [high] reader 0x10214da0; menu 0x10230f80/0x10230fb0 */
-/* /pd2_game_settings/controller_deadzone 0x104e24ec  int 0..40, default 20: dead zone (d-20)*0.01 + 0.4 XInput / + 0.3 PlayStation  [high] reader 0x10214350 (6_config lists only the menu getter); menu 0x10230fd0/0x10231000 */
+/* /pd2_game_settings/controller_deadzone 0x104e24ec  int 0..40, default 20: dead zone (d-20)*0.01 + 0.4 XInput / + 0.3 PlayStation  [high] reader 0x10214350; menu 0x10230fd0/0x10231000 */
 /* /pd2_game_settings/controller_button_style 0x104e2514  int 0..2, default 0: glyphs 0 auto (device kind), 1 Xbox, 2 PlayStation  [high] readers 0x1022b730, 0x10220830; menu 0x10230ea0/0x10230ee0 */
 /* /pd2_game_settings/controllerMultiButtonLoot 0x104e2524  bool, default false: up to 48 loot labels with two-press selection (else 9)  [high] reader 0x10215240; menu 0x10231270/0x10231290 */
 

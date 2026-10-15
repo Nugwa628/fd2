@@ -23,6 +23,7 @@ from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gamemods import GameModule, ci_find, disasm, ref_body  # noqa: E402
+import loadtime  # noqa: E402
 
 md = Cs(CS_ARCH_X86, CS_MODE_32)
 md.detail = True
@@ -299,21 +300,33 @@ D2T_ENUM = {'D2Client.dll': 'D2DLL_D2CLIENT', 'D2CMP.dll': 'D2DLL_D2CMP', 'D2Com
             'SGD2FreeDisplayFix.dll': 'D2DLL_SGD2FREEDISPLAYFIX', 'SGD2FreeRes.dll': 'D2DLL_SGD2FREERES'}
 
 
-TERMINATORS = {}
+LT = {}   # table address -> loadtime.LoadTimeTable
 
 
 def word_table(start):
-    out, a = [], start
+    """the table as the installer reads it at run time: the file's .data overlaid with what the static initializers
+    (run by the CRT before DllMain) write into it, read with the installer's own loop condition"""
+    t = loadtime.LoadTimeTable(PD2_DLL, start, pd2starts, end_mark=END_MARK, pe=PD2LT)
+    LT[start] = t
+    # entries the file alone holds: the installer would stop at the first entry with dwAddress 0 / bad nDLL
+    nfile = 0
     while True:
-        e = struct.unpack('<5I', pd2.read(a, 20))
-        if e[0] == END_MARK:
-            return out, a
-        if e[0] > END_MARK or e[1] == 0:
-            # no end marker: the installer stops here (dll index out of range -> it returns 0, which init ignores)
-            TERMINATORS[start] = (a, e)
-            return out, a
-        out.append(dict(table_addr=a, dll=e[0], offset=e[1], data=e[2], relative=e[3], size=e[4]))
-        a += 20
+        e = struct.unpack('<5I', pd2.read(start + 20 * nfile, 20))
+        if e[0] >= END_MARK or e[1] == 0:
+            break
+        nfile += 1
+    t.file_count = nfile
+    out = []
+    for ent in t.entries:
+        rt = t.runtime_only(ent)
+        lt = [f for f in loadtime.FIELDS if ent[f]['source'] == 'load-time']
+        out.append(dict(table_addr=ent['table_addr'], index=ent['index'],
+                        **{f: (None if f in rt else ent[f]['value']) for f in loadtime.FIELDS},
+                        rt={f: ent[f]['value'].desc for f in rt}, lt=lt,
+                        lt_writer=next((ent[f]['writer'] for f in lt), None), lt_fn=next((ent[f]['fn'] for f in lt), None),
+                        how={f: ent[f]['how'] for f in lt if ent[f]['how'] not in ('imm', '')},
+                        loadtime_entry=ent['index'] >= nfile))
+    return out, start + 20 * len(t.entries)
 
 
 def block_table(start):
@@ -329,10 +342,19 @@ def block_table(start):
         a += 259 * 4
 
 
+PD2LT = loadtime.PEImage(PD2_DLL)
 T_MAIN, T_MAIN_END = word_table(word_tables[0])
 T_COND, T_COND_END = word_table(word_tables[1]) if len(word_tables) > 1 else ([], None)
 T_BLOCK, T_BLOCK_END = block_table(BLOCK_TABLE)
-log('main %d, conditional %d, block %d' % (len(T_MAIN), len(T_COND), len(T_BLOCK)))
+log('main %d (%d from the file), conditional %d, block %d' % (len(T_MAIN), LT[word_tables[0]].file_count, len(T_COND),
+                                                              len(T_BLOCK)))
+# other tables the installers read: writers into the block table and the module table (besides the module loader)
+OTHER_WRITERS = {}
+for _name, _lo, _hi in (('block table', BLOCK_TABLE, T_BLOCK_END + 4), ('module table', MODTAB, MODTAB + 8 * END_MARK)):
+    _w = loadtime.find_writers(PD2LT, [(_lo, _hi)], pd2starts)
+    OTHER_WRITERS[_name] = sorted(set(pd2_func_start(x[0]) for x in _w.values() if x[2]))
+    OTHER_WRITERS[_name + ' refs'] = sorted(set(pd2_func_start(x[0]) for x in _w.values()))
+log('other writers: %s' % {k: [h(x) for x in v] for k, v in OTHER_WRITERS.items()})
 
 PD2_BASE = pd2.base
 
@@ -429,10 +451,30 @@ def decode_word_tables():
             modname = MODULES[e['dll']]
             mod = gmod(modname)
             va = (mod.base if mod else 0) + e['offset']
-            r = add(source=src, table_addr=h(e['table_addr']), condition=cond)
+            rsrc = src + ' (load-time)' if e.get('loadtime_entry') else src
+            r = add(source=rsrc, table_addr=h(e['table_addr']), condition=cond)
             r['_e'] = e
             r['module'] = modname
+            if e.get('lt'):
+                hw = '; '.join('%s %s' % (f, e['how'][f]) for f in e['lt'] if f in e['how'])
+                r['notes'] = ('entry %d: %s written at load time by static initializer %s (store at %s)%s' % (
+                    e['index'], '/'.join(e['lt']) if len(e['lt']) < 5 else 'all fields', h(e['lt_fn']), h(e['lt_writer']),
+                    ('; ' + hw) if hw else ''))
             fill_location(r, mod, va)
+            if e['rt']:
+                # a field whose value exists only at run time: recorded as such, no bytes computed
+                r['size'] = '' if 'size' in e['rt'] else (4 if e['size'] == 0 else e['size'])
+                r['kind'] = 'run-time value (not decodable statically)'
+                r['notes'] += '; run-time only: ' + '; '.join('%s = %s' % kv for kv in sorted(e['rt'].items()))
+                r['_va'] = va
+                r['_mod'] = mod
+                r['_nb'] = b''
+                if r['size']:
+                    r['orig_bytes'] = mod.read(va, int(r['size'])).hex(' ') if mod else ''
+                r['group'] = '%s-%04d' % ('M' if src == 'PD2 table' else 'C', gid + 1)
+                gid += 1
+                prev = None
+                continue
             size = 4 if e['size'] == 0 else e['size']
             r['size'] = size
             orig = mod.read(va, size) if mod else b''
@@ -592,12 +634,20 @@ def decode_api_sites():
         if fn in done:
             continue
         done.add(fn)
-        # find the new wndproc: 'mov reg, imm(text)' or 'push imm(text)' before the call
-        proc = None
-        for ins in md.disasm(pd2.read(fn, va - fn), fn):
-            for op in ins.operands:
-                if op.type == X86_OP_IMM and pd2.is_text(op.imm) and op.imm != fn:
-                    proc = op.imm
+        # the new window procedure is SetWindowLongW's third argument (dwNewLong): follow the pushes from the
+        # function start (stdcall imports pop their arguments; direct calls here take none from this frame)
+        argc = {'GetWindowLongW': 2, 'GetWindowLongA': 2, 'SetWindowLongW': 3, 'SetWindowLongA': 3}
+        stack, proc, index = [], None, None
+        for ins in md.disasm(pd2.read(fn, va + 6 - fn), fn):
+            ops = ins.operands
+            if ins.mnemonic == 'push':
+                stack.append(ops[0].imm & 0xffffffff if ops[0].type == X86_OP_IMM else None)
+            elif ins.mnemonic == 'call' and ops[0].type == X86_OP_MEM and ops[0].mem.disp in pd2.iat:
+                n = argc.get(pd2.iat[ops[0].mem.disp], 0)
+                if ins.address == va and len(stack) >= 3:
+                    index, proc = stack[-2], stack[-3]
+                del stack[len(stack) - n:]
+        assert index == 0xfffffffc and proc and pd2.is_text(proc), (h(va), index, proc)   # GWL_WNDPROC
         fname = pd2_name(fn)[0]
         hn, hf = pd2_name(proc)
         add(source='PD2 API', module='D2gfx.dll (game window)', kind='window subclass (SetWindowLongW GWL_WNDPROC)',
@@ -1016,7 +1066,7 @@ def classify():
             else:
                 r['kind'] = 'data/constant change'
             continue
-        if src in ('PD2 table', 'PD2 cond table'):
+        if src in ('PD2 table', 'PD2 table (load-time)', 'PD2 cond table'):
             if e['relative']:
                 op_rec = [x for x in by_group[r['group']] if x.get('_va') == va - 1 and x is not r]
                 opc = op_rec[0]['_nb'][0] if op_rec else mod.read(va - 1, 1)[0]
@@ -1056,7 +1106,9 @@ def classify():
             else:
                 b = e['data'] & 0xff
                 nxt = [x for x in by_group[r['group']] if x.get('_va') == va + 1 and x.get('_e', {}).get('relative')]
-                if e['size'] == 1 and nxt and b in (0xe8, 0xe9):
+                if not mod.is_code(va):
+                    r['kind'] = 'data byte change' if e['size'] == 1 else 'data byte fill (0x%02x x %d)' % (b, e['size'])
+                elif e['size'] == 1 and nxt and b in (0xe8, 0xe9):
                     r['kind'] = 'opcode byte (%s) for hook' % ('E8 call' if b == 0xe8 else 'E9 jmp')
                 elif b == 0x90:
                     r['kind'] = 'NOP fill'
@@ -1084,7 +1136,8 @@ def detect_noop_thunks():
     """handlers that are PD2 lazy thunks to the very function the original code already called/pointed at"""
     n = 0
     for r in RECORDS:
-        if not r['handler_addr'] or r['source'] not in ('PD2 table', 'PD2 cond table', 'PD2 init writes'):
+        if not r['handler_addr'] or r['source'] not in ('PD2 table', 'PD2 table (load-time)', 'PD2 cond table',
+                                                        'PD2 init writes'):
             continue
         t = thunk_of(int(r['handler_addr'], 16))
         if t is None:
@@ -1152,6 +1205,9 @@ def asm_context():
                     nv = struct.unpack('<I', r['_nb'][:4])[0] if len(r.get('_nb', b'')) >= 4 else None
                     if nv is not None:
                         r['new_asm'] = 'dd %s' % (any_name(nv) or h(nv))
+                elif r['orig_bytes'] and r['new_bytes']:
+                    r['orig_asm'] = 'db ' + r['orig_bytes'].replace(' ', ', ')
+                    r['new_asm'] = 'db ' + r['new_bytes'].replace(' ', ', ')
             continue
         lo = min(r['_va'] for r in rs2)
         hi = max(r['_va'] + int(r['size'] or 0) for r in rs2)
@@ -1327,7 +1383,8 @@ def assign_features(tree):
                 w = ru['weight'] * min(hits, 3)
                 score[ru['feature']] += w
                 why[ru['feature']].append('%s(%g)' % (ru['rx'].pattern[:40], w))
-        key_candidates = [g] + ['%s+%s' % (r['module'], r['rva_113c']) for r in rs] + [r['table_addr'] for r in rs]
+        key_candidates = [g] + ['%s+%s' % (r['module'], r['rva_113c']) for r in rs] + [r['table_addr'] for r in rs] + \
+            ['handler:' + r['handler_addr'] for r in rs if r['handler_addr']]
         o = next((ov[k] for k in key_candidates if k in ov), None)
         if o:
             feat = o['feature']
@@ -1404,8 +1461,9 @@ def apply_notes():
 
 def finalize_records():
     """ids, ordering, cleanup"""
+    # ids are stable across the fix that added the load-time part of the main table: those records come last
     order = {'PD2_EXT': 0, 'on-disk': 1, 'PD2 table': 2, 'PD2 cond table': 3, 'PD2 block table': 4,
-             'PD2 init writes': 5, 'PD2 API': 6, 'BH': 7}
+             'PD2 init writes': 5, 'PD2 API': 6, 'BH': 7, 'PD2 table (load-time)': 8}
     RECORDS.sort(key=lambda r: (order.get(r['source'], 9),))
     for i, r in enumerate(RECORDS, 1):
         r['id'] = 'P%04d' % i
@@ -1722,12 +1780,19 @@ def write_cpp(V):
             data = '(DWORD)%s' % ref(e['data']) if pd2.is_text(e['data']) else '(DWORD)&%s' % ref(e['data'])
         else:
             data = '0x%02X' % e['data'] if e['size'] else '0x%08X' % e['data']
+            m = re.match(r'computed by helper (0x[0-9a-f]+)\(ecx=(0x[0-9a-f]+), edx=(0x[0-9a-f]+)\)', e.get('how', {}).get('data', ''))
+            if m:
+                helpers.add(int(m.group(1), 16))
+                data = 'GetByteN(0x%X, %d)' % (int(m.group(2), 16), int(m.group(3), 16))
         return '    {%s, 0x%06X, %s, %s, %d},' % (en, e['offset'], data, 'TRUE' if e['relative'] else 'FALSE', e['size'])
+
+    helpers = set()
 
     def table(src, name, extra_comment):
         lines = []
         last_group = None
-        rs = [r for r in RECORDS if r['source'] == src]
+        src = (src,) if isinstance(src, str) else src
+        rs = [r for r in RECORDS if r['source'] in src]
         rs.sort(key=lambda r: int(r['table_addr'], 16))
         for r in rs:
             if r['group'] != last_group:
@@ -1738,10 +1803,18 @@ def write_cpp(V):
                     lines.append('    //     was: %s' % short(r['orig_asm'], 150))
                     lines.append('    //     now: %s' % short(r['new_asm'], 150))
                 last_group = r['group']
+            if r['_e'].get('index') == lt_first and src[0] == 'PD2 table':
+                lines.append('    // ---- from here on the entries are written at load time by the static initializer %s (see above)'
+                             % h(LT[word_tables[0]].writers[0]['fn']))
+            if r['_e']['rt']:
+                lines.append('    // %s entry %d: run-time value(s): %s' % (r['id'], r['_e']['index'], r['notes']))
+                continue
             lines.append(entry(r, r['_e']) + '  // %s %s' % (r['id'], r['kind']))
         return lines
 
-    main_lines = table('PD2 table', 'gptTemplatePatches', '')
+    LTM = LT[word_tables[0]]
+    lt_first = LTM.static_count if LTM.writers else -1
+    main_lines = table(('PD2 table', 'PD2 table (load-time)'), 'gptTemplatePatches', '')
     cond_lines = table('PD2 cond table', 'gptPlugYConflictPatches', '')
     block_lines = []
     for r in sorted([r for r in RECORDS if r['source'] == 'PD2 block table'], key=lambda r: int(r['table_addr'], 16)):
@@ -1755,7 +1828,7 @@ def write_cpp(V):
     # ---------------- Patches.h
     hh = io.StringIO()
     hh.write('// Patches.h - ProjectDiablo.dll patch tables (D2Template style), reconstructed.\n// %s\n' % GEN)
-    hh.write('// Source of truth: 5_game_patches/patches.csv. Tables in the shipped DLL: main 0x%08x (%d used entries), '
+    hh.write('// Source of truth: 5_game_patches/patches.csv. Tables in the shipped DLL: main 0x%08x (%d entries, part filled at load time), '
              'conditional 0x%08x (%d), block 0x%08x (%d); module table 0x%08x.\n#pragma once\n#include <windows.h>\n\n'
              % (word_tables[0], len(T_MAIN), word_tables[1] if len(word_tables) > 1 else 0, len(T_COND), BLOCK_TABLE,
                 len(T_BLOCK), MODTAB))
@@ -1799,11 +1872,14 @@ def write_cpp(V):
         extern DLLPatchStrc      gptPlugYConflictPatches[];   // applied only without -plugy
         extern DLLBlockPatchStrc gptBlockPatches[];
 
+        // 0x%08x: (BYTE)(dwValue >> (nByte * 8)); used in gptTemplatePatches' initializer
+        BYTE __fastcall GetByteN(DWORD dwValue, int nByte);
+
         BOOL __fastcall ApplyPatches(DLLPatchStrc* pPatch);   // 0x%08x
         BOOL ApplyBlockPatches();                              // 0x%08x
         BOOL InitGameFunctionTables();                         // init-time table writes, see InitTables.cpp
 
-        ''' % (WORD_INSTALLER, BLOCK_INSTALLER)))
+        ''' % (min(helpers) if helpers else 0, WORD_INSTALLER, BLOCK_INSTALLER)))
     hh_handlers_pos = hh.tell()
 
     # ---------------- Patches.cpp
@@ -1815,17 +1891,21 @@ def write_cpp(V):
     for m in MODULES:
         cc.write('    {L"%s", NULL},\n' % m)
     cc.write('};\n\n')
-    cap = (TERMINATORS.get(word_tables[0], (T_MAIN_END, None))[0] - word_tables[0]) // 20
-    zero_rows = 0
-    a = T_MAIN_END
-    while struct.unpack('<5I', pd2.read(a, 20)) == (0, 0, 0, 0, 0):
-        zero_rows += 1
-        a += 20
-    cc.write('// The shipped table has %d used entries followed by %d zero entries and no D2DLL_INVALID marker:\n'
-             '// ApplyPatches stops at the first entry whose dwAddress is 0 (it returns FALSE there, which the init\n'
-             '// ignores). So the array was most likely declared with a fixed size.\n' % (len(T_MAIN), zero_rows))
-    cc.write('DLLPatchStrc gptTemplatePatches[%d] =\n{\n' % (len(T_MAIN) + zero_rows))
-    cc.write('\n'.join(main_lines) + '\n    // remaining entries zero-initialised\n};\n\n')
+    nslot = LTM.end[1] + 1
+    if LTM.writers:
+        w = LTM.writers[0]
+        reg = w['registered']
+        cc.write('// %d entries + the D2DLL_INVALID end marker (%d slots). Entries 0-%d are initialised data in the DLL;\n'
+                 '// entry %d onwards (from its dwData field on) and the end marker are stored at load time by the dynamic\n'
+                 '// initializer %s (%d instructions, %d store instructions, listed at %s in the CRT initializer array %s-%s,\n'
+                 '// which runs before DllMain and therefore before ApplyPatches). Most likely the compiler switched to\n'
+                 '// dynamic initialization at the first element that is not a constant expression: entry %d\n'
+                 '// takes a byte of a constant through the helper GetByteN (0x%08x, not inlined).\n' % (
+                     len(T_MAIN), nslot, LTM.static_count - 1, LTM.static_count, h(w['fn']), w['insns'], w['writes'],
+                     h(reg[0]) if reg else '?', h(reg[1]) if reg else '?', h(reg[2]) if reg else '?', LTM.static_count,
+                     min(helpers) if helpers else 0))
+    cc.write('DLLPatchStrc gptTemplatePatches[] =\n{\n')
+    cc.write('\n'.join(main_lines) + '\n    {D2DLL_INVALID},\n};\n\n')
     cc.write('// Skipped when the command line contains -plugy (PlugY replaces these save/stash routines itself).\n')
     cc.write('DLLPatchStrc gptPlugYConflictPatches[] =\n{\n' + '\n'.join(cond_lines) + '\n    {D2DLL_INVALID},\n};\n\n')
     cc.write('DLLBlockPatchStrc gptBlockPatches[] =\n{\n' + '\n'.join(block_lines) + '\n    {D2DLL_INVALID},\n};\n')
@@ -1918,7 +1998,8 @@ static BOOL LoadModules()
 
 // 0x%(inst)08x  __fastcall ApplyPatches(DLLPatchStrc*)
 // Writes every entry, then reads the bytes back and compares; returns FALSE on the first mismatch,
-// on an invalid DLL index or on an entry with dwAddress == 0 (the main table ends that way).
+// on an invalid DLL index or on an entry with dwAddress == 0. Both tables end with a D2DLL_INVALID entry
+// (the main table's, like its second half, is stored by a load-time initializer: see Patches.cpp).
 BOOL __fastcall ApplyPatches(DLLPatchStrc* pPatch)
 {
     for (; pPatch->nDLL != D2DLL_INVALID; ++pPatch)
@@ -2148,11 +2229,21 @@ def write_readme(V, fstats, unused_ov, bh_ok):
 
         1. **Tables.** The installer is found as the function that calls `VirtualProtect` and is called with
            `mov ecx, <table>`; its two call sites give the main and the conditional table, the other
-           `VirtualProtect` user is the block installer (its table address is a constant in its code). Entries are
-           read from the file's initialised `.data`/`.rdata` (they are static data; no initializer fills them).
+           `VirtualProtect` user is the block installer (its table address is a constant in its code).
            Entry layout `{int nDLL, DWORD dwAddress, DWORD dwData, BOOL bRelative, size_t nPatchSize}` (main and
            conditional) and `{int nDLL, DWORD dwAddress, DWORD pData[256], size_t nPatchSize}` (block); `nDLL` indexes
            the 27-entry `{name, HMODULE}` module table.
+           **Load-time part of the main table.** The tables are read as the installer sees them, not only from the
+           file: every instruction in `.text` that stores into a table's address range is found (raw scan for the
+           range's addresses, confirmed by a linear sweep of the containing function), each writer must be listed in
+           the CRT's static-initializer array (run by `_initterm` before DllMain, so before the installer), and is
+           then run symbolically (`tools/patches/loadtime.py`: registers and memory tracked per byte, immediates,
+           register copies and calls to small pure helpers evaluated; a value read from a writable global, a
+           game-pointer cell or a non-inlined call would be recorded as run-time only, an unmodelled instruction
+           stops the script). The file's bytes overlaid with those stores are then read with the installer's own loop
+           condition (stop at `nDLL == D2DLL_INVALID`; abort on a bad `nDLL` or `dwAddress == 0`). Records of
+           entries the file alone does not hold have source `PD2 table (load-time)`; they come last in `patches.csv`
+           so that the ids of all other records stayed the same when they were added.
         2. **Init-time writes.** After the tables, Init calls small functions that load a game pointer (a per-file
            copy of a D2Template accessor, resolved through `game_pointers.tsv`) and store handler addresses or
            constants through it: these patch game function-pointer tables (skill/stat/unit callbacks) at run time.
@@ -2175,11 +2266,34 @@ def write_readme(V, fstats, unused_ov, bh_ok):
            evidence (its callees to depth 2 in the reconstructed tree: PD2 files, game functions, strings).
         '''))
     out.write('\n## Numbers\n\n')
-    out.write('* ProjectDiablo main table @ 0x%08x: **%d entries decoded** (the array has %d slots; the rest is zero and '
-              'the installer stops at the first zero entry, so the earlier count of 2,187 was the array capacity), '
-              'conditional table @ 0x%08x: **%d** (skipped with `-plugy`), block table @ 0x%08x: **%d**. Undecodable: '
-              '**0**.\n' % (word_tables[0], len(T_MAIN), len(T_MAIN) + sum(1 for _ in iter_zero_rows()), word_tables[1],
-                            len(T_COND), BLOCK_TABLE, len(T_BLOCK)))
+    LTM = LT[word_tables[0]]
+    w = LTM.writers[0] if LTM.writers else None
+    nrt = sum(1 for r in RECORDS if r['kind'].startswith('run-time value'))
+    out.write('* ProjectDiablo main table @ 0x%08x: **%d entries** + end marker (%d slots), read as the installer sees '
+              'them. Only entries 0-%d are initialised data in the file; ' % (
+                  word_tables[0], len(T_MAIN), LTM.end[1] + 1, LTM.static_count - 1))
+    if w:
+        reg = w['registered']
+        out.write('the dynamic initializer %s (listed at %s in the CRT initializer array %s-%s) stores the rest at load '
+                  'time: from entry %d\'s `dwData` on, %d store instructions writing %d dwords (%d instructions in all, %d helper calls), ending with the '
+                  '`D2DLL_INVALID` marker of entry %d. **Correction:** the earlier statement "%d entries, the rest is zero '
+                  'and the installer stops at the first zero entry" was wrong: the file\'s zeros are overwritten before '
+                  'the installer runs, and the installer stops at the end marker (an entry with `dwAddress` 0 would make '
+                  'it abort). This added %d records (entries %d-%d) and corrected entry %d (its `dwData`/`bRelative`/'
+                  '`nPatchSize` are load-time values). Run-time-only values: **%d**. Other writers into the main table: '
+                  '%s.\n' % (h(w['fn']), h(reg[0]), h(reg[1]), h(reg[2]), LTM.static_count, w['writes'], w['dwords'], w['insns'],
+                              sum(1 for c in w['calls'] if c[2]), LTM.end[1], LTM.file_count,
+                              sum(1 for r in RECORDS if r['source'] == 'PD2 table (load-time)'), LTM.file_count,
+                              len(T_MAIN) - 1, LTM.static_count, nrt, len(LTM.writers) - 1 or 'none'))
+    LTC = LT[word_tables[1]] if len(word_tables) > 1 else None
+    out.write('* Conditional table @ 0x%08x: **%d** (skipped with `-plugy`; load-time writers: %s), block table @ 0x%08x: '
+              '**%d** (writers other than its installer: %s), module table @ 0x%08x: no direct stores; its address is taken only '
+              'by %s, which fills the HMODULEs at run time. Undecodable: **%d**.\n' % (
+                  word_tables[1], len(T_COND), (', '.join(h(x['fn']) for x in LTC.writers) or 'none') if LTC else 'n/a',
+                  BLOCK_TABLE, len(T_BLOCK),
+                  ', '.join(h(x) for x in OTHER_WRITERS['block table'] if x != BLOCK_INSTALLER) or 'none', MODTAB,
+                  ', '.join('%s %s' % (h(x), pd2_name(x)[0]) for x in OTHER_WRITERS['module table refs']
+                            if x not in (WORD_INSTALLER, BLOCK_INSTALLER)) or 'none', nrt))
     out.write('* Init-time writes: **%d** stores in %d functions. Window subclass: %d. PD2_EXT: %d. On-disk: %d '
               '(D2Win %d, Storm %d). BH: %s.\n' % (
                   sum(1 for r in RECORDS if r['source'] == 'PD2 init writes'),

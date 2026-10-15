@@ -10,7 +10,7 @@
 /* Patch records that install this feature's hook handlers into the game.
  *
  * record      module       rva        va         game function (reference)                    handler                            original instruction
- * P1600       D2gfx.dll (game window)                       game window procedure (HWND from D2gfx_10048 0x1028d340 D2gfx_10048 (PD2 lazy t sub_102ad9b0 (0x102ad9b0) replaces the main window procedure
+ * P1600       D2gfx.dll (game window)                       game window procedure (HWND from D2gfx_10048 0x10256620 sub_10256620            sub_102ad9b0 (0x102ad9b0) replaces the main window procedure
  * P1125       D2Client.dll 0xc3db0    0x6fb73db0 sub_6fb739e0+0x3d0                           0x102589a0 sub_Hook_sub_6fb739e0_1 call D2Client!sub_6fb02d90
  * P1129       D2Client.dll 0xc3d60    0x6fb73d60 sub_6fb739e0+0x380                           0x10258980 sub_Hook_sub_6fb739e0_1 call D2Client!UI_showitems_6fb08fb0
  * P1126       D2Client.dll 0xbf0e2    0x6fb6f0e2 sub_6fb6f0d0+0x12                            0x10256f90 sub_Hook_sub_6fb6f0d0_1 call D2Client!Ordinal_10331
@@ -19,96 +19,96 @@
  * P1124       D2Client.dll 0x79676    0x6fb29676 sub_6fb28fc0+0x6b6                           0x102ed860 sub_Hook_sub_6fb28fc0_1 call D2Client!sub_6fac4a10
  * P1238       D2Client.dll 0xc3b18    0x6fb73b18 sub_6fb739e0+0x138                           0x10227d70 sub_Hook_sub_6fb739e0_1 call D2Client!sub_6fb49440
  * P1239       D2Client.dll 0xc3b2a    0x6fb73b2a sub_6fb739e0+0x14a                           0x10227d70 sub_Hook_sub_6fb739e0_1 call D2Client!sub_6fb49440
- * rt:1349     D2Client.dll 0x1e8d2    0x6face8d2 sub_6face7e0+0xf2                            0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1350     D2Client.dll 0x1ec6a    0x6facec6a sub_6face940+0x32a                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1351     D2Client.dll 0x1ecd2    0x6facecd2 sub_6face940+0x392                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1352     D2Client.dll 0x3b108    0x6faeb108 sub_6faea730+0x9d8                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1353     D2Client.dll 0x3b160    0x6faeb160 sub_6faea730+0xa30                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1354     D2Client.dll 0x3b798    0x6faeb798 sub_6faea730+0x1068                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1355     D2Client.dll 0x3b7f2    0x6faeb7f2 sub_6faea730+0x10c2                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1356     D2Client.dll 0x3c17f    0x6faec17f sub_6faea730+0x1a4f                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1357     D2Client.dll 0x3c1d7    0x6faec1d7 sub_6faea730+0x1aa7                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1358     D2Client.dll 0x3c492    0x6faec492 sub_6faea730+0x1d62                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1359     D2Client.dll 0x3c4ec    0x6faec4ec sub_6faea730+0x1dbc                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1360     D2Client.dll 0x3c75b    0x6faec75b sub_6faea730+0x202b                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1361     D2Client.dll 0x3c7b3    0x6faec7b3 sub_6faea730+0x2083                          0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1362     D2Client.dll 0xaa6d8    0x6fb5a6d8 UNIT_CUnit_6fb5a3e0+0x2f8                    0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1363     D2Client.dll 0xaabbf    0x6fb5abbf UNIT_CUnit_6fb5a3e0+0x7df                    0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1364     D2Client.dll 0xaac1d    0x6fb5ac1d UNIT_CUnit_6fb5a3e0+0x83d                    0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1365     D2Client.dll 0xaae4c    0x6fb5ae4c UNIT_CUnit_6fb5a3e0+0xa6c                    0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1366     D2Client.dll 0xc2a2d    0x6fb72a2d sub_6fb72790+0x29d                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1367     D2Client.dll 0xc2a9d    0x6fb72a9d sub_6fb72790+0x30d                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1368     D2Client.dll 0xc2bda    0x6fb72bda sub_6fb72790+0x44a                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1369     D2Client.dll 0xc2c46    0x6fb72c46 sub_6fb72790+0x4b6                           0x102f08c0 shim_102f08c0           call sub_6fac61b0 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:1412     D2Client.dll 0x3aa29    0x6faeaa29 sub_6faea730+0x2f9                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1413     D2Client.dll 0x3aa69    0x6faeaa69 sub_6faea730+0x339                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1414     D2Client.dll 0x3aaa9    0x6faeaaa9 sub_6faea730+0x379                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1415     D2Client.dll 0x3aae9    0x6faeaae9 sub_6faea730+0x3b9                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1416     D2Client.dll 0x3ab29    0x6faeab29 sub_6faea730+0x3f9                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1417     D2Client.dll 0x3ab69    0x6faeab69 sub_6faea730+0x439                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1418     D2Client.dll 0x3aba9    0x6faeaba9 sub_6faea730+0x479                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1419     D2Client.dll 0x3abe0    0x6faeabe0 sub_6faea730+0x4b0                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1420     D2Client.dll 0x3ac20    0x6faeac20 sub_6faea730+0x4f0                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1421     D2Client.dll 0x3ac60    0x6faeac60 sub_6faea730+0x530                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1422     D2Client.dll 0x3aca0    0x6faeaca0 sub_6faea730+0x570                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1423     D2Client.dll 0x3ace0    0x6faeace0 sub_6faea730+0x5b0                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1424     D2Client.dll 0x3ad20    0x6faead20 sub_6faea730+0x5f0                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1425     D2Client.dll 0x3ad60    0x6faead60 sub_6faea730+0x630                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1426     D2Client.dll 0x3ada0    0x6faeada0 sub_6faea730+0x670                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1427     D2Client.dll 0x3addd    0x6faeaddd sub_6faea730+0x6ad                           0x102ee6a0 shim_102ee6a0           call sub_6faed470+0x140 (between_UI_CmdTbl_and_UI_npcmenu.cp
- * rt:1996     D2Client.dll 0x3dd33    0x6faedd33 sub_6faedcf0+0x43                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:1997     D2Client.dll 0x3dd6e    0x6faedd6e sub_6faedcf0+0x7e                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:1998     D2Client.dll 0x3dda9    0x6faedda9 sub_6faedcf0+0xb9                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:1999     D2Client.dll 0x3dde4    0x6faedde4 sub_6faedcf0+0xf4                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2000     D2Client.dll 0x3de1f    0x6faede1f sub_6faedcf0+0x12f                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2001     D2Client.dll 0x3de5a    0x6faede5a sub_6faedcf0+0x16a                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2002     D2Client.dll 0x3de95    0x6faede95 sub_6faedcf0+0x1a5                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2003     D2Client.dll 0x3ded0    0x6faeded0 sub_6faedcf0+0x1e0                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2004     D2Client.dll 0x3df0b    0x6faedf0b sub_6faedcf0+0x21b                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2005     D2Client.dll 0x3df46    0x6faedf46 sub_6faedcf0+0x256                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2006     D2Client.dll 0x3df81    0x6faedf81 sub_6faedcf0+0x291                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2007     D2Client.dll 0x3dfbc    0x6faedfbc sub_6faedcf0+0x2cc                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2008     D2Client.dll 0x3dff7    0x6faedff7 sub_6faedcf0+0x307                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2009     D2Client.dll 0x3e032    0x6faee032 sub_6faedcf0+0x342                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2010     D2Client.dll 0x3e06d    0x6faee06d sub_6faedcf0+0x37d                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2011     D2Client.dll 0x3e0a8    0x6faee0a8 sub_6faedcf0+0x3b8                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2012     D2Client.dll 0x3e103    0x6faee103 sub_6faee0c0+0x43                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2013     D2Client.dll 0x3e13e    0x6faee13e sub_6faee0c0+0x7e                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2014     D2Client.dll 0x3e179    0x6faee179 sub_6faee0c0+0xb9                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2015     D2Client.dll 0x3e1b4    0x6faee1b4 sub_6faee0c0+0xf4                            0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2016     D2Client.dll 0x3e1ef    0x6faee1ef sub_6faee0c0+0x12f                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2017     D2Client.dll 0x3e22a    0x6faee22a sub_6faee0c0+0x16a                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2018     D2Client.dll 0x3e265    0x6faee265 sub_6faee0c0+0x1a5                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2019     D2Client.dll 0x3e2a0    0x6faee2a0 sub_6faee0c0+0x1e0                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2020     D2Client.dll 0x3e2db    0x6faee2db sub_6faee0c0+0x21b                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2021     D2Client.dll 0x3e316    0x6faee316 sub_6faee0c0+0x256                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2022     D2Client.dll 0x3e351    0x6faee351 sub_6faee0c0+0x291                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2023     D2Client.dll 0x3e38c    0x6faee38c sub_6faee0c0+0x2cc                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2024     D2Client.dll 0x3e3c7    0x6faee3c7 sub_6faee0c0+0x307                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2025     D2Client.dll 0x3e402    0x6faee402 sub_6faee0c0+0x342                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2026     D2Client.dll 0x3e43d    0x6faee43d sub_6faee0c0+0x37d                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2027     D2Client.dll 0x3e478    0x6faee478 sub_6faee0c0+0x3b8                           0x102f0450 shim_102f0450           call sub_6faed770 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2033     D2Client.dll 0x292b8    0x6fad92b8 sub_6fad9250+0x68                            0x10226280 sub_Wraps_D2Client_UI_p call sub_6fad8dc0 (between_UI_panel_and_UNIT_UnitMode.cpp)
- * rt:2035     D2Client.dll 0x9b004    0x6fb4b004 sub_6fb4ae80+0x184                           0x10222470 client_DrawHoverItem_Wr call UI_inv_6fb43450 (inv.cpp)
- * rt:2100     D2Client.dll 0x44688    0x6faf4688 sub_6faf4230+0x458                           0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2101     D2Client.dll 0x44721    0x6faf4721 sub_6faf46b0+0x71                            0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2102     D2Client.dll 0x447c8    0x6faf47c8 sub_6faf46b0+0x118                           0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2103     D2Client.dll 0x44872    0x6faf4872 sub_6faf46b0+0x1c2                           0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2104     D2Client.dll 0x448d4    0x6faf48d4 sub_6faf4880+0x54                            0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2105     D2Client.dll 0x4495e    0x6faf495e sub_6faf4880+0xde                            0x1025c3f0 sub_1025c3f0            call sub_6facbf20 (between_UNIT_Player_and_UNIT_CUnitEvent.c
- * rt:2106     D2Client.dll 0xc3a58    0x6fb73a58 sub_6fb739e0+0x78                            0x1025c4a0 sub_1025c4a0            call sub_6fb70d30 (between_UNIT_Missile_and_SKILLS_SkillsEMo
- * rt:2107     D2Client.dll 0x29d99    0x6fad9d99 sub_6fad9990+0x409                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2108     D2Client.dll 0x43f0e    0x6faf3f0e sub_6faf3a70+0x49e                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2109     D2Client.dll 0x4438e    0x6faf438e sub_6faf4230+0x15e                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2110     D2Client.dll 0x71ab7    0x6fb21ab7 sub_6fb217b0+0x307                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2111     D2Client.dll 0x71b50    0x6fb21b50 sub_6fb217b0+0x3a0                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2112     D2Client.dll 0x71ba5    0x6fb21ba5 sub_6fb217b0+0x3f5                           0x1025c4c0 sub_1025c4c0            call sub_6fac6a90 (before_UNIT_Player_6fabd3f0.cpp)
- * rt:2113     D2Client.dll 0x3e5bf    0x6faee5bf sub_6faee490+0x12f                           0x102f0950 shim_102f0950           call sub_6faedcf0 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2114     D2Client.dll 0x3e698    0x6faee698 sub_6faee5e0+0xb8                            0x102f0950 shim_102f0950           call sub_6faedcf0 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2115     D2Client.dll 0x3e597    0x6faee597 sub_6faee490+0x107                           0x102f0990 shim_102f0990           call sub_6faee0c0 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
- * rt:2116     D2Client.dll 0x3e687    0x6faee687 sub_6faee5e0+0xa7                            0x102f0990 shim_102f0990           call sub_6faee0c0 (between_UI_CmdTbl_and_UI_npcmenu.cpp)
+ * P1788 (entry 1349) D2Client.dll 0x1e8d2    0x6face8d2 sub_6face7e0+0xf2                            0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1789 (entry 1350) D2Client.dll 0x1ec6a    0x6facec6a sub_6face940+0x32a                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1790 (entry 1351) D2Client.dll 0x1ecd2    0x6facecd2 sub_6face940+0x392                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1791 (entry 1352) D2Client.dll 0x3b108    0x6faeb108 sub_6faeafc4+0x144                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1792 (entry 1353) D2Client.dll 0x3b160    0x6faeb160 sub_6faeafc4+0x19c                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1793 (entry 1354) D2Client.dll 0x3b798    0x6faeb798 sub_6faeb684+0x114                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1794 (entry 1355) D2Client.dll 0x3b7f2    0x6faeb7f2 sub_6faeb684+0x16e                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1795 (entry 1356) D2Client.dll 0x3c17f    0x6faec17f sub_6faec145+0x3a                            0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1796 (entry 1357) D2Client.dll 0x3c1d7    0x6faec1d7 sub_6faec1aa+0x2d                            0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1797 (entry 1358) D2Client.dll 0x3c492    0x6faec492 sub_6faec2a0+0x1f2                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1798 (entry 1359) D2Client.dll 0x3c4ec    0x6faec4ec sub_6faec2a0+0x24c                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1799 (entry 1360) D2Client.dll 0x3c75b    0x6faec75b sub_6faec5b0+0x1ab                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1800 (entry 1361) D2Client.dll 0x3c7b3    0x6faec7b3 sub_6faec5b0+0x203                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1801 (entry 1362) D2Client.dll 0xaa6d8    0x6fb5a6d8 sub_6fb5a688+0x50                            0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1802 (entry 1363) D2Client.dll 0xaabbf    0x6fb5abbf sub_6fb5aa20+0x19f                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1803 (entry 1364) D2Client.dll 0xaac1d    0x6fb5ac1d sub_6fb5aa20+0x1fd                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1804 (entry 1365) D2Client.dll 0xaae4c    0x6fb5ae4c sub_6fb5adfc+0x50                            0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1805 (entry 1366) D2Client.dll 0xc2a2d    0x6fb72a2d sub_6fb72790+0x29d                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1806 (entry 1367) D2Client.dll 0xc2a9d    0x6fb72a9d sub_6fb72790+0x30d                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1807 (entry 1368) D2Client.dll 0xc2bda    0x6fb72bda sub_6fb72790+0x44a                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1808 (entry 1369) D2Client.dll 0xc2c46    0x6fb72c46 sub_6fb72790+0x4b6                           0x102f08c0 sub_102f08a0+0x20       call D2Client!sub_6fac61b0
+ * P1851 (entry 1412) D2Client.dll 0x3aa29    0x6faeaa29 sub_6faea9f0+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1852 (entry 1413) D2Client.dll 0x3aa69    0x6faeaa69 sub_6faeaa30+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1853 (entry 1414) D2Client.dll 0x3aaa9    0x6faeaaa9 sub_6faeaa70+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1854 (entry 1415) D2Client.dll 0x3aae9    0x6faeaae9 sub_6faeaab0+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1855 (entry 1416) D2Client.dll 0x3ab29    0x6faeab29 sub_6faeaaf0+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1856 (entry 1417) D2Client.dll 0x3ab69    0x6faeab69 sub_6faeab30+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1857 (entry 1418) D2Client.dll 0x3aba9    0x6faeaba9 sub_6faeab70+0x39                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1858 (entry 1419) D2Client.dll 0x3abe0    0x6faeabe0 sub_6faeabb0+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1859 (entry 1420) D2Client.dll 0x3ac20    0x6faeac20 sub_6faeabf0+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1860 (entry 1421) D2Client.dll 0x3ac60    0x6faeac60 sub_6faeac30+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1861 (entry 1422) D2Client.dll 0x3aca0    0x6faeaca0 sub_6faeac70+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1862 (entry 1423) D2Client.dll 0x3ace0    0x6faeace0 sub_6faeacb0+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1863 (entry 1424) D2Client.dll 0x3ad20    0x6faead20 sub_6faeacf0+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1864 (entry 1425) D2Client.dll 0x3ad60    0x6faead60 sub_6faead30+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1865 (entry 1426) D2Client.dll 0x3ada0    0x6faeada0 sub_6faead70+0x30                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P1866 (entry 1427) D2Client.dll 0x3addd    0x6faeaddd sub_6faeadb0+0x2d                            0x102ee6a0 sub_102ee680+0x20       call D2Client!sub_6faed470+0x140
+ * P2435 (entry 1996) D2Client.dll 0x3dd33    0x6faedd33 sub_6faedcf0+0x43                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2436 (entry 1997) D2Client.dll 0x3dd6e    0x6faedd6e sub_6faedcf0+0x7e                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2437 (entry 1998) D2Client.dll 0x3dda9    0x6faedda9 sub_6faedcf0+0xb9                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2438 (entry 1999) D2Client.dll 0x3dde4    0x6faedde4 sub_6faedcf0+0xf4                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2439 (entry 2000) D2Client.dll 0x3de1f    0x6faede1f sub_6faedcf0+0x12f                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2440 (entry 2001) D2Client.dll 0x3de5a    0x6faede5a sub_6faedcf0+0x16a                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2441 (entry 2002) D2Client.dll 0x3de95    0x6faede95 sub_6faedcf0+0x1a5                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2442 (entry 2003) D2Client.dll 0x3ded0    0x6faeded0 sub_6faedcf0+0x1e0                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2443 (entry 2004) D2Client.dll 0x3df0b    0x6faedf0b sub_6faedcf0+0x21b                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2444 (entry 2005) D2Client.dll 0x3df46    0x6faedf46 sub_6faedcf0+0x256                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2445 (entry 2006) D2Client.dll 0x3df81    0x6faedf81 sub_6faedcf0+0x291                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2446 (entry 2007) D2Client.dll 0x3dfbc    0x6faedfbc sub_6faedcf0+0x2cc                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2447 (entry 2008) D2Client.dll 0x3dff7    0x6faedff7 sub_6faedcf0+0x307                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2448 (entry 2009) D2Client.dll 0x3e032    0x6faee032 sub_6faedcf0+0x342                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2449 (entry 2010) D2Client.dll 0x3e06d    0x6faee06d sub_6faedcf0+0x37d                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2450 (entry 2011) D2Client.dll 0x3e0a8    0x6faee0a8 sub_6faedcf0+0x3b8                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2451 (entry 2012) D2Client.dll 0x3e103    0x6faee103 sub_6faee0c0+0x43                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2452 (entry 2013) D2Client.dll 0x3e13e    0x6faee13e sub_6faee0c0+0x7e                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2453 (entry 2014) D2Client.dll 0x3e179    0x6faee179 sub_6faee0c0+0xb9                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2454 (entry 2015) D2Client.dll 0x3e1b4    0x6faee1b4 sub_6faee0c0+0xf4                            0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2455 (entry 2016) D2Client.dll 0x3e1ef    0x6faee1ef sub_6faee0c0+0x12f                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2456 (entry 2017) D2Client.dll 0x3e22a    0x6faee22a sub_6faee0c0+0x16a                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2457 (entry 2018) D2Client.dll 0x3e265    0x6faee265 sub_6faee0c0+0x1a5                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2458 (entry 2019) D2Client.dll 0x3e2a0    0x6faee2a0 sub_6faee0c0+0x1e0                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2459 (entry 2020) D2Client.dll 0x3e2db    0x6faee2db sub_6faee0c0+0x21b                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2460 (entry 2021) D2Client.dll 0x3e316    0x6faee316 sub_6faee0c0+0x256                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2461 (entry 2022) D2Client.dll 0x3e351    0x6faee351 sub_6faee0c0+0x291                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2462 (entry 2023) D2Client.dll 0x3e38c    0x6faee38c sub_6faee0c0+0x2cc                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2463 (entry 2024) D2Client.dll 0x3e3c7    0x6faee3c7 sub_6faee0c0+0x307                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2464 (entry 2025) D2Client.dll 0x3e402    0x6faee402 sub_6faee0c0+0x342                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2465 (entry 2026) D2Client.dll 0x3e43d    0x6faee43d sub_6faee0c0+0x37d                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2466 (entry 2027) D2Client.dll 0x3e478    0x6faee478 sub_6faee0c0+0x3b8                           0x102f0450 sub_102f0400+0x50       call D2Client!sub_6faed770
+ * P2472 (entry 2033) D2Client.dll 0x292b8    0x6fad92b8 sub_6fad9250+0x68                            0x10226280 sub_Wraps_D2Client_UI_p call D2Client!sub_6fad8dc0
+ * P2474 (entry 2035) D2Client.dll 0x9b004    0x6fb4b004 sub_6fb4ae80+0x184                           0x10222470 client_DrawHoverItem_Wr call D2Client!UI_inv_6fb43450
+ * P2539 (entry 2100) D2Client.dll 0x44688    0x6faf4688 sub_6faf4630+0x58                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2540 (entry 2101) D2Client.dll 0x44721    0x6faf4721 sub_6faf46b0+0x71                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2541 (entry 2102) D2Client.dll 0x447c8    0x6faf47c8 sub_6faf4730+0x98                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2542 (entry 2103) D2Client.dll 0x44872    0x6faf4872 sub_6faf4800+0x72                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2543 (entry 2104) D2Client.dll 0x448d4    0x6faf48d4 sub_6faf4880+0x54                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2544 (entry 2105) D2Client.dll 0x4495e    0x6faf495e sub_6faf48e0+0x7e                            0x1025c3f0 sub_1025c3f0            call D2Client!sub_6facbf20
+ * P2545 (entry 2106) D2Client.dll 0xc3a58    0x6fb73a58 sub_6fb739e0+0x78                            0x1025c4a0 sub_1025c4a0            call D2Client!sub_6fb70d30
+ * P2546 (entry 2107) D2Client.dll 0x29d99    0x6fad9d99 sub_6fad9d80+0x19                            0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2547 (entry 2108) D2Client.dll 0x43f0e    0x6faf3f0e sub_6faf3a70+0x49e                           0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2548 (entry 2109) D2Client.dll 0x4438e    0x6faf438e sub_6faf4230+0x15e                           0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2549 (entry 2110) D2Client.dll 0x71ab7    0x6fb21ab7 sub_6fb21a70+0x47                            0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2550 (entry 2111) D2Client.dll 0x71b50    0x6fb21b50 sub_6fb21b10+0x40                            0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2551 (entry 2112) D2Client.dll 0x71ba5    0x6fb21ba5 sub_6fb21b60+0x45                            0x1025c4c0 sub_1025c4c0            call D2Client!sub_6fac6a90
+ * P2552 (entry 2113) D2Client.dll 0x3e5bf    0x6faee5bf sub_6faee490+0x12f                           0x102f0950 sub_102f0930+0x20       call D2Client!sub_6faedcf0
+ * P2553 (entry 2114) D2Client.dll 0x3e698    0x6faee698 sub_6faee5e0+0xb8                            0x102f0950 sub_102f0930+0x20       call D2Client!sub_6faedcf0
+ * P2554 (entry 2115) D2Client.dll 0x3e597    0x6faee597 sub_6faee490+0x107                           0x102f0990 sub_102f0970+0x20       call D2Client!sub_6faee0c0
+ * P2555 (entry 2116) D2Client.dll 0x3e687    0x6faee687 sub_6faee5e0+0xa7                            0x102f0990 sub_102f0970+0x20       call D2Client!sub_6faee0c0
  *
- * Game files (reference tree): D2Client.dll: UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp; D2Client.dll: _unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/UNIT/CUnit.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/_unattributed/between_UI_inv_and_SKILLS_Skills.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/_unattributed/between_UI_panel_and_UNIT_UnitMode.cpp; D2Client.dll: sigmaRE/5_game_source/D2Client/_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp
+ * Game files (reference tree): D2Client.dll: UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp; D2Client.dll: UNIT/CUnit.cpp; D2Client.dll: UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp; D2Client.dll: UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp; D2Client.dll: _unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp; D2Client.dll: _unattributed/between_UI_inv_and_SKILLS_Skills.cpp; D2Client.dll: _unattributed/between_UI_panel_and_UNIT_UnitMode.cpp; D2Client.dll: _unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp
  */
 
 

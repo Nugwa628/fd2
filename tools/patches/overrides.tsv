@@ -1,5 +1,5 @@
 # key	feature	reason
-# key = hook group id (patches.csv `group`), or <module>+<rva_113c>, or the record's table_addr.
+# key = hook group id (patches.csv `group`), or <module>+<rva_113c>, or the record's table_addr, or handler:<handler_addr>.
 # Applied after the rules in feature_rules.tsv; the script lists unused keys in README.md.
 D2Game.dll+0xfa408	monsters/AI/combat	init write (0x102beb00) replacing PLAYER_PlrModes_6fc98710 in D2Game's player-mode function table (PlrModes.cpp): unit mode behaviour, grouped with combat; no rule matches a data table entry
 D2Client.dll+0x144a2	networking/packets	the call to D2Net_10024 in sub_6fac43e0 is re-pointed to PD2's own D2Net_10024 thunk (same target on stock 1.13c); D2Net = networking
@@ -7,3 +7,8 @@ D2Game.dll+0x1074b8	skills	init writes (0x102be320) into D2Game's DAT_6fd274a8, 
 D2Client.dll+0xdded8	networking/packets	init writes (0x102be750) into D2Client's DAT_6fb8de60, the server->client packet handler table {handler, size} of GAME/SCmd.cpp; the same function sets the matching packet sizes in D2Net (DAT_6fbfa900/DAT_6fbfabd8): PD2 registers new packets
 D2Common.dll+0x2e9c1	stash/shared stash	D2Common_11060 only returns the stash gold limit (2,500,000), PD2 raises it to 5,000,000
 M-1016	controller	P1125 (D2Client sub_6fb739e0+0x3d0 -> 0x102589a0) is the in-game per-frame client update; its main work is the controller (XInput poll 0x1022cc60, activity/mode switch 0x1022d020, the whole button dispatch 0x10218800, edge reset 0x1022d200, debug overlay 0x1022d280); the skills rule only matched the located-between site file name; DPS text, WASD and hold-to-cast calls are smaller parts (see 4_pd2_source/ProjectDiablo/features/Controller/README.md)
+handler:0x102f08c0	controller	main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorPos calls (D2Client sub_6fac61b0) to shim 0x102f08c0 -> 0x1025d170, which skips them in controller mode (DAT_103d9867); controller-only (4_pd2_source/ProjectDiablo/features/Controller/README.md, section 9); the site rules only saw the calling UI/skill/monster files
+handler:0x1025c4a0	controller	main-table entry 2106: D2Client sub_6fb739e0 call of sub_6fb70d30 -> 0x1025c4a0, which records the target's screen position only for the controller (Controller README, section 9)
+handler:0x1025c4c0	controller	main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x1025c4c0, controller cursor drawing/parking (0x10215760, 0x10213480); controller-only (Controller README, section 9)
+handler:0x102f0950	controller	main-table entries 2113-2114: skill-icon label calls -> shim 0x102f0950 -> 0x10225b30, which draws controller button glyphs on the skill icons (Controller README, section 9)
+handler:0x102f0990	controller	main-table entries 2115-2116: same as 0x102f0950 for the right skill icon (shim 0x102f0990 -> 0x10225b60)

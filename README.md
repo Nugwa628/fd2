@@ -84,8 +84,9 @@ initializers. In ordinary code, 815 of 6,464 functions (12.6%) are in a named fi
 
 **Patches and hooks** (`5_game_patches/`)
 
-1,636 patch records in 1,245 hooks, 0 undecodable, 0 outside a game function. They come from:
-* the main table: 1,198 entries;
+2,624 patch records in 2,156 hooks, 0 undecodable, 0 outside a game function. They come from:
+* the main table: 2,186 entries. 1,198 are complete in the file; 988 are written at load time by the C++
+  initializer at 0x100f3330, which also writes the end marker. These were missed at first; see "Corrections" below;
 * conditional patches: 35, skipped with `-plugy`;
 * block patches: 57;
 * init-time pointer and table writes: 284;
@@ -94,8 +95,8 @@ initializers. In ordinary code, 815 of 6,464 functions (12.6%) are in a named fi
 * on-disk changes: 21;
 * window subclass: 1.
 
-By module: D2Game 881, D2Client 583, D2Common 85, D2Net 30, D2Win 28, others 29. Largest features: sound 267,
-skills 199, items/cube 171, save files 147, monsters/AI 131. Each patch is also emitted as D2Template-style C++
+By module: D2Game 1,198, D2Client 952, D2Common 273, D2Launch 53, D2Multi 52, D2Net 30, D2Win 29, others 37.
+Largest features (hooks): skills 429, UI 328, items/cube 299, sound 274, monsters/AI 223, save files 153. Each patch is also emitted as D2Template-style C++
 (`4_pd2_source/ProjectDiablo/patches/`).
 
 **Data** (`2_txt/`)
@@ -115,11 +116,23 @@ skills 199, items/cube 171, save files 147, monsters/AI 131. Each patch is also 
 **Verification** (`VERIFICATION.md`): PASS. Checked:
 * 30/30 functions against Ghidra;
 * all 35 anchors;
-* all 1,636 patch rows, re-decoded from the binaries;
+* all 1,636 statically stored patch rows, re-decoded from the binaries (the 988 load-time rows were added later
+  and checked separately: all 988 re-decoded by the fix agent, 15 sampled by the orchestrator);
 * 30/30 `game_pointers.tsv` rows;
 * regeneration from a clean copy gives identical output.
 
 The six discrepancies found were in documentation only and have been fixed.
+
+**Corrections after verification**
+* 988 main-table patches are filled in at load time, so a static decode of the file misses them. Phase 4 and the
+  Phase 6 verifier both missed them, and the controller deep-dive found them. They are now decoded by emulating the
+  initializer (`tools/patches/loadtime.py`).
+* Code coverage of the decompiles is measured in `0_inventory/COVERAGE.md`. At most 22 directly called places in
+  ProjectDiablo lie outside a recovered function.
+
+**Feature packages**
+* Controller support: `4_pd2_source/ProjectDiablo/features/Controller/`. 139 functions, 97 hooks, recovered pad state,
+  exact behaviour with addresses.
 
 ## Not recovered
 

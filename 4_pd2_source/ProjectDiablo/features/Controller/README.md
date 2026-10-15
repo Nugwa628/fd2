@@ -202,7 +202,7 @@ and the triggers are off.
 | `controller_movement` | 0x104e24ca | true | bool | Master switch. Off means no XInput poll in game, `WM_INPUT` ignored and controller mode forced off (0x102589a0, 0x1022ca30, 0x10256420). Raw input is still registered at start-up |
 | `controller_sensitivity` | 0x104e24cc | 50 | 0–100 | cursor speed (0x102158c0) |
 | `controller_aim_assist` | 0x104e24dc | 1 | 0–2 | aim search radius (0x10214da0) |
-| `controller_deadzone` | 0x104e24ec | 20 | 0–40 | dead zone (0x10214350). `6_config` lists only the menu getter as reader |
+| `controller_deadzone` | 0x104e24ec | 20 | 0–40 | dead zone (reader 0x10214350, also listed in `6_config`) |
 | `controller_button_style` | 0x104e2514 | 0 | 0 auto, 1 Xbox, 2 PS | glyph set (0x1022b730, 0x10220830) |
 | `controllerMultiButtonLoot` | 0x104e2524 | false | bool | 9 or 48 loot labels (0x10215240) |
 
@@ -228,11 +228,12 @@ and saved by 0x10239e00 (generic settings code, so they are dependencies).
 | rt 2113–2116 (4) | skill-icon label calls in `sub_6faee490/5e0` | shims 0x102f0950/0x102f0990 | button glyphs on skill icons (controller only) |
 | rt 1412–1427 (16), 1996–2027 (32), 2033, 2035 | skill hotkey commands, hotkey text, belt, hover text | shims 0x102ee6a0/0x102f0450, 0x10226280, 0x10222470 | shared UI with controller variants |
 
-**`rt N`** is entry N of the main patch table 0x103c7f50. Only entries 0–1197 are initialised data in the file. The
-static initializer 0x100f3330 builds entries 1198–2185 byte by byte at load time (before DllMain installs the table),
-so `patches.csv` (1,198 main-table rows) does not contain them. `extract_feature.py` emulates that initializer to decode
-the controller's entries. 32 of the 97 records exist only for the controller: 1349–1369, 2106, 2107–2112 and
-2113–2116; the rest are shared.
+**`rt N`** is entry N of the main patch table 0x103c7f50. Only entries 0–1196 are complete in the file. The
+static initializer 0x100f3330 writes the rest at load time (entry 1197 from its `dwData` field on, entries 1198–2185
+and the end marker), before DllMain installs the table. `tools/patches/build_patches.py` decodes these entries through
+`tools/patches/loadtime.py`, and they are in `patches.csv` with source `PD2 table (load-time)`. `extract_feature.py`
+looks every `rt N` up there by table address (`MEMBERS.md` shows the patches.csv id). 32 of the 97 records exist only
+for the controller: 1349–1369, 2106, 2107–2112 and 2113–2116; the rest are shared.
 
 `5_game_patches/FEATURES.md` now has a `controller` section. It holds P1125, moved from `skills` by
 `tools/patches/overrides.tsv`, and links to this package.
@@ -296,8 +297,8 @@ and the HD-text mapping of the menu labels), and the launcher (no controller set
 * **Lost XMM arguments.** Ghidra dropped the XMM arguments and returns (dead zone, curve) and the register arguments of
   `IsButton`. The formulas and button numbers above come from disassembly, so the decompiled text of those call sites
   shows `sub_102141b0(0)` without the button.
-* **patches.csv errors.** P1600 names `D2gfx_10048` (the HWND getter) as the handler; the real new window procedure is
-  0x10256620. `patches.csv` also lacks the 988 runtime-built main-table entries (section 9).
+* **patches.csv errors (fixed).** P1600 named `D2gfx_10048` (the HWND getter) as the handler; it now names the real
+  new window procedure 0x10256620. The 988 load-time main-table entries (section 9) are now in `patches.csv`.
 
 ## Re-running
 
@@ -310,7 +311,7 @@ Inputs, all read-only:
 * the generated tree (`4_pd2_source/ProjectDiablo`: `.cpp`, `symbols.csv`, `include/globals.h`);
 * `5_game_patches/patches.csv`;
 * `fd2_work/bin/ProjectDiablo.dll`;
-* the shipped game DLLs and `sigmaRE/5_game_source`, used to name the runtime table entries.
+* `tools/patches/loadtime.py` (only to report the table's file/load-time split).
 
 It rewrites every file in this folder except this README and exits non-zero if the manifest disagrees with the
 binary or the tree (missing function text, missing patch record, string mismatch). After `tools/rebuild.sh --pd2`

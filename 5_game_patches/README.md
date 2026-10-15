@@ -27,11 +27,21 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 
 1. **Tables.** The installer is found as the function that calls `VirtualProtect` and is called with
    `mov ecx, <table>`; its two call sites give the main and the conditional table, the other
-   `VirtualProtect` user is the block installer (its table address is a constant in its code). Entries are
-   read from the file's initialised `.data`/`.rdata` (they are static data; no initializer fills them).
+   `VirtualProtect` user is the block installer (its table address is a constant in its code).
    Entry layout `{int nDLL, DWORD dwAddress, DWORD dwData, BOOL bRelative, size_t nPatchSize}` (main and
    conditional) and `{int nDLL, DWORD dwAddress, DWORD pData[256], size_t nPatchSize}` (block); `nDLL` indexes
    the 27-entry `{name, HMODULE}` module table.
+   **Load-time part of the main table.** The tables are read as the installer sees them, not only from the
+   file: every instruction in `.text` that stores into a table's address range is found (raw scan for the
+   range's addresses, confirmed by a linear sweep of the containing function), each writer must be listed in
+   the CRT's static-initializer array (run by `_initterm` before DllMain, so before the installer), and is
+   then run symbolically (`tools/patches/loadtime.py`: registers and memory tracked per byte, immediates,
+   register copies and calls to small pure helpers evaluated; a value read from a writable global, a
+   game-pointer cell or a non-inlined call would be recorded as run-time only, an unmodelled instruction
+   stops the script). The file's bytes overlaid with those stores are then read with the installer's own loop
+   condition (stop at `nDLL == D2DLL_INVALID`; abort on a bad `nDLL` or `dwAddress == 0`). Records of
+   entries the file alone does not hold have source `PD2 table (load-time)`; they come last in `patches.csv`
+   so that the ids of all other records stayed the same when they were added.
 2. **Init-time writes.** After the tables, Init calls small functions that load a game pointer (a per-file
    copy of a D2Template accessor, resolved through `game_pointers.tsv`) and store handler addresses or
    constants through it: these patch game function-pointer tables (skill/stat/unit callbacks) at run time.
@@ -55,49 +65,54 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 
 ## Numbers
 
-* ProjectDiablo main table @ 0x103c7f50: **1198 entries decoded** (the array has 2187 slots; the rest is zero and the installer stops at the first zero entry, so the earlier count of 2,187 was the array capacity), conditional table @ 0x10367ee0: **35** (skipped with `-plugy`), block table @ 0x103681b0: **57**. Undecodable: **0**.
+* ProjectDiablo main table @ 0x103c7f50: **2186 entries** + end marker (2187 slots), read as the installer sees them. Only entries 0-1196 are initialised data in the file; the dynamic initializer 0x100f3330 (listed at 0x10343148 in the CRT initializer array 0x1032356c-0x1036729c) stores the rest at load time: from entry 1197's `dwData` on, 4945 store instructions writing 4948 dwords (5037 instructions in all, 30 helper calls), ending with the `D2DLL_INVALID` marker of entry 2186. **Correction:** the earlier statement "1198 entries, the rest is zero and the installer stops at the first zero entry" was wrong: the file's zeros are overwritten before the installer runs, and the installer stops at the end marker (an entry with `dwAddress` 0 would make it abort). This added 988 records (entries 1198-2185) and corrected entry 1197 (its `dwData`/`bRelative`/`nPatchSize` are load-time values). Run-time-only values: **0**. Other writers into the main table: none.
+* Conditional table @ 0x10367ee0: **35** (skipped with `-plugy`; load-time writers: none), block table @ 0x103681b0: **57** (writers other than its installer: none), module table @ 0x103c68a0: no direct stores; its address is taken only by 0x102ad400 sub_LoadModuleTable_102ad400, which fills the HMODULEs at run time. Undecodable: **0**.
 * Init-time writes: **284** stores in 17 functions. Window subclass: 1. PD2_EXT: 4. On-disk: 21 (D2Win 20, Storm 1). BH: 36 (from `4_pd2_source/BH/patches.tsv`).
-* **1636 records, 1245 hooks** in total.
-* Function check of the 1293 records in game code: 1068 reached by recursive descent from the reference function start, 225 inside an entry point the reference did not split off (named `sub_<va>`), 0 only between two reference starts, 0 outside any function. 340 records target game data (.data 286, .rdata 54).
-* Feature assignment: 1178 hooks by rules, 6 by override, 61 unmatched (misc).
+* **2624 records, 2156 hooks** in total.
+* Function check of the 2198 records in game code: 1774 reached by recursive descent from the reference function start, 424 inside an entry point the reference did not split off (named `sub_<va>`), 0 only between two reference starts, 0 outside any function. 423 records target game data (.data 358, .rdata 65).
+* Feature assignment: 1983 hooks by rules, 38 by override, 135 unmatched (misc).
 
-| Module | BH | PD2 API | PD2 block table | PD2 cond table | PD2 init writes | PD2 table | PD2_EXT | on-disk | records | hooks (groups) |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| D2Game.dll |  |  | 7 | 8 | 177 | 689 |  |  | 881 | 675 |
-| D2Client.dll | 20 |  | 47 | 19 | 78 | 419 |  |  | 583 | 468 |
-| D2Common.dll |  |  | 2 |  | 1 | 82 |  |  | 85 | 62 |
-| D2Net.dll |  |  |  | 2 | 28 |  |  |  | 30 | 4 |
-| D2Win.dll | 1 |  |  | 6 |  | 1 |  | 20 | 28 | 9 |
-| D2Multi.dll | 13 |  |  |  |  |  |  |  | 13 | 13 |
-| Bnclient.dll | 1 |  |  |  |  | 4 |  |  | 5 | 5 |
-| Game.exe |  |  |  |  |  |  | 3 |  | 3 | 3 |
-| D2Lang.dll |  |  |  |  |  | 3 |  |  | 3 | 1 |
-| Fog.dll |  |  |  |  |  |  | 1 |  | 1 | 1 |
-| Storm.dll |  |  |  |  |  |  |  | 1 | 1 | 1 |
-| D2Launch.dll |  |  | 1 |  |  |  |  |  | 1 | 1 |
-| D2gfx.dll (game window) |  | 1 |  |  |  |  |  |  | 1 | 1 |
-| D2MCPClient.dll | 1 |  |  |  |  |  |  |  | 1 | 1 |
-| **total** | 36 | 1 | 57 | 35 | 284 | 1198 | 4 | 21 | **1636** | **1245** |
+| Module | BH | PD2 API | PD2 block table | PD2 cond table | PD2 init writes | PD2 table | PD2 table (load-time) | PD2_EXT | on-disk | records | hooks (groups) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| D2Game.dll |  |  | 7 | 8 | 177 | 689 | 317 |  |  | 1198 | 976 |
+| D2Client.dll | 20 |  | 47 | 19 | 78 | 419 | 369 |  |  | 952 | 814 |
+| D2Common.dll |  |  | 2 |  | 1 | 82 | 188 |  |  | 273 | 228 |
+| D2Launch.dll |  |  | 1 |  |  |  | 52 |  |  | 53 | 38 |
+| D2Multi.dll | 13 |  |  |  |  |  | 39 |  |  | 52 | 51 |
+| D2Net.dll |  |  |  | 2 | 28 |  |  |  |  | 30 | 4 |
+| D2Win.dll | 1 |  |  | 6 |  | 1 | 1 |  | 20 | 29 | 10 |
+| D2sound.dll |  |  |  |  |  |  | 14 |  |  | 14 | 14 |
+| Bnclient.dll | 1 |  |  |  |  | 4 | 1 |  |  | 6 | 6 |
+| Fog.dll |  |  |  |  |  |  | 4 | 1 |  | 5 | 5 |
+| Game.exe |  |  |  |  |  |  |  | 3 |  | 3 | 3 |
+| D2Lang.dll |  |  |  |  |  | 3 |  |  |  | 3 | 1 |
+| D2MCPClient.dll | 1 |  |  |  |  |  | 1 |  |  | 2 | 2 |
+| D2gfx.dll |  |  |  |  |  |  | 2 |  |  | 2 | 2 |
+| Storm.dll |  |  |  |  |  |  |  |  | 1 | 1 | 1 |
+| D2gfx.dll (game window) |  | 1 |  |  |  |  |  |  |  | 1 | 1 |
+| **total** | 36 | 1 | 57 | 35 | 284 | 1198 | 988 | 4 | 21 | **2624** | **2156** |
 
 | Kind (per record) | records |
 |---|---:|
-| call redirect (E8) | 821 |
-| function-pointer swap (table) | 288 |
-| constant change (imm32/disp32) | 116 |
-| operand byte change | 93 |
-| NOP fill | 63 |
-| opcode byte change | 55 |
-| data/constant change | 48 |
+| call redirect (E8) | 1465 |
+| function-pointer swap (table) | 295 |
+| constant change (imm32/disp32) | 224 |
+| operand byte change | 148 |
+| NOP fill | 89 |
+| data byte change | 74 |
+| opcode byte change | 63 |
+| data/constant change | 47 |
+| opcode byte (E8 call) for hook | 38 |
+| call insertion (E8) | 38 |
 | operand/immediate byte change (block) | 32 |
-| opcode byte (E8 call) for hook | 23 |
-| call insertion (E8) | 23 |
+| data-pointer operand (imm32 -> PD2 data) | 31 |
 | block replace | 21 |
 | string operand redirect (on-disk) | 17 |
-| jmp target redirect (E9) | 9 |
-| code-pointer operand (imm32 -> PD2 function) | 8 |
-| data-pointer operand (imm32 -> PD2 data) | 4 |
+| jmp target redirect (E9) | 12 |
+| code-pointer operand (imm32 -> PD2 function) | 9 |
 | NOP fill (block) | 4 |
 | jmp detour (E9) | 4 |
+| data-pointer swap (-> PD2 data) | 4 |
 | jmp detour (E9, on-disk) | 1 |
 | code cave (on-disk) | 1 |
 | added strings (on-disk) | 1 |
@@ -105,30 +120,35 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 | byte fill (0x00 x 3) | 1 |
 | data block replace | 1 |
 | window subclass (SetWindowLongW GWL_WNDPROC) | 1 |
+| data byte fill (0xff x 3) | 1 |
+| rel32 operand (68) | 1 |
 
 | Kind (per hook, main part) | hooks |
 |---|---:|
-| call redirect | 821 |
-| constant change (imm32/disp32) | 116 |
-| function-pointer swap (table) | 69 |
-| operand byte change | 52 |
-| NOP fill | 40 |
-| opcode byte change | 36 |
+| call redirect | 1465 |
+| constant change (imm32/disp32) | 224 |
+| operand byte change | 77 |
+| function-pointer swap (table) | 76 |
+| NOP fill | 54 |
+| call hook (E8 written) | 38 |
+| opcode byte change | 37 |
+| instruction rewrite (2 bytes) | 37 |
+| data-pointer operand (imm32 -> PD2 data) | 31 |
+| data byte change | 28 |
 | operand/immediate byte change (block) | 24 |
-| call hook (E8 written) | 23 |
 | block replace | 20 |
-| jmp target redirect (E9) | 9 |
-| code-pointer operand (imm32 -> PD2 function) | 8 |
-| data/constant change | 6 |
-| data-pointer operand (imm32 -> PD2 data) | 4 |
-| instruction rewrite (2 bytes) | 4 |
+| jmp target redirect (E9) | 12 |
+| code-pointer operand (imm32 -> PD2 function) | 9 |
+| data/constant change | 5 |
 | jmp detour | 4 |
+| data-pointer swap (-> PD2 data) | 4 |
+| instruction rewrite (4 bytes) | 3 |
 | NOP fill (block) | 3 |
-| instruction rewrite (4 bytes) | 2 |
 | added strings (on-disk) | 1 |
 | import DLL rename (on-disk) | 1 |
 | data block replace | 1 |
 | window subclass (SetWindowLongW GWL_WNDPROC) | 1 |
+| rel32 operand (68) | 1 |
 
 ## D2Win.dll / Storm.dll on-disk verdict
 

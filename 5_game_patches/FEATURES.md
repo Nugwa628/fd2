@@ -6,36 +6,38 @@ Hooks (see `HOOKS.md`) grouped by feature. The assignment is rule-based (`tools/
 
 | Feature | hooks | records | modules |
 |---|---:|---:|---|
-| [loader](#loader) | 6 | 25 | Game.exe 3, Fog.dll 1, D2Win.dll 1, Storm.dll 1 |
-| [save files](#save-files) | 147 | 147 | D2Game.dll 144, D2Client.dll 3 |
+| [loader](#loader) | 10 | 29 | Fog.dll 5, Game.exe 3, D2Win.dll 1, Storm.dll 1 |
+| [save files](#save-files) | 153 | 153 | D2Game.dll 150, D2Client.dll 3 |
 | [stash/shared stash](#stashshared-stash) | 1 | 1 | D2Common.dll 1 |
-| [loot filter](#loot-filter) | 14 | 14 | D2Client.dll 14 |
-| [maps/map generation](#mapsmap-generation) | 41 | 52 | D2Common.dll 31, D2Game.dll 10 |
-| [skills](#skills) | 198 | 396 | D2Game.dll 136, D2Client.dll 62 |
-| [items/crafting/cube](#itemscraftingcube) | 171 | 201 | D2Game.dll 134, D2Common.dll 21, D2Client.dll 16 |
-| [UI/HUD/panels](#uihudpanels) | 98 | 119 | D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1 |
-| [sound](#sound) | 267 | 271 | D2Client.dll 267 |
-| [networking/packets](#networkingpackets) | 70 | 130 | D2Game.dll 60, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 1 |
-| [monsters/AI/combat](#monstersaicombat) | 131 | 167 | D2Game.dll 111, D2Client.dll 20 |
-| [quests](#quests) | 39 | 45 | D2Game.dll 39 |
-| [controller](#controller) | 1 | 1 | D2Client.dll 1 |
-| [misc](#misc) | 61 | 67 | D2Game.dll 40, D2Client.dll 11, D2Common.dll 9, D2Lang.dll 1 |
+| [loot filter](#loot-filter) | 25 | 25 | D2Client.dll 24, D2Multi.dll 1 |
+| [maps/map generation](#mapsmap-generation) | 124 | 150 | D2Common.dll 82, D2Game.dll 21, D2Client.dll 8, D2Multi.dll 6, D2sound.dll 6, D2Launch.dll 1 |
+| [skills](#skills) | 429 | 647 | D2Game.dll 263, D2Client.dll 149, D2Common.dll 17 |
+| [items/crafting/cube](#itemscraftingcube) | 299 | 330 | D2Game.dll 189, D2Common.dll 90, D2Client.dll 20 |
+| [UI/HUD/panels](#uihudpanels) | 328 | 374 | D2Client.dll 232, D2Multi.dll 44, D2Launch.dll 37, D2Win.dll 9, Bnclient.dll 2, D2gfx.dll 2, D2Game.dll 1, D2gfx.dll (game window) 1 |
+| [sound](#sound) | 274 | 278 | D2Client.dll 272, D2Game.dll 1, Bnclient.dll 1 |
+| [networking/packets](#networkingpackets) | 81 | 141 | D2Game.dll 70, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 2 |
+| [monsters/AI/combat](#monstersaicombat) | 223 | 266 | D2Game.dll 192, D2Client.dll 31 |
+| [quests](#quests) | 41 | 47 | D2Game.dll 41 |
+| [controller](#controller) | 33 | 33 | D2Client.dll 33 |
+| [misc](#misc) | 135 | 150 | D2Game.dll 48, D2Client.dll 40, D2Common.dll 38, D2sound.dll 8, D2Lang.dll 1 |
 
 ## loader
 
 How PD2 gets into the process: Storm.dll's renamed import loads PD2_EXT.dll (a version.dll proxy), PD2_EXT patches Game.exe and Fog.dll so the install path is the parent folder (where the vanilla MPQs live) and loads ProjectDiablo.dll after the MPQs open; D2Win.dll was edited on disk so its MPQ names point one folder up and D2Win_10086 loads ProjectDiablo.dll itself.
 
-**6 hooks** (Game.exe 3, Fog.dll 1, D2Win.dll 1, Storm.dll 1); kinds: call redirect 3, NOP fill 1, added strings (on-disk) 1, import DLL rename (on-disk) 1.
+**10 hooks** (Fog.dll 5, Game.exe 3, D2Win.dll 1, Storm.dll 1); kinds: call redirect 7, NOP fill 1, added strings (on-disk) 1, import DLL rename (on-disk) 1.
 
-Handlers (3 distinct; most used first):
+Handlers (5 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `sub_10239850` | 0x10239850 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 2 |
+| `sub_102399c0` | 0x102399c0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 2 |
 | `dllmain_LoadProjectDiablo_10001000` | 0x10001000 | `PD2_EXT: dllmain.cpp` | 1 |
 | `dllmain_FogInstallPath_10001050` | 0x10001050 | `PD2_EXT: dllmain.cpp` | 1 |
 | `dllmain_InstallGamePatches_10001080` | 0x10001080 | `PD2_EXT: dllmain.cpp` | 1 |
 
-Game files patched: Game `_unattributed/code.cpp` (3), Fog `Src/_unattributed/between_Src_D2QSQueue_and_Src_LogManager.cpp` (1), D2Win `Src/_unattributed/between_Src_D2WinTextBox_and_Src_D2WinArchive.cpp` (1).
+Game files patched: Fog `Src/_unattributed/between_Src_D2QSQueue_and_Src_LogManager.cpp` (5), Game `_unattributed/code.cpp` (3), D2Win `Src/_unattributed/between_Src_D2WinTextBox_and_Src_D2WinArchive.cpp` (1).
 
 <details><summary>Hooks</summary>
 
@@ -47,6 +49,10 @@ Game files patched: Game `_unattributed/code.cpp` (3), Fog `Src/_unattributed/be
 | E-0004 | Game.exe | 0x82dd | sub_00408250+0x8d | call redirect | dllmain_InstallGamePatches_10001080 | rules: ^src:(PD2_EXT\|on-disk)$(20), ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
 | D-D2Wi | D2Win.dll | 0xa48b | D2Win_10165+0x1b | added strings (on-disk) + code cave (on-disk) + jmp detour (E9, on-disk) + string operand redirect (on-disk) | "..\\d2char.mpq" (.rdata padding) | rules: ^src:(PD2_EXT\|on-disk)$(60), [gt]func:D2Win_10086\|[gt]func:D2Win_1000(24) |
 | D-Stor | Storm.dll | 0x4e63a | (import directory, name of descriptor for GetFile… | import DLL rename (on-disk) | PD2_EXT.dll | rules: ^src:(PD2_EXT\|on-disk)$(20), ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
+| M-1409 | Fog.dll | 0x17e75 | Fog_10116+0x15 | call redirect | sub_10239850 | rules: ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
+| M-1410 | Fog.dll | 0x17f75 | Fog_10115+0x15 | call redirect | sub_10239850 | rules: ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
+| M-1461 | Fog.dll | 0x17ec2 | Fog_10116+0x62 | call redirect | sub_102399c0 | rules: ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
+| M-1462 | Fog.dll | 0x17fb8 | Fog_10115+0x58 | call redirect | sub_102399c0 | rules: ^module:(Game\.exe\|Fog\.dll\|Storm\.dll)$(6) |
 
 </details>
 
@@ -67,9 +73,9 @@ No hook was assigned to this feature.
 
 Character save (.d2s) read/write in D2Game: PD2 widens the save buffers (0x2000 -> 0x20000 bytes), replaces the save/load paths with SaveFunctions.cpp code (S12 save columns of itemstatcost: 'Save Bits S12' etc.), and adds its own data to the file.
 
-**147 hooks** (D2Game.dll 144, D2Client.dll 3); kinds: constant change (imm32/disp32) 116, call redirect 31.
+**153 hooks** (D2Game.dll 150, D2Client.dll 3); kinds: constant change (imm32/disp32) 118, call redirect 34, opcode byte change 1.
 
-Handlers (21 distinct; most used first):
+Handlers (24 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -94,8 +100,11 @@ Handlers (21 distinct; most used first):
 | `sub_Hook_GAME_Game_6fc4d500_102ecee0` | 0x102ecee0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_sub_6fc74320_102ecef0` | 0x102ecef0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `functions_SaveFunctions_Hook_sub_6faf4230_102eb580` | 0x102eb580 | `functions/SaveFunctions.cpp` | 1 |
+| `functions_D2CommonFunctions_102694f0` | 0x102694f0 | `functions/D2CommonFunctions.cpp` | 1 |
+| `functions_D2NewFunctions_102ca430` | 0x102ca430 | `functions/D2NewFunctions.cpp` | 1 |
+| `functions_D2NewFunctions_102c85a0` | 0x102c85a0 | `functions/D2NewFunctions.cpp` | 1 |
 
-Game files patched: D2Game `_unattributed/between_GAME_Task_and_PLAYER_PlrSave.cpp` (58), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (26), D2Game `_unattributed/between_PLAYER_PlrSave2_and_Quests_a2q8.cpp` (24), D2Game `_unattributed/between_PLAYER_PlrSave_and_Quests_a5q1.cpp` (20), D2Game `GAME/Game.cpp` (5), D2Game `PLAYER/PlrTrade.cpp` (3), D2Game `GAME/Clients.cpp` (2), D2Game `PLAYER/PlrSave.cpp` (2), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (2), D2Game `_unattributed/between_Quests_a3q6_and_PLAYER_PlrSave2.cpp` (1), D2Game `UNIT/SUnitDmg.cpp` (1), D2Game `GAME/CCmd.cpp` (1).
+Game files patched: D2Game `_unattributed/between_GAME_Task_and_PLAYER_PlrSave.cpp` (58), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (26), D2Game `_unattributed/between_PLAYER_PlrSave2_and_Quests_a2q8.cpp` (25), D2Game `_unattributed/between_PLAYER_PlrSave_and_Quests_a5q1.cpp` (20), D2Game `GAME/Game.cpp` (5), D2Game `_unattributed/between_Quests_a3q6_and_PLAYER_PlrSave2.cpp` (3), D2Game `PLAYER/PlrTrade.cpp` (3), D2Game `GAME/Clients.cpp` (2), D2Game `PLAYER/PlrSave.cpp` (2), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (2), D2Game `PLAYER/PlrSave2.cpp` (2), D2Game `UNIT/SUnitDmg.cpp` (1).
 
 <details><summary>Hooks</summary>
 
@@ -247,7 +256,13 @@ Game files patched: D2Game `_unattributed/between_GAME_Task_and_PLAYER_PlrSave.c
 | C-0008 | D2Game.dll | 0x2dea8 | GAME_Game_6fc4de30+0x78 | call redirect | sub_Hook_D2Game_10006_102ecf10 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(12) |
 | C-0009 | D2Client.dll | 0x43979 | sub_6faf3920+0x59 | call redirect | sub_Hook_sub_6faf3920_102ecf30 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(12) |
 | C-0010 | D2Client.dll | 0xad484 | sub_6fb5d450+0x34 | call redirect | sub_Hook_sub_6faf3920_102ecf30 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(12) |
-| C-0011 | D2Client.dll | 0x4449f | sub_6faf4486+0x19 | call redirect | functions_SaveFunctions_Hook_sub_6faf4230_102eb580 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(12) |
+| C-0011 | D2Client.dll | 0x4449f | sub_6faf43d0+0xcf | call redirect | functions_SaveFunctions_Hook_sub_6faf4230_102eb580 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(12) |
+| M-1215 | D2Game.dll | 0xec767 | PLAYER_PlrSave2_6fd0c470+0x2f7 | call redirect | functions_D2CommonFunctions_102694f0 | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-1514 | D2Game.dll | 0xeaa30 | sub_6fd0aa30 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-1528 | D2Game.dll | 0x95f9d | sub_6fcb5d50+0x24d | call redirect | functions_D2NewFunctions_102ca430 | rules: pd2file:functions/SaveFunctions\.cpp\|pd2(8) |
+| M-1750 | D2Game.dll | 0xeb986 | sub_6fd0b910+0x76 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-1751 | D2Game.dll | 0xebf39 | PLAYER_PlrSave2_6fd0be70+0xc9 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6) |
+| M-1965 | D2Game.dll | 0xed3dd | sub_6fd0d250+0x18d | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:[A-Za-z]+/PlrSave\|[gt]file:.*Pl(6), between_[A-Za-z_]*PlrSave(4) |
 
 </details>
 
@@ -277,12 +292,13 @@ Data tables: `inventory.txt` (2 rows added, 2 removed, 22 changed, 0 kept rows a
 
 Item display on the ground/in tooltips: BH.dll's Item module (PD2's loot filter) hooks D2Client item-name drawing; ProjectDiablo exposes the filter to BH (BHOnPropertyBuild etc.).
 
-**14 hooks** (D2Client.dll 14); kinds: call redirect 13, NOP fill 1.
+**25 hooks** (D2Client.dll 24, D2Multi.dll 1); kinds: call redirect 24, NOP fill 1.
 
-Handlers (13 distinct; most used first):
+Handlers (15 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `functions_D2CommonFunctions_10267e40` | 0x10267e40 | `functions/D2CommonFunctions.cpp` | 10 |
 | `functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010` | 0x10267010 | `functions/D2CommonFunctions.cpp` | 2 |
 | `ItemName_Interception` | 0x1009a3f0 | `BH: BH/Modules/Item/Item.cpp:109` | 1 |
 | `ViewInventoryPatch1_ASM` | 0x1009a410 | `BH: BH/Modules/Item/Item.cpp:113` | 1 |
@@ -296,8 +312,9 @@ Handlers (13 distinct; most used first):
 | `D2CLIENT_ItemPacketBuildAction2_DropToGround_INTERCEPT_STUB` | 0x10079c60 | `BH: BH/Modules/Item/Item.cpp:128` | 1 |
 | `GetItemFromPacket_OldGround` | 0x10095e80 | `BH: BH/Modules/Item/Item.cpp:129` | 1 |
 | `D2CLIENT_ItemPacketBuildAction4_PutInContainer_INTERCEPT_STUB` | 0x10079c80 | `BH: BH/Modules/Item/Item.cpp:130` | 1 |
+| `functions_D2NewFunctions_102ca910` | 0x102ca910 | `functions/D2NewFunctions.cpp` | 1 |
 
-Game files patched: D2Client `UI/inv.cpp` (4), D2Client `_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` (4), D2Client `UNIT/Item.cpp` (3), D2Client `UI/showitems.cpp` (2), D2Client `UNIT/CUnit.cpp` (1).
+Game files patched: D2Client `UNIT/Item.cpp` (13), D2Client `UI/inv.cpp` (4), D2Client `_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` (4), D2Client `UI/showitems.cpp` (2), D2Client `UNIT/CUnit.cpp` (1), D2Multi `_unattributed/code_6f9dc510.cpp` (1).
 
 <details><summary>Hooks</summary>
 
@@ -307,7 +324,7 @@ Game files patched: D2Client `UI/inv.cpp` (4), D2Client `_unattributed/between_G
 | M-0459 | D2Client.dll | 0x83698 | UNIT_Item_6fb335c0+0xd8 | call redirect | functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
 | H-0023 | D2Client.dll | 0x92366 | UI_inv_6fb414f0+0xe76 | call redirect | ItemName_Interception | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0024 | D2Client.dll | 0x953e2 | UI_inv_6fb453b0+0x32 | call redirect | ViewInventoryPatch1_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
-| H-0025 | D2Client.dll | 0x94ab4 | sub_6fb44aa4+0x10 | call redirect | ViewInventoryPatch2_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
+| H-0025 | D2Client.dll | 0x94ab4 | sub_6fb44aa0+0x14 | call redirect | ViewInventoryPatch2_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0026 | D2Client.dll | 0x93a6f | UI_inv_6fb43450+0x61f | call redirect | ViewInventoryPatch3_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0029 | D2Client.dll | 0x59483 | UI_showitems_6fb08fb0+0x4d3 | call redirect | PermShowItemsPatch2_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0030 | D2Client.dll | 0x5908a | UI_showitems_6fb08fb0+0xda | call redirect | PermShowItemsPatch3_ASM | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
@@ -317,6 +334,17 @@ Game files patched: D2Client `UI/inv.cpp` (4), D2Client `_unattributed/between_G
 | H-0034 | D2Client.dll | 0xae0f8 | sub_6fb5e080+0x78 | call redirect | D2CLIENT_ItemPacketBuildAction2_DropToGround_INTERCEPT_STUB | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0035 | D2Client.dll | 0xae108 | sub_6fb5e080+0x88 | call redirect | GetItemFromPacket_OldGround | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
 | H-0036 | D2Client.dll | 0xae117 | sub_6fb5e080+0x97 | call redirect | D2CLIENT_ItemPacketBuildAction4_PutInContainer_INTERCEPT_ST… | rules: ^src:BH$(0.5), BH: BH/Modules/Item/(5) |
+| M-1187 | D2Client.dll | 0x82729 | UNIT_Item_6fb32660+0xc9 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1188 | D2Client.dll | 0x83e03 | UNIT_Item_6fb33d00+0x103 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1189 | D2Client.dll | 0x84013 | UNIT_Item_6fb33ec0+0x153 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1190 | D2Client.dll | 0x84193 | UNIT_Item_6fb34080+0x113 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1191 | D2Client.dll | 0x842b4 | UNIT_Item_6fb34080+0x234 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1192 | D2Client.dll | 0x845cb | UNIT_Item_6fb344f0+0xdb | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1193 | D2Client.dll | 0x847ea | UNIT_Item_6fb34750+0x9a | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1194 | D2Client.dll | 0x85038 | UNIT_Item_6fb34f00+0x138 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1195 | D2Client.dll | 0x855c0 | UNIT_Item_6fb354e0+0xe0 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1196 | D2Client.dll | 0x8575f | UNIT_Item_6fb35710+0x4f | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UNIT/Item\.cpp\|[gt]file:.*betwe(2) |
+| M-1545 | D2Multi.dll | 0x14c1e | sub_6f9e4bc0+0x5e | call redirect | functions_D2NewFunctions_102ca910 | rules: str:.*(filter\|Filter\|loot\|Loot)\|BHOnProp(12) |
 
 </details>
 
@@ -326,17 +354,26 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/auto_equip`, `/pd2_game_
 
 Endgame maps and level generation: DRLG/level-table hooks in D2Common/D2Game, map item stats (map_* in itemstatcost), corrupted zones (pGame->nCorruptedZone).
 
-**41 hooks** (D2Common.dll 31, D2Game.dll 10); kinds: call redirect 30, call hook (E8 written) 4, function-pointer swap (table) 4, code-pointer operand (imm32 -> PD2 function) 1, data/constant change 1, NOP fill (block) 1.
+**124 hooks** (D2Common.dll 82, D2Game.dll 21, D2Client.dll 8, D2Multi.dll 6, D2sound.dll 6, D2Launch.dll 1); kinds: call redirect 81, instruction rewrite (2 bytes) 15, constant change (imm32/disp32) 7, data-pointer operand (imm32 -> PD2 data) 6, call hook (E8 written) 4, function-pointer swap (table) 4, data-pointer swap (-> PD2 data) 4, code-pointer operand (imm32 -> PD2 function) 1, NOP fill (block) 1, opcode byte change 1.
 
-Handlers (16 distinct; most used first):
+Handlers (34 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `sub_10239a70` | 0x10239a70 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 20 |
 | `sub_Hook_sub_6fdbabe0_102edd50` | 0x102edd50 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 19 |
+| `sub_102f5b50` | 0x102f5b50 | `_unattributed/after_functions_SaveFunctions_unit56.cpp` | 11 |
+| `sub_102ef8b0+0x10` | 0x102ef8c0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 7 |
+| `DAT_104dbb44` | 0x104dbb44 | `` | 3 |
+| `sub_102ef400+0x20` | 0x102ef420 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 3 |
 | `functions_D2CommonFunctions_Hook_D2Common_10803_102680c0` | 0x102680c0 | `functions/D2CommonFunctions.cpp` | 2 |
 | `sub_Hook_D2Common_10413_102eebe0` | 0x102eebe0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `sub_Hook_GAME_Game_6fc4bb10_102f06b0` | 0x102f06b0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
 | `sub_Hook_sub_6fc4e8b0_102edb30` | 0x102edb30 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `DAT_104dbb40` | 0x104dbb40 | `` | 2 |
+| `sub_102eeac0+0x20` | 0x102eeae0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `functions_D2CommonFunctions_10269230+0x80` | 0x102692b0 | `functions/D2CommonFunctions.cpp` | 2 |
+| `sub_102edd60+0x30` | 0x102edd90 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `sub_Hook_sub_6fcb34a0_1026ffe0` | 0x1026ffe0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 1 |
 | `sub_Hook_D2Common_11104_102eef60` | 0x102eef60 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102ed040` | 0x102ed040 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
@@ -348,8 +385,9 @@ Handlers (16 distinct; most used first):
 | `functions_D2CommonFunctions_Hook_D2Common_10454_10267860` | 0x10267860 | `functions/D2CommonFunctions.cpp` | 1 |
 | `functions_D2CommonFunctions_Hook_MISSILES_Missiles_6fc8f620_1026b090` | 0x1026b090 | `functions/D2CommonFunctions.cpp` | 1 |
 | `sub_Hook_D2Common_10459_102ed840` | 0x102ed840 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
+| … 9 more (patches.csv) | | | |
 
-Game files patched: D2Common `_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp` (21), D2Common `_unattributed/between_DRLG_DrlgRoom_and_Logging_ProfCore.cpp` (3), D2Game `GAME/Game.cpp` (3), D2Common `_unattributed/between_Chat_Chat_and_DRLG_DrlgVer.cpp` (2), D2Game `PLAYER/PlrMsg.cpp` (2), D2Common `DRLG/Preset.cpp` (2), D2Game `_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp` (1), D2Game `UNIT/SUnitDmg.cpp` (1), D2Game `PLAYER/PlrModes.cpp` (1), D2Game `Quests/a3q3.cpp` (1), D2Common `Chat/Chat.cpp` (1), D2Game `MISSILES/Missiles.cpp` (1).
+Game files patched: D2Common `_unattributed/between_UNITS_Missile_and_DATATBLS_LvlTbls.cpp` (26), D2Common `DRLG/Preset.cpp` (16), D2Common `_unattributed/between_DRLG_DrlgRoom_and_Logging_ProfCore.cpp` (13), D2Common `DATATBLS/LvlTbls.cpp` (7), D2Common `_unattributed/between_DRLG_Drlg_and_UNITS_Units.cpp` (7), D2Game `Quests/a3q6.cpp` (6), D2Multi `_unattributed/code_6f9dc510.cpp` (6), D2sound `_unattributed/code.cpp` (6), D2Client `UI/automap.cpp` (5), D2Common `PATH/Path.cpp` (4), D2Game `GAME/Game.cpp` (3), D2Game `Quests/a2q6.cpp` (3).
 
 <details><summary>Hooks</summary>
 
@@ -393,9 +431,92 @@ Game files patched: D2Common `_unattributed/between_UNITS_Missile_and_DATATBLS_L
 | M-1083 | D2Common.dll | 0x2d2c9 | D2Common_10459+0x9 | call hook (E8 written) + operand byte change | sub_Hook_D2Common_10459_102ed840 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
 | M-1090 | D2Common.dll | 0xc59c | DRLG_Preset_6fd5c060+0x53c | call hook (E8 written) + operand byte change | sub_Hook_sub_6fc4e8b0_102edb30 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
 | M-1091 | D2Common.dll | 0x19fea | sub_6fd69fa0+0x4a | call hook (E8 written) | sub_Hook_sub_6fc4e8b0_102edb30 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
-| M-1096 | D2Common.dll | 0x9e4e4 | DAT_6fdee2cc+0x218 | data/constant change |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1096 | D2Common.dll | 0x9e4e4 | DAT_6fdee2cc+0x218 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
 | B-0047 | D2Common.dll | 0x82cb5 | sub_6fdd20a0+0xc15 | NOP fill (block) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
 | I-0017 | D2Common.dll | 0x9b12c | DAT_6fdeb0c8+0x64 | function-pointer swap (table) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8), game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps… |
+| M-1097 | D2Common.dll | 0x9e4e8 | DAT_6fdee2cc+0x21c | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1098 | D2Common.dll | 0x9e4ec | DAT_6fdee2cc+0x220 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1099 | D2Common.dll | 0x9e4f0 | DAT_6fdee2cc+0x224 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1100 | D2Common.dll | 0x9e4f4 | DAT_6fdee2cc+0x228 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1101 | D2Common.dll | 0x9e4f8 | DAT_6fdee2cc+0x22c | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1102 | D2Common.dll | 0x9e4fc | DAT_6fdee2cc+0x230 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1103 | D2Common.dll | 0x9e500 | DAT_6fdee2cc+0x234 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1104 | D2Common.dll | 0x9e504 | DAT_6fdee2cc+0x238 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1105 | D2Common.dll | 0x9e508 | DAT_6fdee2cc+0x23c | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1106 | D2Common.dll | 0x9e50c | DAT_6fdee2cc+0x240 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1107 | D2Common.dll | 0x9e510 | DAT_6fdee2cc+0x244 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1108 | D2Common.dll | 0x9e514 | DAT_6fdee2cc+0x248 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1109 | D2Common.dll | 0x9e518 | DAT_6fdee2cc+0x24c | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1110 | D2Common.dll | 0x9e51c | DAT_6fdee2cc+0x250 | instruction rewrite (2 bytes) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1216 | D2Common.dll | 0x6cef4 | DATATBLS_LvlTbls_6fdbccf0+0x204 | call redirect | sub_Hook_sub_6fcdffa0_102ede80+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1217 | D2Common.dll | 0x6cff3 | DATATBLS_LvlTbls_6fdbccf0+0x303 | data-pointer operand (imm32 -> PD2 data) | DAT_104dbb40 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1218 | D2Common.dll | 0x6fad4 | D2Common_10148+0x14 | data-pointer operand (imm32 -> PD2 data) | DAT_104dbb40 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1219 | D2Common.dll | 0x6cfb0 | DATATBLS_LvlTbls_6fdbccf0+0x2c0 | data-pointer operand (imm32 -> PD2 data) | DAT_104dbb44 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1220 | D2Common.dll | 0x6d013 | DATATBLS_LvlTbls_6fdbccf0+0x323 | data-pointer operand (imm32 -> PD2 data) | DAT_104dbb44 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1221 | D2Common.dll | 0x6fadf | D2Common_10148+0x1f | data-pointer operand (imm32 -> PD2 data) | DAT_104dbb44 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1222 | D2Common.dll | 0x6cfd1 | DATATBLS_LvlTbls_6fdbccf0+0x2e1 | data-pointer operand (imm32 -> PD2 data) | DAT_104dbf3c | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1275 | D2Game.dll | 0xc783a | sub_6fce773e+0xfc | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1276 | D2Game.dll | 0xc7a7f | sub_6fce78e5+0x19a | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1277 | D2Game.dll | 0xca0f0 | sub_6fcea050+0xa0 | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1278 | D2Game.dll | 0xca21a | sub_6fcea170+0xaa | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1279 | D2Game.dll | 0xca325 | sub_6fcea290+0x95 | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1280 | D2Game.dll | 0xea447 | sub_6fd0a390+0xb7 | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1281 | D2Game.dll | 0xea4ac | sub_6fd0a390+0x11c | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1282 | D2Game.dll | 0xea577 | sub_6fd0a4c0+0xb7 | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1283 | D2Game.dll | 0xea5dc | sub_6fd0a4c0+0x11c | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1284 | D2Game.dll | 0xea6a7 | sub_6fd0a5f0+0xb7 | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1285 | D2Game.dll | 0xea70c | sub_6fd0a5f0+0x11c | call redirect | sub_102f5b50 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(4) |
+| M-1307 | D2Common.dll | 0x8605b | sub_6fdd6040+0x1b | call redirect | sub_102ed970+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1323 | D2Common.dll | 0x6bbcf | D2Common_10413+0x12f | call redirect | sub_102eeac0+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1324 | D2Common.dll | 0x6bbe2 | D2Common_10413+0x142 | call redirect | sub_102eeac0+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1337 | D2Common.dll | 0x11f30 | sub_6fd61bf0+0x340 | call redirect | functions_D2CommonFunctions_10269340 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12), game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]ap… |
+| M-1354 | D2Common.dll | 0xe0d5 | sub_6fd5df30+0x1a5 | opcode byte change |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1369 | D2Common.dll | 0x4704b | sub_6fd97020+0x2b | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1370 | D2Common.dll | 0x470b3 | sub_6fd97020+0x93 | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1379 | D2Common.dll | 0x47054 | sub_6fd97020+0x34 | call redirect | sub_102ef400+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1380 | D2Common.dll | 0x470bc | sub_6fd97020+0x9c | call redirect | sub_102ef400+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1381 | D2Common.dll | 0x4716d | D2Common_10803+0x4d | call redirect | sub_102ef400+0x20 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1446 | D2Client.dll | 0x8995b | WARDEN_WardenClient_6fb39830+0x12b | call redirect | sub_102399c0 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1463 | D2Client.dll | 0x2816f | sub_6fad804c+0x123 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1464 | D2Client.dll | 0x281cb | sub_6fad804c+0x17f | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1471 | D2Client.dll | 0x5f8ae | sub_6fb0f8a0+0xe | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1472 | D2Client.dll | 0x5f8de | sub_6fb0f8d0+0xe | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1473 | D2Client.dll | 0x5f90e | sub_6fb0f900+0xe | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1474 | D2Client.dll | 0x5f94e | sub_6fb0f940+0xe | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1475 | D2Client.dll | 0x5f9ac | UI_automap_6fb0f970+0x3c | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1490 | D2Launch.dll | 0xef64 | sub_6fa4ee10+0x154 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1491 | D2Multi.dll | 0x11d56 | sub_6f9e1d20+0x36 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1492 | D2Multi.dll | 0x1457a | sub_6f9e42c0+0x2ba | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1493 | D2Multi.dll | 0x14592 | sub_6f9e42c0+0x2d2 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1494 | D2Multi.dll | 0x145dc | sub_6f9e42c0+0x31c | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1495 | D2Multi.dll | 0x146b4 | sub_6f9e4680+0x34 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1496 | D2Multi.dll | 0x15177 | sub_6f9e4bc0+0x5b7 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1497 | D2sound.dll | 0x9a21 | D2sound_10013+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1498 | D2sound.dll | 0x9a51 | D2sound_10040+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1499 | D2sound.dll | 0x9a81 | D2sound_10022+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1500 | D2sound.dll | 0x9ab1 | D2sound_10004+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1501 | D2sound.dll | 0x9ae1 | D2sound_10029+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1502 | D2sound.dll | 0x9b11 | D2sound_10066+0x11 | call redirect | sub_10239a70 | rules: game:.*DRLG\|str:.*([Mm]ap[ _]\|[Mm]aps\|[C(6) |
+| M-1616 | D2Common.dll | 0x327e0 | D2Common_10797+0x70 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1617 | D2Common.dll | 0x2e905 | D2Common_10577+0x5 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1618 | D2Common.dll | 0x2e925 | D2Common_10034+0x5 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1619 | D2Common.dll | 0x2e945 | D2Common_10421+0x5 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1620 | D2Common.dll | 0x3282c | D2Common_10099+0xc | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1621 | D2Common.dll | 0x32840 | D2Common_10099+0x20 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1622 | D2Common.dll | 0x32862 | D2Common_10099+0x42 | call redirect | sub_102ef8b0+0x10 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1623 | D2Common.dll | 0x9cf44 | DAT_6fdecf40+0x4 | data-pointer swap (-> PD2 data) | DAT_103c6238 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1624 | D2Common.dll | 0x9cf58 | DAT_6fdecf40+0x18 | data-pointer swap (-> PD2 data) | DAT_103c6430 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1625 | D2Common.dll | 0x9cf88 | DAT_6fdecf40+0x48 | data-pointer swap (-> PD2 data) | DAT_103c6388 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1626 | D2Common.dll | 0x9cf9c | DAT_6fdecf40+0x5c | data-pointer swap (-> PD2 data) | DAT_103c62e0 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1647 | D2Common.dll | 0x17ba | sub_6fd517a0+0x1a | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(4) |
+| M-1715 | D2Common.dll | 0x4669f | D2Common_10699+0x9f | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1716 | D2Common.dll | 0x4718e | D2Common_10803+0x6e | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1717 | D2Common.dll | 0x47311 | sub_6fd9730c+0x5 | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1718 | D2Common.dll | 0x47383 | sub_6fd97350+0x33 | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1719 | D2Common.dll | 0x47618 | sub_6fd975e0+0x38 | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1731 | D2Common.dll | 0x6ab6f | sub_6fdbab20+0x4f | constant change (imm32/disp32) |  | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(8) |
+| M-1732 | D2Common.dll | 0x6c176 | D2Common_10413+0x6d6 | call redirect | sub_102edd60+0x30 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
+| M-1733 | D2Common.dll | 0x6c1a3 | D2Common_10413+0x703 | call redirect | sub_102edd60+0x30 | rules: [gt]file:DRLG/\|between_DRLG\|[gt]file:.*D(12) |
 
 </details>
 
@@ -407,14 +528,22 @@ Config keys (`ProjectDiablo.json`): `/classic_game_settings/map/automapfade`, `/
 
 Skill behaviour on server (D2Game SKILLS/*) and client (D2Client SKILLS/*, skill bar, descriptions): new skill functions in the game's skill function tables (srvdofunc/cltdofunc, filled by the init-time table writes), changed skill calculations, buff timers / quick cast / skill bar UI.
 
-**198 hooks** (D2Game.dll 136, D2Client.dll 62); kinds: call redirect 126, operand byte change 16, function-pointer swap (table) 15, NOP fill 11, opcode byte change 8, block replace 7, call hook (E8 written) 5, jmp target redirect (E9) 3, code-pointer operand (imm32 -> PD2 function) 3, operand/immediate byte change (block) 1, NOP fill (block) 1, data/constant change 1, jmp detour 1.
+**429 hooks** (D2Game.dll 263, D2Client.dll 149, D2Common.dll 17); kinds: call redirect 299, operand byte change 24, constant change (imm32/disp32) 20, function-pointer swap (table) 18, NOP fill 15, call hook (E8 written) 12, block replace 7, opcode byte change 6, data-pointer operand (imm32 -> PD2 data) 6, data byte change 5, instruction rewrite (2 bytes) 5, jmp target redirect (E9) 4, code-pointer operand (imm32 -> PD2 function) 4, operand/immediate byte change (block) 1, NOP fill (block) 1, data/constant change 1, jmp detour 1.
 
-Handlers (65 distinct; most used first):
+Handlers (120 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190` | 0x102c8190 | `functions/D2NewFunctions.cpp` | 26 |
+| `sub_Hook_sub_6fd01430_102eed90+0x10` | 0x102eeda0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 24 |
 | `sub_Hook_sub_6fc5ae10_102ed340` | 0x102ed340 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 17 |
+| `sub_102f0400+0x20` | 0x102f0420 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 14 |
 | `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 13 |
+| `functions_D2NewFunctions_102ca430` | 0x102ca430 | `functions/D2NewFunctions.cpp` | 13 |
+| `sub_10270ff0` | 0x10270ff0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 13 |
+| `sub_102f0ff0+0x20` | 0x102f1010 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 12 |
+| `sub_102f0400+0x10` | 0x102f0410 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 11 |
+| `sub_1025a0e0` | 0x1025a0e0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 9 |
 | `sub_Hook_GAME_Clients_6fc6b500_102ed4e0` | 0x102ed4e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 8 |
 | `sub_Hook_sub_6fc5b070_102f0d30` | 0x102f0d30 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 7 |
 | `sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0` | 0x102ecbf0 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 7 |
@@ -422,25 +551,17 @@ Handlers (65 distinct; most used first):
 | `sub_Hook_sub_6fc5a790_102f0d00` | 0x102f0d00 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 6 |
 | `sub_Hook_sub_6faf2c70_102eded0` | 0x102eded0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
 | `sub_Hook_SKILLS_Skills_6fcc0830_102ed560` | 0x102ed560 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 4 |
+| `sub_10239910` | 0x10239910 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 4 |
 | `sub_Hook_SKILLS_SkillNec_6fc70250_102ecc00` | 0x102ecc00 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 3 |
 | `functions_D2CommonFunctions_Hook_sub_6fb26b20_102678f0` | 0x102678f0 | `functions/D2CommonFunctions.cpp` | 3 |
+| `functions_D2CommonFunctions_10269230+0x80` | 0x102692b0 | `functions/D2CommonFunctions.cpp` | 3 |
+| `functions_D2NewFunctions_102cb7f0` | 0x102cb7f0 | `functions/D2NewFunctions.cpp` | 3 |
+| `functions_D2NewFunctions_102c85a0` | 0x102c85a0 | `functions/D2NewFunctions.cpp` | 3 |
 | `sub_Hook_sub_6fcb2bb0_102f0f90` | 0x102f0f90 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
 | `D2Common_10678 (PD2 lazy thunk -> D2Common.dll ordinal 10678)` | 0x10277200 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_10275e40.…` | 2 |
-| `functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0` | 0x10267cb0 | `functions/D2CommonFunctions.cpp` | 2 |
-| `sub_Hook_sub_6fc49600_102f1040` | 0x102f1040 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
-| `sub_Hook_sub_6fc49600_102ef590` | 0x102ef590 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
-| `sub_Hook_sub_6fadc2d0_102728b0` | 0x102728b0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 2 |
-| `sub_Hook_sub_6fb739e0_10227d70` | 0x10227d70 | `_unattributed/between_client_DrawHoverItem_and_functions_D2ClientFunctions_unit05.cpp` | 2 |
-| `sub_Ptr_D2Client_6fb8bdf0_1021b560` | 0x1021b560 | `_unattributed/before_client_DrawHoverItem_unit02.cpp` | 2 |
-| `PermShowItemsPatch1_ASM` | 0x1009a4f0 | `BH: BH/Modules/Item/Item.cpp:119` | 2 |
-| `sub_Hook_sub_6fc48be0_102edb10` | 0x102edb10 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_SKILLS_SkillBar_6fc48290_102ee470` | 0x102ee470 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_SKILLS_SkillsBar_6fb77370_102ee490` | 0x102ee490 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_sub_6fc48be0_102f04d0` | 0x102f04d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
-| `sub_Hook_sub_6fc5da60_102ed380` | 0x102ed380 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| … 40 more (patches.csv) | | | |
+| … 95 more (patches.csv) | | | |
 
-Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp` (45), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (21), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (18), D2Game `_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp` (13), D2Game `SKILLS/SkillNec.cpp` (11), D2Game `SKILLS/Skills.cpp` (10), D2Game `_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp` (7), D2Client `_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp` (6), D2Game `_unattributed/between_SKILLS_SkillBar_and_GAME_Game.cpp` (5), D2Game `_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp` (5), D2Game `_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp` (5), D2Game `_unattributed/between_UNIT_Party_and_SKILLS_Skills.cpp` (5).
+Game files patched: D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (68), D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp` (64), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (40), D2Common `SKILLS/Skills.cpp` (17), D2Game `SKILLS/Skills.cpp` (16), D2Game `SKILLS/SkillNec.cpp` (16), D2Game `_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp` (15), D2Game `_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp` (14), D2Game `_unattributed/between_SKILLS_SkillItem_and_MONSTER_Monster.cpp` (12), D2Game `ITEMS/ItemMode.cpp` (12), D2Game `_unattributed/between_PLAYER_PlayerPets_and_SKILLS_SkilPal.cpp` (11), D2Game `_unattributed/between_UNIT_Party_and_SKILLS_Skills.cpp` (10).
 
 <details><summary>Hooks</summary>
 
@@ -458,7 +579,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0017 | D2Game.dll | 0x269c1 | sub_6fc469b0+0x11 | jmp target redirect (E9) | sub_Hook_sub_6fc417d0_10253de0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0018 | D2Game.dll | 0x269d5 | sub_6fc469d0+0x5 | call redirect | sub_Hook_sub_6fc417d0_10253de0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0019 | D2Game.dll | 0x269e5 | sub_6fc469e0+0x5 | call redirect | sub_Hook_sub_6fc417d0_10253de0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0025 | D2Game.dll | 0x43b17 | sub_6fc63ae7+0x30 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0025 | D2Game.dll | 0x43b17 | sub_6fc63aa0+0x77 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0035 | D2Game.dll | 0x28ce5 | sub_6fc48be0+0x105 | call redirect | sub_Hook_sub_6fc48be0_102edb10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0037 | D2Game.dll | 0x28336 | SKILLS_SkillBar_6fc48290+0xa6 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0038 | D2Game.dll | 0x282f8 | SKILLS_SkillBar_6fc48290+0x68 | call redirect | sub_Hook_SKILLS_SkillBar_6fc48290_102ee470 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
@@ -481,23 +602,23 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0064 | D2Game.dll | 0xad792 | SKILLS_SkillItem_6fccd6c0+0xd2 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0066 | D2Game.dll | 0xad8ed | SKILLS_SkillItem_6fccd860+0x8d | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0067 | D2Game.dll | 0xad99d | SKILLS_SkillItem_6fccd910+0x8d | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
-| M-0068 | D2Game.dll | 0xb3d0f | sub_6fcd3bb9+0x156 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0068 | D2Game.dll | 0xb3d0f | sub_6fcd3b20+0x1ef | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0069 | D2Game.dll | 0xb3e76 | sub_6fcd3d60+0x116 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0070 | D2Game.dll | 0xb418b | sub_6fcd40b1+0xda | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0074 | D2Game.dll | 0x3dcd0 | sub_6fc5dc3d+0x93 | call redirect | sub_Hook_sub_6fc5da60_102ed380 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0070 | D2Game.dll | 0xb418b | sub_6fcd3f10+0x27b | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0074 | D2Game.dll | 0x3dcd0 | sub_6fc5db30+0x1a0 | call redirect | sub_Hook_sub_6fc5da60_102ed380 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0075 | D2Game.dll | 0x3a7e0 | sub_6fc5a790+0x50 | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0076 | D2Game.dll | 0x3a8fe | sub_6fc5a8bc+0x42 | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0077 | D2Game.dll | 0x3a9b4 | sub_6fc5a920+0x94 | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0078 | D2Game.dll | 0x3b556 | sub_6fc5b4c7+0x8f | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0078 | D2Game.dll | 0x3b556 | sub_6fc5b3e0+0x176 | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0079 | D2Game.dll | 0x3bafd | sub_6fc5b990+0x16d | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0080 | D2Game.dll | 0x3e24f | sub_6fc5e14a+0x105 | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0080 | D2Game.dll | 0x3e24f | sub_6fc5e0b0+0x19f | call redirect | sub_Hook_sub_6fc5a790_102f0d00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0081 | D2Game.dll | 0x3b30e | sub_6fc5b210+0xfe | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0082 | D2Game.dll | 0x3b75a | sub_6fc5b5f0+0x16a | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0083 | D2Game.dll | 0x3b929 | sub_6fc5b7c0+0x169 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0084 | D2Game.dll | 0x3d98a | sub_6fc5d935+0x55 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0085 | D2Game.dll | 0x3dcc3 | sub_6fc5dc3d+0x86 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0084 | D2Game.dll | 0x3d98a | sub_6fc5d8c0+0xca | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0085 | D2Game.dll | 0x3dcc3 | sub_6fc5db30+0x193 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0086 | D2Game.dll | 0x3e015 | sub_6fc5dfec+0x29 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
-| M-0087 | D2Game.dll | 0x40390 | sub_6fc6030f+0x81 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-0087 | D2Game.dll | 0x40390 | sub_6fc60280+0x110 | call redirect | sub_Hook_sub_6fc5b070_102f0d30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0088 | D2Game.dll | 0x92ce1 | sub_6fcb2cc0+0x21 | call redirect | sub_Hook_sub_6fcb2bb0_102f0f90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0089 | D2Game.dll | 0xa1231 | SKILLS_Skills_6fcc1210+0x21 | call redirect | sub_Hook_sub_6fcb2bb0_102f0f90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
 | M-0090 | D2Game.dll | 0x99364 | sub_6fcb9290+0xd4 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -518,7 +639,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0141 | D2Game.dll | 0x296b0 | sub_6fc49600+0xb0 | call redirect | sub_Hook_sub_6fc49600_102f1040 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-0142 | D2Game.dll | 0x5034d | SKILLS_SkillNec_6fc70250+0xfd | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
 | M-0143 | D2Game.dll | 0x50c48 | SKILLS_SkillNec_6fc70b70+0xd8 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
-| M-0144 | D2Game.dll | 0x51e45 | sub_6fc71ca4+0x1a1 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-0144 | D2Game.dll | 0x51e45 | sub_6fc71c60+0x1e5 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0145 | D2Game.dll | 0x4281a | sub_6fc62730+0xea | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0146 | D2Game.dll | 0x44167 | sub_6fc63fa0+0x1c7 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0147 | D2Game.dll | 0x3acf9 | sub_6fc5abd0+0x129 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecbf0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
@@ -528,7 +649,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0169 | D2Game.dll | 0x505a0 | SKILLS_SkillNec_6fc70470+0x130 | NOP fill + byte fill (0x00 x 3) + opcode byte change + operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(6) |
 | M-0176 | D2Client.dll | 0xc6c91 | SKILLS_SkillsBar_6fb76aa0+0x1f1 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0177 | D2Game.dll | 0x2979a | sub_6fc49720+0x7a | call redirect | sub_Hook_sub_6fc49600_102ef590 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
-| M-0178 | D2Game.dll | 0x3eac8 | sub_6fc5eaac+0x1c | call redirect | sub_Hook_sub_6fc49600_102ef590 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
+| M-0178 | D2Game.dll | 0x3eac8 | sub_6fc5ea60+0x68 | call redirect | sub_Hook_sub_6fc49600_102ef590 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-0179 | D2Game.dll | 0x502c0 | SKILLS_SkillNec_6fc70250+0x70 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecc00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0180 | D2Game.dll | 0x503a1 | SKILLS_SkillNec_6fc70250+0x151 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecc00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0181 | D2Game.dll | 0x9a2a1 | SKILLS_SkilPal_6fcba1a0+0x101 | call redirect | sub_Hook_SKILLS_SkillNec_6fc70250_102ecc00 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
@@ -543,7 +664,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0249 | D2Client.dll | 0x70b76 | sub_6fb207f0+0x386 | call redirect | sub_Hook_sub_6fb207f0_102ef5b0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0254 | D2Client.dll | 0xc1086 | sub_6fb70d30+0x356 | call redirect | sub_Hook_sub_6fb70d30_102ecce0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-0264 | D2Game.dll | 0xa2d94 | sub_6fcc2c40+0x154 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0273 | D2Client.dll | 0x18d6f | sub_6fac8d0a+0x65 | call redirect | functions_D2NewFunctions_Hook_ITEMS_ItemMode_6fcf9470_102c6… | rules: pd2file:events/SkillEvents\|game:.*SKILLS(2) |
+| M-0273 | D2Client.dll | 0x18d6f | sub_6fac8c20+0x14f | call redirect | functions_D2NewFunctions_Hook_ITEMS_ItemMode_6fcf9470_102c6… | rules: pd2file:events/SkillEvents\|game:.*SKILLS(2) |
 | M-0274 | D2Client.dll | 0x325af | UI_SkillDesc_6fae16c0+0xeef | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0299 | D2Client.dll | 0x718d6 | sub_6fb218a0+0x36 | jmp target redirect (E9) | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0300 | D2Client.dll | 0x71c23 | sub_6fb21bd0+0x53 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -551,12 +672,12 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0302 | D2Client.dll | 0x71ea8 | sub_6fb21e60+0x48 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0305 | D2Client.dll | 0xc1524 | sub_6fb714f0+0x34 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0319 | D2Game.dll | 0xfa250 | DAT_6fd1a078+0x1d8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a250_102e2ae0 | rules: pd2file:events/SkillEvents\|game:.*SKILLS(6) |
-| M-0327 | D2Game.dll | 0xc057d | sub_6fce02dd+0x2a0 | call redirect | sub_Hook_sub_6fcdffa0_102ede80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-0327 | D2Game.dll | 0xc057d | sub_6fce00c0+0x4bd | call redirect | sub_Hook_sub_6fcdffa0_102ede80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0330 | D2Game.dll | 0x9d247 | sub_6fcbd230+0x17 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0335 | D2Game.dll | 0x9a398 | SKILLS_SkilPal_6fcba1a0+0x1f8 | call redirect | functions_D2CommonFunctions_Hook_SKILLS_SkilPal_6fcba1a0_10… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0336 | D2Game.dll | 0x4b7cc | GAME_Clients_6fc6b500+0x2cc | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0337 | D2Game.dll | 0xa1dba | SKILLS_Skills_6fcc1d10+0xaa | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
-| M-0338 | D2Game.dll | 0xa1f0b | sub_6fcc1ede+0x2d | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-0338 | D2Game.dll | 0xa1f0b | sub_6fcc1e80+0x8b | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0339 | D2Game.dll | 0xa2013 | sub_6fcc1fa8+0x6b | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0340 | D2Game.dll | 0xa209c | SKILLS_Skills_6fcc2060+0x3c | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
 | M-0341 | D2Game.dll | 0xa3841 | sub_6fcc37d0+0x71 | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
@@ -564,7 +685,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0343 | D2Game.dll | 0xf16b5 | sub_6fd114f0+0x1c5 | call redirect | sub_Hook_GAME_Clients_6fc6b500_102ed4e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0344 | D2Game.dll | 0xa0972 | SKILLS_Skills_6fcc0830+0x142 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
 | M-0345 | D2Game.dll | 0xb46a6 | sub_6fcd4660+0x46 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
-| M-0346 | D2Game.dll | 0xb6803 | sub_6fcd67d1+0x32 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-0346 | D2Game.dll | 0xb6803 | sub_6fcd6790+0x73 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0347 | D2Game.dll | 0xf1696 | sub_6fd114f0+0x1a6 | call redirect | sub_Hook_SKILLS_Skills_6fcc0830_102ed560 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
 | M-0402 | D2Game.dll | 0x37a3d | sub_6fc579e0+0x5d | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0403 | D2Game.dll | 0x3878e | sub_6fc586f0+0x9e | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -578,16 +699,16 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-0413 | D2Game.dll | 0x5199c | sub_6fc718b0+0xec | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0429 | D2Game.dll | 0xa242b | SKILLS_Skills_6fcc22e0+0x14b | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
 | M-0430 | D2Game.dll | 0xa2f52 | sub_6fcc2ee0+0x72 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0435 | D2Game.dll | 0xb5dd5 | sub_6fcd5d9c+0x39 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0435 | D2Game.dll | 0xb5dd5 | sub_6fcd5d40+0x95 | call redirect | functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 … | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0455 | D2Game.dll | 0x3866e | sub_6fc58620+0x4e | call redirect | functions_D2CommonFunctions_Hook_sub_6fc58620_10266e90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0476 | D2Client.dll | 0x7b471 | sub_6fb2b470+0x1 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0650 | D2Game.dll | 0x242eb | sub_6fc44250+0x9b | code-pointer operand (imm32 -> PD2 function) | functions_D2NewFunctions_Hook_sub_6fc441b0_102c0eb0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-0651 | D2Game.dll | 0x24e4e | sub_6fc44cd0+0x17e | call redirect + 18 NOP | sub_Hook_sub_6fc44cd0_102ef9d0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
-| M-0684 | D2Game.dll | 0x4e8ad | sub_6fc6e79f+0x10e | call redirect | functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_102… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0684 | D2Game.dll | 0x4e8ad | sub_6fc6e760+0x14d | call redirect | functions_D2CommonFunctions_Hook_UNIT_SUnitDmg_6fcfb570_102… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0687 | D2Client.dll | 0x30393 | UI_SkillDesc_6fae0340+0x53 | call hook (E8 written) + 10 NOP | sub_Hook_UI_SkillDesc_6fae0340_102ed1e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(6),… |
 | M-0688 | D2Client.dll | 0x74444 | sub_6fb24350+0xf4 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0710 | D2Client.dll | 0xe25f8 | DAT_6fb925f4+0x4 | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-0711 | D2Client.dll | 0xe2640 | DAT_6fb925f4+0x4c | opcode byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0710 | D2Client.dll | 0xe25f8 | DAT_6fb925f4+0x4 | data byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-0711 | D2Client.dll | 0xe2640 | DAT_6fb925f4+0x4c | data byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0713 | D2Client.dll | 0x3313b | UI_SkillDesc_6fae2f30+0x20b | call hook (E8 written) + 161 NOP | sub_Hook_UI_SkillDesc_6fae2f30_102ed140 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(6) |
 | M-0717 | D2Client.dll | 0x2c348 | sub_6fadc2d0+0x78 | call redirect | sub_Hook_sub_6fadc2d0_102728b0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-0718 | D2Client.dll | 0x2c56e | sub_6fadc4f0+0x7e | call redirect | sub_Hook_sub_6fadc2d0_102728b0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -608,7 +729,7 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-1075 | D2Game.dll | 0x3af05 | sub_6fc5ae10+0xf5 | call redirect | sub_Hook_sub_6fc5ae10_102eede0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-1077 | D2Game.dll | 0x3aff7 | sub_6fc5aff0+0x7 | call redirect | sub_Hook_sub_6fc5aff0_102efa50 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-1082 | D2Game.dll | 0x986d9 | sub_6fcb8680+0x59 | call redirect | functions_D2CommonFunctions_Hook_sub_6fcb8680_10267c80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
-| M-1087 | D2Game.dll | 0x4dc47 | sub_6fc6dba9+0x9e | call redirect | sub_Hook_sub_6fc6d710_10270150 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1087 | D2Game.dll | 0x4dc47 | sub_6fc6dac0+0x187 | call redirect | sub_Hook_sub_6fc6d710_10270150 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | C-0015 | D2Client.dll | 0xc3b18 | sub_6fb739e0+0x138 | call redirect | sub_Hook_sub_6fb739e0_10227d70 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
 | C-0016 | D2Client.dll | 0xc3b2a | sub_6fb739e0+0x14a | call redirect | sub_Hook_sub_6fb739e0_10227d70 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
 | C-0017 | D2Client.dll | 0xc3356 | sub_6fb730e0+0x276 | code-pointer operand (imm32 -> PD2 function) | sub_Hook_sub_6fb730e0_1021b610 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
@@ -644,6 +765,237 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | H-0007 | D2Client.dll | 0x70b75 | sub_6fb207f0+0x385 | call redirect | GameInput_Interception | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | H-0027 | D2Client.dll | 0xc3d4e | sub_6fb739e0+0x36e | call redirect | PermShowItemsPatch1_ASM | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | H-0028 | D2Client.dll | 0xc0e9a | sub_6fb70d30+0x16a | call redirect | PermShowItemsPatch1_ASM | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1118 | D2Game.dll | 0x4eb65 | sub_6fc6eb50+0x15 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1125 | D2Client.dll | 0x80cb7 | sub_6fb30ca0+0x17 | call redirect | sub_10258c20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1126 | D2Client.dll | 0x8151a | sub_6fb314f0+0x2a | call redirect | sub_10258c20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1133 | D2Game.dll | 0x24e05 | sub_6fc44cd0+0x135 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1134 | D2Game.dll | 0x4fe8f | SKILLS_SkillNec_6fc6f970+0x51f | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
+| M-1135 | D2Game.dll | 0x559de | sub_6fc75840+0x19e | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1136 | D2Game.dll | 0x55feb | sub_6fc75e10+0x1db | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1137 | D2Game.dll | 0x55fff | sub_6fc75e10+0x1ef | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1138 | D2Game.dll | 0x77b64 | PLAYER_PlrModes_6fc97b20+0x44 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1139 | D2Game.dll | 0x77ba6 | PLAYER_PlrModes_6fc97b20+0x86 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1140 | D2Game.dll | 0x89487 | sub_6fca9430+0x57 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1141 | D2Game.dll | 0xbf930 | sub_6fcdf8f0+0x40 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1142 | D2Game.dll | 0xcf4eb | sub_6fcef480+0x6b | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1143 | D2Game.dll | 0xd160f | sub_6fcf14b0+0x15f | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1144 | D2Game.dll | 0xd163c | sub_6fcf14b0+0x18c | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1145 | D2Game.dll | 0xd1f14 | ITEMS_ItemMode_6fcf1ed0+0x44 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1146 | D2Game.dll | 0xd1f58 | ITEMS_ItemMode_6fcf1ed0+0x88 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1147 | D2Game.dll | 0xd2375 | ITEMS_ItemMode_6fcf2310+0x65 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1148 | D2Game.dll | 0xd294d | ITEMS_ItemMode_6fcf28d0+0x7d | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1149 | D2Game.dll | 0xd29c2 | ITEMS_ItemMode_6fcf28d0+0xf2 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1150 | D2Game.dll | 0xd44dd | ITEMS_ItemMode_6fcf43e0+0xfd | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1151 | D2Game.dll | 0xd44f4 | ITEMS_ItemMode_6fcf43e0+0x114 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1152 | D2Game.dll | 0xd8d6d | ITEMS_ItemMode_6fcf8ba0+0x1cd | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1153 | D2Game.dll | 0xd8e19 | ITEMS_ItemMode_6fcf8de0+0x39 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1154 | D2Game.dll | 0xd93ba | ITEMS_ItemMode_6fcf8ea0+0x51a | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1155 | D2Game.dll | 0xd98b7 | ITEMS_ItemMode_6fcf9470+0x447 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1156 | D2Game.dll | 0xd9de3 | ITEMS_ItemMode_6fcf9bf0+0x1f3 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1157 | D2Game.dll | 0xece97 | sub_6fd0cc90+0x207 | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1158 | D2Game.dll | 0xed6de | sub_6fd0d540+0x19e | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1207 | D2Game.dll | 0x433ef | sub_6fc631c0+0x22f | call redirect | sub_102f05a0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1247 | D2Client.dll | 0x18fb6 | UNIT_Player_6fac8f90+0x26 | call redirect | sub_Hook_SKILLS_SkillsBar_6fb77370_102ee490+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1248 | D2Client.dll | 0x18ff6 | UNIT_Player_6fac8f90+0x66 | call redirect | sub_Hook_SKILLS_SkillsBar_6fb77370_102ee490+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1321 | D2Common.dll | 0x50443 | D2Common_11091+0xe3 | call redirect | sub_102eea80+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1322 | D2Common.dll | 0x5054a | D2Common_10121+0xea | call redirect | sub_102eea80+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1326 | D2Game.dll | 0x4be8a | sub_6fc6bcc0+0x1ca | call redirect | functions_D2NewFunctions_102c9720 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
+| M-1327 | D2Game.dll | 0x9aa75 | sub_6fcba8d0+0x1a5 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1328 | D2Game.dll | 0xa1cd9 | SKILLS_Skills_6fcc19a0+0x339 | call redirect | sub_Hook_D2Common_10819_102eebf0+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
+| M-1329 | D2Game.dll | 0xa1cf1 | SKILLS_Skills_6fcc19a0+0x351 | call redirect | sub_Hook_D2Common_10819_102eebf0+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
+| M-1330 | D2Game.dll | 0xa09e3 | SKILLS_Skills_6fcc09a0+0x43 | call redirect | sub_Hook_D2Common_10819_102eebf0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
+| M-1331 | D2Common.dll | 0x52462 | D2Common_10787+0x122 | call redirect | sub_102eec40+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1332 | D2Game.dll | 0xae87d | sub_6fcce6d0+0x1ad | call redirect | functions_ItemFunctions_102d5840 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1353 | D2Client.dll | 0xad697 | sub_6fb5d680+0x17 | call redirect | sub_102eff30+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1371 | D2Common.dll | 0x51f79 | D2Common_10483+0xa9 | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1372 | D2Common.dll | 0x522da | SKILLS_Skills_6fda22c0+0x1a | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1373 | D2Common.dll | 0x5250b | D2Common_10056+0x8b | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1384 | D2Client.dll | 0x6ffc4 | sub_6fb1fce0+0x2e4 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1385 | D2Client.dll | 0x7e678 | sub_6fb2dfb0+0x6c8 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1386 | D2Client.dll | 0x7f806 | sub_6fb2f780+0x86 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1387 | D2Client.dll | 0x7f8f5 | sub_6fb2f780+0x175 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1388 | D2Client.dll | 0x7f99c | sub_6fb2f780+0x21c | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1389 | D2Client.dll | 0x7f9d4 | sub_6fb2f780+0x254 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1390 | D2Client.dll | 0x7fad0 | sub_6fb2f780+0x350 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1391 | D2Client.dll | 0x7fb0c | sub_6fb2f780+0x38c | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1392 | D2Client.dll | 0x7fb29 | sub_6fb2f780+0x3a9 | call redirect | sub_1025a0e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1393 | D2Client.dll | 0xc3d49 | sub_6fb739e0+0x369 | call redirect | sub_1025b2f0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1394 | D2Client.dll | 0xc3bc8 | sub_6fb739e0+0x1e8 | call redirect | sub_10256df0+0x130 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1395 | D2Client.dll | 0xc3a9d | sub_6fb739e0+0xbd | call redirect | sub_10256df0+0x150 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1396 | D2Client.dll | 0xc3ab4 | sub_6fb739e0+0xd4 | call redirect | sub_10256df0+0x160 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1397 | D2Client.dll | 0xc3a82 | sub_6fb739e0+0xa2 | call redirect | sub_10256df0+0x180 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1413 | D2Client.dll | 0x36476 | sub_6fae6450+0x26 | call redirect | sub_10239910 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1428 | D2Client.dll | 0xbf944 | sub_6fb6f850+0xf4 | call redirect | sub_10239910 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1429 | D2Client.dll | 0xbf973 | sub_6fb6f850+0x123 | call redirect | sub_10239910 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1430 | D2Client.dll | 0xc2f52 | sub_6fb72f40+0x12 | call redirect | sub_10239910 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1465 | D2Client.dll | 0x376ef | sub_6fae7530+0x1bf | call redirect | sub_10239a70 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
+| M-1489 | D2Client.dll | 0xc0365 | sub_6fb70250+0x115 | call redirect | sub_10239a70 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
+| M-1503 | D2Client.dll | 0x7ac5b | sub_6fb2a9f0+0x26b | code-pointer operand (imm32 -> PD2 function) | sub_1025bae0+0x80 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1504 | D2Client.dll | 0x79d60 | sub_6fb29d30+0x30 | call hook (E8 written) + 3 NOP | sub_102ef6a0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1505 | D2Client.dll | 0x7a388 | sub_6fb2a340+0x48 | call hook (E8 written) + 1 NOP | sub_102ef6a0+0x40 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1506 | D2Client.dll | 0x79e66 | sub_6fb29e20+0x46 | call hook (E8 written) + 3 NOP | sub_102ef6a0+0x50 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1507 | D2Client.dll | 0x79caa | sub_6fb29c80+0x2a | call hook (E8 written) + 3 NOP | sub_102ef6a0+0x70 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1508 | D2Client.dll | 0x7a521 | sub_6fb2a500+0x21 | call hook (E8 written) + 5 NOP | sub_102ef6a0+0x90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1509 | D2Client.dll | 0x7a1a6 | sub_6fb2a180+0x26 | call hook (E8 written) + 5 NOP | sub_102ef6a0+0xa0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1510 | D2Client.dll | 0x7a286 | sub_6fb2a260+0x26 | call hook (E8 written) + 5 NOP | sub_102ef6a0+0xb0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1515 | D2Game.dll | 0x410ca | sub_6fc60eb0+0x21a | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1516 | D2Game.dll | 0x43f31 | sub_6fc63ee7+0x4a | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1517 | D2Game.dll | 0x4653d | sub_6fc663f0+0x14d | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1518 | D2Game.dll | 0x466f3 | sub_6fc66560+0x193 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1519 | D2Game.dll | 0x46881 | sub_6fc66720+0x161 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1520 | D2Game.dll | 0x46a00 | sub_6fc668a0+0x160 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1521 | D2Game.dll | 0x4d84a | sub_6fc6d710+0x13a | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1522 | D2Game.dll | 0x4da47 | sub_6fc6d8c0+0x187 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1523 | D2Game.dll | 0x50090 | SKILLS_SkillNec_6fc70070+0x20 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4),… |
+| M-1524 | D2Game.dll | 0x50faa | sub_6fc70e60+0x14a | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1525 | D2Game.dll | 0x511c0 | sub_6fc70fe0+0x1e0 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1526 | D2Game.dll | 0x514dd | sub_6fc71340+0x19d | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1527 | D2Game.dll | 0x51a58 | sub_6fc718b0+0x1a8 | call redirect | functions_D2NewFunctions_102ca430 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), [gt]func:SKILLS_\|[gt]func:.*Skill(2),… |
+| M-1571 | D2Game.dll | 0x3f1f1 | sub_6fc5f120+0xd1 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1572 | D2Game.dll | 0x3f2f0 | sub_6fc5f220+0xd0 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1573 | D2Game.dll | 0x3f361 | sub_6fc5f320+0x41 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1574 | D2Game.dll | 0x3f391 | sub_6fc5f320+0x71 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1575 | D2Game.dll | 0x3f3b9 | sub_6fc5f320+0x99 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1576 | D2Game.dll | 0x3f50d | sub_6fc5f320+0x1ed | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1577 | D2Game.dll | 0x3f526 | sub_6fc5f320+0x206 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1578 | D2Game.dll | 0x3fa7f | sub_6fc5f9f0+0x8f | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1579 | D2Game.dll | 0x3fd13 | sub_6fc5fb40+0x1d3 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1580 | D2Game.dll | 0x408c2 | sub_6fc60860+0x62 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1581 | D2Game.dll | 0x41dbc | sub_6fc61c30+0x18c | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1582 | D2Game.dll | 0x440b7 | sub_6fc63fa0+0x117 | call redirect | sub_102f0ff0+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1583 | D2Game.dll | 0x27478 | SKILLS_SkillBar_6fc473c0+0xb8 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1584 | D2Game.dll | 0x278bc | SKILLS_SkillBar_6fc47820+0x9c | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1585 | D2Game.dll | 0x27a92 | SKILLS_SkillBar_6fc47a10+0x82 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1586 | D2Game.dll | 0x28a2a | sub_6fc489a0+0x8a | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1587 | D2Game.dll | 0x28d76 | sub_6fc48be0+0x196 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1588 | D2Game.dll | 0x44be6 | SKILLS_SkillDruid_6fc64ac0+0x126 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1589 | D2Game.dll | 0x44d08 | SKILLS_SkillDruid_6fc64c20+0xe8 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1590 | D2Game.dll | 0x44e0d | SKILLS_SkillDruid_6fc64d70+0x9d | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1591 | D2Game.dll | 0x4520f | SKILLS_SkillDruid_6fc651b0+0x5f | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1592 | D2Game.dll | 0x4c42a | sub_6fc6c3a0+0x8a | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1593 | D2Game.dll | 0x4c7a4 | sub_6fc6c720+0x84 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1594 | D2Game.dll | 0x4cba2 | sub_6fc6cb00+0xa2 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1595 | D2Game.dll | 0x4ccf7 | sub_6fc6cc50+0xa7 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1596 | D2Game.dll | 0x4dbac | sub_6fc6dac0+0xec | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1604 | D2Game.dll | 0x98c43 | sub_6fcb8ba0+0xa3 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1605 | D2Game.dll | 0x98f36 | sub_6fcb8e90+0xa6 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1606 | D2Game.dll | 0x991de | sub_6fcb9000+0x1de | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1607 | D2Game.dll | 0x99219 | sub_6fcb9000+0x219 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1608 | D2Game.dll | 0x9a09a | sub_6fcb9d20+0x37a | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1609 | D2Game.dll | 0xa11d8 | SKILLS_Skills_6fcc11b0+0x28 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1610 | D2Game.dll | 0xa2d43 | sub_6fcc2c40+0x103 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1611 | D2Game.dll | 0xb426c | sub_6fcd41b0+0xbc | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1612 | D2Game.dll | 0xb4599 | sub_6fcd4520+0x79 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1613 | D2Game.dll | 0xb64c5 | sub_6fcd6380+0x145 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1614 | D2Game.dll | 0x3b05c | sub_6fc5b040+0x1c | call redirect | sub_Hook_sub_6fd01430_102eed90+0x30 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1615 | D2Client.dll | 0xbf859 | sub_6fb6f850+0x9 | call redirect | sub_1021b820+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1627 | D2Client.dll | 0x74a79 | sub_6fb24930+0x149 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1628 | D2Client.dll | 0x741ee | sub_6fb240f0+0xfe | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1629 | D2Game.dll | 0x44305 | sub_6fc641c0+0x145 | instruction rewrite (2 bytes) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1630 | D2Game.dll | 0x44538 | sub_6fc643f0+0x148 | call redirect | sub_102ef900+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1633 | D2Game.dll | 0x97fa3 | sub_6fcb7f50+0x53 | call redirect | sub_102ef940+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1634 | D2Game.dll | 0x9f723 | SKILLS_Skills_6fcbf600+0x123 | call redirect | sub_102ef940+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1635 | D2Game.dll | 0xfb61c | DAT_6fd1b614+0x8 | data byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1636 | D2Game.dll | 0xfb620 | DAT_6fd1b614+0xc | data byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1637 | D2Game.dll | 0xfb624 | DAT_6fd1b614+0x10 | data byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1638 | D2Game.dll | 0xfb628 | DAT_6fd1b614+0x14 | instruction rewrite (2 bytes) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1639 | D2Game.dll | 0xfb62c | DAT_6fd1b614+0x18 | instruction rewrite (2 bytes) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1640 | D2Game.dll | 0xfb630 | DAT_6fd1b614+0x1c | instruction rewrite (2 bytes) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1641 | D2Game.dll | 0xfb634 | DAT_6fd1b614+0x20 | instruction rewrite (2 bytes) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1720 | D2Common.dll | 0x4f8bf | SKILLS_Skills_6fd9f870+0x4f | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1721 | D2Common.dll | 0x4f992 | SKILLS_Skills_6fd9f930+0x62 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1722 | D2Common.dll | 0x4f9d3 | SKILLS_Skills_6fd9f930+0xa3 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1723 | D2Common.dll | 0x4fa9f | D2Common_11021+0x6f | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1724 | D2Common.dll | 0x4fb95 | D2Common_11101+0x65 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1725 | D2Common.dll | 0x4fe11 | SKILLS_Skills_6fd9fdc0+0x51 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1726 | D2Common.dll | 0x4ff14 | D2Common_10037+0x94 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1727 | D2Common.dll | 0x50d7a | D2Common_10709+0x3a | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1728 | D2Common.dll | 0x50db2 | D2Common_10709+0x72 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1729 | D2Common.dll | 0x50e09 | D2Common_10709+0xc9 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1730 | D2Common.dll | 0x51c9a | D2Common_10323+0x3a | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1738 | D2Game.dll | 0x44862 | SKILLS_SkillDruid_6fc647d0+0x92 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1739 | D2Game.dll | 0x44967 | SKILLS_SkillDruid_6fc648e0+0x87 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1740 | D2Game.dll | 0x4fa0c | SKILLS_SkillNec_6fc6f970+0x9c | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1741 | D2Game.dll | 0x4fb39 | SKILLS_SkillNec_6fc6f970+0x1c9 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1742 | D2Game.dll | 0x50546 | SKILLS_SkillNec_6fc70470+0xd6 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1746 | D2Game.dll | 0xae7ad | sub_6fcce6d0+0xdd | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1747 | D2Game.dll | 0xaeb22 | sub_6fccea40+0xe2 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1748 | D2Game.dll | 0xaeea2 | sub_6fccedc0+0xe2 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1757 | D2Client.dll | 0x726c8 | UNIT_PlrSkills_6fb22610+0xb8 | constant change (imm32/disp32) |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1768 | D2Game.dll | 0x9d59b | sub_6fcbd550+0x4b | call redirect | functions_D2CommonFunctions_10269170 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1769 | D2Game.dll | 0x9d9e4 | sub_6fcbd980+0x64 | call redirect | functions_D2CommonFunctions_10269170 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1772 | D2Game.dll | 0x9d2e2 | sub_6fcbd230+0xb2 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1773 | D2Game.dll | 0x9d2e9 | sub_6fcbd230+0xb9 | NOP fill |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1776 | D2Client.dll | 0xc2f0a | sub_6fb72d10+0x1fa | call redirect | sub_1022fc30+0x1c0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1777 | D2Client.dll | 0xc399f | sub_6fb73540+0x45f | call redirect | sub_1022fc30+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1779 | D2Client.dll | 0xa3fc0 | SKILLS_Skills_6fb53e40+0x180 | call redirect | sub_1022a3d0+0x130 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
+| M-1780 | D2Client.dll | 0xa4260 | SKILLS_Skills_6fb54040+0x220 | call redirect | sub_1022a3d0+0x130 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), [gt]func:SKILLS_\|[gt]func:.*Skill(4) |
+| M-1788 | D2Client.dll | 0xa3b73 | sub_6fb53b50+0x23 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1789 | D2Client.dll | 0xa3b96 | sub_6fb53b50+0x46 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1790 | D2Client.dll | 0xbee2d | sub_6fb6ee10+0x1d | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1791 | D2Client.dll | 0xbfa35 | sub_6fb6fa10+0x25 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1792 | D2Client.dll | 0xbfa84 | sub_6fb6fa10+0x74 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1793 | D2Client.dll | 0xbfad4 | sub_6fb6fa10+0xc4 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1794 | D2Client.dll | 0xbfb2d | sub_6fb6fa10+0x11d | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1795 | D2Client.dll | 0xbfb7a | sub_6fb6fa10+0x16a | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1796 | D2Client.dll | 0xbfbc7 | sub_6fb6fa10+0x1b7 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1797 | D2Client.dll | 0xbfc14 | sub_6fb6fa10+0x204 | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1798 | D2Client.dll | 0xbfc6a | sub_6fb6fa10+0x25a | call redirect | sub_102f0400+0x10 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1799 | D2Client.dll | 0x11793 | sub_6fac1760+0x33 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1800 | D2Client.dll | 0x1179e | sub_6fac1760+0x3e | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1801 | D2Client.dll | 0x117b0 | sub_6fac1760+0x50 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1803 | D2Client.dll | 0xa3b63 | sub_6fb53b50+0x13 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1804 | D2Client.dll | 0xa3b86 | sub_6fb53b50+0x36 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1805 | D2Client.dll | 0xbee20 | sub_6fb6ee10+0x10 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1806 | D2Client.dll | 0xbfa25 | sub_6fb6fa10+0x15 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1807 | D2Client.dll | 0xbfa74 | sub_6fb6fa10+0x64 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1808 | D2Client.dll | 0xbfac4 | sub_6fb6fa10+0xb4 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1809 | D2Client.dll | 0xbfb1d | sub_6fb6fa10+0x10d | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1810 | D2Client.dll | 0xbfb6a | sub_6fb6fa10+0x15a | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1811 | D2Client.dll | 0xbfbb7 | sub_6fb6fa10+0x1a7 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1812 | D2Client.dll | 0xbfc04 | sub_6fb6fa10+0x1f4 | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1813 | D2Client.dll | 0xbfc5a | sub_6fb6fa10+0x24a | call redirect | sub_102f0400+0x20 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1854 | D2Client.dll | 0xc3a4d | sub_6fb739e0+0x6d | call redirect | sub_10225c40 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1859 | D2Client.dll | 0xc2944 | sub_6fb72790+0x1b4 | call redirect | sub_10229720 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1864 | D2Client.dll | 0xc1df1 | sub_6fb71c40+0x1b1 | call redirect | sub_10229900 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1865 | D2Client.dll | 0xc2429 | sub_6fb721f0+0x239 | call redirect | sub_10229900 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1867 | D2Client.dll | 0xc3971 | sub_6fb73540+0x431 | call redirect | sub_10229af0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1872 | D2Client.dll | 0xf51f4 | DAT_6fba51ec+0x8 | function-pointer swap (table) | functions_D2ClientFunctions_1022e290 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1873 | D2Client.dll | 0xf5200 | DAT_6fba51ec+0x14 | function-pointer swap (table) | functions_D2ClientFunctions_1022e290 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1874 | D2Client.dll | 0xe13cc | DAT_6fb91388+0x44 | function-pointer swap (table) | functions_D2ClientFunctions_1022e340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1875 | D2Client.dll | 0x7e91f | sub_6fb2e910+0xf | jmp target redirect (E9) | functions_D2ClientFunctions_1022e340 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1880 | D2Client.dll | 0xc1e6f | sub_6fb71c40+0x22f | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1881 | D2Client.dll | 0xc243c | sub_6fb721f0+0x24c | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1886 | D2Client.dll | 0xc2021 | sub_6fb71c40+0x3e1 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1887 | D2Client.dll | 0xc25ad | sub_6fb721f0+0x3bd | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1890 | D2Client.dll | 0xc2412 | sub_6fb721f0+0x222 | data-pointer operand (imm32 -> PD2 data) | DAT_10398c38 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1891 | D2Client.dll | 0xbe952 | sub_6fb6e920+0x32 | data-pointer operand (imm32 -> PD2 data) | DAT_10398c40 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1892 | D2Client.dll | 0xbe958 | sub_6fb6e920+0x38 | data-pointer operand (imm32 -> PD2 data) | DAT_10398c3c | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1893 | D2Client.dll | 0xbe95e | sub_6fb6e920+0x3e | data-pointer operand (imm32 -> PD2 data) | DAT_10398c38 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1906 | D2Client.dll | 0xc1dc2 | sub_6fb71c40+0x182 | data-pointer operand (imm32 -> PD2 data) | DAT_10399f60 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1907 | D2Client.dll | 0xc1dcd | sub_6fb71c40+0x18d | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1910 | D2Client.dll | 0xc23c5 | sub_6fb721f0+0x1d5 | data-pointer operand (imm32 -> PD2 data) | DAT_10399f60 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1911 | D2Client.dll | 0xc23d0 | sub_6fb721f0+0x1e0 | operand byte change |  | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1913 | D2Game.dll | 0x9e1f9 | sub_6fcbe170+0x89 | call redirect | functions_D2NewFunctions_102cb6e0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9), pd2file:events/SkillEvents\|game:.*SKI… |
+| M-1914 | D2Game.dll | 0x3e583 | sub_6fc5e580+0x3 | call redirect | functions_D2NewFunctions_102cb7f0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
+| M-1915 | D2Game.dll | 0x8e9fb | sub_6fcae9a0+0x5b | call redirect | functions_D2NewFunctions_102cb7f0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1916 | D2Game.dll | 0x8ea50 | sub_6fcae9a0+0xb0 | call redirect | functions_D2NewFunctions_102cb7f0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1941 | D2Game.dll | 0x47099 | sub_6fc66f70+0x129 | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1942 | D2Game.dll | 0x470d6 | sub_6fc66f70+0x166 | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1943 | D2Game.dll | 0x477c9 | sub_6fc67700+0xc9 | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1970 | D2Game.dll | 0x272fa | SKILLS_SkillBar_6fc472c0+0x3a | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1971 | D2Game.dll | 0x28341 | SKILLS_SkillBar_6fc48290+0xb1 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1972 | D2Game.dll | 0x28664 | SKILLS_SkillBar_6fc48600+0x64 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1973 | D2Game.dll | 0x4db51 | sub_6fc6dac0+0x91 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1977 | D2Game.dll | 0x98ef8 | sub_6fcb8e90+0x68 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1978 | D2Game.dll | 0x9905c | sub_6fcb9000+0x5c | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-1979 | D2Game.dll | 0x996ac | SKILLS_SkilPal_6fcb9620+0x8c | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-1980 | D2Game.dll | 0x99df8 | sub_6fcb9d20+0xd8 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1981 | D2Game.dll | 0x99e6a | sub_6fcb9d20+0x14a | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1982 | D2Game.dll | 0x9a04a | sub_6fcb9d20+0x32a | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3) |
+| M-1983 | D2Game.dll | 0xa0575 | SKILLS_Skills_6fcc0370+0x205 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(3), [gt]func:SKILLS_\|[gt]func:.*Skill(2) |
+| M-2000 | D2Game.dll | 0xb3bbe | sub_6fcd3b20+0x9e | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
+| M-2001 | D2Game.dll | 0xb40c4 | sub_6fcd3f10+0x1b4 | call redirect | sub_10270ff0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 
 </details>
 
@@ -655,40 +1007,40 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/buff_timers`, `/pd2_game
 
 Item generation, stats, properties, inventory and cube recipes: new cube outputs/functions (CubeFunctions.cpp), corruption, socketing, item stat callbacks, the bigger ItemStatCost record (PD2 indexes it with stride 0x150 = 336 bytes instead of 0x144 = 324).
 
-**171 hooks** (D2Game.dll 134, D2Common.dll 21, D2Client.dll 16); kinds: call redirect 131, function-pointer swap (table) 14, opcode byte change 9, NOP fill 6, operand byte change 6, call hook (E8 written) 4, code-pointer operand (imm32 -> PD2 function) 1.
+**299 hooks** (D2Game.dll 189, D2Common.dll 90, D2Client.dll 20); kinds: call redirect 207, constant change (imm32/disp32) 49, function-pointer swap (table) 14, opcode byte change 9, NOP fill 8, operand byte change 6, call hook (E8 written) 5, code-pointer operand (imm32 -> PD2 function) 1.
 
-Handlers (87 distinct; most used first):
+Handlers (108 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `functions_D2NewFunctions_102c85a0` | 0x102c85a0 | `functions/D2NewFunctions.cpp` | 21 |
+| `functions_D2CommonFunctions_10267e40` | 0x10267e40 | `functions/D2CommonFunctions.cpp` | 19 |
 | `sub_Hook_sub_6fc2eae0_102ecc40` | 0x102ecc40 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 7 |
 | `sub_Hook_GAME_Game_6fc4c830_102ecea0` | 0x102ecea0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 7 |
 | `functions_D2NewFunctions_Hook_sub_6fc95900_102cd250` | 0x102cd250 | `functions/D2NewFunctions.cpp` | 6 |
 | `sub_Hook_sub_6fc417d0_10253de0` | 0x10253de0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit23.cpp` | 5 |
 | `functions_D2CommonFunctions_Hook_ENGINE_Gfx_6fb1b5a0_10267ab0` | 0x10267ab0 | `functions/D2CommonFunctions.cpp` | 5 |
 | `sub_Hook_sub_6fc9b0a0_102efe80` | 0x102efe80 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 5 |
+| `functions_D2CommonFunctions_10269230+0x80` | 0x102692b0 | `functions/D2CommonFunctions.cpp` | 5 |
+| `sub_102ef400+0x20` | 0x102ef420 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 5 |
 | `sub_Hook_sub_6fcddd80_10253300` | 0x10253300 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit21.cpp` | 4 |
 | `sub_Hook_PLAYER_PlrTrade_6fc919a0_102ee910` | 0x102ee910 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 4 |
 | `sub_Hook_D2Common_10973_102edd40` | 0x102edd40 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 4 |
 | `sub_Hook_SKILLS_Skills_6fcc10b0_102edae0` | 0x102edae0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 4 |
+| `functions_D2CommonFunctions_102694f0` | 0x102694f0 | `functions/D2CommonFunctions.cpp` | 4 |
+| `functions_HelperFunctions_102d1240` | 0x102d1240 | `functions/HelperFunctions.cpp` | 4 |
 | `sub_Hook_ITEMS_ItemMode_6fcf43e0_102edec0` | 0x102edec0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `functions_D2CommonFunctions_Hook_sub_6fb05b20_10267340` | 0x10267340 | `functions/D2CommonFunctions.cpp` | 3 |
 | `sub_Hook_sub_6fcb2bb0_102eda70` | 0x102eda70 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `sub_Hook_sub_6fadc2d0_102728b0` | 0x102728b0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 3 |
+| `sub_10270ff0` | 0x10270ff0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 3 |
 | `functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0` | 0x102c0be0 | `functions/D2NewFunctions.cpp` | 2 |
 | `sub_Hook_sub_6fc3bbc0_102baa40` | 0x102baa40 | `_unattributed/between_events_SkillEvents_and_functions_CubeFunctions_unit34.cpp` | 2 |
 | `functions_D2NewFunctions_Hook_PLAYER_PlrModes_6fc99850_102c66b0` | 0x102c66b0 | `functions/D2NewFunctions.cpp` | 2 |
 | `sub_Hook_INVENTORY_InvMode_6fcbb630_102ef030` | 0x102ef030 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
-| `sub_Hook_PLAYER_PlrModes_6fc98430_102ef540` | 0x102ef540 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
-| `sub_Hook_PLAYER_PlrModes_6fc98430_102ef7e0` | 0x102ef7e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
-| `functions_D2CommonFunctions_Hook_Stats_StatsEx_6fd89ce0_10267390` | 0x10267390 | `functions/D2CommonFunctions.cpp` | 2 |
-| `sub_Hook_sub_6fc30600_102f0660` | 0x102f0660 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
-| `sub_Hook_sub_6fb04ac0_102ee330` | 0x102ee330 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
-| `sub_Hook_sub_6fc33de0_102ed270` | 0x102ed270 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
-| `functions_ItemFunctions_Hook_sub_6fc303c0_102d7170` | 0x102d7170 | `functions/ItemFunctions.cpp` | 2 |
-| … 62 more (patches.csv) | | | |
+| … 83 more (patches.csv) | | | |
 
-Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` (21), D2Game `_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp` (18), D2Game `ITEMS/ItemMode.cpp` (13), D2Game `UNIT/SUnitDmg.cpp` (12), D2Game `PLAYER/PlrMsg.cpp` (11), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (9), D2Common `Stats/StatsEx.cpp` (9), D2Game `PLAYER/PlrModes.cpp` (8), D2Common `ITEMS/Items.cpp` (7), D2Game `GAME/Game.cpp` (7), D2Game `ITEMS/Items.cpp` (5), D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp` (5).
+Game files patched: D2Common `Stats/StatsEx.cpp` (51), D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLAYER_PlrModes.cpp` (28), D2Game `ITEMS/ItemMode.cpp` (26), D2Common `ITEMS/Items.cpp` (24), D2Game `_unattributed/between_ITEMS_Items_and_UNIT_SUnitInactive.cpp` (22), D2Common `INVENTORY/Inventory.cpp` (13), D2Game `UNIT/SUnitDmg.cpp` (12), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (11), D2Game `PLAYER/PlrMsg.cpp` (11), D2Game `PLAYER/PlrModes.cpp` (8), D2Game `GAME/Game.cpp` (7), D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp` (6).
 
 <details><summary>Hooks</summary>
 
@@ -706,24 +1058,24 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-0046 | D2Game.dll | 0xd9527 | ITEMS_ItemMode_6fcf9470+0xb7 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
 | M-0056 | D2Game.dll | 0x75664 | sub_6fc955c0+0xa4 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0097 | D2Game.dll | 0xbd565 | sub_6fcdd490+0xd5 | call redirect | functions_D2CommonFunctions_Hook_sub_6fcdd330_102678d0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
-| M-0116 | D2Game.dll | 0xd070f | sub_6fcf05d6+0x139 | call redirect | functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-0116 | D2Game.dll | 0xd070f | sub_6fcf05b0+0x15f | call redirect | functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0120 | D2Client.dll | 0x8e995 | UI_inv_6fb3e8e0+0xb5 | call redirect | functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0121 | D2Common.dll | 0x2703b | D2Common_10244+0x28b | NOP fill |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
 | M-0122 | D2Common.dll | 0x2704d | D2Common_10244+0x29d | call hook (E8 written) + 11 NOP + operand byte change | functions_D2NewFunctions_Hook_D2Common_10244_102c0e50 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9) |
 | M-0124 | D2Game.dll | 0xcfc62 | sub_6fcefbc0+0xa2 | call redirect | sub_Hook_sub_6fcefbc0_102ee5e0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
-| M-0139 | D2Game.dll | 0x751df | sub_6fc951a0+0x3f | call redirect | functions_D2CommonFunctions_Hook_sub_6fc950f0_1026b040 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-0139 | D2Game.dll | 0x751df | sub_6fc95160+0x7f | call redirect | functions_D2CommonFunctions_Hook_sub_6fc950f0_1026b040 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
 | M-0151 | D2Game.dll | 0x1bc86 | sub_6fc3bc60+0x26 | call redirect | sub_Hook_sub_6fc3bbc0_102baa40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0152 | D2Game.dll | 0x1dd24 | sub_6fc3db40+0x1e4 | call redirect | sub_Hook_sub_6fc3bbc0_102baa40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0154 | D2Game.dll | 0x1f780 | UNIT_SUnitInactive_6fc3f600+0x180 | call redirect | sub_Hook_UNIT_SUnitInactive_6fc3f600_102edbc0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(2) |
 | M-0155 | D2Game.dll | 0x1ff59 | UNIT_SUnitInactive_6fc3fb90+0x3c9 | call redirect | sub_Hook_UNIT_SUnitInactive_6fc3fb90_102edc00 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
-| M-0157 | D2Game.dll | 0x1e05e | sub_6fc3e019+0x45 | call redirect | sub_Hook_sub_6fc3db40_102ee650 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9), pd2file:functions/(ItemFunctions\|Cube… |
-| M-0158 | D2Game.dll | 0x1deb3 | sub_6fc3de39+0x7a | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0159 | D2Game.dll | 0x1ded6 | sub_6fc3ded4+0x2 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0160 | D2Game.dll | 0x1defb | sub_6fc3def7+0x4 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0161 | D2Game.dll | 0x1e000 | sub_6fc3e000 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0162 | D2Game.dll | 0x1e11c | sub_6fc3e10d+0xf | operand byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0163 | D2Game.dll | 0x1e0eb | sub_6fc3e0e0+0xb | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
-| M-0164 | D2Game.dll | 0x1e047 | sub_6fc3e019+0x2e | operand byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0157 | D2Game.dll | 0x1e05e | sub_6fc3dd40+0x31e | call redirect | sub_Hook_sub_6fc3db40_102ee650 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9), pd2file:functions/(ItemFunctions\|Cube… |
+| M-0158 | D2Game.dll | 0x1deb3 | sub_6fc3dd40+0x173 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0159 | D2Game.dll | 0x1ded6 | sub_6fc3dd40+0x196 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0160 | D2Game.dll | 0x1defb | sub_6fc3dd40+0x1bb | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0161 | D2Game.dll | 0x1e000 | sub_6fc3dd40+0x2c0 | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0162 | D2Game.dll | 0x1e11c | sub_6fc3dd40+0x3dc | operand byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0163 | D2Game.dll | 0x1e0eb | sub_6fc3dd40+0x3ab | opcode byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-0164 | D2Game.dll | 0x1e047 | sub_6fc3dd40+0x307 | operand byte change |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
 | M-0188 | D2Game.dll | 0xfbc38 | DAT_6fd1bbf0+0x48 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1bc38_10253cd0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0189 | D2Game.dll | 0xeb81 | sub_6fc2eae0+0xa1 | call redirect | sub_Hook_sub_6fc2eae0_102ecc40 | rules: pd2file:functions/(ItemFunctions\|CubeFun(4) |
 | M-0190 | D2Game.dll | 0x108a7 | sub_6fc307e0+0xc7 | call redirect | sub_Hook_sub_6fc2eae0_102ecc40 | rules: pd2file:functions/(ItemFunctions\|CubeFun(4) |
@@ -745,7 +1097,7 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-0233 | D2Game.dll | 0x9b73a | INVENTORY_InvMode_6fcbb630+0x10a | call redirect | sub_Hook_INVENTORY_InvMode_6fcbb630_102ef030 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0237 | D2Common.dll | 0x29d7e | D2Common_10107+0x1e | call redirect | sub_Hook_D2Common_10107_102ef070 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0238 | D2Game.dll | 0xbdf34 | sub_6fcdde60+0xd4 | call redirect | sub_Hook_sub_6fcddd80_10253300 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
-| M-0239 | D2Game.dll | 0xbdfca | sub_6fcddfb0+0x1a | call redirect | sub_Hook_sub_6fcddd80_10253300 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-0239 | D2Game.dll | 0xbdfca | sub_6fcdde60+0x16a | call redirect | sub_Hook_sub_6fcddd80_10253300 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0240 | D2Client.dll | 0x47ddc | sub_6faf7d60+0x7c | call redirect | sub_Hook_sub_6fcddd80_10253300 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0241 | D2Client.dll | 0x8f392 | UI_inv_6fb3f260+0x132 | call redirect | sub_Hook_sub_6fcddd80_10253300 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0245 | D2Game.dll | 0xbe873 | sub_6fcde640+0x233 | call redirect | functions_ItemFunctions_Hook_sub_6fcde640_102d69d0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
@@ -775,7 +1127,7 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-0356 | D2Game.dll | 0xfa168 | DAT_6fd1a078+0xf0 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a168_102e2310 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0358 | D2Game.dll | 0xfa188 | DAT_6fd1a078+0x110 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a188_102e2440 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0363 | D2Game.dll | 0xfa288 | DAT_6fd1a078+0x210 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a288_102e2f80 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
-| M-0367 | D2Game.dll | 0xd14a3 | sub_6fcf147f+0x24 | call redirect | sub_Hook_sub_6fcf01d0_102e5720 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
+| M-0367 | D2Game.dll | 0xd14a3 | sub_6fcf1470+0x33 | call redirect | sub_Hook_sub_6fcf01d0_102e5720 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
 | M-0368 | D2Game.dll | 0xfa320 | DAT_6fd1a078+0x2a8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a320_102e40b0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0372 | D2Game.dll | 0xfa378 | DAT_6fd1a078+0x300 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a378_102e4250 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-0373 | D2Game.dll | 0xfa380 | DAT_6fd1a078+0x308 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a380_102e4290 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
@@ -855,8 +1207,8 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-1055 | D2Game.dll | 0x76f29 | sub_6fc96f20+0x9 | call redirect | functions_D2CommonFunctions_Hook_sub_6fc96bf0_102686f0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
 | M-1056 | D2Game.dll | 0x76fc5 | sub_6fc96f43+0x82 | call redirect | functions_D2CommonFunctions_Hook_sub_6fc96f43_10268750 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
 | M-1057 | D2Game.dll | 0x76017 | sub_6fc95e10+0x207 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
-| M-1064 | D2Game.dll | 0xab66f | sub_6fccb5e3+0x8c | call redirect | sub_Hook_Ai_AiThink4_6fccb360_102eda10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
-| M-1065 | D2Game.dll | 0xab93a | sub_6fccb5e3+0x357 | call redirect | sub_Hook_Ai_AiThink4_6fccb360_102eda10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1064 | D2Game.dll | 0xab66f | sub_6fccb580+0xef | call redirect | sub_Hook_Ai_AiThink4_6fccb360_102eda10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1065 | D2Game.dll | 0xab93a | sub_6fccb580+0x3ba | call redirect | sub_Hook_Ai_AiThink4_6fccb360_102eda10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
 | M-1071 | D2Game.dll | 0xa10f1 | SKILLS_Skills_6fcc10b0+0x41 | call redirect | sub_Hook_SKILLS_Skills_6fcc10b0_102edae0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-1072 | D2Game.dll | 0xdb7a0 | UNIT_SUnitDmg_6fcfb790+0x10 | call redirect | sub_Hook_SKILLS_Skills_6fcc10b0_102edae0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-1073 | D2Game.dll | 0xdb7c2 | UNIT_SUnitDmg_6fcfb790+0x32 | call redirect | sub_Hook_SKILLS_Skills_6fcc10b0_102edae0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
@@ -865,14 +1217,142 @@ Game files patched: D2Game `PLAYER/_unattributed/between_PLAYER_PlrTrade_and_PLA
 | M-1079 | D2Game.dll | 0x6fe5a | MISSILES_Missiles_6fc8f930+0x52a | call redirect | sub_Hook_MISSILES_Missiles_6fc8f930_102f0d70 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | M-1080 | D2Client.dll | 0xb363d | UNIT_Missile_6fb630f0+0x54d | call redirect | sub_Hook_UNIT_Missile_6fb630f0_102f0d80 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
 | I-0016 | D2Game.dll | 0xfa640 | DAT_6fd1a5e8+0x58 | function-pointer swap (table) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](9), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1132 | D2Game.dll | 0x1c73d | sub_6fc3c4e0+0x25d | call redirect | functions_D2NewFunctions_Wraps_D2Game_SKILLS_Skills_102c8190 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1159 | D2Game.dll | 0xd9296 | ITEMS_ItemMode_6fcf8ea0+0x3f6 | call redirect | functions_D2NewFunctions_102c83a0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1162 | D2Common.dll | 0x1e7d4 | INVENTORY_Inventory_6fd6e7b0+0x24 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1163 | D2Common.dll | 0x1fe37 | D2Common_10010+0x27 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1164 | D2Common.dll | 0x20a5d | INVENTORY_Inventory_6fd70a30+0x2d | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1165 | D2Common.dll | 0x20be7 | D2Common_10964+0x27 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1166 | D2Common.dll | 0x20df9 | INVENTORY_Inventory_6fd70db0+0x49 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1167 | D2Common.dll | 0x210d7 | D2Common_10836+0x27 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1168 | D2Game.dll | 0x71f38 | PLAYER_PlrTrade_6fc91e10+0x128 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1169 | D2Game.dll | 0x72bcf | sub_6fc92220+0x9af | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1170 | D2Game.dll | 0x72e1f | sub_6fc92220+0xbff | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1175 | D2Game.dll | 0xd2e20 | ITEMS_ItemMode_6fcf2d90+0x90 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1176 | D2Game.dll | 0xd58a7 | ITEMS_ItemMode_6fcf57f0+0xb7 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1177 | D2Game.dll | 0xd5d02 | ITEMS_ItemMode_6fcf5c30+0xd2 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1178 | D2Game.dll | 0xd6485 | ITEMS_ItemMode_6fcf62e0+0x1a5 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1179 | D2Game.dll | 0xd65e9 | ITEMS_ItemMode_6fcf6590+0x59 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1180 | D2Game.dll | 0xd7487 | sub_6fcf7300+0x187 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1181 | D2Game.dll | 0xd754e | sub_6fcf7300+0x24e | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1182 | D2Game.dll | 0xd7748 | ITEMS_ItemMode_6fcf76a0+0xa8 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1183 | D2Game.dll | 0xd79d7 | ITEMS_ItemMode_6fcf78c0+0x117 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1184 | D2Game.dll | 0xd7b3c | ITEMS_ItemMode_6fcf78c0+0x27c | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1205 | D2Game.dll | 0xd77aa | ITEMS_ItemMode_6fcf76a0+0x10a | call redirect | functions_D2CommonFunctions_10267f30 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1206 | D2Client.dll | 0x82737 | UNIT_Item_6fb32660+0xd7 | call redirect | functions_D2CommonFunctions_10267f30 | rules: pd2file:functions/(ItemFunctions\|CubeFun(4) |
+| M-1208 | D2Game.dll | 0xd0391 | sub_6fcf01d0+0x1c1 | call redirect | sub_102f05a0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1209 | D2Game.dll | 0xd0383 | sub_6fcf01d0+0x1b3 | call redirect | sub_102f05e0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1211 | D2Game.dll | 0x49f05 | sub_6fc69ee0+0x25 | call redirect | functions_D2CommonFunctions_102694f0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1212 | D2Game.dll | 0x49f55 | GAME_Clients_6fc69f30+0x25 | call redirect | functions_D2CommonFunctions_102694f0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1213 | D2Game.dll | 0x4af4b | GAME_Clients_6fc6ae90+0xbb | call redirect | functions_D2CommonFunctions_102694f0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1214 | D2Game.dll | 0x4af8e | GAME_Clients_6fc6ae90+0xfe | call redirect | functions_D2CommonFunctions_102694f0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1249 | D2Game.dll | 0x762a8 | sub_6fc96270+0x38 | call redirect | sub_Hook_SKILLS_Skills_6fcc10b0_102edae0+0x10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1305 | D2Game.dll | 0x6aa54 | sub_6fc8a9d0+0x84 | call redirect | sub_102ee6b0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1306 | D2Game.dll | 0x6f09e | sub_6fc8f040+0x5e | call redirect | sub_102ee6b0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1315 | D2Game.dll | 0xbfab6 | sub_6fcdf990+0x126 | call redirect | functions_HelperFunctions_102d1240 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1316 | D2Client.dll | 0x4633b | UI_npcmenu_6faf6230+0x10b | call redirect | functions_HelperFunctions_102d1240 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1317 | D2Client.dll | 0x47f51 | sub_6faf7d60+0x1f1 | call redirect | functions_HelperFunctions_102d1240 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1318 | D2Client.dll | 0x47f88 | sub_6faf7d60+0x228 | call redirect | functions_HelperFunctions_102d1240 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1333 | D2Common.dll | 0x3a710 | D2Common_10551 | NOP fill |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1334 | D2Common.dll | 0x3a710 | D2Common_10551 | call hook (E8 written) | sub_Hook_sub_6fc5ae10_102eede0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1355 | D2Game.dll | 0x75fe2 | sub_6fc95e10+0x1d2 | call redirect | sub_102ef400+0x10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1364 | D2Common.dll | 0x2b33e | ITEMS_Items_6fd7a600+0xd3e | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1365 | D2Common.dll | 0x2c875 | ITEMS_Items_6fd7c7c0+0xb5 | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1366 | D2Common.dll | 0x384d2 | D2Common_10872+0x22 | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1367 | D2Common.dll | 0x3853c | D2Common_10871+0x1c | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1368 | D2Common.dll | 0x3aad2 | D2Common_10656+0x22 | call redirect | functions_D2CommonFunctions_10269230+0x80 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1374 | D2Common.dll | 0x2b345 | ITEMS_Items_6fd7a600+0xd45 | call redirect | sub_102ef400+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1375 | D2Common.dll | 0x32c40 | D2Common_10689+0x30 | call redirect | sub_102ef400+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1376 | D2Common.dll | 0x384de | D2Common_10872+0x2e | call redirect | sub_102ef400+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1377 | D2Common.dll | 0x3850c | D2Common_10195+0x1c | call redirect | sub_102ef400+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1378 | D2Common.dll | 0x3ac7a | D2Common_11040+0x2a | call redirect | sub_102ef400+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1512 | D2Game.dll | 0x77812 | sub_6fc977f0+0x22 | call redirect | functions_D2NewFunctions_102ca4b0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1513 | D2Game.dll | 0x75851 | sub_6fc95680+0x1d1 | call redirect | sub_102ef7b0+0x20 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1597 | D2Game.dll | 0x777cb | sub_6fc97790+0x3b | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1646 | D2Common.dll | 0x24132 | D2Common_10796+0x62 | NOP fill |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1648 | D2Common.dll | 0x20cbc | D2Common_10964+0xfc | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1649 | D2Common.dll | 0x21062 | D2Common_10643+0x92 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1650 | D2Common.dll | 0x21172 | D2Common_10836+0xc2 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1651 | D2Common.dll | 0x25fd1 | ITEMS_Items_6fd75c10+0x3c1 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1652 | D2Common.dll | 0x260d3 | D2Common_10366+0x53 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1653 | D2Common.dll | 0x26153 | D2Common_10463+0x63 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1654 | D2Common.dll | 0x26694 | ITEMS_Items_6fd76190+0x504 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1655 | D2Common.dll | 0x26773 | ITEMS_Items_6fd766e0+0x93 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1656 | D2Common.dll | 0x26e68 | D2Common_10244+0xb8 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1657 | D2Common.dll | 0x2a199 | D2Common_10104+0x29 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1658 | D2Common.dll | 0x2a1c2 | D2Common_10104+0x52 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1659 | D2Common.dll | 0x2c349 | ITEMS_Items_6fd7c0c0+0x289 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1660 | D2Common.dll | 0x2cc89 | D2Common_11097+0x29 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1661 | D2Common.dll | 0x2cd9d | D2Common_10458+0xdd | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1681 | D2Common.dll | 0x385a0 | Stats_StatsEx_6fd88550+0x50 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1682 | D2Common.dll | 0x38baa | D2Common_10973+0x3a | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1683 | D2Common.dll | 0x38bf6 | Stats_StatsEx_6fd88bd0+0x26 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1684 | D2Common.dll | 0x38c4f | D2Common_10587+0x2f | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1685 | D2Common.dll | 0x38e0e | D2Common_10935+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1686 | D2Common.dll | 0x38e61 | D2Common_10845+0x31 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1687 | D2Common.dll | 0x38eb1 | D2Common_10583+0x31 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1688 | D2Common.dll | 0x38f3b | D2Common_10823+0x6b | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1689 | D2Common.dll | 0x38efe | D2Common_10823+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1690 | D2Common.dll | 0x38fcb | D2Common_10925+0x6b | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1691 | D2Common.dll | 0x38f8e | D2Common_10925+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1692 | D2Common.dll | 0x39011 | D2Common_11116+0x21 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1693 | D2Common.dll | 0x3907e | D2Common_10578+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1694 | D2Common.dll | 0x390ce | D2Common_10186+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1695 | D2Common.dll | 0x3911e | D2Common_10913+0x2e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1696 | D2Common.dll | 0x39170 | D2Common_10680+0x30 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1697 | D2Common.dll | 0x391d0 | D2Common_10848+0x30 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1698 | D2Common.dll | 0x393ab | Stats_StatsEx_6fd89380+0x2b | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1699 | D2Common.dll | 0x393e9 | Stats_StatsEx_6fd89380+0x69 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1700 | D2Common.dll | 0x39463 | D2Common_10910+0x33 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1701 | D2Common.dll | 0x39563 | Stats_StatsEx_6fd89530+0x33 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1702 | D2Common.dll | 0x39bdd | D2Common_10381+0x7d | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1703 | D2Common.dll | 0x39c36 | D2Common_10381+0xd6 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1704 | D2Common.dll | 0x39d80 | Stats_StatsEx_6fd89ce0+0xa0 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1705 | D2Common.dll | 0x39efc | Stats_StatsEx_6fd89ce0+0x21c | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1706 | D2Common.dll | 0x39fae | Stats_StatsEx_6fd89f70+0x3e | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1707 | D2Common.dll | 0x3a47e | Stats_StatsEx_6fd8a3b0+0xce | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1708 | D2Common.dll | 0x3a4d6 | Stats_StatsEx_6fd8a3b0+0x126 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1709 | D2Common.dll | 0x3a548 | Stats_StatsEx_6fd8a3b0+0x198 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1710 | D2Common.dll | 0x3a8be | D2Common_10807+0xee | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1711 | D2Common.dll | 0x3a9a3 | D2Common_10807+0x1d3 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1712 | D2Common.dll | 0x3ab61 | D2Common_10815+0x31 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1713 | D2Common.dll | 0x3abb8 | D2Common_10815+0x88 | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1714 | D2Common.dll | 0x3ac0f | D2Common_10815+0xdf | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1735 | D2Common.dll | 0x2c5fa | D2Common_11145+0x18a | call redirect | functions_ItemFunctions_102d8c40 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1736 | D2Common.dll | 0x28e07 | ITEMS_Items_6fd78d70+0x97 | call redirect | functions_ItemFunctions_102d7990 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6), pd2file:functions/(ItemFunctions\|Cube… |
+| M-1749 | D2Game.dll | 0xd94bc | ITEMS_ItemMode_6fcf9470+0x4c | constant change (imm32/disp32) |  | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](3) |
+| M-1939 | D2Game.dll | 0xeb2b | sub_6fc2eae0+0x4b | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1940 | D2Game.dll | 0x1151f | sub_6fc31490+0x8f | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1944 | D2Game.dll | 0x55667 | sub_6fc75320+0x347 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1945 | D2Game.dll | 0x57d58 | Quests_a5q1_6fc77cb0+0xa8 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1946 | D2Game.dll | 0x5bb25 | Quests_a5q1_6fc7b9b0+0x175 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1947 | D2Game.dll | 0x5bb55 | Quests_a5q1_6fc7b9b0+0x1a5 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1948 | D2Game.dll | 0x5bbae | Quests_a5q1_6fc7b9b0+0x1fe | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1949 | D2Game.dll | 0x5c822 | sub_6fc7c690+0x192 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1950 | D2Game.dll | 0x5d318 | sub_6fc7d1d0+0x148 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1951 | D2Game.dll | 0x5d498 | sub_6fc7d380+0x118 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1952 | D2Game.dll | 0x613f1 | Quests_a1q1_6fc81340+0xb1 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1953 | D2Game.dll | 0x664ce | sub_6fc863a0+0x12e | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1954 | D2Game.dll | 0x6742e | sub_6fc8738a+0xa4 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1955 | D2Game.dll | 0x67668 | Quests_a1q3_6fc874a0+0x1c8 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1956 | D2Game.dll | 0x679a4 | Quests_a1q3_6fc87730+0x274 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1957 | D2Game.dll | 0x67bef | Quests_a1q6_6fc87a90+0x15f | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1959 | D2Game.dll | 0xa2401 | SKILLS_Skills_6fcc22e0+0x121 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1960 | D2Game.dll | 0xa2600 | SKILLS_Skills_6fcc24c0+0x140 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1961 | D2Game.dll | 0xc81bd | sub_6fce8190+0x2d | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1962 | D2Game.dll | 0xc8806 | Quests_a2q4_6fce85a0+0x266 | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1966 | D2Game.dll | 0xef36c | sub_6fd0ef10+0x45c | call redirect | functions_D2NewFunctions_102c85a0 | rules: pd2file:functions/(ItemFunctions\|CubeFun(6) |
+| M-1967 | D2Game.dll | 0x18511 | sub_6fc38480+0x91 | call redirect | sub_10270ff0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1968 | D2Game.dll | 0x1c80d | sub_6fc3c4e0+0x32d | call redirect | sub_10270ff0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
+| M-1969 | D2Game.dll | 0x1ca59 | sub_6fc3c8a0+0x1b9 | call redirect | sub_10270ff0 | rules: [gt]file:ITEMS/\|[gt]file:INVENTORY/\|[gt](6) |
 
 </details>
 
 Data tables: `itemstatcost.txt` (152 rows added, 0 removed, 125 changed, 0 kept rows at a different row index. 3 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/itemstatcost.md`); `properties.txt` (182 rows added, 1 removed, 267 changed, 19 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/properties.md`); `cubemain.txt` (2193 rows added, 3 removed, 143 changed, 148 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/cubemain.md`); `uniqueitems.txt` (83 rows added, 2 removed, 371 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/uniqueitems.md`); `setitems.txt` (2 rows added, 1 removed, 110 changed, 10 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/setitems.md`); `runes.txt` (30 rows added, 1 removed, 85 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/runes.md`); `gems.txt` (0 rows added, 0 removed, 15 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/gems.md`); `magicprefix.txt` (264 rows added, 0 removed, 273 changed, 0 kept rows at a different row index. 1 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/magicprefix.md`); `magicsuffix.txt` (290 rows added, 0 removed, 344 changed, 0 kept rows at a different row index. 3 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/magicsuffix.md`); `automagic.txt` (36 records changed in the first 36, 22 records added, 0 removed.; diff: `2_txt/diff/automagic.md`); `itemtypes.txt` (136 rows added, 0 removed, 32 changed, 12 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/itemtypes.md`); `weapons.txt` (13 rows added, 0 removed, 306 changed, 0 kept rows at a different row index. 9 columns added, 0 removed, 1 renamed.; diff: `2_txt/diff/weapons.md`); `armor.txt` (2 rows added, 0 removed, 118 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 1 renamed.; diff: `2_txt/diff/armor.md`); `misc.txt` (156 rows added, 0 removed, 75 changed, 0 kept rows at a different row index. 4 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/misc.md`); `treasureclassex.txt` (238 rows added, 4 removed, 395 changed, 839 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/treasureclassex.md`); `itemratio.txt` (0 rows added, 0 removed, 0 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/itemratio.md`).
 
-**ItemStatCost record 324 -> 336 bytes.** PD2's `itemstatcost.bin` records are 0x150 bytes (the three `Save * S12` columns). PD2 code indexes the table at `sgptDataTables+0xbcc` with stride 0x150 in 7 functions, e.g. `sub_Wraps_D2Common_DATATBLS_ItemTbls_10250de0` (0x10250de0, `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit20.cpp`), `sub_10251d60` (0x10251d60, `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit21.cpp`), `functions_D2CommonFunctions_10267da0` (0x10267da0, `functions/D2CommonFunctions.cpp`), `functions_HelperFunctions_102ce6d0` (0x102ce6d0, `functions/HelperFunctions.cpp`), `functions_ItemFunctions_102d7970` (0x102d7970, `functions/ItemFunctions.cpp`). No patch record rewrites a 0x144 constant (the game multiplies by 324 with lea/shl sequences or inlines `id*0x144` offsets).
+**ItemStatCost record 324 -> 336 bytes.** PD2's `itemstatcost.bin` records are 0x150 bytes (the three `Save * S12` columns). PD2 code indexes the table at `sgptDataTables+0xbcc` with stride 0x150 in 7 functions, e.g. `sub_Wraps_D2Common_DATATBLS_ItemTbls_10250de0` (0x10250de0, `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit20.cpp`), `sub_10251d60` (0x10251d60, `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit21.cpp`), `functions_D2CommonFunctions_10267da0` (0x10267da0, `functions/D2CommonFunctions.cpp`), `functions_HelperFunctions_102ce6d0` (0x102ce6d0, `functions/HelperFunctions.cpp`), `functions_ItemFunctions_102d7970` (0x102d7970, `functions/ItemFunctions.cpp`). Game code patched from 0x144 to 0x150: D2Common.dll 0x17ba, D2Common.dll 0x26773, D2Common.dll 0x3241a, D2Common.dll 0x385a0, D2Common.dll 0x38baa, D2Common.dll 0x38bf6, D2Common.dll 0x38c4f, D2Common.dll 0x39170, D2Common.dll 0x391d0, D2Common.dll 0x393ab, D2Common.dll 0x393e9, D2Common.dll 0x39463, D2Common.dll 0x39563, D2Common.dll 0x39bdd, D2Common.dll 0x39c36, D2Common.dll 0x39d80, D2Common.dll 0x39efc, D2Common.dll 0x39fae, D2Common.dll 0x3a47e, D2Common.dll 0x3a4d6, D2Common.dll 0x3a548, D2Common.dll 0x3a8be, D2Common.dll 0x3a9a3, D2Common.dll 0x47383, D2Common.dll 0x47618, D2Game.dll 0x10ec, D2Game.dll 0x44862, D2Game.dll 0x44967, D2Game.dll 0x4fa0c, D2Game.dll 0x4fb39, D2Game.dll 0x50546, D2Game.dll 0x7a78f, D2Game.dll 0x7aafc, D2Game.dll 0x8ce8d, D2Game.dll 0xae7ad, D2Game.dll 0xaeb22, D2Game.dll 0xaeea2, D2Game.dll 0xd94bc, D2Game.dll 0xeb986, D2Game.dll 0xebf39, D2Client.dll 0x54716, D2Client.dll 0x54aee, D2Client.dll 0x54b48, D2Client.dll 0x54e3c, D2Client.dll 0x726c8, D2Client.dll 0xadc5e, D2Client.dll 0xade07, D2Client.dll 0xae78a.
 
-Game functions that inline ItemStatCost record offsets (`pItemStatCostTxt + id*0x144`, read from the reference decompile) and are hooked by PD2: 23 hooks in 3 functions, e.g. D2Common!D2Common_10244 (3 hooks; stat ids 91), D2Common!sub_6fdbabe0 (19 hooks; stat ids 48, 49, 50, 51, 52, 53), D2Common!ITEMS_Items_6fd76190 (1 hooks; stat ids 92). These are sites where the 324-byte layout is compiled into game code, so they cannot work with 336-byte records unpatched; that the handlers apply the 0x150 stride is inferred, not checked handler by handler.
+Game functions that inline ItemStatCost record offsets (`pItemStatCostTxt + id*0x144`, read from the reference decompile) and are hooked by PD2: 87 hooks in 39 functions, e.g. D2Common!D2Common_10244 (4 hooks; stat ids 91), D2Common!sub_6fdbabe0 (19 hooks; stat ids 48, 49, 50, 51, 52, 53), D2Common!ITEMS_Items_6fd76190 (2 hooks; stat ids 92), D2Common!D2Common_10964 (2 hooks; stat ids 70), D2Common!D2Common_10836 (2 hooks; stat ids 70), D2Common!ITEMS_Items_6fd7a600 (2 hooks; stat ids 7, 9, 18, 31, 49, 51). These are sites where the 324-byte layout is compiled into game code, so they cannot work with 336-byte records unpatched; that the handlers apply the 0x150 stride is inferred, not checked handler by handler.
 
 Config keys (`ProjectDiablo.json`): `/pd2_game_settings/equipment_lock`, `/pd2_game_settings/auto_equip`.
 
@@ -880,15 +1360,26 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/equipment_lock`, `/pd2_g
 
 Client UI: panels, inventory screen, hover-item drawing, HUD texts (hp/mp text, belt status, dps), automap, the window procedure (keyboard/mouse/controller input), D2Win/D2Launch/D2Multi screens.
 
-**98 hooks** (D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1); kinds: call redirect 51, operand/immediate byte change (block) 22, block replace 8, function-pointer swap (table) 6, NOP fill 3, call hook (E8 written) 3, jmp detour 3, operand byte change 1, window subclass (SetWindowLongW GWL_WNDPROC) 1.
+**328 hooks** (D2Client.dll 232, D2Multi.dll 44, D2Launch.dll 37, D2Win.dll 9, Bnclient.dll 2, D2gfx.dll 2, D2Game.dll 1, D2gfx.dll (game window) 1); kinds: call redirect 224, data byte change 23, operand/immediate byte change (block) 22, instruction rewrite (2 bytes) 13, operand byte change 12, block replace 8, call hook (E8 written) 6, function-pointer swap (table) 6, NOP fill 5, jmp detour 3, jmp target redirect (E9) 2, data-pointer operand (imm32 -> PD2 data) 2, window subclass (SetWindowLongW GWL_WNDPROC) 1, rel32 operand (68) 1.
 
-Handlers (41 distinct; most used first):
+Handlers (85 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `sub_102f0400+0x50` | 0x102f0450 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 32 |
+| `sub_10239910` | 0x10239910 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 20 |
+| `sub_10239a70` | 0x10239a70 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 18 |
+| `sub_102ee680+0x20` | 0x102ee6a0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 16 |
+| `sub_102399c0` | 0x102399c0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 15 |
 | `sub_Hook_sub_6fac6910_102f0380` | 0x102f0380 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 12 |
+| `sub_10239850` | 0x10239850 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 10 |
+| `functions_D2CommonFunctions_10267e40` | 0x10267e40 | `functions/D2CommonFunctions.cpp` | 9 |
+| `sub_1025c3f0` | 0x1025c3f0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 6 |
+| `sub_102f0400+0x10` | 0x102f0410 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 5 |
 | `sub_6f8f80f0 (jmp stub 0x10218960 -> PD2 lazy thunk 0x102a15e0 -> D2Win.dll +0x…` | 0x10218960 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 4 |
 | `sub_Hook_sub_6faf2c70_102eded0` | 0x102eded0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
+| `sub_10259120` | 0x10259120 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 3 |
+| `sub_10229900` | 0x10229900 | `_unattributed/between_client_DrawHoverItem_and_functions_D2ClientFunctions_unit07.cpp` | 3 |
 | `sub_Hook_sub_6faf8b20_102eefc0` | 0x102eefc0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `functions_D2NewFunctions_Hook_BNGatewayAccess_GetGatewayList_102bfab0` | 0x102bfab0 | `functions/D2NewFunctions.cpp` | 2 |
 | `sub_Hook_sub_6faf9440_102ee610` | 0x102ee610 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
@@ -896,24 +1387,13 @@ Handlers (41 distinct; most used first):
 | `Storm_511 (jmp stub 0x10218950 -> PD2 lazy thunk 0x102a1770 -> Storm.dll +0x343…` | 0x10218950 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_102a0d70.…` | 2 |
 | `Bnet::NextGamePatch` | 0x10088070 | `BH: BH/Modules/Bnet/Bnet.cpp:9` | 2 |
 | `Bnet::NextPassPatch` | 0x10088120 | `BH: BH/Modules/Bnet/Bnet.cpp:11` | 2 |
-| `sub_6faf8b20 (jmp stub 0x10259e70 -> PD2 lazy thunk 0x10294910 -> D2Client.dll …` | 0x10259e70 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_1028e780.…` | 1 |
-| `functions_D2NewFunctions_Hook_sub_6fcf01d0_102c0be0` | 0x102c0be0 | `functions/D2NewFunctions.cpp` | 1 |
-| `sub_Hook_sub_6fb15760_10258b60` | 0x10258b60 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
-| `sub_Hook_sub_6faf3920_102ef5d0` | 0x102ef5d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
-| `functions_D2ClientFunctions_Ptr_D2Client_6fb8eccc_1022f2d0` | 0x1022f2d0 | `functions/D2ClientFunctions.cpp` | 1 |
-| `sub_Hook_sub_6fb4fb00_1025bcb0` | 0x1025bcb0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 1 |
-| `sub_Ptr_D2Game_6fd1a120_102df280` | 0x102df280 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
-| `sub_Hook_sub_6faf4b50_1025dee0` | 0x1025dee0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 1 |
-| `functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0` | 0x102bfbc0 | `functions/D2NewFunctions.cpp` | 1 |
-| `client_Sound_Sound_Hook_sub_6fb4cd07_10232a90` | 0x10232a90 | `client/Sound/Sound.cpp` | 1 |
-| `sub_Hook_UI_automap_6fb119e0_102ed610` | 0x102ed610 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_sub_6fb49440_102582c0` | 0x102582c0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
-| `sub_Hook_sub_6fb739e0_10258980` | 0x10258980 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
-| `sub_Hook_UI_showitems_6fb08fb0_102f0c90` | 0x102f0c90 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
-| `sub_Hook_sub_6fb12580_1020f470` | 0x1020f470 | `_unattributed/before_client_DrawHoverItem_unit00_10001000.cpp` | 1 |
-| … 16 more (patches.csv) | | | |
+| `sub_102f0b70+0x10` | 0x102f0b80 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
+| `sub_10258bb0` | 0x10258bb0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 2 |
+| `sub_10259e80+0x110` | 0x10259f90 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 2 |
+| `sub_1025a0e0` | 0x1025a0e0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 2 |
+| … 60 more (patches.csv) | | | |
 
-Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_UI_inv_and_SKILLS_Skills.cpp` (13), D2Multi `_unattributed/code_6f9dc510.cpp` (12), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (10), D2Win `_unattributed/after_Src_D2Comp.cpp` (8), D2Client `_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp` (5), D2Client `_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp` (3), D2Client `WARDEN/WardenClient.cpp` (3), Bnclient `BNetGW.cpp` (2), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (2), D2Client `UI/automap.cpp` (2), D2Client `_unattributed/between_WARDEN_WardenClient_and_UI_inv.cpp` (2).
+Game files patched: D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (79), D2Client `UI/inv.cpp` (39), D2Launch `_unattributed/after_Src_CharSel.cpp` (37), D2Client `_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp` (35), D2Client `_unattributed/between_UI_inv_and_SKILLS_Skills.cpp` (24), D2Multi `_unattributed/code_6f9d1000.cpp` (23), D2Multi `_unattributed/code_6f9dc510.cpp` (21), D2Client `_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp` (11), D2Win `_unattributed/after_Src_D2Comp.cpp` (9), D2Client `UI/automap.cpp` (8), D2Client `_unattributed/between_UI_panel_and_UNIT_UnitMode.cpp` (6), D2Client `ENGINE/Gfx.cpp` (6).
 
 <details><summary>Hooks</summary>
 
@@ -947,13 +1427,13 @@ Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_
 | M-0294 | D2Client.dll | 0x95a55 | UI_inv_6fb458a0+0x1b5 | call redirect | sub_Hook_sub_6fac6910_102f0380 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0295 | D2Client.dll | 0x95b74 | UI_inv_6fb458a0+0x2d4 | call redirect | sub_Hook_sub_6fac6910_102f0380 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0296 | D2Client.dll | 0x9fc19 | sub_6fb4fb00+0x119 | call redirect | sub_Hook_sub_6fac6910_102f0380 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), pd2file:client/DrawHoverItem\|_Wraps_D… |
-| M-0297 | D2Client.dll | 0x4301f | sub_6faf2ffc+0x23 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-0297 | D2Client.dll | 0x4301f | sub_6faf2f80+0x9f | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-0298 | D2Client.dll | 0x44ec8 | sub_6faf4b50+0x378 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
-| M-0303 | D2Client.dll | 0x89e34 | sub_6fb39a20+0x414 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(2) |
+| M-0303 | D2Client.dll | 0x89e34 | sub_6fb399a0+0x494 | call redirect | sub_Hook_sub_6faf2c70_102eded0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(2) |
 | M-0306 | D2Win.dll | 0xf2e2 | D2Win_10065+0x12 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | M-0348 | D2Game.dll | 0xfa120 | DAT_6fd1a078+0xa8 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1a120_102df280 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(6) |
-| M-0645 | D2Client.dll | 0x452e6 | sub_6faf52be+0x28 | call hook (E8 written) + 25 NOP | sub_Hook_sub_6faf4b50_1025dee0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
-| M-0712 | D2Client.dll | 0x44f6f | sub_6faf4f4d+0x22 | call hook (E8 written) + 1 NOP | functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-0645 | D2Client.dll | 0x452e6 | sub_6faf4f40+0x3a6 | call hook (E8 written) + 25 NOP | sub_Hook_sub_6faf4b50_1025dee0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-0712 | D2Client.dll | 0x44f6f | sub_6faf4f40+0x2f | call hook (E8 written) + 1 NOP | functions_D2NewFunctions_Hook_sub_6faf4b50_102bfbc0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
 | M-0775 | D2Client.dll | 0x9cdaf | sub_6fb4cd07+0xa8 | call redirect | client_Sound_Sound_Hook_sub_6fb4cd07_10232a90 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
 | M-1011 | D2Client.dll | 0x61a3d | UI_automap_6fb119e0+0x5d | call redirect | sub_Hook_UI_automap_6fb119e0_102ed610 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | M-1012 | D2Client.dll | 0x6175d | UI_automap_6fb11490+0x2cd | NOP fill + opcode byte change + operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
@@ -999,24 +1479,254 @@ Game files patched: D2Client `UI/inv.cpp` (27), D2Client `_unattributed/between_
 | B-0037 | D2Client.dll | 0x99648 | sub_6fb49440+0x208 | operand/immediate byte change (block) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
 | B-0038 | D2Client.dll | 0x8b679 | WARDEN_WardenClient_6fb3b650+0x29 | operand/immediate byte change (block) |  | rules: ([gt]func:\|gfile:.*)(WARDEN_WardenClient(8) |
 | B-0039 | D2Client.dll | 0x99758 | sub_6fb49440+0x318 | operand/immediate byte change (block) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
-| W-0001 | D2gfx.dll (game window) |  | game window procedure (HWND from D2gfx_10048) | window subclass (SetWindowLongW GWL_WNDPROC) | D2gfx_10048 (PD2 lazy thunk -> D2gfx.dll ordinal 10048) | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), kind:window subclass(10) |
+| W-0001 | D2gfx.dll (game window) |  | game window procedure (HWND from D2gfx_10048) | window subclass (SetWindowLongW GWL_WNDPROC) | sub_10256620 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
 | H-0001 | D2Client.dll | 0x44230 | sub_6faf4230 | call redirect | GameLoop_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
 | H-0003 | D2Client.dll | 0x626c9 | sub_6fb12680+0x49 | jmp detour | GameAutomapDraw_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
-| H-0008 | D2Multi.dll | 0xd753 | sub_6f9dd74c+0x7 | call redirect | ChannelInput_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0008 | D2Multi.dll | 0xd753 | sub_6f9dd690+0xc3 | call redirect | ChannelInput_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0009 | D2Multi.dll | 0x10781 | sub_6f9e06a0+0xe1 | call redirect | ChannelWhisper_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0010 | D2Multi.dll | 0x108a0 | sub_6f9e08a0 | jmp detour | ChannelChat_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0011 | D2Multi.dll | 0x107a0 | sub_6f9e07a0 | jmp detour | ChannelEmote_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0012 | D2Win.dll | 0x18911 | D2Win_10024+0x131 | call redirect | OOGDraw_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0013 | D2Multi.dll | 0x14d29 | sub_6f9e4bfc+0x12d | call redirect | Bnet::NextGamePatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0014 | D2Multi.dll | 0x14a0b | sub_6f9e491a+0xf1 | call redirect | Bnet::NextGamePatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0015 | D2Multi.dll | 0x14d64 | sub_6f9e4bfc+0x168 | call redirect | Bnet::NextPassPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0016 | D2Multi.dll | 0x14a46 | sub_6f9e491a+0x12c | call redirect | Bnet::NextPassPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0017 | D2Multi.dll | 0x14d8f | sub_6f9e4bfc+0x193 | call redirect | Bnet::GameDescPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0013 | D2Multi.dll | 0x14d29 | sub_6f9e4bc0+0x169 | call redirect | Bnet::NextGamePatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0014 | D2Multi.dll | 0x14a0b | sub_6f9e48f0+0x11b | call redirect | Bnet::NextGamePatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0015 | D2Multi.dll | 0x14d64 | sub_6f9e4bc0+0x1a4 | call redirect | Bnet::NextPassPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0016 | D2Multi.dll | 0x14a46 | sub_6f9e48f0+0x156 | call redirect | Bnet::NextPassPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0017 | D2Multi.dll | 0x14d8f | sub_6f9e4bc0+0x1cf | call redirect | Bnet::GameDescPatch | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0018 | D2Client.dll | 0x4363e | sub_6faf35d0+0x6e | call redirect | FailToJoin_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
 | H-0019 | D2Multi.dll | 0x1250 | _strncpy+0x100 | call redirect | RemovePass_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0020 | D2Multi.dll | 0x149ef | sub_6f9e491a+0xd5 | call redirect | D2MULTI_CreateGameBox_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0020 | D2Multi.dll | 0x149ef | sub_6f9e48f0+0xff | call redirect | D2MULTI_CreateGameBox_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
 | H-0021 | D2Multi.dll | 0x11dc3 | sub_6f9e1da0+0x23 | call redirect | Gamefilter::DestroyGamelist | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
-| H-0022 | D2Multi.dll | 0xdf4e | sub_6f9ddf1e+0x30 | call redirect | D2MULTI_GameListRefresh_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| H-0022 | D2Multi.dll | 0xdf4e | sub_6f9dde88+0xc6 | call redirect | D2MULTI_GameListRefresh_Interception | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1121 | D2Client.dll | 0x6a2a4 | ENGINE_Gfx_6fb1a220+0x84 | call redirect | sub_102f0b70+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1122 | D2Client.dll | 0x6a3aa | ENGINE_Gfx_6fb1a2f0+0xba | call redirect | sub_102f0b70+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1123 | D2Client.dll | 0x8b1d8 | WARDEN_WardenClient_6fb3b110+0xc8 | call redirect | sub_10258bb0 | rules: ([gt]func:\|gfile:.*)(WARDEN_WardenClient(4) |
+| M-1124 | D2Client.dll | 0x8b1e8 | WARDEN_WardenClient_6fb3b110+0xd8 | call redirect | sub_10258bb0 | rules: ([gt]func:\|gfile:.*)(WARDEN_WardenClient(4) |
+| M-1160 | D2Client.dll | 0x8efa7 | UI_inv_6fb3ea20+0x587 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1161 | D2Client.dll | 0x8efad | UI_inv_6fb3ea20+0x58d | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1186 | D2Client.dll | 0x299cc | sub_6fad9990+0x3c | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1197 | D2Client.dll | 0x90906 | UI_inv_6fb408c0+0x46 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1198 | D2Client.dll | 0x90c71 | UI_inv_6fb408c0+0x3b1 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1199 | D2Client.dll | 0x945ea | UI_inv_6fb445d0+0x1a | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1200 | D2Client.dll | 0x953f7 | UI_inv_6fb453b0+0x47 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1201 | D2Client.dll | 0x95932 | UI_inv_6fb458a0+0x92 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1202 | D2Client.dll | 0x96adb | sub_6fb46aa0+0x3b | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1203 | D2Client.dll | 0x970fb | sub_6fb46aa0+0x65b | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1204 | D2Client.dll | 0x98b7a | sub_6fb48b60+0x1a | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1223 | D2Client.dll | 0x19bd3 | UNIT_Player_6fac9830+0x3a3 | call redirect | sub_10259120 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1224 | D2Client.dll | 0x48412 | sub_6faf83b0+0x62 | call redirect | sub_10259120 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1225 | D2Client.dll | 0x4e2ce | UNIT_Monster_6fafdc70+0x65e | call redirect | sub_10259120 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1286 | D2Client.dll | 0xe1118 | DAT_6fb91118 | data byte change + data byte fill (0xff x 3) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1288 | D2Client.dll | 0x3aa29 | sub_6faea9f0+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1289 | D2Client.dll | 0x3aa69 | sub_6faeaa30+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1290 | D2Client.dll | 0x3aaa9 | sub_6faeaa70+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1291 | D2Client.dll | 0x3aae9 | sub_6faeaab0+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1292 | D2Client.dll | 0x3ab29 | sub_6faeaaf0+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1293 | D2Client.dll | 0x3ab69 | sub_6faeab30+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1294 | D2Client.dll | 0x3aba9 | sub_6faeab70+0x39 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1295 | D2Client.dll | 0x3abe0 | sub_6faeabb0+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1296 | D2Client.dll | 0x3ac20 | sub_6faeabf0+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1297 | D2Client.dll | 0x3ac60 | sub_6faeac30+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1298 | D2Client.dll | 0x3aca0 | sub_6faeac70+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1299 | D2Client.dll | 0x3ace0 | sub_6faeacb0+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1300 | D2Client.dll | 0x3ad20 | sub_6faeacf0+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1301 | D2Client.dll | 0x3ad60 | sub_6faead30+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1302 | D2Client.dll | 0x3ada0 | sub_6faead70+0x30 | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1303 | D2Client.dll | 0x3addd | sub_6faeadb0+0x2d | call redirect | sub_102ee680+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1304 | D2Client.dll | 0x3edad | sub_6faeecb0+0xfd | call redirect | sub_Hook_sub_6fc5ae10_102eede0+0x80 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1319 | D2Client.dll | 0x96d2a | sub_6fb46aa0+0x28a | call redirect | functions_HelperFunctions_102d1240 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1320 | D2Client.dll | 0x442a3 | sub_6faf4230+0x73 | call redirect | sub_10259d70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1347 | D2Client.dll | 0x3b9ef | sub_6faeb89c+0x153 | call hook (E8 written) + 15 NOP | sub_10259e80+0x110 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1348 | D2Client.dll | 0x438a4 | sub_6faf3870+0x34 | call hook (E8 written) + operand byte change | sub_10259e80+0x100 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1349 | D2Client.dll | 0x608ea | UI_automap_6fb108d0+0x1a | call hook (E8 written) + 15 NOP | sub_10259e80+0x110 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1382 | D2Client.dll | 0x1e1c8 | sub_6face160+0x68 | call redirect | sub_1025a0e0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(6) |
+| M-1383 | D2Client.dll | 0x1e1f0 | sub_6face1e2+0xe | call redirect | sub_1025a0e0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(6) |
+| M-1398 | D2Client.dll | 0x62d45 | sub_6fb12cf0+0x55 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1400 | D2Launch.dll | 0xc500 | sub_6fa4c430+0xd0 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1401 | D2Launch.dll | 0xd962 | sub_6fa4d5d0+0x392 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1402 | D2Launch.dll | 0x12852 | sub_6fa52770+0xe2 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1403 | D2Launch.dll | 0x128e7 | sub_6fa528d0+0x17 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1404 | D2Launch.dll | 0x12957 | sub_6fa52940+0x17 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1405 | D2Launch.dll | 0x13c36 | sub_6fa53b30+0x106 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1406 | D2Launch.dll | 0x18939 | sub_6fa58900+0x39 | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1407 | D2Launch.dll | 0x1953a | sub_6fa59290+0x2aa | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1408 | D2Multi.dll | 0xda2b | sub_6f9dd9d0+0x5b | call redirect | sub_10239850 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1414 | D2Client.dll | 0x3bbbf | sub_6faeba70+0x14f | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1415 | D2Client.dll | 0x45e96 | UI_npcmenu_6faf5e50+0x46 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1416 | D2Client.dll | 0x5ac32 | sub_6fb0ac00+0x32 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1417 | D2Client.dll | 0x609e5 | sub_6fb10990+0x55 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1418 | D2Client.dll | 0x60a0e | sub_6fb10990+0x7e | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1419 | D2Client.dll | 0x60a31 | sub_6fb10990+0xa1 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1420 | D2Client.dll | 0x60a55 | sub_6fb10990+0xc5 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1421 | D2Client.dll | 0x60a79 | sub_6fb10990+0xe9 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1422 | D2Client.dll | 0x6325a | sub_6fb13240+0x1a | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1423 | D2Client.dll | 0x634b6 | sub_6fb134a0+0x16 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1424 | D2Client.dll | 0x63595 | sub_6fb13580+0x15 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1425 | D2Client.dll | 0x64839 | sub_6fb14810+0x29 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1426 | D2Client.dll | 0x648ae | sub_6fb14890+0x1e | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1427 | D2Client.dll | 0x64b45 | sub_6fb14b30+0x15 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1431 | D2gfx.dll | 0xaf0a | sub_6fa8aee0+0x2a | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1432 | D2gfx.dll | 0xaf38 | sub_6fa8aee0+0x58 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1433 | D2Launch.dll | 0x19eb0 | sub_6fa59ce0+0x1d0 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1434 | D2Multi.dll | 0x11d3d | sub_6f9e1d20+0x1d | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1435 | D2Multi.dll | 0x1469c | sub_6f9e4680+0x1c | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1436 | D2Multi.dll | 0x15162 | sub_6f9e4bc0+0x5a2 | call redirect | sub_10239910 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1445 | D2Client.dll | 0x62d22 | sub_6fb12cf0+0x32 | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1447 | D2Launch.dll | 0xc396 | sub_6fa4c370+0x26 | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1448 | D2Launch.dll | 0xc54d | sub_6fa4c430+0x11d | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1449 | D2Launch.dll | 0xc57e | sub_6fa4c430+0x14e | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1450 | D2Launch.dll | 0xd12f | sub_6fa4d0d0+0x5f | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1451 | D2Launch.dll | 0xd9b2 | sub_6fa4d5d0+0x3e2 | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1452 | D2Launch.dll | 0xda0d | sub_6fa4d5d0+0x43d | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1453 | D2Launch.dll | 0x128c0 | sub_6fa52770+0x150 | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1454 | D2Launch.dll | 0x1299c | sub_6fa52940+0x5c | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1455 | D2Launch.dll | 0x1884e | sub_6fa58810+0x3e | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1456 | D2Launch.dll | 0x189db | sub_6fa58900+0xdb | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1457 | D2Launch.dll | 0x19ffd | sub_6fa59fb0+0x4d | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1458 | D2Launch.dll | 0x1a15e | sub_6fa5a030+0x12e | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1459 | D2Launch.dll | 0x1a1e5 | sub_6fa5a180+0x65 | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1460 | D2Launch.dll | 0x1ae4e | sub_6fa5adf0+0x5e | call redirect | sub_102399c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1466 | D2Client.dll | 0x39d9e | sub_6fae9d80+0x1e | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1467 | D2Client.dll | 0x39dde | sub_6fae9dc0+0x1e | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1468 | D2Client.dll | 0x39e0e | sub_6fae9df0+0x1e | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1469 | D2Client.dll | 0x3bbe8 | sub_6faeba70+0x178 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1470 | D2Client.dll | 0x5cae3 | sub_6fb0c7f0+0x2f3 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1476 | D2Client.dll | 0x63229 | sub_6fb13220+0x9 | rel32 operand (68) | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1477 | D2Client.dll | 0x62f80 | sub_6fb12f60+0x20 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1478 | D2Client.dll | 0x633f5 | sub_6fb133e0+0x15 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1479 | D2Client.dll | 0x63445 | sub_6fb13430+0x15 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1480 | D2Client.dll | 0x63485 | sub_6fb13470+0x15 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1481 | D2Client.dll | 0x63555 | sub_6fb13520+0x35 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1482 | D2Client.dll | 0x635c7 | sub_6fb135b0+0x17 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1483 | D2Client.dll | 0x6412f | sub_6fb14110+0x1f | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1484 | D2Client.dll | 0x64172 | sub_6fb14150+0x22 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1485 | D2Client.dll | 0x64870 | sub_6fb14810+0x60 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1486 | D2Client.dll | 0x648f6 | sub_6fb14890+0x66 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1487 | D2Client.dll | 0x64927 | sub_6fb14910+0x17 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1488 | D2Client.dll | 0x64b62 | sub_6fb14b30+0x32 | call redirect | sub_10239a70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1511 | D2Client.dll | 0x444c1 | sub_6faf43d0+0xf1 | call redirect | sub_102f0bb0+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1529 | D2Launch.dll | 0xe793 | sub_6fa4e510+0x283 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1530 | D2Multi.dll | 0x14c95 | sub_6f9e4bc0+0xd5 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1531 | D2Client.dll | 0x47636 | sub_6faf7500+0x136 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1532 | D2Client.dll | 0x8c1ed | UI_inv_6fb3c1e0+0xd | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1533 | D2Launch.dll | 0xe5df | sub_6fa4e510+0xcf | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1534 | D2Launch.dll | 0xe5eb | sub_6fa4e510+0xdb | NOP fill + opcode byte change + operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1535 | D2Launch.dll | 0xe5e7 | sub_6fa4e510+0xd7 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1536 | D2Launch.dll | 0x21118 | DAT_6fa61100+0x18 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1537 | D2Launch.dll | 0x21268 | DAT_6fa61250+0x18 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1538 | D2Launch.dll | 0xf836 | sub_6fa4f800+0x36 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1539 | D2Launch.dll | 0xfd22 | sub_6fa4fc40+0xe2 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1540 | D2Launch.dll | 0xe95a | sub_6fa4e510+0x44a | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1541 | D2Launch.dll | 0x19457 | sub_6fa59290+0x1c7 | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1542 | D2Launch.dll | 0x1793d | sub_6fa57780+0x1bd | instruction rewrite (2 bytes) |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1543 | D2Multi.dll | 0xd669 | sub_6f9dd5b0+0xb9 | jmp target redirect (E9) | sub_102e5480 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1544 | D2Multi.dll | 0xd671 | sub_6f9dd670+0x1 | call redirect | sub_102e5480 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1546 | D2Multi.dll | 0x11aa8 | sub_6f9e1a20+0x88 | call redirect | functions_D2NewFunctions_102caab0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1547 | D2Multi.dll | 0xcdea | sub_6f9dcd10+0xda | call redirect | sub_Hook_D2Game_10008_102ef830+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1549 | D2Multi.dll | 0x1aa58 | DAT_6f9ea900+0x158 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1550 | D2Multi.dll | 0x1aa54 | DAT_6f9ea900+0x154 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1551 | D2Multi.dll | 0x1aa88 | DAT_6f9ea900+0x188 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1552 | D2Multi.dll | 0x1ab78 | DAT_6f9ea900+0x278 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1553 | D2Multi.dll | 0x1abd8 | DAT_6f9ea900+0x2d8 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1554 | D2Multi.dll | 0x1abd4 | DAT_6f9ea900+0x2d4 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1555 | D2Multi.dll | 0x1ac08 | DAT_6f9ea900+0x308 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1556 | D2Multi.dll | 0x1adb8 | DAT_6f9ea900+0x4b8 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1557 | D2Multi.dll | 0x1ade8 | DAT_6f9ea900+0x4e8 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1558 | D2Multi.dll | 0x1ae18 | DAT_6f9ea900+0x518 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1559 | D2Multi.dll | 0x1ac38 | DAT_6f9ea900+0x338 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1560 | D2Multi.dll | 0x1ac34 | DAT_6f9ea900+0x334 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1561 | D2Multi.dll | 0x1ac68 | DAT_6f9ea900+0x368 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1562 | D2Multi.dll | 0x1ac98 | DAT_6f9ea900+0x398 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1563 | D2Multi.dll | 0x1acc8 | DAT_6f9ea900+0x3c8 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1564 | D2Multi.dll | 0x1acf8 | DAT_6f9ea900+0x3f8 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1565 | D2Multi.dll | 0x1ad28 | DAT_6f9ea900+0x428 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1566 | D2Multi.dll | 0x1aa28 | DAT_6f9ea900+0x128 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1567 | D2Multi.dll | 0x1aa24 | DAT_6f9ea900+0x124 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1568 | D2Multi.dll | 0x1ab48 | DAT_6f9ea900+0x248 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1569 | D2Multi.dll | 0x1ad58 | DAT_6f9ea900+0x458 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1570 | D2Multi.dll | 0x1ad88 | DAT_6f9ea900+0x488 | data byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1764 | D2Win.dll | 0x18a5d | D2Win_10014+0xdd | NOP fill |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1766 | D2Launch.dll | 0x18108 | sub_6fa57df0+0x318 | call redirect | sub_1025bb70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1767 | D2Launch.dll | 0x1812b | sub_6fa57df0+0x33b | call redirect | sub_1025bb70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1771 | D2Client.dll | 0x3e855 | sub_6faee7f0+0x65 | call redirect | functions_D2CommonFunctions_10269400 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1774 | D2Client.dll | 0x3c8b5 | sub_6faec880+0x35 | call redirect | sub_102f0170+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1775 | D2Client.dll | 0x6621c | sub_6fb15e70+0x3ac | call redirect | sub_102f0170+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1778 | D2Client.dll | 0x44bfc | sub_6faf4b50+0xac | call redirect | sub_1022a3d0+0xb0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1781 | D2Client.dll | 0x377af | sub_6fae7740+0x6f | call redirect | sub_10225870 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1783 | D2Client.dll | 0x44a04 | sub_6faf4980+0x84 | call redirect | sub_102f0400+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1784 | D2Client.dll | 0x63a3a | sub_6fb13940+0xfa | call redirect | sub_102f0400+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1785 | D2Client.dll | 0x63a87 | sub_6fb13940+0x147 | call redirect | sub_102f0400+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1786 | D2Client.dll | 0x93982 | UI_inv_6fb43450+0x532 | call redirect | sub_102f0400+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1787 | D2Client.dll | 0x939b0 | UI_inv_6fb43450+0x560 | call redirect | sub_102f0400+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1802 | D2Client.dll | 0x449f4 | sub_6faf4980+0x74 | call redirect | sub_102f0400+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1814 | D2Client.dll | 0x63a5e | sub_6fb13940+0x11e | call redirect | sub_102f0400+0x40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1815 | D2Client.dll | 0x63a9f | sub_6fb13940+0x15f | call redirect | sub_102f0400+0x40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1816 | D2Client.dll | 0x5cb63 | sub_6fb0c7f0+0x373 | call redirect | sub_102f0400+0x30 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1817 | D2Client.dll | 0x939d7 | UI_inv_6fb43450+0x587 | call redirect | sub_102f0400+0x30 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1818 | D2Client.dll | 0x3dd33 | sub_6faedcf0+0x43 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1819 | D2Client.dll | 0x3dd6e | sub_6faedcf0+0x7e | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1820 | D2Client.dll | 0x3dda9 | sub_6faedcf0+0xb9 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1821 | D2Client.dll | 0x3dde4 | sub_6faedcf0+0xf4 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1822 | D2Client.dll | 0x3de1f | sub_6faedcf0+0x12f | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1823 | D2Client.dll | 0x3de5a | sub_6faedcf0+0x16a | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1824 | D2Client.dll | 0x3de95 | sub_6faedcf0+0x1a5 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1825 | D2Client.dll | 0x3ded0 | sub_6faedcf0+0x1e0 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1826 | D2Client.dll | 0x3df0b | sub_6faedcf0+0x21b | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1827 | D2Client.dll | 0x3df46 | sub_6faedcf0+0x256 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1828 | D2Client.dll | 0x3df81 | sub_6faedcf0+0x291 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1829 | D2Client.dll | 0x3dfbc | sub_6faedcf0+0x2cc | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1830 | D2Client.dll | 0x3dff7 | sub_6faedcf0+0x307 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1831 | D2Client.dll | 0x3e032 | sub_6faedcf0+0x342 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1832 | D2Client.dll | 0x3e06d | sub_6faedcf0+0x37d | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1833 | D2Client.dll | 0x3e0a8 | sub_6faedcf0+0x3b8 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1834 | D2Client.dll | 0x3e103 | sub_6faee0c0+0x43 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1835 | D2Client.dll | 0x3e13e | sub_6faee0c0+0x7e | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1836 | D2Client.dll | 0x3e179 | sub_6faee0c0+0xb9 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1837 | D2Client.dll | 0x3e1b4 | sub_6faee0c0+0xf4 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1838 | D2Client.dll | 0x3e1ef | sub_6faee0c0+0x12f | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1839 | D2Client.dll | 0x3e22a | sub_6faee0c0+0x16a | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1840 | D2Client.dll | 0x3e265 | sub_6faee0c0+0x1a5 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1841 | D2Client.dll | 0x3e2a0 | sub_6faee0c0+0x1e0 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1842 | D2Client.dll | 0x3e2db | sub_6faee0c0+0x21b | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1843 | D2Client.dll | 0x3e316 | sub_6faee0c0+0x256 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1844 | D2Client.dll | 0x3e351 | sub_6faee0c0+0x291 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1845 | D2Client.dll | 0x3e38c | sub_6faee0c0+0x2cc | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1846 | D2Client.dll | 0x3e3c7 | sub_6faee0c0+0x307 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1847 | D2Client.dll | 0x3e402 | sub_6faee0c0+0x342 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1848 | D2Client.dll | 0x3e43d | sub_6faee0c0+0x37d | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1849 | D2Client.dll | 0x3e478 | sub_6faee0c0+0x3b8 | call redirect | sub_102f0400+0x50 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9) |
+| M-1850 | D2Client.dll | 0x29a32 | sub_6fad9990+0xa2 | call redirect | sub_102f1060+0x40 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1851 | D2Client.dll | 0x28fd0 | sub_6fad8dc0+0x210 | call redirect | sub_1025df70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1852 | D2Client.dll | 0x957ad | UI_inv_6fb453b0+0x3fd | call redirect | sub_1025df70 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3) |
+| M-1855 | D2Client.dll | 0x292b8 | sub_6fad9250+0x68 | call redirect | sub_Wraps_D2Client_UI_panel_10226280 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1856 | D2Client.dll | 0x292c2 | sub_6fad9250+0x72 | call redirect | client_DrawHoverItem_102204c0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1857 | D2Client.dll | 0x9b004 | sub_6fb4ae80+0x184 | call redirect | client_DrawHoverItem_Wraps_D2Client_UI_inv_10222470 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1858 | D2Client.dll | 0x65da1 | sub_6fb15c70+0x131 | jmp target redirect (E9) | sub_10229720 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1860 | D2Client.dll | 0x11a53 | sub_6fac1a20+0x33 | call redirect | sub_102297d0 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(4) |
+| M-1861 | D2Client.dll | 0x12efa | sub_6fac2eb0+0x4a | call redirect | sub_10229900 | rules: pd2file:client/DrawHoverItem\|_Wraps_D2Cl(6) |
+| M-1862 | D2Client.dll | 0x65d47 | sub_6fb15c70+0xd7 | call redirect | sub_10229900 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1863 | D2Client.dll | 0x65d95 | sub_6fb15c70+0x125 | call redirect | sub_10229900 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1876 | D2Client.dll | 0x4ad8b | sub_6fafad04+0x87 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1877 | D2Client.dll | 0x4ada1 | sub_6fafad04+0x9d | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1878 | D2Client.dll | 0x4b0e2 | sub_6fafaee0+0x202 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1879 | D2Client.dll | 0x4b102 | sub_6fafaee0+0x222 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1882 | D2Client.dll | 0x983c0 | sub_6fb48320+0xa0 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1883 | D2Client.dll | 0x985e8 | sub_6fb484a0+0x148 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1884 | D2Client.dll | 0x9863b | sub_6fb484a0+0x19b | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1885 | D2Client.dll | 0x9b645 | sub_6fb4b530+0x115 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1889 | D2Client.dll | 0x65d7e | sub_6fb15c70+0x10e | data-pointer operand (imm32 -> PD2 data) | DAT_10398c38 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1908 | D2Client.dll | 0x656f8 | sub_6fb156b0+0x48 | data-pointer operand (imm32 -> PD2 data) | DAT_10399f60 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1909 | D2Client.dll | 0x65703 | sub_6fb156b0+0x53 | operand byte change |  | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1917 | D2Client.dll | 0x6ce53 | ENGINE_Gfx_6fb1cc00+0x253 | call redirect | sub_102f03a0+0x20 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1918 | D2Client.dll | 0x6cf88 | ENGINE_Gfx_6fb1cc00+0x388 | call redirect | sub_1025c380 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1919 | D2Client.dll | 0x6cac6 | ENGINE_Gfx_6fb1c490+0x636 | call redirect | sub_1025c380 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(3), pd2file:client/DrawHoverItem\|_Wraps_D… |
+| M-1920 | D2Client.dll | 0x9f3a5 | sub_6fb4f270+0x135 | call redirect | sub_102f0b50+0x10 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(9), [gt]file:.*between_UI_inv_and_SKILLS_… |
+| M-1921 | D2Client.dll | 0x6cd95 | ENGINE_Gfx_6fb1cc00+0x195 | call redirect | sub_102f0830+0x30 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1922 | D2Client.dll | 0x44688 | sub_6faf4630+0x58 | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1923 | D2Client.dll | 0x44721 | sub_6faf46b0+0x71 | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1924 | D2Client.dll | 0x447c8 | sub_6faf4730+0x98 | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1925 | D2Client.dll | 0x44872 | sub_6faf4800+0x72 | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1926 | D2Client.dll | 0x448d4 | sub_6faf4880+0x54 | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
+| M-1927 | D2Client.dll | 0x4495e | sub_6faf48e0+0x7e | call redirect | sub_1025c3f0 | rules: [gt]file:UI/\|[gt]file:ENGINE/\|between_UI(6) |
 
 </details>
 
@@ -1026,9 +1736,9 @@ Config keys (`ProjectDiablo.json`): `/classic_game_settings/video/contrast`, `/c
 
 PD2's own sound engine (client/Sound/*.cpp: Sound, SoundChannel, SoundInstance, SoundSample) replaces the game's sound playback; per-category volumes.
 
-**267 hooks** (D2Client.dll 267); kinds: call redirect 241, operand byte change 18, function-pointer swap (table) 3, instruction rewrite (2 bytes) 2, NOP fill 2, code-pointer operand (imm32 -> PD2 function) 1.
+**274 hooks** (D2Client.dll 272, D2Game.dll 1, Bnclient.dll 1); kinds: call redirect 248, operand byte change 18, function-pointer swap (table) 3, instruction rewrite (2 bytes) 2, NOP fill 2, code-pointer operand (imm32 -> PD2 function) 1.
 
-Handlers (16 distinct; most used first):
+Handlers (22 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -1038,6 +1748,7 @@ Handlers (16 distinct; most used first):
 | `client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0` | 0x102340c0 | `client/Sound/SoundChannel.cpp` | 3 |
 | `client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0` | 0x102350d0 | `client/Sound/SoundInstance.cpp` | 3 |
 | `client_Sound_SoundInstance_Hook_sub_6fb2d850_102343f0` | 0x102343f0 | `client/Sound/SoundInstance.cpp` | 2 |
+| `sub_10239910` | 0x10239910 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 2 |
 | `client_Sound_Sound_Hook_WARDEN_WardenClient_6fb38dd0_10233840` | 0x10233840 | `client/Sound/Sound.cpp` | 1 |
 | `client_Sound_Sound_Hook_sub_6faf4b50_10232180` | 0x10232180 | `client/Sound/Sound.cpp` | 1 |
 | `client_Sound_SoundInstance_Hook_sub_6faf4b50_102346c0` | 0x102346c0 | `client/Sound/SoundInstance.cpp` | 1 |
@@ -1048,8 +1759,13 @@ Handlers (16 distinct; most used first):
 | `sub_Ptr_D2Client_6fb8bdcc_1021a8e0` | 0x1021a8e0 | `_unattributed/before_client_DrawHoverItem_unit02.cpp` | 1 |
 | `sub_Ptr_D2Client_6fb8bdc0_1021ad10` | 0x1021ad10 | `_unattributed/before_client_DrawHoverItem_unit02.cpp` | 1 |
 | `sub_Ptr_D2Client_6fb8bdd8_1021b090` | 0x1021b090 | `_unattributed/before_client_DrawHoverItem_unit02.cpp` | 1 |
+| `functions_D2CommonFunctions_1026b010` | 0x1026b010 | `functions/D2CommonFunctions.cpp` | 1 |
+| `sub_10259360` | 0x10259360 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
+| `sub_10239850` | 0x10239850 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 1 |
+| `sub_102e4f20` | 0x102e4f20 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
+| `sub_10225970` | 0x10225970 | `_unattributed/between_client_DrawHoverItem_and_functions_D2ClientFunctions_unit05.cpp` | 1 |
 
-Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp` (66), D2Client `_unattributed/between_UI_inv_and_SKILLS_Skills.cpp` (36), D2Client `_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp` (16), D2Client `WARDEN/WardenClient.cpp` (14), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (13), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (13), D2Client `UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp` (13), D2Client `SKILLS/Skills.cpp` (11), D2Client `UI/_unattributed/between_UI_showitems_and_UI_Hireables.cpp` (10), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (10), D2Client `UNIT/Monster.cpp` (8), D2Client `_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp` (8).
+Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cpp` (69), D2Client `_unattributed/between_UI_inv_and_SKILLS_Skills.cpp` (36), D2Client `_unattributed/between_UI_npcmenu_and_UNIT_Monster.cpp` (16), D2Client `WARDEN/WardenClient.cpp` (15), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (13), D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (13), D2Client `UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp` (13), D2Client `SKILLS/Skills.cpp` (11), D2Client `UI/_unattributed/between_UI_showitems_and_UI_Hireables.cpp` (10), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (10), D2Client `UNIT/Monster.cpp` (8), D2Client `_unattributed/between_UI_automap_and_ENGINE_Gfx.cpp` (8).
 
 <details><summary>Hooks</summary>
 
@@ -1076,21 +1792,21 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0741 | D2Client.dll | 0x88aa4 | WARDEN_WardenClient_6fb38a70+0x34 | operand byte change |  | rules: [gt]func:WARDEN_WardenClient_6fb3(7[d-f](3) |
 | M-0742 | D2Client.dll | 0x88c7f | WARDEN_WardenClient_6fb38c20+0x5f | operand byte change |  | rules: [gt]func:WARDEN_WardenClient_6fb3(7[d-f](3) |
 | M-0743 | D2Client.dll | 0x5df16 | Sound_SoundHdr_6fb0de90+0x86 | operand byte change |  | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4) |
-| M-0745 | D2Client.dll | 0x4509e | sub_6faf5078+0x26 | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232180 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0745 | D2Client.dll | 0x4509e | sub_6faf4f40+0x15e | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232180 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
 | M-0746 | D2Client.dll | 0x44bcc | sub_6faf4b50+0x7c | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232240 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
 | M-0747 | D2Client.dll | 0x44ea1 | sub_6faf4b50+0x351 | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232240 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
 | M-0748 | D2Client.dll | 0x71ae0 | sub_6fb21ad0+0x10 | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232240 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
 | M-0749 | D2Client.dll | 0x71baf | sub_6fb21b60+0x4f | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10232240 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0750 | D2Client.dll | 0x4515e | sub_6faf5137+0x27 | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0751 | D2Client.dll | 0x453b6 | sub_6faf52be+0xf8 | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0752 | D2Client.dll | 0x89a9c | sub_6fb39a20+0x7c | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0753 | D2Client.dll | 0x45163 | sub_6faf5137+0x2c | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
-| M-0754 | D2Client.dll | 0x453bb | sub_6faf52be+0xfd | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
-| M-0755 | D2Client.dll | 0x89aa1 | sub_6fb39a20+0x81 | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
-| M-0756 | D2Client.dll | 0x453c0 | sub_6faf52be+0x102 | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102346c0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
-| M-0757 | D2Client.dll | 0x453c5 | sub_6faf52be+0x107 | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_10234080 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0758 | D2Client.dll | 0x453ca | sub_6faf52be+0x10c | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10233790 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
-| M-0759 | D2Client.dll | 0x89aa6 | sub_6fb39a20+0x86 | call redirect | client_Sound_Sound_Hook_WARDEN_WardenClient_6fb39830_102323… | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4) |
+| M-0750 | D2Client.dll | 0x4515e | sub_6faf4f40+0x21e | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0751 | D2Client.dll | 0x453b6 | sub_6faf4f40+0x476 | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0752 | D2Client.dll | 0x89a9c | sub_6fb399a0+0xfc | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_102340c0 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0753 | D2Client.dll | 0x45163 | sub_6faf4f40+0x223 | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-0754 | D2Client.dll | 0x453bb | sub_6faf4f40+0x47b | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-0755 | D2Client.dll | 0x89aa1 | sub_6fb399a0+0x101 | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102350d0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-0756 | D2Client.dll | 0x453c0 | sub_6faf4f40+0x480 | call redirect | client_Sound_SoundInstance_Hook_sub_6faf4b50_102346c0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-0757 | D2Client.dll | 0x453c5 | sub_6faf4f40+0x485 | call redirect | client_Sound_SoundChannel_Hook_sub_6faf4b50_10234080 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0758 | D2Client.dll | 0x453ca | sub_6faf4f40+0x48a | call redirect | client_Sound_Sound_Hook_sub_6faf4b50_10233790 | rules: [gt]file:Sound/\|[gt]file:[A-Za-z/]*Snd(4), pd2file:client/Sound/\|PlaySound\|str:.*\… |
+| M-0759 | D2Client.dll | 0x89aa6 | sub_6fb399a0+0x106 | call redirect | client_Sound_Sound_Hook_WARDEN_WardenClient_6fb39830_102323… | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4) |
 | M-0760 | D2Client.dll | 0x232cf | sub_6fad3200+0xcf | call redirect | sub_Hook_sub_6fad3200_102f0a30 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
 | M-0761 | D2Client.dll | 0x232fd | sub_6fad3200+0xfd | call redirect | sub_Hook_sub_6fad3200_102f0a30 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
 | M-0762 | D2Client.dll | 0x2331f | sub_6fad3200+0x11f | call redirect | sub_Hook_sub_6fad3200_102f0a30 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
@@ -1164,12 +1880,12 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0831 | D2Client.dll | 0x24564 | sub_6fad4490+0xd4 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
 | M-0832 | D2Client.dll | 0x24a27 | sub_6fad49e0+0x47 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
 | M-0833 | D2Client.dll | 0x24ac9 | sub_6fad4a70+0x59 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
-| M-0834 | D2Client.dll | 0x28227 | sub_6fad81ec+0x3b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
+| M-0834 | D2Client.dll | 0x28227 | sub_6fad804c+0x1db | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
 | M-0835 | D2Client.dll | 0x282e3 | sub_6fad8260+0x83 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: between_[A-Za-z_]*(Sound\|Snd)(2), pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tf… |
 | M-0836 | D2Client.dll | 0x29a8f | sub_6fad9990+0xff | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0837 | D2Client.dll | 0x2c02e | SKILLS_SkillsPal_6fadbf40+0xee | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0838 | D2Client.dll | 0x40b48 | sub_6faf0ad9+0x6f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0839 | D2Client.dll | 0x40c81 | sub_6faf0c12+0x6f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0838 | D2Client.dll | 0x40b48 | sub_6faf0a70+0xd8 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0839 | D2Client.dll | 0x40c81 | sub_6faf0b60+0x121 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0840 | D2Client.dll | 0x40d2a | sub_6faf0ca0+0x8a | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0841 | D2Client.dll | 0x46f49 | sub_6faf6ee0+0x69 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0842 | D2Client.dll | 0x4786f | sub_6faf7860+0xf | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1178,7 +1894,7 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0845 | D2Client.dll | 0x47a5b | sub_6faf7970+0xeb | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0846 | D2Client.dll | 0x4804f | sub_6faf7d60+0x2ef | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0847 | D2Client.dll | 0x484bf | sub_6faf83b0+0x10f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0848 | D2Client.dll | 0x49279 | sub_6faf925c+0x1d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0848 | D2Client.dll | 0x49279 | sub_6faf9250+0x29 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0849 | D2Client.dll | 0x4a84b | sub_6fafa4f0+0x35b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0850 | D2Client.dll | 0x4aabc | sub_6fafa8c0+0x1fc | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0851 | D2Client.dll | 0x4ab0a | sub_6fafaaf0+0x1a | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1193,31 +1909,31 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0860 | D2Client.dll | 0x4e63f | UNIT_Monster_6fafdc70+0x9cf | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0861 | D2Client.dll | 0x4e670 | UNIT_Monster_6fafdc70+0xa00 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0862 | D2Client.dll | 0x4e6b9 | UNIT_Monster_6fafdc70+0xa49 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0863 | D2Client.dll | 0x506f9 | sub_6fb006f6+0x3 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0863 | D2Client.dll | 0x506f9 | sub_6fb006a0+0x59 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0864 | D2Client.dll | 0x507ac | UNIT_Monster_6fb00750+0x5c | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0865 | D2Client.dll | 0x53272 | sub_6fb03220+0x52 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0866 | D2Client.dll | 0x57a67 | sub_6fb078f0+0x177 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0867 | D2Client.dll | 0x598b2 | sub_6fb098a0+0x12 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0868 | D2Client.dll | 0x59922 | sub_6fb09910+0x12 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0869 | D2Client.dll | 0x59992 | sub_6fb09980+0x12 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0870 | D2Client.dll | 0x5a2cc | sub_6fb0a2af+0x1d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0871 | D2Client.dll | 0x5a348 | sub_6fb0a2e7+0x61 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0872 | D2Client.dll | 0x5a385 | sub_6fb0a361+0x24 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0873 | D2Client.dll | 0x5a3bc | sub_6fb0a39d+0x1f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0874 | D2Client.dll | 0x5a45e | sub_6fb0a3d5+0x89 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0875 | D2Client.dll | 0x5a493 | sub_6fb0a473+0x20 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0876 | D2Client.dll | 0x5a4db | sub_6fb0a4c1+0x1a | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0877 | D2Client.dll | 0x64cf0 | sub_6fb14cc7+0x29 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0870 | D2Client.dll | 0x5a2cc | sub_6fb09ed0+0x3fc | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0871 | D2Client.dll | 0x5a348 | sub_6fb0a190+0x1b8 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0872 | D2Client.dll | 0x5a385 | sub_6fb0a190+0x1f5 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0873 | D2Client.dll | 0x5a3bc | sub_6fb0a190+0x22c | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0874 | D2Client.dll | 0x5a45e | sub_6fb0a190+0x2ce | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0875 | D2Client.dll | 0x5a493 | sub_6fb0a190+0x303 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0876 | D2Client.dll | 0x5a4db | sub_6fb0a190+0x34b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0877 | D2Client.dll | 0x64cf0 | sub_6fb14bdc+0x114 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0878 | D2Client.dll | 0x65168 | sub_6fb14fd0+0x198 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0879 | D2Client.dll | 0x65206 | sub_6fb151db+0x2b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0880 | D2Client.dll | 0x65228 | sub_6fb1520c+0x1c | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0879 | D2Client.dll | 0x65206 | sub_6fb15180+0x86 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0880 | D2Client.dll | 0x65228 | sub_6fb15180+0xa8 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0881 | D2Client.dll | 0x66f87 | sub_6fb16f40+0x47 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0882 | D2Client.dll | 0x6849d | sub_6fb18440+0x5d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0883 | D2Client.dll | 0x68519 | sub_6fb184e0+0x39 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0884 | D2Client.dll | 0x6865a | sub_6fb18560+0xfa | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0885 | D2Client.dll | 0x6fc9c | sub_6fb1fab0+0x1ec | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0886 | D2Client.dll | 0x71964 | sub_6fb21901+0x63 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0887 | D2Client.dll | 0x71a1d | sub_6fb219e0+0x3d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0886 | D2Client.dll | 0x71964 | sub_6fb218e0+0x84 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0887 | D2Client.dll | 0x71a1d | sub_6fb219c0+0x5d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0888 | D2Client.dll | 0x72c79 | UNIT_PlrSkills_6fb22c20+0x59 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0889 | D2Client.dll | 0x736b3 | UNIT_PlrSkills_6fb23630+0x83 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0890 | D2Client.dll | 0x73810 | sub_6fb23760+0xb0 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1240,8 +1956,8 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0907 | D2Client.dll | 0x8ad74 | WARDEN_WardenClient_6fb3ad30+0x44 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0908 | D2Client.dll | 0x90f83 | UI_inv_6fb40f60+0x23 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0909 | D2Client.dll | 0x91096 | UI_inv_6fb41070+0x26 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0910 | D2Client.dll | 0x9617f | sub_6fb46134+0x4b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0911 | D2Client.dll | 0x9624e | sub_6fb4620b+0x43 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0910 | D2Client.dll | 0x9617f | sub_6fb45fe0+0x19f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0911 | D2Client.dll | 0x9624e | sub_6fb45fe0+0x26e | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0912 | D2Client.dll | 0x96441 | sub_6fb4629c+0x1a5 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0913 | D2Client.dll | 0x96653 | sub_6fb465fd+0x56 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0914 | D2Client.dll | 0x96852 | sub_6fb46690+0x1c2 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1257,17 +1973,17 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0924 | D2Client.dll | 0x9ad3d | sub_6fb4a920+0x41d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0925 | D2Client.dll | 0x9ae4b | sub_6fb4adef+0x5c | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0926 | D2Client.dll | 0x9b392 | sub_6fb4b300+0x92 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0927 | D2Client.dll | 0x9b3e8 | sub_6fb4b3a3+0x45 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0928 | D2Client.dll | 0x9b4bd | sub_6fb4b47c+0x41 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0929 | D2Client.dll | 0x9bd85 | sub_6fb4bd6f+0x16 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0930 | D2Client.dll | 0x9bdcd | sub_6fb4bd9c+0x31 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0931 | D2Client.dll | 0x9be13 | sub_6fb4bde0+0x33 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0932 | D2Client.dll | 0x9bf64 | sub_6fb4bf29+0x3b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0933 | D2Client.dll | 0x9c15e | sub_6fb4c0d9+0x85 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0934 | D2Client.dll | 0x9c19b | sub_6fb4c0d9+0xc2 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0935 | D2Client.dll | 0x9c1cd | sub_6fb4c0d9+0xf4 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0936 | D2Client.dll | 0x9c20f | sub_6fb4c0d9+0x136 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0937 | D2Client.dll | 0x9c342 | sub_6fb4c333+0xf | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0927 | D2Client.dll | 0x9b3e8 | sub_6fb4b300+0xe8 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0928 | D2Client.dll | 0x9b4bd | sub_6fb4b300+0x1bd | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0929 | D2Client.dll | 0x9bd85 | sub_6fb4bc50+0x135 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0930 | D2Client.dll | 0x9bdcd | sub_6fb4bc50+0x17d | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0931 | D2Client.dll | 0x9be13 | sub_6fb4bc50+0x1c3 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0932 | D2Client.dll | 0x9bf64 | sub_6fb4bed0+0x94 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0933 | D2Client.dll | 0x9c15e | sub_6fb4bed0+0x28e | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0934 | D2Client.dll | 0x9c19b | sub_6fb4bed0+0x2cb | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0935 | D2Client.dll | 0x9c1cd | sub_6fb4bed0+0x2fd | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0936 | D2Client.dll | 0x9c20f | sub_6fb4bed0+0x33f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0937 | D2Client.dll | 0x9c342 | sub_6fb4bed0+0x472 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0938 | D2Client.dll | 0x9f810 | sub_6fb4f7b0+0x60 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0939 | D2Client.dll | 0x9f84f | sub_6fb4f830+0x1f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0940 | D2Client.dll | 0x9f9a7 | sub_6fb4f950+0x57 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1286,14 +2002,14 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0953 | D2Client.dll | 0xa2e76 | SKILLS_Skills_6fb52c90+0x1e6 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0954 | D2Client.dll | 0xa2e9c | SKILLS_Skills_6fb52c90+0x20c | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0955 | D2Client.dll | 0xa4542 | sub_6fb544f0+0x52 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0956 | D2Client.dll | 0xa45a2 | sub_6fb5456b+0x37 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0956 | D2Client.dll | 0xa45a2 | sub_6fb54560+0x42 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0957 | D2Client.dll | 0xa6f9f | UNIT_CUnit_6fb56f60+0x3f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0958 | D2Client.dll | 0xa6fb3 | UNIT_CUnit_6fb56f60+0x53 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0959 | D2Client.dll | 0xaa553 | sub_6fb5a4e0+0x73 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0960 | D2Client.dll | 0xaa5cb | sub_6fb5a4e0+0xeb | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0961 | D2Client.dll | 0xaa9b2 | sub_6fb5a99a+0x18 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0961 | D2Client.dll | 0xaa9b2 | sub_6fb5a740+0x272 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0962 | D2Client.dll | 0xadb0a | sub_6fb5daa0+0x6a | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0963 | D2Client.dll | 0xadb1f | sub_6fb5db12+0xd | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0963 | D2Client.dll | 0xadb1f | sub_6fb5daa0+0x7f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0964 | D2Client.dll | 0xb15f5 | UNIT_Missile_6fb61420+0x1d5 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0965 | D2Client.dll | 0xb255f | UNIT_Missile_6fb62500+0x5f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0966 | D2Client.dll | 0xb36e0 | UNIT_Missile_6fb630f0+0x5f0 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1302,7 +2018,7 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0969 | D2Client.dll | 0xbb4e0 | sub_6fb6b470+0x70 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0970 | D2Client.dll | 0xbb631 | sub_6fb6b5b0+0x81 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0971 | D2Client.dll | 0xbcd88 | sub_6fb6cd20+0x68 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0972 | D2Client.dll | 0xbce6f | sub_6fb6ce44+0x2b | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0972 | D2Client.dll | 0xbce6f | sub_6fb6cd20+0x14f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0973 | D2Client.dll | 0xc4bbd | SKILLS_SkillsEMon_6fb74b00+0xbd | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0974 | D2Client.dll | 0xc5021 | sub_6fb74fc0+0x61 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0975 | D2Client.dll | 0xc6975 | SKILLS_SkillsBar_6fb76940+0x35 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
@@ -1313,7 +2029,7 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | M-0980 | D2Client.dll | 0xc8873 | sub_6fb78710+0x163 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0981 | D2Client.dll | 0xc8f24 | sub_6fb78ce0+0x244 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-0982 | D2Client.dll | 0xc916f | sub_6fb79030+0x13f | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
-| M-0983 | D2Client.dll | 0xc9c75 | sub_6fb79c65+0x10 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
+| M-0983 | D2Client.dll | 0xc9c75 | sub_6fb79be0+0x95 | call redirect | sub_Hook_sub_6fac4f40_102f0a70 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12), tfunc:WARDEN_WardenClient_6fb38a70(6… |
 | M-1092 | D2Client.dll | 0x224fa | sub_6fad24f0+0xa | instruction rewrite (2 bytes) |  | rules: between_[A-Za-z_]*(Sound\|Snd)(3) |
 | M-1093 | D2Client.dll | 0x2257a | sub_6fad2570+0xa | instruction rewrite (2 bytes) |  | rules: between_[A-Za-z_]*(Sound\|Snd)(3) |
 | M-1094 | D2Client.dll | 0x22bb5 | sub_6fad2b20+0x95 | NOP fill + opcode byte change + operand byte change |  | rules: between_[A-Za-z_]*(Sound\|Snd)(3) |
@@ -1322,6 +2038,13 @@ Game files patched: D2Client `_unattributed/between_UNIT_UnitSnd_and_UI_panel.cp
 | C-0023 | D2Client.dll | 0xdbdcc | DAT_6fb8bdb8+0x14 | function-pointer swap (table) | sub_Ptr_D2Client_6fb8bdcc_1021a8e0 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
 | C-0024 | D2Client.dll | 0xdbdc0 | DAT_6fb8bdb8+0x8 | function-pointer swap (table) | sub_Ptr_D2Client_6fb8bdc0_1021ad10 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
 | C-0025 | D2Client.dll | 0xdbdd8 | DAT_6fb8bdb8+0x20 | function-pointer swap (table) | sub_Ptr_D2Client_6fb8bdd8_1021b090 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-1210 | D2Game.dll | 0xe125e | sub_6fd01110+0x14e | call redirect | functions_D2CommonFunctions_1026b010 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4) |
+| M-1287 | D2Client.dll | 0xad74e | sub_6fb5d740+0xe | call redirect | sub_10259360 | rules: between_[A-Za-z_]*(Sound\|Snd)(1), pd2file:client/Sound/\|PlaySound\|str:.*\.(12) |
+| M-1399 | D2Client.dll | 0x8985a | WARDEN_WardenClient_6fb39830+0x2a | call redirect | sub_10239850 | rules: [gt]func:WARDEN_WardenClient_6fb3(7[d-f](3) |
+| M-1411 | D2Client.dll | 0x27ec0 | sub_6fad7d60+0x160 | call redirect | sub_10239910 | rules: between_[A-Za-z_]*(Sound\|Snd)(2) |
+| M-1412 | D2Client.dll | 0x27ed6 | sub_6fad7d60+0x176 | call redirect | sub_10239910 | rules: between_[A-Za-z_]*(Sound\|Snd)(2) |
+| M-1765 | Bnclient.dll | 0xf955 | BnDownload_6ff2f430+0x525 | call redirect | sub_102e4f20 | rules: pd2file:client/Sound/\|PlaySound\|str:.*\.(4) |
+| M-1782 | D2Client.dll | 0x2840e | sub_6fad8320+0xee | call redirect | sub_10225970 | rules: between_[A-Za-z_]*(Sound\|Snd)(3) |
 
 </details>
 
@@ -1333,9 +2056,9 @@ Config keys (`ProjectDiablo.json`): `/classic_game_settings/audio/sound_mixer`, 
 
 Client/server packet build and dispatch (D2Game PlrMsg/SCmd/sunitproxy, D2Client SCmd), D2Net, Battle.net client (Bnclient) and realm settings.
 
-**70 hooks** (D2Game.dll 60, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 1); kinds: call redirect 44, function-pointer swap (table) 14, NOP fill 3, data/constant change 3, opcode byte change 2, operand byte change 2, call hook (E8 written) 1, block replace 1.
+**81 hooks** (D2Game.dll 70, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 2); kinds: call redirect 50, function-pointer swap (table) 14, NOP fill 4, operand byte change 3, data/constant change 3, constant change (imm32/disp32) 3, opcode byte change 2, call hook (E8 written) 1, block replace 1.
 
-Handlers (27 distinct; most used first):
+Handlers (31 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -1343,6 +2066,7 @@ Handlers (27 distinct; most used first):
 | `sub_Hook_sub_6fc9b0a0_102efe80` | 0x102efe80 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 10 |
 | `sub_Hook_PLAYER_PlrModes_6fc97e70_102ef820` | 0x102ef820 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 6 |
 | `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 4 |
+| `functions_D2CommonFunctions_10267e40` | 0x10267e40 | `functions/D2CommonFunctions.cpp` | 3 |
 | `sub_Hook_UNIT_sunitproxy_6fcafbe0_102eea70` | 0x102eea70 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_sub_6fcef810_102ecf80` | 0x102ecf80 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Ptr_D2Game_6fd1bb80_102ae3a0` | 0x102ae3a0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit32.cpp` | 1 |
@@ -1363,20 +2087,19 @@ Handlers (27 distinct; most used first):
 | `sub_Ptr_D2Game_6fd1a358_102e41f0` | 0x102e41f0 | `_unattributed/between_functions_ItemFunctions_and_functions_SaveFunctions_unit44.cpp` | 1 |
 | `functions_D2CommonFunctions_Hook_sub_6fc9a5e0_10268270` | 0x10268270 | `functions/D2CommonFunctions.cpp` | 1 |
 | `sub_Hook_GAME_Game_6fc4d140_102ed670` | 0x102ed670 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_sub_6fc95e10_102ed240` | 0x102ed240 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| … 2 more (patches.csv) | | | |
+| … 6 more (patches.csv) | | | |
 
-Game files patched: D2Game `UNIT/sunitproxy.cpp` (21), D2Game `PLAYER/PlrMsg.cpp` (15), D2Game `_unattributed/between_UNIT_SUnitMsg_and_GAME_SCmd.cpp` (8), D2Game `GAME/_unattributed/between_GAME_SCmd_and_GAME_Event.cpp` (7), D2Game `_unattributed/between_PLAYER_PlrMsg_and_ITEMS_ItemMode.cpp` (5), D2Net `_unattributed/after_SRC_Server.cpp` (4), Bnclient `BnDownload.cpp` (2), D2Game `_unattributed/between_PLAYER_PlrModes_and_UNIT_SUnitMsg.cpp` (2), D2Game `GAME/SCmd.cpp` (2), Bnclient `BNetGW.cpp` (1), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (1), D2Client `_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` (1).
+Game files patched: D2Game `UNIT/sunitproxy.cpp` (23), D2Game `PLAYER/PlrMsg.cpp` (17), D2Game `_unattributed/between_UNIT_SUnitMsg_and_GAME_SCmd.cpp` (11), D2Game `GAME/_unattributed/between_GAME_SCmd_and_GAME_Event.cpp` (7), D2Game `_unattributed/between_PLAYER_PlrMsg_and_ITEMS_ItemMode.cpp` (6), D2Net `_unattributed/after_SRC_Server.cpp` (4), D2Game `_unattributed/between_PLAYER_PlrModes_and_UNIT_SUnitMsg.cpp` (3), D2Game `GAME/SCmd.cpp` (3), Bnclient `BnDownload.cpp` (2), D2MCPClient `_unattributed/code.cpp` (2), Bnclient `BNetGW.cpp` (1), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (1).
 
 <details><summary>Hooks</summary>
 
 | Hook | Module | RVA | Game function | Kind | Handler | why |
 |---|---|---|---|---|---|---|
 | M-0100 | D2Game.dll | 0x8fddd | UNIT_sunitproxy_6fcafbe0+0x1fd | call hook (E8 written) | sub_Hook_UNIT_sunitproxy_6fcafbe0_102eea70 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(12) |
-| M-0101 | D2Game.dll | 0xcfb7a | sub_6fcefb47+0x33 | call redirect | sub_Hook_sub_6fcef810_102ecf80 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-0101 | D2Game.dll | 0xcfb7a | sub_6fcefb30+0x4a | call redirect | sub_Hook_sub_6fcef810_102ecf80 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0113 | Bnclient.dll | 0x150b1 | BNGatewayAccess_SaveAndUnload+0x81 | NOP fill |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0114 | Bnclient.dll | 0xf406 | BnDownload_6ff2f3c0+0x46 | opcode byte change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
-| M-0115 | D2Game.dll | 0xd0655 | sub_6fcf05d6+0x7f | NOP fill |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
+| M-0115 | D2Game.dll | 0xd0655 | sub_6fcf05b0+0xa5 | NOP fill |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
 | M-0123 | D2Game.dll | 0xcfc58 | sub_6fcefbc0+0x98 | NOP fill |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-0165 | D2Game.dll | 0x807f2 | sub_6fca076b+0x87 | opcode byte change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
 | M-0185 | D2Game.dll | 0xfbb80 | DAT_6fd1bb10+0x70 | function-pointer swap (table) | sub_Ptr_D2Game_6fd1bb80_102ae3a0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
@@ -1432,7 +2155,7 @@ Game files patched: D2Game `UNIT/sunitproxy.cpp` (21), D2Game `PLAYER/PlrMsg.cpp
 | M-0707 | D2Game.dll | 0x8ffa6 | UNIT_sunitproxy_6fcafbe0+0x3c6 | call redirect | sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
 | M-0708 | D2Game.dll | 0x8ffb7 | UNIT_sunitproxy_6fcafbe0+0x3d7 | call redirect | sub_Hook_UNIT_sunitproxy_6fcafbe0_102f0f70 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
 | M-1010 | D2Game.dll | 0x7a6e8 | sub_6fc9a5e0+0x108 | call redirect | functions_D2CommonFunctions_Hook_sub_6fc9a5e0_10268270 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8), _Wraps_D2Client_GAME_SCmd\|game:.*(SCm… |
-| M-1035 | D2Game.dll | 0xd14ff | sub_6fcf14cd+0x32 | call redirect | sub_Hook_GAME_Game_6fc4d140_102ed670 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1035 | D2Game.dll | 0xd14ff | sub_6fcf14b0+0x4f | call redirect | sub_Hook_GAME_Game_6fc4d140_102ed670 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | M-1062 | D2Game.dll | 0x79f21 | sub_6fc99e40+0xe1 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
 | C-0012 | D2Net.dll | 0x66c0 | D2Net_10006+0xf0 | operand byte change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | C-0013 | D2Net.dll | 0x6917 | D2Net_10033+0x1c7 | operand byte change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
@@ -1442,6 +2165,17 @@ Game files patched: D2Game `UNIT/sunitproxy.cpp` (21), D2Game `PLAYER/PlrMsg.cpp
 | I-0023 | D2Net.dll | 0xac60 | DAT_6fbfabd8+0x88 | data/constant change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(12) |
 | H-0004 | Bnclient.dll | 0xeab6 | BnDownload_6ff2ea60+0x56 | call redirect | ChatPacketRecv_Interception | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 | H-0005 | D2MCPClient.dll | 0x69d7 | D2MCPClient_10050+0x47 | call redirect | RealmPacketRecv_Interception | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1172 | D2Game.dll | 0x9082a | UNIT_sunitproxy_6fcb06a0+0x18a | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1173 | D2Game.dll | 0x90a46 | UNIT_sunitproxy_6fcb06a0+0x3a6 | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1174 | D2Game.dll | 0xd0acd | sub_6fcf09e0+0xed | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1363 | D2Game.dll | 0x79f1b | sub_6fc99e40+0xdb | call redirect | sub_102ef400+0x10 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
+| M-1548 | D2MCPClient.dll | 0x644c | sub_6fa263e0+0x6c | operand byte change |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1743 | D2Game.dll | 0x7a78f | sub_6fc9a5e0+0x1af | constant change (imm32/disp32) |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
+| M-1744 | D2Game.dll | 0x7aafc | sub_6fc9a940+0x1bc | constant change (imm32/disp32) |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(8) |
+| M-1745 | D2Game.dll | 0x8ce8d | GAME_SCmd_6fcaca20+0x46d | constant change (imm32/disp32) |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-1752 | D2Game.dll | 0x7b250 | sub_6fc9b0a0+0x1b0 | call redirect | sub_102f0020+0x10 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(12) |
+| M-1853 | D2Game.dll | 0xcc5ae | PLAYER_PlrMsg_6fcec550+0x5e | NOP fill |  | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
+| M-2005 | D2Game.dll | 0xce74f | PLAYER_PlrMsg_6fcee620+0x12f | call redirect | sub_10270ff0 | rules: [gt]file:GAME/(SCmd\|CCmd)\|[gt]file:.*Plr(4) |
 
 </details>
 
@@ -1457,40 +2191,40 @@ No hook was assigned to this feature.
 
 Monster AI (Ai/AiThink*), monster modes, damage (SUnitDmg), missiles, client unit drawing.
 
-**131 hooks** (D2Game.dll 111, D2Client.dll 20); kinds: call redirect 85, function-pointer swap (table) 12, opcode byte change 8, NOP fill 6, jmp target redirect (E9) 6, operand byte change 5, call hook (E8 written) 3, instruction rewrite (4 bytes) 2, code-pointer operand (imm32 -> PD2 function) 1, block replace 1, operand/immediate byte change (block) 1, data/constant change 1.
+**223 hooks** (D2Game.dll 192, D2Client.dll 31); kinds: call redirect 166, function-pointer swap (table) 12, operand byte change 9, NOP fill 8, opcode byte change 8, jmp target redirect (E9) 6, call hook (E8 written) 4, instruction rewrite (4 bytes) 3, constant change (imm32/disp32) 3, code-pointer operand (imm32 -> PD2 function) 1, block replace 1, operand/immediate byte change (block) 1, data/constant change 1.
 
-Handlers (40 distinct; most used first):
+Handlers (54 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
 | `functions_D2NewFunctions_Wrap_D2Game_sub_6fd020a0_102cbcd0 (PD2 wrapper that en…` | 0x102cbcd0 | `functions/D2NewFunctions.cpp` | 38 |
+| `sub_10270ff0` | 0x10270ff0 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 24 |
+| `sub_102f5b50` | 0x102f5b50 | `_unattributed/after_functions_SaveFunctions_unit56.cpp` | 13 |
+| `sub_102f5ca0` | 0x102f5ca0 | `_unattributed/after_functions_SaveFunctions_unit56.cpp` | 10 |
 | `sub_Hook_sub_6fc5ae10_102ed340` | 0x102ed340 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 7 |
+| `sub_102ef400+0x10` | 0x102ef410 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 7 |
+| `sub_10259df0` | 0x10259df0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 6 |
+| `sub_10271130` | 0x10271130 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 6 |
+| `sub_Hook_sub_6fd01430_102eed90+0x10` | 0x102eeda0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 6 |
 | `sub_Hook_UNIT_SUnitDmg_6fcfe750_102eeb80` | 0x102eeb80 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
 | `sub_Hook_sub_6fb01d10_102f0890` | 0x102f0890 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 4 |
 | `sub_Hook_sub_6fc95e10_102ed240` | 0x102ed240 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 4 |
 | `functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0` | 0x10267cb0 | `functions/D2CommonFunctions.cpp` | 3 |
 | `sub_Hook_sub_6fb02f10_102ee420` | 0x102ee420 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 3 |
 | `functions_D2CommonFunctions_Hook_Ai_AiThink4_6fcc4a10_10267a10` | 0x10267a10 | `functions/D2CommonFunctions.cpp` | 3 |
+| `functions_D2NewFunctions_102c85a0` | 0x102c85a0 | `functions/D2NewFunctions.cpp` | 3 |
 | `sub_Hook_sub_6fd019c0_102ecc10` | 0x102ecc10 | `_unattributed/after_functions_SaveFunctions_unit49_101946f0.cpp` | 2 |
 | `sub_Hook_sub_6fd01430_102eed90` | 0x102eed90 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `functions_D2CommonFunctions_Hook_sub_6fd01d90_10267010` | 0x10267010 | `functions/D2CommonFunctions.cpp` | 2 |
 | `sub_Hook_UNIT_SUnitInactive_6fc400e0_102eed50` | 0x102eed50 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `sub_102ef1f0+0x20` | 0x102ef210 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
 | `sub_Hook_UNIT_SUnitDmg_6fcfd450_102ed2a0` | 0x102ed2a0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_UNIT_Missile_6fb61420_102ed3b0` | 0x102ed3b0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_UNIT_SUnitDmg_6fcfe0c0_102ee040` | 0x102ee040 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_sub_6fc68950_102eea30` | 0x102eea30 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_UNIT_SUnitDmg_6fcfe0c0_10271a70` | 0x10271a70 | `_unattributed/between_functions_D2ServerFunctions_and_events_SkillEvents_unit29_100e73f0.…` | 1 |
-| `functions_D2NewFunctions_Hook_sub_6fc8a9d0_102c7b60` | 0x102c7b60 | `functions/D2NewFunctions.cpp` | 1 |
-| `functions_D2CommonFunctions_Hook_sub_6fd00f40_10269480` | 0x10269480 | `functions/D2CommonFunctions.cpp` | 1 |
-| `functions_D2NewFunctions_Hook_sub_6fccfdb0_102c6030` | 0x102c6030 | `functions/D2NewFunctions.cpp` | 1 |
-| `sub_Hook_UNIT_SUnitDmg_6fcfd450_102ed930` | 0x102ed930 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_UNIT_SUnitDmg_6fcfe0c0_102ed5a0` | 0x102ed5a0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_sub_6fc8d0f0_102ed5b0` | 0x102ed5b0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_sub_6faf2c70_102eded0` | 0x102eded0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| `sub_Hook_UNIT_SUnitDmg_6fcfc0b0_102efa90` | 0x102efa90 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
-| … 15 more (patches.csv) | | | |
+| … 29 more (patches.csv) | | | |
 
-Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (18), D2Game `_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp` (13), D2Game `_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp` (13), D2Game `_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp` (9), D2Client `_unattributed/between_UNIT_Monster_and_UI_showitems.cpp` (7), D2Client `UNIT/CUnit.cpp` (6), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (5), D2Game `ITEMS/ItemMode.cpp` (5), D2Game `PLAYER/PlrModes.cpp` (5), D2Game `UNIT/SUnitInactive.cpp` (4), D2Client `UNIT/Missile.cpp` (3).
+Game files patched: D2Game `_unattributed/between_PLAYER_PlrIntro_and_MISSILES_Missiles.cpp` (44), D2Game `Ai/AiThink4.cpp` (30), D2Game `UNIT/SUnitDmg.cpp` (22), D2Game `_unattributed/between_MONSTER_MonsterMode_and_GAME_Arena.cpp` (19), D2Game `_unattributed/between_UNIT_SUnitDmg_and_Quests_a3q7.cpp` (16), D2Game `_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp` (12), D2Game `PLAYER/PlrModes.cpp` (12), D2Client `_unattributed/between_UNIT_Monster_and_UI_showitems.cpp` (10), D2Client `UNIT/CUnit.cpp` (7), D2Client `_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` (5), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (5), D2Game `ITEMS/ItemMode.cpp` (5).
 
 <details><summary>Hooks</summary>
 
@@ -1503,7 +2237,7 @@ Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (1
 | M-0053 | D2Game.dll | 0x4f23d | sub_6fc6f090+0x1ad | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0057 | D2Game.dll | 0x92927 | sub_6fcb2770+0x1b7 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0058 | D2Game.dll | 0x95543 | sub_6fcb54f0+0x53 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
-| M-0065 | D2Game.dll | 0xad83d | sub_6fccd83c+0x1 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-0065 | D2Game.dll | 0xad83d | sub_6fccd7e8+0x55 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0071 | D2Game.dll | 0xdee9d | UNIT_SUnitDmg_6fcfed30+0x16d | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0072 | D2Game.dll | 0xe22c3 | sub_6fd02240+0x83 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 | M-0073 | D2Game.dll | 0xf4497 | sub_6fd142d0+0x1c7 | call redirect | sub_Hook_sub_6fc5ae10_102ed340 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
@@ -1511,7 +2245,7 @@ Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (1
 | M-0093 | D2Game.dll | 0xa6e35 | Ai_AiThink4_6fcc6b70+0x2c5 | NOP fill |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0094 | D2Game.dll | 0xa6d8c | Ai_AiThink4_6fcc6b70+0x21c | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0095 | D2Game.dll | 0xa6e4c | Ai_AiThink4_6fcc6b70+0x2dc | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-0099 | D2Game.dll | 0x48b8d | sub_6fc68b74+0x19 | call redirect | sub_Hook_sub_6fc68950_102eea30 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-0099 | D2Game.dll | 0x48b8d | sub_6fc68b60+0x2d | call redirect | sub_Hook_sub_6fc68950_102eea30 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
 | M-0136 | D2Client.dll | 0xa5a11 | UNIT_CUnit_6fb559e0+0x31 | jmp target redirect (E9) | functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0137 | D2Client.dll | 0xa5a26 | UNIT_CUnit_6fb559e0+0x46 | jmp target redirect (E9) | functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-0138 | D2Client.dll | 0xaf6bb | sub_6fb5f640+0x7b | call redirect | functions_D2CommonFunctions_Hook_sub_6fc71340_10267cb0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
@@ -1606,15 +2340,15 @@ Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (1
 | M-1024 | D2Client.dll | 0x51e4d | sub_6fb01e30+0x1d | call redirect | sub_Hook_sub_6fb01d10_102f0890 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1025 | D2Client.dll | 0x51ee6 | sub_6fb01e80+0x66 | call redirect | sub_Hook_sub_6fb01d10_102f0890 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1026 | D2Client.dll | 0x52165 | sub_6fb01e80+0x2e5 | call redirect | sub_Hook_sub_6fb01d10_102f0890 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-1058 | D2Game.dll | 0x781a6 | sub_6fc98176+0x30 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1058 | D2Game.dll | 0x781a6 | sub_6fc98150+0x56 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1059 | D2Game.dll | 0x78216 | sub_6fc981c0+0x56 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1060 | D2Game.dll | 0x78819 | sub_6fc987c0+0x59 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1061 | D2Game.dll | 0x78886 | sub_6fc98840+0x46 | call redirect | sub_Hook_sub_6fc95e10_102ed240 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-1066 | D2Game.dll | 0xab8e2 | sub_6fccb5e3+0x2ff | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-1067 | D2Game.dll | 0xab99d | sub_6fccb98a+0x13 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-1068 | D2Game.dll | 0xac337 | sub_6fccc0ed+0x24a | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1066 | D2Game.dll | 0xab8e2 | sub_6fccb580+0x362 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1067 | D2Game.dll | 0xab99d | sub_6fccb580+0x41d | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1068 | D2Game.dll | 0xac337 | sub_6fccbdc8+0x56f | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1069 | D2Game.dll | 0xabb48 | sub_6fccba14+0x134 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
-| M-1070 | D2Game.dll | 0xab865 | sub_6fccb5e3+0x282 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1070 | D2Game.dll | 0xab865 | sub_6fccb580+0x2e5 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1076 | D2Game.dll | 0xde661 | UNIT_SUnitDmg_6fcfe5a0+0xc1 | call redirect | sub_Hook_sub_6fc5ae10_102eede0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
 | M-1081 | D2Game.dll | 0xdb0c0 | UNIT_SUnitDmg_6fcfb030+0x90 | opcode byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
 | M-1085 | D2Game.dll | 0x201d3 | UNIT_SUnitInactive_6fc400e0+0xf3 | call redirect | sub_Hook_UNIT_SUnitInactive_6fc400e0_102eed50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
@@ -1627,6 +2361,98 @@ Game files patched: D2Game `UNIT/SUnitDmg.cpp` (18), D2Game `Ai/AiThink4.cpp` (1
 | I-0018 | D2Game.dll | 0x102abc | DAT_6fd22ab0+0xc | data/constant change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
 | I-0024 | D2Game.dll | 0xfa408 | DAT_6fd1a3f8+0x10 | function-pointer swap (table) |  | override: init write (0x102beb00) replacing PLAYER_PlrModes_6fc98710 in D2Game's player-m… |
 | H-0006 | D2Client.dll | 0xace61 | sub_6fb5ce20+0x41 | call redirect | GamePacketRecv_Interception | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1112 | D2Game.dll | 0x20a08 | Ai_AiGeneral_6fc409b0+0x58 | call hook (E8 written) + 5 NOP + operand byte change | sub_Hook_sub_6fc4e8b0_102edb30+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9) |
+| M-1113 | D2Game.dll | 0x20a15 | Ai_AiGeneral_6fc409b0+0x65 | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1114 | D2Game.dll | 0x6d2d6 | sub_6fc8d0f0+0x1e6 | NOP fill |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1115 | D2Game.dll | 0x6d315 | sub_6fc8d0f0+0x225 | call redirect | sub_Hook_sub_6fc4e8b0_102edb30+0x20 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1116 | D2Game.dll | 0x6d5b4 | sub_6fc8d0f0+0x4c4 | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1119 | D2Game.dll | 0xb1df9 | sub_6fcd1c90+0x169 | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1120 | D2Client.dll | 0xa7b1c | UNIT_CUnit_6fb57780+0x39c | operand byte change |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1185 | D2Game.dll | 0xe11dd | sub_6fd01110+0xcd | call redirect | functions_D2CommonFunctions_10267e40 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1251 | D2Game.dll | 0xaff0c | sub_6fccfdb0+0x15c | call redirect | sub_Hook_sub_6fc5ae10_102eede0+0x60 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1252 | D2Game.dll | 0x6b753 | sub_6fc8b6f0+0x63 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1253 | D2Game.dll | 0x6b790 | sub_6fc8b760+0x30 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1254 | D2Game.dll | 0x6ce67 | sub_6fc8ce10+0x57 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1255 | D2Game.dll | 0x6d8af | sub_6fc8d7b0+0xff | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1256 | D2Game.dll | 0x6dc26 | sub_6fc8dbf0+0x36 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1257 | D2Game.dll | 0x6dc2e | sub_6fc8dbf0+0x3e | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1258 | D2Game.dll | 0x6dc36 | sub_6fc8dbf0+0x46 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1259 | D2Game.dll | 0x6e1d5 | sub_6fc8e197+0x3e | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1260 | D2Game.dll | 0x6ec3a | sub_6fc8ec20+0x1a | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1261 | D2Game.dll | 0x6ed69 | sub_6fc8ecd0+0x99 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1262 | D2Game.dll | 0x6edcc | sub_6fc8edb0+0x1c | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1263 | D2Game.dll | 0x6ef59 | sub_6fc8ef40+0x19 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1264 | D2Game.dll | 0x6f1c4 | sub_6fc8f040+0x184 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1265 | D2Game.dll | 0x6f1de | sub_6fc8f040+0x19e | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1266 | D2Game.dll | 0x6f204 | sub_6fc8f040+0x1c4 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1267 | D2Game.dll | 0x6f234 | sub_6fc8f040+0x1f4 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1268 | D2Game.dll | 0x6f2a7 | sub_6fc8f040+0x267 | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1269 | D2Game.dll | 0x6f2d4 | sub_6fc8f040+0x294 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1270 | D2Game.dll | 0x6f304 | sub_6fc8f040+0x2c4 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1271 | D2Game.dll | 0x6f354 | sub_6fc8f040+0x314 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1272 | D2Game.dll | 0x6f37c | sub_6fc8f040+0x33c | call redirect | sub_102f5b50 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1273 | D2Game.dll | 0x6f407 | sub_6fc8f040+0x3c7 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1274 | D2Game.dll | 0x6f433 | sub_6fc8f040+0x3f3 | call redirect | sub_102f5ca0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1308 | D2Client.dll | 0x518cd | UNIT_Monster_6fb01860+0x6d | NOP fill |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1309 | D2Client.dll | 0x5182b | UNIT_Monster_6fb01650+0x1db | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1310 | D2Client.dll | 0x518c5 | UNIT_Monster_6fb01860+0x65 | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1311 | D2Client.dll | 0x51ab8 | UNIT_Monster_6fb01a80+0x38 | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1312 | D2Client.dll | 0x51e3c | sub_6fb01e30+0xc | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1313 | D2Client.dll | 0x51ece | sub_6fb01e80+0x4e | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1314 | D2Client.dll | 0x5202c | sub_6fb01e80+0x1ac | call redirect | sub_10259df0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1325 | D2Game.dll | 0x102b6c | DAT_6fd22ab0+0xbc | instruction rewrite (4 bytes) |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(9) |
+| M-1338 | D2Game.dll | 0x6ade8 | sub_6fc8ad60+0x88 | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1339 | D2Game.dll | 0x6ae14 | sub_6fc8ad60+0xb4 | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1340 | D2Game.dll | 0x6aebe | sub_6fc8ae60+0x5e | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1341 | D2Game.dll | 0x6e0fc | sub_6fc8e0e0+0x1c | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1342 | D2Game.dll | 0x6e10e | sub_6fc8e0e0+0x2e | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1343 | D2Game.dll | 0x6e329 | sub_6fc8e270+0xb9 | call redirect | sub_10271130 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1344 | D2Game.dll | 0x6e219 | sub_6fc8e212+0x7 | call redirect | sub_102ef1f0+0x20 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1345 | D2Game.dll | 0x6e427 | sub_6fc8e400+0x27 | call redirect | sub_102ef1f0+0x20 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1356 | D2Game.dll | 0x781a0 | sub_6fc98150+0x50 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1357 | D2Game.dll | 0x78210 | sub_6fc981c0+0x50 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1358 | D2Game.dll | 0x782e6 | PLAYER_PlrModes_6fc98230+0xb6 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1359 | D2Game.dll | 0x7831d | PLAYER_PlrModes_6fc982f0+0x2d | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1360 | D2Game.dll | 0x786d7 | PLAYER_PlrModes_6fc98610+0xc7 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1361 | D2Game.dll | 0x78813 | sub_6fc987c0+0x53 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1362 | D2Game.dll | 0x78880 | sub_6fc98840+0x40 | call redirect | sub_102ef400+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1598 | D2Game.dll | 0x929fc | sub_6fcb2940+0xbc | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1599 | D2Game.dll | 0x92ae3 | sub_6fcb2a60+0x83 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1600 | D2Game.dll | 0x92bfd | sub_6fcb2bb0+0x4d | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1601 | D2Game.dll | 0x9307d | sub_6fcb3040+0x3d | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1602 | D2Game.dll | 0x937cf | sub_6fcb3680+0x14f | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1603 | D2Game.dll | 0x95760 | sub_6fcb5690+0xd0 | call redirect | sub_Hook_sub_6fd01430_102eed90+0x10 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1642 | D2Game.dll | 0xdc076 | UNIT_SUnitDmg_6fcfc030+0x46 | call redirect | sub_102ef980+0x20 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6) |
+| M-1758 | D2Client.dll | 0xadc5e | sub_6fb5db90+0xce | constant change (imm32/disp32) |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1759 | D2Client.dll | 0xade07 | sub_6fb5dd70+0x97 | constant change (imm32/disp32) |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1760 | D2Client.dll | 0xae78a | sub_6fb5e420+0x36a | constant change (imm32/disp32) |  | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3) |
+| M-1958 | D2Game.dll | 0x6bb06 | sub_6fc8b9b0+0x156 | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1963 | D2Game.dll | 0xe1325 | sub_6fd012d0+0x55 | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1964 | D2Game.dll | 0xe58fe | sub_6fd057d0+0x12e | call redirect | functions_D2NewFunctions_102c85a0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1974 | D2Game.dll | 0x91bbe | sub_6fcb1b70+0x4e | call redirect | sub_10270ff0 | rules: game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)\|st(1) |
+| M-1975 | D2Game.dll | 0x92056 | sub_6fcb2030+0x26 | call redirect | sub_10270ff0 | rules: game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)\|st(1) |
+| M-1976 | D2Game.dll | 0x92e6f | sub_6fcb2df0+0x7f | call redirect | sub_10270ff0 | rules: game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)\|st(1) |
+| M-1984 | D2Game.dll | 0xa3e94 | Ai_AiThink4_6fcc3e80+0x14 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1985 | D2Game.dll | 0xa4833 | Ai_AiThink4_6fcc4610+0x223 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1986 | D2Game.dll | 0xa5f28 | Ai_AiThink4_6fcc5eb0+0x78 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1987 | D2Game.dll | 0xa60e6 | sub_6fcc60a8+0x3e | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1988 | D2Game.dll | 0xa634e | Ai_AiThink4_6fcc62d0+0x7e | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1989 | D2Game.dll | 0xa737f | Ai_AiThink4_6fcc7290+0xef | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1990 | D2Game.dll | 0xa8975 | sub_6fcc86f0+0x285 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1991 | D2Game.dll | 0xa9107 | Ai_AiThink4_6fcc8e80+0x287 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1992 | D2Game.dll | 0xaaac5 | Ai_AiThink4_6fcca710+0x3b5 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1993 | D2Game.dll | 0xab200 | Ai_AiThink4_6fccb070+0x190 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1994 | D2Game.dll | 0xac304 | sub_6fccbdc8+0x53c | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1995 | D2Game.dll | 0xac33e | sub_6fccbdc8+0x576 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1996 | D2Game.dll | 0xb1474 | sub_6fcd1400+0x74 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1997 | D2Game.dll | 0xb1499 | sub_6fcd1400+0x99 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1998 | D2Game.dll | 0xb1c71 | sub_6fcd1bc0+0xb1 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-1999 | D2Game.dll | 0xb20f3 | sub_6fcd1c90+0x463 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(6), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-2002 | D2Game.dll | 0xb6db4 | Ai_AiBaal_6fcd6da0+0x14 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-2003 | D2Game.dll | 0xb72a3 | Ai_AiBaal_6fcd7090+0x213 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-2004 | D2Game.dll | 0xb7b5a | Ai_AiBaal_6fcd79b0+0x1aa | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-2006 | D2Game.dll | 0xde625 | UNIT_SUnitDmg_6fcfe5a0+0x85 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
+| M-2007 | D2Game.dll | 0xdedb0 | UNIT_SUnitDmg_6fcfed30+0x80 | call redirect | sub_10270ff0 | rules: [gt]file:Ai/\|[gt]file:MONSTER/\|between_M(3), game:.*(MONSTER\|Ai/\|SUnitDmg\|Missile)… |
 
 </details>
 
@@ -1636,9 +2462,9 @@ Data tables: `monstats.txt` (507 rows added, 1 removed, 199 changed, 0 kept rows
 
 Quest scripts in D2Game (Quests/aNqM.cpp).
 
-**39 hooks** (D2Game.dll 39); kinds: call redirect 27, opcode byte change 5, call hook (E8 written) 2, operand byte change 1, NOP fill 1, code-pointer operand (imm32 -> PD2 function) 1, NOP fill (block) 1, data block replace 1.
+**41 hooks** (D2Game.dll 41); kinds: call redirect 29, opcode byte change 5, call hook (E8 written) 2, operand byte change 1, NOP fill 1, code-pointer operand (imm32 -> PD2 function) 1, NOP fill (block) 1, data block replace 1.
 
-Handlers (16 distinct; most used first):
+Handlers (18 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -1658,8 +2484,10 @@ Handlers (16 distinct; most used first):
 | `functions_D2NewFunctions_Hook_Quests_a2q6_6fce9f60_102cb690` | 0x102cb690 | `functions/D2NewFunctions.cpp` | 1 |
 | `sub_Hook_sub_6fce1510_102eeb30` | 0x102eeb30 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40` | 0x102cbc40 | `functions/D2NewFunctions.cpp` | 1 |
+| `functions_D2CommonFunctions_102691d0` | 0x102691d0 | `functions/D2CommonFunctions.cpp` | 1 |
+| `sub_102efbd0+0x20` | 0x102efbf0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
 
-Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp` (22), D2Game `Quests/a5q1.cpp` (8), D2Game `Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp` (2), D2Game `Quests/_unattributed/between_Quests_a5q1_and_Quests_a5q2.cpp` (2), D2Game `Quests/a1q3.cpp` (1), D2Game `Quests/a5q5.cpp` (1), D2Game `Quests/a2q6.cpp` (1), D2Game `Quests/_unattributed/between_Quests_a5q2_and_Quests_a5q4.cpp` (1), D2Game `Quests/a4q3.cpp` (1).
+Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_a2q0.cpp` (23), D2Game `Quests/a5q1.cpp` (8), D2Game `Quests/_unattributed/between_Quests_a4q1_and_Quests_a4q2.cpp` (2), D2Game `Quests/_unattributed/between_Quests_a5q1_and_Quests_a5q2.cpp` (2), D2Game `Quests/a1q3.cpp` (1), D2Game `Quests/a5q5.cpp` (1), D2Game `Quests/a2q6.cpp` (1), D2Game `Quests/_unattributed/between_Quests_a5q2_and_Quests_a5q4.cpp` (1), D2Game `Quests/a4q3.cpp` (1), D2Game `_unattributed/between_Quests_a2q8_and_GAME_Targets.cpp` (1).
 
 <details><summary>Hooks</summary>
 
@@ -1680,12 +2508,12 @@ Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_
 | M-0150 | D2Game.dll | 0xbb4b8 | sub_6fcdb3b0+0x108 | call redirect | functions_D2NewFunctions_Hook_sub_6fcdb3b0_102c96f0 | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0220 | D2Game.dll | 0x5c03e | sub_6fc7bf70+0xce | call redirect | sub_Hook_UNIT_SUnitDmg_6fcfe6d0_102ed420 | rules: [gt]file:Quests/\|between_Quests(9) |
 | M-0224 | D2Game.dll | 0xbf8a0 | sub_6fcdf810+0x90 | call redirect | functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0 | rules: [gt]file:Quests/\|between_Quests(9) |
-| M-0225 | D2Game.dll | 0xbf7bf | sub_6fcdf791+0x2e | call redirect | functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0 | rules: [gt]file:Quests/\|between_Quests(9) |
+| M-0225 | D2Game.dll | 0xbf7bf | sub_6fcdf730+0x8f | call redirect | functions_ItemFunctions_Hook_sub_6fcdf2e0_102d5bf0 | rules: [gt]file:Quests/\|between_Quests(9) |
 | M-0226 | D2Game.dll | 0xbf88c | sub_6fcdf810+0x7c | NOP fill |  | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0227 | D2Game.dll | 0xbf1ec | sub_6fcdf1c0+0x2c | call hook (E8 written) + 2 NOP | sub_Hook_sub_6fcdf170_102ef010 | rules: [gt]file:Quests/\|between_Quests(9) |
 | M-0228 | D2Game.dll | 0xbd936 | sub_6fcdd920+0x16 | call redirect | sub_Hook_sub_6fcdd920_102ef020 | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0229 | D2Game.dll | 0xbe71d | sub_6fcde640+0xdd | call redirect | sub_Hook_sub_6fcdd920_102ef020 | rules: [gt]file:Quests/\|between_Quests(6) |
-| M-0230 | D2Game.dll | 0xbf8d3 | sub_6fcdf8d2+0x1 | call redirect | sub_Hook_sub_6fcdd920_102ef020 | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-0230 | D2Game.dll | 0xbf8d3 | sub_6fcdf810+0xc3 | call redirect | sub_Hook_sub_6fcdd920_102ef020 | rules: [gt]file:Quests/\|between_Quests(6) |
 | M-0234 | D2Game.dll | 0xbe8f1 | sub_6fcde640+0x2b1 | call redirect | sub_Hook_sub_6fcde640_102ef0e0 | rules: [gt]file:Quests/\|between_Quests(9) |
 | M-0235 | D2Game.dll | 0xbea26 | sub_6fcde640+0x3e6 | call redirect | sub_Hook_sub_6fcde640_102ef0e0 | rules: [gt]file:Quests/\|between_Quests(9) |
 | M-0236 | D2Game.dll | 0xbec80 | sub_6fcde640+0x640 | call redirect | sub_Hook_sub_6fcde640_102ef0e0 | rules: [gt]file:Quests/\|between_Quests(9) |
@@ -1704,6 +2532,8 @@ Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_
 | M-0709 | D2Game.dll | 0xbc0b3 | sub_6fcdc050+0x63 | call redirect | functions_D2NewFunctions_Hook_sub_6fcdc050_102cbc40 | rules: [gt]file:Quests/\|between_Quests(6) |
 | B-0004 | D2Game.dll | 0x5d57f | sub_6fc7d520+0x5f | NOP fill (block) |  | rules: [gt]file:Quests/\|between_Quests(9) |
 | I-0019 | D2Game.dll | 0x106f0c | DAT_6fd26b38+0x3d4 | data block replace |  | rules: [gt]file:Quests/\|between_Quests(3) |
+| M-1770 | D2Game.dll | 0xbf382 | sub_6fcdf2e0+0xa2 | call redirect | functions_D2CommonFunctions_102691d0 | rules: [gt]file:Quests/\|between_Quests(6) |
+| M-1912 | D2Game.dll | 0xef40f | sub_6fd0ef10+0x4ff | call redirect | sub_102efbd0+0x20 | rules: [gt]file:Quests/\|between_Quests(9) |
 
 </details>
 
@@ -1713,21 +2543,58 @@ Data tables: `events.txt` (5 rows added, 0 removed, 0 changed, 0 kept rows at a 
 
 Game-controller (gamepad) support: XInput pads plus DualShock 4 / DualSense over raw HID input, polled in the game's frame hook (in game) or PD2's 5/40 ms tick threads (menus), driving the game through direct D2Client calls (cursor, synthetic mouse messages, walking, ClickMap) and SendInput key taps. Full feature package with every member, the button map and the hooks: `4_pd2_source/ProjectDiablo/features/Controller/README.md` (generated by `tools/features/extract_feature.py`). Only the per-frame poll hook is listed here; most controller hooks (cursor-warp filter, cursor drawing, ClickMap wrapper, skill-icon glyphs) are entries 1198-2185 of the main patch table, which the static initializer 0x100f3330 fills at run time and patches.csv does not decode yet.
 
-**1 hooks** (D2Client.dll 1); kinds: call redirect 1.
+**33 hooks** (D2Client.dll 33); kinds: call redirect 33.
 
-Handlers (1 distinct; most used first):
+Handlers (6 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
+| `sub_102f08a0+0x20` | 0x102f08c0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 21 |
+| `sub_1025c4c0` | 0x1025c4c0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 6 |
+| `sub_102f0930+0x20` | 0x102f0950 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
+| `sub_102f0970+0x20` | 0x102f0990 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
 | `sub_Hook_sub_6fb739e0_102589a0` | 0x102589a0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
+| `sub_1025c4a0` | 0x1025c4a0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_102…` | 1 |
 
-Game files patched: D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (1).
+Game files patched: D2Client `UI/_unattributed/between_UI_CmdTbl_and_UI_npcmenu.cpp` (16), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (6), D2Client `UNIT/CUnit.cpp` (4), D2Client `UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp` (3), D2Client `_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp` (3), D2Client `_unattributed/between_UI_panel_and_UNIT_UnitMode.cpp` (1).
 
 <details><summary>Hooks</summary>
 
 | Hook | Module | RVA | Game function | Kind | Handler | why |
 |---|---|---|---|---|---|---|
 | M-1016 | D2Client.dll | 0xc3db0 | sub_6fb739e0+0x3d0 | call redirect | sub_Hook_sub_6fb739e0_102589a0 | override: P1125 (D2Client sub_6fb739e0+0x3d0 -> 0x102589a0) is the in-game per-frame clie… |
+| M-1226 | D2Client.dll | 0x1e8d2 | sub_6face7e0+0xf2 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1227 | D2Client.dll | 0x1ec6a | sub_6face940+0x32a | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1228 | D2Client.dll | 0x1ecd2 | sub_6face940+0x392 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1229 | D2Client.dll | 0x3b108 | sub_6faeafc4+0x144 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1230 | D2Client.dll | 0x3b160 | sub_6faeafc4+0x19c | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1231 | D2Client.dll | 0x3b798 | sub_6faeb684+0x114 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1232 | D2Client.dll | 0x3b7f2 | sub_6faeb684+0x16e | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1233 | D2Client.dll | 0x3c17f | sub_6faec145+0x3a | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1234 | D2Client.dll | 0x3c1d7 | sub_6faec1aa+0x2d | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1235 | D2Client.dll | 0x3c492 | sub_6faec2a0+0x1f2 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1236 | D2Client.dll | 0x3c4ec | sub_6faec2a0+0x24c | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1237 | D2Client.dll | 0x3c75b | sub_6faec5b0+0x1ab | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1238 | D2Client.dll | 0x3c7b3 | sub_6faec5b0+0x203 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1239 | D2Client.dll | 0xaa6d8 | sub_6fb5a688+0x50 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1240 | D2Client.dll | 0xaabbf | sub_6fb5aa20+0x19f | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1241 | D2Client.dll | 0xaac1d | sub_6fb5aa20+0x1fd | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1242 | D2Client.dll | 0xaae4c | sub_6fb5adfc+0x50 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1243 | D2Client.dll | 0xc2a2d | sub_6fb72790+0x29d | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1244 | D2Client.dll | 0xc2a9d | sub_6fb72790+0x30d | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1245 | D2Client.dll | 0xc2bda | sub_6fb72790+0x44a | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1246 | D2Client.dll | 0xc2c46 | sub_6fb72790+0x4b6 | call redirect | sub_102f08a0+0x20 | override: main-table entries 1349-1369 (load-time part) re-point the game's 21 SetCursorP… |
+| M-1928 | D2Client.dll | 0xc3a58 | sub_6fb739e0+0x78 | call redirect | sub_1025c4a0 | override: main-table entry 2106: D2Client sub_6fb739e0 call of sub_6fb70d30 -> 0x1025c4a0… |
+| M-1929 | D2Client.dll | 0x29d99 | sub_6fad9d80+0x19 | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1930 | D2Client.dll | 0x43f0e | sub_6faf3a70+0x49e | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1931 | D2Client.dll | 0x4438e | sub_6faf4230+0x15e | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1932 | D2Client.dll | 0x71ab7 | sub_6fb21a70+0x47 | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1933 | D2Client.dll | 0x71b50 | sub_6fb21b10+0x40 | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1934 | D2Client.dll | 0x71ba5 | sub_6fb21b60+0x45 | call redirect | sub_1025c4c0 | override: main-table entries 2107-2112: the six cursor-draw calls (sub_6fac6a90) -> 0x102… |
+| M-1935 | D2Client.dll | 0x3e5bf | sub_6faee490+0x12f | call redirect | sub_102f0930+0x20 | override: main-table entries 2113-2114: skill-icon label calls -> shim 0x102f0950 -> 0x10… |
+| M-1936 | D2Client.dll | 0x3e698 | sub_6faee5e0+0xb8 | call redirect | sub_102f0930+0x20 | override: main-table entries 2113-2114: skill-icon label calls -> shim 0x102f0950 -> 0x10… |
+| M-1937 | D2Client.dll | 0x3e597 | sub_6faee490+0x107 | call redirect | sub_102f0970+0x20 | override: main-table entries 2115-2116: same as 0x102f0950 for the right skill icon (shim… |
+| M-1938 | D2Client.dll | 0x3e687 | sub_6faee5e0+0xa7 | call redirect | sub_102f0970+0x20 | override: main-table entries 2115-2116: same as 0x102f0950 for the right skill icon (shim… |
 
 </details>
 
@@ -1737,27 +2604,40 @@ Config keys (`ProjectDiablo.json`): `/pd2_game_settings/controller_movement`, `/
 
 Patches no rule could place; see the per-hook notes.
 
-**61 hooks** (D2Game.dll 40, D2Client.dll 11, D2Common.dll 9, D2Lang.dll 1); kinds: call redirect 38, NOP fill 6, opcode byte change 4, data-pointer operand (imm32 -> PD2 data) 4, operand byte change 3, instruction rewrite (2 bytes) 2, block replace 2, call hook (E8 written) 1, function-pointer swap (table) 1.
+**135 hooks** (D2Game.dll 48, D2Client.dll 40, D2Common.dll 38, D2sound.dll 8, D2Lang.dll 1); kinds: call redirect 63, constant change (imm32/disp32) 24, data-pointer operand (imm32 -> PD2 data) 17, NOP fill 9, opcode byte change 5, function-pointer swap (table) 5, operand byte change 4, call hook (E8 written) 4, instruction rewrite (2 bytes) 2, block replace 2.
 
-Handlers (13 distinct; most used first):
+Handlers (37 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
 | `sub_Hook_D2Common_11074_102ee460` | 0x102ee460 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 8 |
 | `sub_Hook_D2Game_10003_102ed6b0` | 0x102ed6b0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 7 |
 | `sub_Hook_PLAYER_PlrModes_6fc97e70_102ef820` | 0x102ef820 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 6 |
+| `sub_10239910` | 0x10239910 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit19_100…` | 6 |
 | `sub_Hook_UNIT_Player_6facbbc0_102ee9d0` | 0x102ee9d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
 | `sub_Hook_GAME_Game_6fc4d140_102ed670` | 0x102ed670 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
+| `sub_102edd60+0x20` | 0x102edd80 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 5 |
 | `DAT_103c39dc` | 0x103c39dc | `` | 4 |
+| `sub_102f0040+0x20` | 0x102f0060 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 3 |
 | `sub_Hook_D2Game_10006_102ed6e0` | 0x102ed6e0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `sub_102ef220+0x30` | 0x102ef250 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 2 |
+| `sub_102ef940+0x20` | 0x102ef960 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 2 |
+| `functions_D2ClientFunctions_1022e1b0` | 0x1022e1b0 | `functions/D2ClientFunctions.cpp` | 2 |
+| `functions_D2ClientFunctions_1022e290` | 0x1022e290 | `functions/D2ClientFunctions.cpp` | 2 |
+| `DAT_10399fc8` | 0x10399fc8 | `` | 2 |
+| `DAT_10399fc4` | 0x10399fc4 | `` | 2 |
+| `DAT_10399fc0` | 0x10399fc0 | `` | 2 |
+| `DAT_1039a014` | 0x1039a014 | `` | 2 |
+| `DAT_1039a008` | 0x1039a008 | `` | 2 |
+| `DAT_10399ffc` | 0x10399ffc | `` | 2 |
 | `sub_Hook_UNIT_SUnitInactive_6fc404e0_102edb90` | 0x102edb90 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `functions_D2NewFunctions_Hook_sub_6fcb1b70_102c5770` | 0x102c5770 | `functions/D2NewFunctions.cpp` | 1 |
 | `sub_Hook_sub_6fac38c0_102592f0` | 0x102592f0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
 | `sub_Hook_sub_6fd110f0_102ed5c0` | 0x102ed5c0 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_D2Game_10008_102ef830` | 0x102ef830 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
-| `sub_Hook_sub_6fc4e8b0_102edb30` | 0x102edb30 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
+| … 12 more (patches.csv) | | | |
 
-Game files patched: D2Game `GAME/Game.cpp` (16), D2Common `PATH/Path.cpp` (9), D2Game `_unattributed/after_UNIT_PlayerList.cpp` (7), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (4), D2Game `_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp` (4), D2Client `UNIT/Player.cpp` (4), D2Game `_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp` (3), D2Client `UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp` (3), D2Game `UNIT/SUnit.cpp` (3), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (2), D2Game `UNIT/SUnitInactive.cpp` (1), D2Client `_unattributed/before_UNIT_Player_6fab1000.cpp` (1).
+Game files patched: D2Common `PATH/Path.cpp` (35), D2Client `_unattributed/before_UNIT_Player_6fabd3f0.cpp` (23), D2Game `GAME/Game.cpp` (17), D2Client `_unattributed/between_UNIT_Monster_and_UI_showitems.cpp` (9), D2Game `_unattributed/after_UNIT_PlayerList.cpp` (8), D2sound `_unattributed/code.cpp` (8), D2Game `_unattributed/between_OBJECTS_objrgn_and_ITEMS_Items.cpp` (5), D2Game `_unattributed/between_GAME_Event_and_UNIT_sunitproxy.cpp` (4), D2Client `UNIT/Player.cpp` (4), D2Game `_unattributed/between_UNIT_sunitproxy_and_PLAYER_PlayerPets.cpp` (3), D2Client `UNIT/_unattributed/between_UNIT_Player_and_UNIT_CUnitEvent.cpp` (3), D2Game `UNIT/SUnit.cpp` (3).
 
 <details><summary>Hooks</summary>
 
@@ -1771,7 +2651,7 @@ Game files patched: D2Game `GAME/Game.cpp` (16), D2Common `PATH/Path.cpp` (9), D
 | M-0198 | D2Game.dll | 0x8ee2f | sub_6fcaedd0+0x5f | data-pointer operand (imm32 -> PD2 data) | DAT_103c39dc | no rule matched |
 | M-0199 | D2Game.dll | 0x8eeb0 | sub_6fcaedd0+0xe0 | data-pointer operand (imm32 -> PD2 data) | DAT_103c39dc | no rule matched |
 | M-0263 | D2Game.dll | 0x91e0e | sub_6fcb1b70+0x29e | call redirect | functions_D2NewFunctions_Hook_sub_6fcb1b70_102c5770 | no rule matched |
-| M-0272 | D2Client.dll | 0x18d51 | sub_6fac8d0a+0x47 | NOP fill |  | no rule matched |
+| M-0272 | D2Client.dll | 0x18d51 | sub_6fac8c20+0x131 | NOP fill |  | no rule matched |
 | M-0310 | D2Common.dll | 0x378ec | D2Common_11074+0xac | call redirect | sub_Hook_D2Common_11074_102ee460 | no rule matched |
 | M-0311 | D2Common.dll | 0x379e7 | D2Common_10358+0xc7 | call redirect | sub_Hook_D2Common_11074_102ee460 | no rule matched |
 | M-0312 | D2Common.dll | 0x379fc | D2Common_10358+0xdc | call redirect | sub_Hook_D2Common_11074_102ee460 | no rule matched |
@@ -1810,7 +2690,7 @@ Game files patched: D2Game `GAME/Game.cpp` (16), D2Common `PATH/Path.cpp` (9), D
 | M-1034 | D2Game.dll | 0x2def2 | D2Game_10034+0x32 | call redirect | sub_Hook_GAME_Game_6fc4d140_102ed670 | no rule matched |
 | M-1036 | D2Game.dll | 0x2d07c | D2Game_10003+0xac | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
 | M-1037 | D2Game.dll | 0x2d118 | GAME_Game_6fc4d090+0x88 | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
-| M-1038 | D2Game.dll | 0x2d2d7 | sub_6fc4d2d1+0x6 | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
+| M-1038 | D2Game.dll | 0x2d2d7 | sub_6fc4d2a0+0x37 | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
 | M-1039 | D2Game.dll | 0x2d35e | GAME_Game_6fc4d2f0+0x6e | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
 | M-1040 | D2Game.dll | 0x2d903 | D2Game_10006+0xe3 | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
 | M-1041 | D2Game.dll | 0x2ddae | GAME_Game_6fc4dc70+0x13e | call redirect | sub_Hook_D2Game_10003_102ed6b0 | no rule matched |
@@ -1824,6 +2704,80 @@ Game files patched: D2Game `GAME/Game.cpp` (16), D2Common `PATH/Path.cpp` (9), D
 | B-0003 | D2Game.dll | 0x29cb0 | GAME_Game_6fc49cb0 | block replace |  | no rule matched |
 | B-0009 | D2Client.dll | 0x58c4f | sub_6fb08b80+0xcf | block replace |  | no rule matched |
 | I-0008 | D2Game.dll | 0x10e0c8 | DAT_6fd2e050+0x78 | function-pointer swap (table) |  | no rule matched |
+| M-1111 | D2Game.dll | 0x206e2 | UNIT_SUnitInactive_6fc404e0+0x202 | call hook (E8 written) + 3 NOP | sub_Hook_sub_6fc4e8b0_102edb30+0x10 | no rule matched |
+| M-1117 | D2Client.dll | 0x53a89 | sub_6fb03a30+0x59 | NOP fill |  | no rule matched |
+| M-1127 | D2Common.dll | 0x3319a | D2Common_10819+0x8a | call redirect | sub_102edd60+0x20 | no rule matched |
+| M-1128 | D2Common.dll | 0x33216 | D2Common_10819+0x106 | call redirect | sub_102edd60+0x20 | no rule matched |
+| M-1129 | D2Common.dll | 0x332ac | D2Common_10819+0x19c | call redirect | sub_102edd60+0x20 | no rule matched |
+| M-1130 | D2Common.dll | 0x33353 | D2Common_10819+0x243 | call redirect | sub_102edd60+0x20 | no rule matched |
+| M-1131 | D2Common.dll | 0x3340d | D2Common_10819+0x2fd | call redirect | sub_102edd60+0x20 | no rule matched |
+| M-1171 | D2Game.dll | 0x79546 | PLAYER_PlrModes_6fc99210+0x336 | call redirect | functions_D2CommonFunctions_10267e40 | no rule matched |
+| M-1250 | D2Game.dll | 0x12a0c | sub_6fc32380+0x68c | call redirect | sub_102ee5a0+0x20 | no rule matched |
+| M-1335 | D2Common.dll | 0x66800 | D2Common_10531 | NOP fill |  | no rule matched |
+| M-1336 | D2Common.dll | 0x66800 | D2Common_10531 | call hook (E8 written) + operand byte change | sub_Hook_sub_6fc5ae10_102eede0+0x40 | no rule matched |
+| M-1346 | D2Game.dll | 0xf42ae | sub_6fd14260+0x4e | opcode byte change |  | no rule matched |
+| M-1350 | D2Client.dll | 0x1428c | sub_6fac4050+0x23c | call redirect | sub_102ef220+0x30 | no rule matched |
+| M-1351 | D2Client.dll | 0x13fc7 | sub_6fac3f40+0x87 | call redirect | sub_102ef220+0x30 | no rule matched |
+| M-1352 | D2Client.dll | 0x140cc | sub_6fac4050+0x7c | operand byte change |  | no rule matched |
+| M-1437 | D2sound.dll | 0x9b79 | D2sound_10042+0x49 | call redirect | sub_10239910 | no rule matched |
+| M-1438 | D2sound.dll | 0x9b9f | D2sound_10042+0x6f | call redirect | sub_10239910 | no rule matched |
+| M-1439 | D2sound.dll | 0x9bc5 | D2sound_10042+0x95 | call redirect | sub_10239910 | no rule matched |
+| M-1440 | D2sound.dll | 0x9beb | D2sound_10042+0xbb | call redirect | sub_10239910 | no rule matched |
+| M-1441 | D2sound.dll | 0x9c11 | D2sound_10042+0xe1 | call redirect | sub_10239910 | no rule matched |
+| M-1442 | D2sound.dll | 0x9c37 | D2sound_10042+0x107 | call redirect | sub_10239910 | no rule matched |
+| M-1443 | D2sound.dll | 0x7f26 | D2sound_10010+0x1f6 | call redirect | sub_102309c0+0x60 | no rule matched |
+| M-1444 | D2sound.dll | 0x82fb | D2sound_10070+0xfb | call redirect | sub_102309c0+0x70 | no rule matched |
+| M-1631 | D2Game.dll | 0x970f3 | PLAYER_PlayerPets_6fcb6fa0+0x153 | call redirect | sub_102ef940+0x20 | no rule matched |
+| M-1632 | D2Game.dll | 0x96f7b | PLAYER_PlayerPets_6fcb6f40+0x3b | call redirect | sub_102ef940+0x20 | no rule matched |
+| M-1643 | D2Game.dll | 0x2cf75 | GAME_Game_6fc4cf30+0x45 | call redirect | functions_D2CommonFunctions_10269070 | no rule matched |
+| M-1644 | D2Common.dll | 0x31944 | D2Common_10049+0x4 | NOP fill |  | no rule matched |
+| M-1645 | D2Common.dll | 0x31944 | D2Common_10049+0x4 | call hook (E8 written) | functions_D2CommonFunctions_10269130 | no rule matched |
+| M-1662 | D2Common.dll | 0x31e09 | D2Common_10212+0xe9 | constant change (imm32/disp32) |  | no rule matched |
+| M-1663 | D2Common.dll | 0x31db2 | D2Common_10212+0x92 | constant change (imm32/disp32) |  | no rule matched |
+| M-1664 | D2Common.dll | 0x31ef6 | D2Common_10621+0x56 | constant change (imm32/disp32) |  | no rule matched |
+| M-1665 | D2Common.dll | 0x31f29 | D2Common_10621+0x89 | constant change (imm32/disp32) |  | no rule matched |
+| M-1666 | D2Common.dll | 0x3206e | D2Common_10504+0x2e | constant change (imm32/disp32) |  | no rule matched |
+| M-1667 | D2Common.dll | 0x320a8 | D2Common_10504+0x68 | constant change (imm32/disp32) |  | no rule matched |
+| M-1668 | D2Common.dll | 0x320d3 | D2Common_10504+0x93 | constant change (imm32/disp32) |  | no rule matched |
+| M-1669 | D2Common.dll | 0x32107 | D2Common_10504+0xc7 | constant change (imm32/disp32) |  | no rule matched |
+| M-1670 | D2Common.dll | 0x32180 | D2Common_10504+0x140 | constant change (imm32/disp32) |  | no rule matched |
+| M-1671 | D2Common.dll | 0x32360 | D2Common_11027+0x30 | constant change (imm32/disp32) |  | no rule matched |
+| M-1672 | D2Common.dll | 0x323a2 | D2Common_11027+0x72 | constant change (imm32/disp32) |  | no rule matched |
+| M-1673 | D2Common.dll | 0x3241a | PATH_Path_6fd823e0+0x3a | constant change (imm32/disp32) |  | no rule matched |
+| M-1674 | D2Common.dll | 0x328be | D2Common_10672+0x2e | constant change (imm32/disp32) |  | no rule matched |
+| M-1675 | D2Common.dll | 0x328f5 | D2Common_10672+0x65 | constant change (imm32/disp32) |  | no rule matched |
+| M-1676 | D2Common.dll | 0x3293f | D2Common_10672+0xaf | constant change (imm32/disp32) |  | no rule matched |
+| M-1677 | D2Common.dll | 0x32973 | D2Common_10672+0xe3 | constant change (imm32/disp32) |  | no rule matched |
+| M-1678 | D2Common.dll | 0x32b39 | D2Common_10672+0x2a9 | constant change (imm32/disp32) |  | no rule matched |
+| M-1679 | D2Common.dll | 0x32a3b | D2Common_10672+0x1ab | constant change (imm32/disp32) |  | no rule matched |
+| M-1680 | D2Common.dll | 0x32a70 | D2Common_10672+0x1e0 | constant change (imm32/disp32) |  | no rule matched |
+| M-1734 | D2Common.dll | 0x66196 | D2Common_10943+0x36 | call redirect | sub_Wraps_D2Common_DATATBLS_ItemTbls_10250de0 | no rule matched |
+| M-1737 | D2Game.dll | 0x10ec | sub_6fc210d0+0x1c | constant change (imm32/disp32) |  | no rule matched |
+| M-1753 | D2Client.dll | 0x54716 | sub_6fb046e0+0x36 | constant change (imm32/disp32) |  | no rule matched |
+| M-1754 | D2Client.dll | 0x54aee | sub_6fb04ac0+0x2e | constant change (imm32/disp32) |  | no rule matched |
+| M-1755 | D2Client.dll | 0x54b48 | sub_6fb04ac0+0x88 | constant change (imm32/disp32) |  | no rule matched |
+| M-1756 | D2Client.dll | 0x54e3c | sub_6fb04e10+0x2c | constant change (imm32/disp32) |  | no rule matched |
+| M-1761 | D2Client.dll | 0x55f9c | sub_6fb05f10+0x8c | call redirect | sub_102f0040+0x20 | no rule matched |
+| M-1762 | D2Client.dll | 0x56038 | sub_6fb05fb0+0x88 | call redirect | sub_102f0040+0x20 | no rule matched |
+| M-1763 | D2Client.dll | 0x56098 | sub_6fb05fb0+0xe8 | call redirect | sub_102f0040+0x20 | no rule matched |
+| M-1866 | D2Client.dll | 0x11a27 | sub_6fac1a20+0x7 | call redirect | sub_10229a30 | no rule matched |
+| M-1868 | D2Client.dll | 0xf51c4 | DAT_6fba51bc+0x8 | function-pointer swap (table) | functions_D2ClientFunctions_1022e1b0 | no rule matched |
+| M-1869 | D2Client.dll | 0xf51d0 | DAT_6fba51bc+0x14 | function-pointer swap (table) | functions_D2ClientFunctions_1022e1b0 | no rule matched |
+| M-1870 | D2Client.dll | 0xf51dc | DAT_6fba51bc+0x20 | function-pointer swap (table) | functions_D2ClientFunctions_1022e290 | no rule matched |
+| M-1871 | D2Client.dll | 0xf51e8 | DAT_6fba51bc+0x2c | function-pointer swap (table) | functions_D2ClientFunctions_1022e290 | no rule matched |
+| M-1888 | D2Client.dll | 0x12ee3 | sub_6fac2eb0+0x33 | data-pointer operand (imm32 -> PD2 data) | DAT_10398c38 | no rule matched |
+| M-1894 | D2Client.dll | 0x11522 | sub_6fac14f0+0x32 | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc8 | no rule matched |
+| M-1895 | D2Client.dll | 0x11528 | sub_6fac14f0+0x38 | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc4 | no rule matched |
+| M-1896 | D2Client.dll | 0x1152e | sub_6fac14f0+0x3e | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc0 | no rule matched |
+| M-1897 | D2Client.dll | 0x11582 | sub_6fac14f0+0x92 | data-pointer operand (imm32 -> PD2 data) | DAT_1039a014 | no rule matched |
+| M-1898 | D2Client.dll | 0x115ba | sub_6fac14f0+0xca | data-pointer operand (imm32 -> PD2 data) | DAT_1039a008 | no rule matched |
+| M-1899 | D2Client.dll | 0x115f2 | sub_6fac14f0+0x102 | data-pointer operand (imm32 -> PD2 data) | DAT_10399ffc | no rule matched |
+| M-1900 | D2Client.dll | 0x12f32 | sub_6fac2eb0+0x82 | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc8 | no rule matched |
+| M-1901 | D2Client.dll | 0x12f38 | sub_6fac2eb0+0x88 | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc4 | no rule matched |
+| M-1902 | D2Client.dll | 0x12f3e | sub_6fac2eb0+0x8e | data-pointer operand (imm32 -> PD2 data) | DAT_10399fc0 | no rule matched |
+| M-1903 | D2Client.dll | 0x12f78 | sub_6fac2eb0+0xc8 | data-pointer operand (imm32 -> PD2 data) | DAT_10399ffc | no rule matched |
+| M-1904 | D2Client.dll | 0x12fb1 | sub_6fac2eb0+0x101 | data-pointer operand (imm32 -> PD2 data) | DAT_1039a008 | no rule matched |
+| M-1905 | D2Client.dll | 0x13000 | sub_6fac2eb0+0x150 | data-pointer operand (imm32 -> PD2 data) | DAT_1039a014 | no rule matched |
 
 </details>
 

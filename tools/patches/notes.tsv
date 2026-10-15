@@ -8,3 +8,4 @@ bytes:00 20 00 00->00 00 02 00	0x2000 (8 KB) -> 0x20000 (128 KB): character-save
 D2Common.dll+0x2e9c1	D2Common_11060 returns the stash gold limit: 2,500,000 -> 5,000,000
 D2Game.dll+0x29cb0	GAME_Game_6fc49cb0 is turned into an immediate `ret`
 D2Net.dll+0x66c0	packet header/size constant 7 -> 8 (also +0x6917); skipped with -plugy
+D2Client.dll+0x63229	bRelative entry on the imm32 of `push` (the registry value-name argument) in the function that saves a value with Storm_426 (SRegSaveValue); its sibling that loads with Storm_423 has its call redirected at +0x6325a. The save call itself is at +0x63233, so this offset is most likely a typo in PD2's table (0x63229 for 0x63233): at run time the push receives handler - (site + 4), and Storm_426 still runs unredirected
