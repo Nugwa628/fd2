@@ -1,0 +1,359 @@
+# Feature manifest: PD2 game-controller (gamepad) support.  Manual decisions, one reason per row.
+# Columns: address <TAB> role <TAB> confidence <TAB> evidence <TAB> reason [<TAB> name]
+# Roles: section | core | shared | config | hook | hook-record | state | config-key | string | dependency
+#   (see tools/features/extract_feature.py).  Function rows of every role are in the order the package prints them.
+# Evidence abbreviations: imp:X = calls import X; str:"..." = uses the string; cfg:key = reads/writes the settings global;
+#   st:DAT_x = uses controller state global; btn:<button>/<mode> = IsButton(0x102141b0) argument recovered from the
+#   disassembly (EDX = button, pushed mode); <- caller; -> callee.  All addresses: ProjectDiablo.dll, preferred base.
+#! name=Controller
+#! tree=4_pd2_source/ProjectDiablo
+#! out=4_pd2_source/ProjectDiablo/features/Controller
+#! binary=${work}/bin/ProjectDiablo.dll
+#! game_dir=${work}/inputs/ProjectD2/ProjectD2
+#! reference=${work}/inputs/sigmaRE/sigmaRE/5_game_source
+#! patches=5_game_patches/patches.csv
+#! rt_table=0x103c7f50
+#! rt_entry=20
+#! rt_slots=2187
+#! rt_init=0x100f3330
+#! rt_byte_helper=0x102ce4d0
+#! module_table=0x103c68a0
+#! module_count=27
+#! state_template=${repo}/tools/features/controller_state.h.in
+#
+# ============================================================================================ core
+-	section	-	-	1. init and device detection (raw input registration, XInput slots, HID arrival/removal)
+0x1022cb70	core	high	imp:RegisterRawInputDevices(2 devices: page 1 usage 5 gamepad + usage 4 joystick, flags 0x2100) on the game HWND; calloc(4,0x63c); imp:XInputGetState x4; <- 0x102ad9b0 startup thread	Controller_Init: registers for raw gamepad/joystick input on the game window and creates the 4 XInput device slots (type 1)	Controller_Init
+0x1022c9b0	core	high	WM_INPUT_DEVICE_CHANGE handler: wParam 1 -> 0x1022c770, 2 -> 0x1022c940; imp:XInputGetState x4; <- 0x1022ca30 (msg 0xfe)	re-probes the 4 XInput slots on every device change and adds/removes HID devices	Controller_OnDeviceChange
+0x1022c770	core	high	imp:GetRawInputDeviceInfoW(RIDI_DEVICENAME), CreateFileW, imp:HidD_GetProductString, imp:HidD_GetManufacturerString; realloc(list, n*0x63c)	HID device arrival: skips XInput devices ("IG_" in the path), appends a 0x63c device record, opens the HID file	Controller_OnHidArrival
+0x1022c940	core	high	CloseHandle(+0x620); clears +0x00; <- 0x1022c9b0	HID device removal (record kept, marked disconnected)	Controller_OnHidRemoval
+0x1022b800	core	high	str:L"IG_" via 0x1022b720 (wcsstr); <- 0x1022c770, 0x1022c940	tells XInput devices (path contains IG_) apart from plain HID pads	Controller_IsXInputPath
+0x1022da00	core	high	wcscpy_s(dst,0x80,src); only caller 0x1022c770	copies the device path into PadDevice.path	Controller_CopyPath
+0x1022b810	core	high	VID 0x54c && PID 0x5c4/0x9cc; <- 0x1022c510	Sony DualShock 4 (v1/v2) match	Controller_IsDualShock4Id
+0x1022b840	core	high	VID 0x54c && PID 0xce6/0xdf2; <- 0x1022c510	Sony DualSense / DualSense Edge match	Controller_IsDualSenseId
+0x1022b890	core	high	PadDevice.type == 1; 23 callers, all controller code	device-kind test: XInput	Controller_IsXInput
+0x1022b870	core	high	PadDevice.type == 2	device-kind test: DualShock 4	Controller_IsDualShock4
+0x1022b8b0	core	high	PadDevice.type == 3	device-kind test: DualSense	Controller_IsDualSense
+-	section	-	-	2. polling and report parsing (XInput every frame/tick, HID on WM_INPUT), activity detection
+0x1022ca30	core	high	msgs 0xff WM_INPUT, 0xfe WM_INPUT_DEVICE_CHANGE, 0x200/0x240/0x119 mouse/touch/gesture, 0x201/0x204 clicks; imp:GetPropA("userData"); cfg:controller_movement; st:DAT_103d9867; <- 0x10256620	raw-input part of the window subclass: HID input, device changes, and the mouse-activity switch back to mouse mode	Controller_WndProc
+0x1022c510	core	high	imp:GetRawInputData, imp:GetRawInputDeviceInfoW(RIDI_DEVICEINFO); -> 0x1022b810/0x1022b840 -> 0x1022b900/0x1022bf90; sets st:DAT_103d98dc	WM_INPUT: finds the device record by hDevice and parses its HID report	Controller_OnWmInput
+0x1022b900	core	high	report sizes 0x40/0x223; 12 buttons, hat, 4 axes, triggers >= 0.3; output report 0x05/0x11 (+CRC 0x1022b8d0); imp:WriteFile,GetOverlappedResult	DualShock 4 input parser and output report (rumble/lightbar) writer	Controller_ParseDualShock4
+0x1022bf90	core	high	report '1'(BT 0x4e/0x223) or 0x01 (USB 0x40); output 0x02/0x31 with two trigger effects (0x1022bd90); imp:WriteFile	DualSense input parser and output report writer	Controller_ParseDualSense
+0x1022bd90	core	high	encodes mode 1/2/3 as 0x21/0x25/0x26 with 3-bit zone strengths; <- 0x1022bf90 only	DualSense adaptive-trigger effect encoder (fed by never-written fields: always off)	Controller_EncodeTriggerEffect
+0x1022b8d0	core	high	CRC-32 table at 0x10377a70; <- 0x1022b900, 0x1022bf90 only	CRC32 of Bluetooth output reports	Controller_Crc32
+0x1022cc60	core	high	imp:XInputGetState, imp:XInputSetState, imp:SetPropA("userData"); copies cur->prev; selects st:DAT_103d98dc; <- 0x10256420 (40 ms tick), 0x102589a0 (frame hook)	polls the XInput slots (only the active device once one is chosen) and sends rumble (always 0)	Controller_PollXInput
+0x1022d020	core	high	cur != prev -> changed[] = 1; analog slots vs dead zone (0x10214350); <- 0x1022ca30, 0x10256420, 0x102589a0	detects controller activity; its result switches controller mode on	Controller_DetectActivity
+0x1022d200	core	high	clears changed[0..63] of every device; <- 0x102563e0, 0x102589a0 after each dispatch	consumes the edge flags after a dispatch	Controller_ClearEdges
+-	section	-	-	3. mapping: logical buttons, sticks, dead zone, curves, skill-bind slots
+0x10213f20	core	high	reads cur[idx] (+0xc) and changed[idx] (+0x20c); modes 0 pressed / 1 held / 2 released; <- 0x10213f90, 0x102140a0	raw slot state query	Controller_RawButton
+0x102140a0	core	high	switch 0..15 -> XInput slots 0,1,3,2,4,5,6,7,8,9,12,13,14,15,10,11; <- 0x102141b0	logical button -> XInput slot	Controller_MapXInput
+0x10213f90	core	high	switch 0..15 -> PS slots 1,2,3,0,22,23,24,25,4,5,11,8,20,21,6,7; <- 0x102141b0	logical button -> DualShock 4 / DualSense slot	Controller_MapPlayStation
+0x102141b0	core	high	ECX = st:DAT_103d98dc, EDX = button, [esp+4] = mode; 13 callers (127 recovered call sites, see README)	IsButton(button, mode) on the active device	Controller_IsButton
+0x10214350	core	high	cfg:controller_deadzone; constants 0.01 @0x1037f648, 0.4 @0x1037f6b0, 0.3 @0x1037f690/0x1037f628; returns XMM0	dead zone of the active device kind	Controller_GetDeadzone
+0x102143b0	core	high	EDX = stick (0 left, 1 right); half-axis slots 0x40/0x48 (PS left), 0x50/0x58, 0x60/0x68 (XInput right)	is the stick inside the (square) dead zone	Controller_StickIdle
+0x10214210	core	high	EDX = direction 0 left 1 down 2 right 3 up, [esp+4] = stick; threshold 0.7	stick pushed in a direction	Controller_StickDirection
+0x10214430	core	high	remap via 0x102d29a0, pow(|v|,1.3) (0x1037f748), dz/3 (0x1037f798) ; <- 0x10214600, 0x102147d0, 0x10214980, 0x102158c0	stick -> scaled vector with rescaled dead zone and 1.3 power curve	Controller_StickVector
+0x10215d20	core	high	button 0,1,2,3,9 -> slot 0..4, with LT held 5..9	logical button -> skill-bind slot	Controller_ButtonToBindSlot
+0x10215dd0	core	high	slot 0..9 -> button 0,1,2,3,9 (+LT flag for 5..9); <- 0x10225a60	bind slot -> glyph button (for the skill-icon labels)	Controller_BindSlotToButton
+0x10215e50	core	high	btn:LT/held then A,B,Y,X,RB/pressed -> 0x10215d20	which bind slot was pressed this frame (-1 none)	Controller_PressedBindSlot
+0x10215f00	core	high	btn:LT/held then A,B,Y,X,RB/held -> 0x10215d20; <- 0x10259590	which bind slot is held (for hold-to-cast repeat)	Controller_HeldBindSlot
+-	section	-	-	4. per-frame dispatch (out of game, menus, panels, world)
+0x10218800	core	high	runs the deferred action st:DAT_103d5ff4 when tick40 >= DAT_103d5eec, then 0x102187b0; <- 0x102563e0 (5 ms tick), 0x102589a0 (frame hook)	controller frame entry	Controller_Frame
+0x102187b0	core	high	-> 0x10215c90, 0x102158c0, then first handler that consumes: 0x102166c0, 0x10217840, 0x102179e0, 0x10218690, 0x10218180	dispatch chain	Controller_Dispatch
+0x10215c90	core	high	btn:A/pressed -> 0x10212f80, A/released -> 0x102131a0, B/pressed -> key VK_ESCAPE; D-pad -> 0x10215c00	out-of-game menus (and in-game when no player path): A = click, B = Esc, D-pad = arrow keys	Controller_MenuInput
+0x10215c00	core	high	btn:DDown,DUp,DLeft,DRight/pressed -> 0x10215ba0(VK 0x28,0x26,0x25,0x27)	D-pad -> arrow-key taps	Controller_DPadArrows
+0x102158c0	core	high	cfg:controller_sensitivity; left stick (XInput slots 17/19, PS 13/15) -> 0x10214430; clamps to screen (800x600 if no player); writes D2Client MouseX/MouseY then 0x10212e30; every 5 ms tick	left stick moves the cursor whenever a panel/menu owns it	Controller_StickCursor
+0x102166c0	core	high	btn:Start,LT+R3,LT+L3,LB,RB,B,Y,A,X,D-pad,LT,RT,Back (38 sites); GetUiVar 12,20,3,25,1,26,2,22,15,4,36; packets 0x49 (waypoint) 0x55 (stash page); D2 key-command handlers 0x6faec2a0..	panel dispatcher: game menu, run/walk, resync, shop/waypoint/stash tabs, panel ring, inventory grid cursor	Controller_PanelInput
+0x10215fb0	core	high	GetUiVar(3 MINISKILL); btn:RT/pressed -> click; 0x10215e50 slot -> PlayerData+0x512+slot*8, packet 0x43 (10 bytes)	skill-speed-bar popup: binds the hovered skill to a button	Controller_AssignBind
+0x10216190	core	high	<- 0x102166c0 only; walks an inventory grid {w @+8, h @+9, cells @+0xc} from a cell in a direction to the next occupied cell	inventory grid neighbour search for D-pad navigation	Controller_GridNext
+0x10217840	core	high	p_D2Client_DAT_6fbaada4 (Esc menu) ; btn:DDown,DUp/pressed, left stick left/right, A -> VK_RETURN, B -> VK_ESCAPE; -> D2Client sub_6fb14d20..6fb14f50 (msg {0x100,key})	game (Esc) menu navigation	Controller_EscMenuInput
+0x102179e0	core	high	btn:A pressed/released, X/pressed, RT/LT/L3 held (modifiers), B/pressed, Y/pressed; GetUiVar 14,12,26,2,36,3,11	clicks inside panels with Shift/Ctrl/Alt from LT/RT/L3; B closes; Y = cube/repair/refresh/adv. stats	Controller_PanelClicks
+0x10218690	core	high	dialog/NPC menu state (0x6fbc3aca/0x6fbc3a80/0x6fbc9763/0x6fbcc2fc); btn:DDown,DUp,A,B/pressed -> VK_DOWN, VK_UP, VK_RETURN, VK_ESCAPE	NPC dialog/menu navigation	Controller_DialogInput
+0x10218180	core	high	btn:LB/held (loot), LT+LB, LT+D-pad, A, RT/held, L3, R3 (15 sites); -> 0x10214ae0, 0x10215240, 0x10218120, 0x10214da0, 0x102598e0, ClickMap wrapper 0x1025c3f0	in-world input: walk, loot, interact, attack/cast, belt, automap, weapon swap	Controller_WorldInput
+0x10214ae0	core	high	0x102143b0(left) -> 0x10214600; D2Common_10286 (PATH/Path.cpp), D2Common_10336, D2Common_10334, sub_102f0810 (UNIT_UnitMode_6fada6c0); cooldown st:DAT_103d5fe0 = tick40+5	left stick walks the player (direct path calls, no mouse emulation)	Controller_StickWalk
+0x10214600	core	high	left stick * 10 * 0.5 (0x1037f7c8, 0x1037f6c0), rotation -pi/4 (0x1037f8f0); writes st:DAT_103d5ee4/e8	walk target point from the left stick	Controller_WalkPoint
+0x10214da0	core	high	cfg:controller_aim_assist; right stick -> 0x102147d0, left stick -> 0x10214980; -> 0x1025c930/0x1025c7c0 (unit near point); st:DAT_103d5fc0/c4/c8	target selection with aim assist	Controller_SelectTarget
+0x102147d0	core	high	right stick (XInput 0x60/0x68, PS 0x50/0x58), rotation -pi/4; <- 0x10214da0	aim probe point along the right stick	Controller_AimPointRight
+0x10214980	core	high	left stick (XInput 0x50/0x58, PS 0x40/0x48), rotation -pi/4; <- 0x10214da0	aim probe point along the left stick	Controller_AimPointLeft
+0x10218120	core	high	0x1025c7c0(player, range 0x30) -> st:DAT_103d5fc8; <- 0x10218180	nearest interactable unit for A	Controller_FindInteract
+0x10217f60	core	high	st:DAT_103d5fc0/c4 target; D2Common_10336, sub_102f0af0 (UNIT_CUnit_6fb554a0), 0x10259ce0; <- 0x102593e0 only (controller branch)	casts the held skill at the controller target (hold-to-cast path)	Controller_CastAtTarget
+0x10215240	core	high	cfg:controllerMultiButtonLoot; labels DAT_103d6230/6240; std::sort with 0x10215190; btn:A,B,Y,X,RB,DLeft,DUp,DDown,DRight/pressed -> 0x1025c3f0(pick up)	loot selection while LB is held	Controller_LootSelect
+0x10215190	core	high	distance of label centre to st:DAT_103d5fd0/d4 (0x102cfaf0); <- std::sort instantiation only	loot label comparator	Controller_LootCloser
+0x10218ad0	core	medium	std::sort(begin,end,0x10215190) entry; only caller 0x10215240	STL template instance for the loot comparator (only exists for the controller)	std_sort_LootLabels
+0x10218d30	core	medium	introsort loop; only caller 0x10218ad0	STL template instance for the loot comparator	std_sort_LootLabels_impl
+0x10218df0	core	medium	insertion sort, calls 0x10215190; only caller 0x10218d30	STL template instance for the loot comparator	std_sort_insertion
+0x10218ec0	core	medium	heap sort part; only caller 0x10218d30	STL template instance for the loot comparator	std_sort_heap
+0x10218f30	core	medium	make_heap part; only caller 0x10218d30	STL template instance for the loot comparator	std_sort_make_heap
+0x10218f70	core	medium	partition (median of three), calls 0x10215190; only caller 0x10218d30	STL template instance for the loot comparator	std_sort_partition
+0x102191a0	core	medium	push_heap, calls 0x10215190; callers 0x10218ec0, 0x10219480	STL template instance for the loot comparator	std_sort_push_heap
+0x10219250	core	medium	pop_heap; only caller 0x10218f30	STL template instance for the loot comparator	std_sort_pop_heap
+0x10219480	core	medium	adjust_heap; only caller 0x10219250	STL template instance for the loot comparator	std_sort_adjust_heap
+0x102193f0	core	medium	sift, calls 0x10215190; only caller 0x102191a0	STL template instance for the loot comparator	std_sort_sift
+0x102192c0	core	medium	median helper; only caller 0x10218f70 -> 0x102194c0	STL template instance for the loot comparator	std_sort_median
+0x102194c0	core	medium	median-of-three, calls 0x10215190; only caller 0x102192c0 (placed in unit 02 by position)	STL template instance for the loot comparator	std_sort_med3
+0x10218860	core	high	stores D2Client 0x6fb8bc54/58 into st:DAT_103d5fe4/e8 for unit types 2 and 5; <- 0x1025c4a0 hook only	remembers where the target object is drawn (for the target glyph)	Controller_StoreTargetScreenPos
+-	section	-	-	5. acting on the game: cursor, synthetic clicks, key taps, cursor ownership
+0x10212e30	core	high	builds a WM_MOUSEMOVE (0x200) message and calls the D2Client message handlers directly (sub_6fac63d0, 0x1022f020, per-panel handlers by GetUiVar); no player: 0x102f08a0 (game SetCursorPos sub_6fac61b0); resets st:DAT_103d98d4	moves the game cursor (MouseX/MouseY) without moving the OS cursor	Controller_MoveCursor
+0x10212f80	core	high	WM_LBUTTONDOWN (0x201) to D2Client/PD2 handlers by open panel; MK flags: LT -> 5 (Shift), RT -> |8 (Ctrl), L3 -> |0x20 (Alt-like); no player or 0x6fbbf2f3==1: imp:SendInput(MOUSEEVENTF_ABSOLUTE|LEFTDOWN at MouseX/Y); sets st:DAT_103d5ee3	synthetic left button down	Controller_LeftDown
+0x102131a0	core	high	WM_LBUTTONUP (0x202) to the same handler chain; no player: imp:SendInput(ABSOLUTE|LEFTUP)	synthetic left button up	Controller_LeftUp
+0x10213390	core	high	WM_RBUTTONDOWN (0x204) to D2Client/PD2 handlers	synthetic right click	Controller_RightDown
+0x10215ba0	core	high	imp:SendInput(4 INPUTs: key down + key up of VK in CX, then 2 zeroed entries)	key tap (Enter/Esc/arrows) for menus	Controller_KeyTap
+0x10213480	core	high	parks the cursor at (0x73,0x223) / restores st:DAT_103d5ef8/5ff8; D2GL d2glConfigSetImpl(2 HD_CURSOR,1), (9 DRAW_CURSOR,0/1) via 0x10231ae0	hides the mouse cursor while the controller walks (and restores it)	Controller_ParkCursor
+0x10215760	core	high	<- 0x1025c4c0 (cursor-draw hook, controller mode); draws the held item at the cursor or parks the cursor (0x10213480) and calls the game cursor draw sub_6fac6a90	cursor drawing in controller mode	Controller_DrawCursor
+0x10218890	core	high	clears controller targets; leaving controller mode in game: imp:SetCursorPos(screen centre), st:DAT_103d98dc = 0; out of game: 0x10212e30(D2Win mouse pos); <- 0x10256150	reset on input-mode change	Controller_ResetOnModeChange
+-	section	-	-	6. on-screen help, glyphs and debug overlay
+0x1022b730	core	high	cfg:controller_button_style (0 auto from device kind, 1 Xbox, 2 PlayStation); str:controllermenu, controllercrosshair, Controls_Xbox_10/20, Controls_Dualshock_10/20; -> 0x102edee0 (D2Client sub_6fadb420 LoadUiImage)	loads the glyph sheets for the active style	Controller_LoadGfx
+0x1022d250	core	high	clears the cached cels and st:DAT_10398168 = -1; <- 0x10256180	forces a glyph reload	Controller_ResetGfx
+0x10213570	core	high	frame = button (< 0x10), size 10 or 20 -> Controls_*_10/_20; D2gfx_10041 (draw cel); 7 callers	draws one button glyph	Controller_DrawGlyph
+0x10213620	core	high	str:data\global\ui\PANEL\controllerhelp, ControllerSkillSelect1..12, ControllerHelpInventory*, ControllerKeybind*; D2Win_10150 (text), D2Lang 10011 via 0x102d0fb0; <- 0x10257dd0	help overlay: skill-bind page and inventory button legend	Controller_DrawHelp
+0x102150b0	core	high	label index -> glyph (A,B,Y,X,RB,DLeft,DUp,DDown,DRight; group logic DAT_10398020); <- 0x10257d50	draws the button on a loot label	Controller_DrawLootGlyph
+0x10257cb0	core	high	st:DAT_103d5fc8 target unit, DAT_103d5fe4/e8 screen pos; glyph A; <- 0x10258240 (controller mode only)	A-glyph over the interact target	Controller_DrawTargetGlyph
+0x10257d50	core	high	st:DAT_103d5ee2 (loot mode), DAT_103d5f00[], labels DAT_103d6240; -> 0x102150b0; <- 0x10258980 hook	draws the loot-label glyphs	Controller_DrawLootGlyphs
+0x10257dd0	core	high	str:ControllerMenuNavigation{Party,Quest,Character,Inventory,Skills,Hireling,Hotkeys}; controllermenu cel st:DAT_103d98c0; LB/RB glyphs; -> 0x10213620; <- 0x10258280 (controller mode only)	panel-ring bar (LB/RB) and help overlay	Controller_DrawMenuBar
+0x10218940	core	high	st:DAT_104e6d24 = 0 (controllerhelp cel); <- 0x10256180	forgets the help cel on game enter/leave	Controller_ResetHelpGfx
+0x1022d280	core	high	str:L"Xbox/XInput", L"PS4/Dualshock", L"PS5/Dualsense" (+": %i"), value format strings; D2Win_10150; <- 0x102589a0 when DAT_104dbb08 (.debugcontroller)	debug overlay of the raw controller values	Controller_DebugOverlay
+#
+# ============================================================================================ shared
+-	section	-	-	7. shared: threads, ticks, mode switching, window subclass installer
+0x102ad9b0	shared	high	waits for D2gfx_10048 window, GetWindowLongW/SetWindowLongW(GWL_WNDPROC, 0x10256620), then -> 0x1022cb70; std::thread from 0x102ad560 (Init)	startup thread: subclasses the game window and initialises the controller
+0x10256420	shared	high	40 ms loop 0x102ada30; stores tick40 (0x103e7898); no player + cfg:controller_movement: -> 0x1022cc60, 0x1022d020, sets DAT_103d9867; also game-enter/leave reset and other PD2 per-tick work	client 40 ms tick; polls the controller while out of game
+0x102563e0	shared	high	5 ms loop 0x102ada80; stores tick5 (0x103e7890); when no player/path or 0x6fbbf2f3==1 and controller mode: -> 0x10218800, 0x1022d200	client 5 ms tick; runs the controller dispatch outside the game world
+0x10256150	shared	medium	-> 0x102375d0 (WASD/hold states), 0x10218890 (controller), 0x10259120 (skill-hold state); <- 0x1022ca30, 0x10256420, 0x102589a0, 0x10256620 (WM_KILLFOCUS), 0x10256180	resets all input state when the input device kind changes
+0x10256180	shared	medium	game enter/leave reset of many PD2 globals; -> 0x1022d250, 0x10218940, 0x10256150	game join/leave reset (includes the controller glyph caches)
+-	section	-	-	8. shared: game UI that shows controller glyphs or uses controller bindings
+0x10220830	shared	high	cfg:controller_button_style, st:DAT_103d9867, 0x1022b890(DAT_103d98dc): picks glyph set 1/2 in hover text	item hover text uses Xbox/PlayStation button icons in controller mode
+0x10225a60	shared	high	only acts if DAT_103d9867; PlayerData+0x512 binds -> 0x10215dd0 -> 0x10213570 (LT + button glyphs)	skill-icon labels show the bound controller buttons
+0x10225b90	shared	medium	keyboard hotkey label path only when DAT_103d9867 == 0	skill-icon hotkey text (suppressed in controller mode)
+0x10226880	shared	high	draws LB/RB glyphs (0x10213570 frames 8,9) on the stash tabs when DAT_103d9867	stash page tabs show LB/RB
+0x1022e820	shared	high	st:DAT_103d9867 branch: with only the right panel open (ScreenCovered==1), a click left of the screen centre while an item is on the cursor sends packet 0x17 {0x17, item id} (drop the cursor item); <- wndproc and 0x10212f80	PD2 left-click handler, controller variant
+0x1022ec90	shared	high	Alt test: GetAsyncKeyState(VK_MENU) or (controller mode and MK flag 0x20); <- wndproc and 0x10213390	PD2 right-click handler; L3 stands in for Alt
+0x10236e90	shared	high	WASD movement; st:DAT_10398446 focus; clears DAT_103d9867 when WASD is used	WASD movement switches back to keyboard/mouse mode
+0x102574e0	shared	high	skill bar: in controller mode reads binds from PlayerData+0x512 instead of the D2Client hotkey arrays	PD2 skill bar shows controller binds
+0x10258240	shared	high	HUD draw; -> 0x10257cb0 when DAT_103d9867	HUD pass 1 (adds the target glyph)
+0x10258280	shared	high	HUD draw; -> 0x10257dd0 when DAT_103d9867	HUD pass 2 (adds panel bar and help)
+0x102593e0	shared	high	hold-to-cast tick; controller mode: 0x10214da0 target, 0x10217f60 cast; else mouse position via ClickMap wrapper	held-skill repeat uses the controller target
+0x10259590	shared	high	hold-to-cast thread; controller mode: 0x10214da0 + 0x10215f00 held bind instead of GetAsyncKeyState(vKey)	held-skill repeat watches the held controller button
+0x102598e0	shared	high	casts a bind slot; controller mode: PlayerData+0x512 table instead of D2Client hotkeys 0x6fbc9d30/0x6fbc9dd0	skill hotkey cast, controller variant
+0x102e43a0	shared	high	stat-point button: Shift/Ctrl from GetKeyState, or LT/RT held in controller mode (btn:LT,RT/held); points 1/5/20/all	stat allocation modifiers
+0x102e4480	shared	high	skill-point button: same with LT/RT	skill allocation modifiers
+#
+# ============================================================================================ config
+-	section	-	-	9. settings (options menu entries in .data and ProjectDiablo.json)
+0x10230ef0	config	high	menu entry ControllerMovement (0x1039b01c) setter (+0x108); cfg:controller_movement; -> save 0x10239e00	options menu: set controller_movement
+0x10230f10	config	high	menu entry ControllerMovement getter (+0x10c)	options menu: get controller_movement
+0x10230f20	config	high	visibility predicate of Sensitivity/AimAssist/Deadzone entries (+0x104)	the three tuning entries show only when controller_movement is on
+0x10230f30	config	high	menu entry Sensitivity (0x1039b56c) setter; value = slider * (100 / steps); -> 0x10239e00	options menu: set controller_sensitivity
+0x10230f60	config	high	menu entry Sensitivity getter	options menu: get controller_sensitivity
+0x10230f80	config	high	menu entry AimAssist (0x1039babc) setter	options menu: set controller_aim_assist
+0x10230fb0	config	high	menu entry AimAssist getter	options menu: get controller_aim_assist
+0x10230fd0	config	high	menu entry Deadzone (0x1039c00c) setter	options menu: set controller_deadzone
+0x10231000	config	high	menu entry Deadzone getter	options menu: get controller_deadzone
+0x10231270	config	high	menu entry ControllerMultiButtonLoot (0x1039c55c) setter	options menu: set controllerMultiButtonLoot
+0x10231290	config	high	menu entry ControllerMultiButtonLoot getter	options menu: get controllerMultiButtonLoot
+0x10230ea0	config	high	menu entry MenuControllerBtns (0x1039cffc; choices Auto/MenuXbox/MenuPS) setter; resets glyph cache (DAT_103d98d0/d8, DAT_10398168)	options menu: set controller_button_style
+0x10230ee0	config	high	menu entry MenuControllerBtns getter	options menu: get controller_button_style
+0x102ac5e0	config	high	settings defaults: 0x104e24ca=1, 24cc=50 (max 24d8=100), 24dc=1 (max 24e8=2), 24ec=20 (max 24f8=40), 2514=0, 2524=0	default values of the controller settings (shared with all other settings)
+#
+# ============================================================================================ hooks
+-	section	-	-	10. hook handlers (functions the patch records point at)
+0x10256620	hook	high	window subclass record P1600 (group W-0001, installed by 0x102ad9b0); WM_SETFOCUS/KILLFOCUS -> DAT_10398446; -> 0x1022ca30 for 0xff,0xfe,0x200,0x240,0x119,0x201,0x204; then PD2 mouse/keyboard handlers; CallWindowProcA	game window procedure (shared: controller raw input + PD2 mouse/keyboard)
+0x102589a0	hook	high	P1125 D2Client sub_6fb739e0+0x3d0; cfg:controller_movement; -> 0x1022cc60, 0x1022d020, 0x10218800, 0x1022d200, 0x1022d280; also DPS text, 0x102594d0/0x102593e0, WASD	per-frame client update: in-game controller poll and dispatch (shared)
+0x10258980	hook	high	P1129 D2Client sub_6fb739e0+0x380; show-items labels 0x10223f90, then -> 0x10257d50 in controller mode	ground-item labels + loot glyphs (shared)
+0x10256f90	hook	high	P1126 D2Client sub_6fb6f0d0+0x12 -> 0x10258240	HUD pass 1 (shared)
+0x10256fa0	hook	high	P1127 D2Client sub_6fb739e0+0x1db -> 0x10258280	HUD pass 2 (shared)
+0x1025c3f0	hook	high	rt:2100-2105 replace 6 D2Client calls of ClickMap sub_6facbf20 (UNIT/Player area); WASD branch 0x10237380 unless DAT_103d9867; controller calls it to interact/pick up	ClickMap wrapper (shared with WASD)
+0x1025c4a0	hook	high	rt:2106 D2Client 0x6fb73a58 call of sub_6fb70d30; then 0x10218860 in controller mode	records the target's screen position (controller only)
+0x1025c4c0	hook	high	rt:2107-2112 replace 6 calls of the cursor draw sub_6fac6a90; controller mode -> 0x10215760; else restores the parked cursor (0x10213480)	cursor drawing (controller + PD2 crosshair debug)
+0x102f08c0	hook	high	shim (not in the tree): push edi; push ebx; call 0x1025d170; rt:1349-1369 (21 calls of the game SetCursorPos sub_6fac61b0)	register adapter for the cursor-warp filter
+0x1025d170	hook	high	calls the game's SetCursorPos (0x102f08a0 -> sub_6fac61b0) only when DAT_103d9867 == 0	controller mode suppresses all 21 game cursor warps (controller only)
+0x102f0950	hook	high	shim (not in the tree): rt:2113-2114 -> 0x10225b30	register adapter: skill-icon label (left)
+0x102f0990	hook	high	shim (not in the tree): rt:2115-2116 -> 0x10225b60	register adapter: skill-icon label (right)
+0x10225b30	hook	medium	-> 0x10225a60 (controller glyphs) and keyboard label	skill-icon label (shared)
+0x10225b60	hook	medium	-> 0x10225a60 (controller glyphs) and keyboard label	skill-icon label (shared)
+0x102f0450	hook	medium	shim (not in the tree): rt:1996-2027 (32 sites) -> 0x10225b90	register adapter: hotkey text (shared; controller only suppresses it)
+0x102ee6a0	hook	medium	shim (not in the tree): push esi; call 0x102598e0; rt:1412-1427 (16 skill hotkey commands)	skill hotkey cast (shared; controller variant inside 0x102598e0)
+0x10226280	hook	medium	rt:2033 D2Client 0x6fad92b8; belt drawing, controller glyphs via 0x10213570 when DAT_103d9867	belt slot glyphs (shared)
+0x10222470	hook	low	rt:2035 D2Client 0x6fb4b004; reaches 0x10220830 (hover text with button style)	item hover text (shared; controller glyphs only)
+0x10227d70	hook	low	P1238/P1239 (cond table) D2Client sub_6fb739e0; reaches 0x10226880 (LB/RB stash tab glyphs)	stash/inventory UI draw (shared; controller glyphs only)
+0x102ed850	hook	medium	P1123 D2Client sub_6fb6dca0+0x2a4 -> 0x102e43a0	stat button with LT/RT modifiers (shared)
+0x102ed860	hook	medium	P1124 D2Client sub_6fb28fc0+0x6b6 -> 0x102e4480	skill button with LT/RT modifiers (shared)
+#
+# ============================================================================================ hook records
+-	section	-	-	11. patch records
+P1600	hook-record	high	patches.csv P1600 (group W-0001): window subclass (SetWindowLongW GWL_WNDPROC) by 0x102ad9b0; new procedure 0x10256620 (patches.csv names the HWND getter D2gfx_10048 as handler)	installs the controller's WM_INPUT path
+P1125	hook-record	high	D2Client sub_6fb739e0+0x3d0 call -> 0x102589a0	in-game poll/dispatch point (per frame)
+P1129	hook-record	high	D2Client sub_6fb739e0+0x380 call -> 0x10258980	loot-glyph drawing point
+P1126	hook-record	medium	D2Client sub_6fb6f0d0+0x12 -> 0x10256f90	target-glyph drawing point (shared HUD hook)
+P1127	hook-record	medium	D2Client sub_6fb739e0+0x1db -> 0x10256fa0	panel-bar/help drawing point (shared HUD hook)
+P1123	hook-record	medium	-> 0x102ed850	stat allocation modifiers (shared)
+P1124	hook-record	medium	-> 0x102ed860	skill allocation modifiers (shared)
+P1238	hook-record	low	cond table -> 0x10227d70	stash tab glyphs (shared)
+P1239	hook-record	low	cond table -> 0x10227d70	stash tab glyphs (shared)
+rt:1349-1369	hook-record	high	runtime table entries (initializer 0x100f3330) -> shim 0x102f08c0 -> 0x1025d170	game SetCursorPos calls filtered in controller mode
+rt:1412-1427	hook-record	medium	runtime entries -> shim 0x102ee6a0 -> 0x102598e0	skill hotkey commands (controller-aware, shared)
+rt:1996-2027	hook-record	medium	runtime entries -> shim 0x102f0450 -> 0x10225b90	hotkey text (shared)
+rt:2033	hook-record	medium	runtime entry -> 0x10226280	belt glyphs (shared)
+rt:2035	hook-record	low	runtime entry -> 0x10222470	hover text (shared)
+rt:2100-2105	hook-record	high	runtime entries -> 0x1025c3f0	ClickMap wrapper (controller + WASD)
+rt:2106	hook-record	high	runtime entry -> 0x1025c4a0	target screen position (controller only)
+rt:2107-2112	hook-record	high	runtime entries -> 0x1025c4c0	cursor drawing (controller)
+rt:2113-2116	hook-record	high	runtime entries -> shims 0x102f0950/0x102f0990	controller glyphs on skill icons
+#
+# ============================================================================================ state
+0x103d98ac	state	high	written by 0x1022cb70, read by poll/dispatch	device list: count (4 XInput + HID)	g_PadList.count
+0x103d98b0	state	high	calloc/realloc in 0x1022cb70/0x1022c770	device list: PadDevice array	g_PadList.devices
+0x103d98b4	state	high	0x1022cb70, 0x1022cc60 (SetPropA target)	game window handle	g_PadHwnd
+0x103d98dc	state	high	15 users; set by 0x1022c510/0x1022cc60 on input	active device (last device with input)	g_PadActive
+0x103d98cc	state	high	malloc/realloc in 0x1022c510	GetRawInputData buffer	g_RawInputBuf
+0x103d98c8	state	high	0x1022c510	its size	g_RawInputBufSize
+0x103d98c4	state	high	0x1022c510	RIDI_PREPARSEDDATA buffer	g_RawPreparsed
+0x103d98bc	state	high	0x1022c510	its size	g_RawPreparsedSize
+0x103d98d4	state	high	incremented on mouse moves in 0x1022ca30, zeroed by every controller action	mouse-activity counter (switch to mouse mode at > 39)	g_MouseMoves
+0x103d9867	state	high	26 users	controller mode active	g_ControllerMode
+0x103d9866	state	high	0x1022ca30, 0x10256420, 0x102589a0, 0x10256620	controller produced input in the last poll	g_ControllerInput
+0x10398446	state	high	set/cleared on WM_SETFOCUS/WM_KILLFOCUS (0x10256620)	game window focused	g_WindowFocused
+0x103d98d8	state	high	0x1022b730, 0x10213570	Controls_*_20 glyph cel	g_GlyphCel20
+0x103d98d0	state	high	0x1022b730, 0x10213570	Controls_*_10 glyph cel	g_GlyphCel10
+0x103d98c0	state	high	0x1022b730, 0x10257dd0	controllermenu cel	g_MenuCel
+0x103d98b8	state	high	0x1022b730	controllercrosshair cel (loaded, no draw found)	g_CrosshairCel
+0x10398168	state	high	0x1022b730, 0x1022d250, 0x10230ea0 (initial -1)	style of the loaded glyphs (1 Xbox, 2/3 PlayStation)	g_GlyphStyleLoaded
+0x104e6d24	state	high	0x10213620, 0x10218940	controllerhelp cel	g_HelpCel
+0x103d5ee0	state	high	0x10213480, 0x102150b0, 0x10215760	cursor parked and D2GL present	g_CursorParked
+0x103d5ee1	state	medium	0x10214ae0	walk started from standing	g_WalkStart
+0x103d5ee2	state	high	0x10218180 (LB held), 6 users	loot mode (LB held)	g_LootMode
+0x103d5ee3	state	high	set by synthetic clicks, read by 0x1022ca30	ignore the next real click for mode switching	g_OwnClick
+0x103d5ee4	state	high	0x10214600, 0x10214ae0	walk vector x (last)	g_WalkX
+0x103d5ee8	state	high	0x10214600, 0x10214ae0	walk vector y (last)	g_WalkY
+0x103d5eec	state	high	0x10218690, 0x10218800	tick40 at which the deferred action runs	g_DeferredTick
+0x103d5ff4	state	high	0x10218690 (=0x10218840), 0x10218800	deferred action function	g_DeferredFn
+0x103d5ef0	state	high	0x10215240, 0x10257d50	number of labelled loot items	g_LootCount
+0x103d5f00	state	high	0x10215240, 0x10257d50	unit ids of the labelled loot items [up to 48]	g_LootIds
+0x103d5ef4	state	medium	0x10214da0	last aim probe point x/y (packed with 0x103d5ff0)	g_AimPoint
+0x103d5ef8	state	high	0x10213480	saved MouseX while parked	g_SavedMouseX
+0x103d5ff8	state	high	0x10213480	saved MouseY while parked	g_SavedMouseY
+0x103d5efc	state	high	byte 0 cursor parked (0x10213480), byte 1 target from left stick (0x10214da0), byte 2 grid cursor active (0x102166c0, 0x102158c0); byte 3 belongs to the show-items code 0x10223f90	controller flag bytes	g_CtlFlags
+0x103d5fc0	state	high	0x10214da0, 0x10217f60, 0x10218180, 0x10218890	target position x	g_TargetX
+0x103d5fc4	state	high	same	target position y	g_TargetY
+0x103d5fc8	state	high	0x10218120, 0x10214da0, 0x10257cb0	interact target unit	g_InteractUnit
+0x103d5fcc	state	high	0x102166c0, 0x10218180	action cooldown (tick40)	g_ActionCooldown
+0x103d5fd0	state	high	0x10215240, 0x10215190	loot anchor x (player position at LB press)	g_LootAnchorX
+0x103d5fd4	state	high	same	loot anchor y	g_LootAnchorY
+0x103d5fd8	state	high	0x102166c0, 0x10213480	inventory grid being navigated (0 inventory, 5 shop, 9 cube, 0xc stash)	g_GridId
+0x103d5fdc	state	high	0x102158c0, 0x10218890	next tick5 for cursor movement	g_CursorTick
+0x103d5fe0	state	high	0x10214ae0, 0x10218890	next tick40 for a walk command	g_WalkTick
+0x103d5fe4	state	high	0x10218860, 0x10257cb0	target screen x	g_TargetScreenX
+0x103d5fe8	state	high	0x10218860, 0x10257cb0	target screen y	g_TargetScreenY
+0x103d5fec	state	high	0x102166c0	D-pad repeat tick5 (first 50 = 250 ms, then 15 = 75 ms)	g_GridRepeatTick
+0x10398020	state	high	0x10215240, 0x102150b0 (initial -1)	selected loot group (-1 none)	g_LootGroup
+0x10398024	state	high	0x10215240	maximum labelled loot items (9 or 48)	g_LootMax
+0x103e7890	state	high	written every 5 ms by 0x102563e0 (shared)	tick5 counter	g_Tick5
+0x103e7898	state	high	written every 40 ms by 0x10256420 (shared)	tick40 counter	g_Tick40
+#
+# ============================================================================================ settings keys
+0x104e24ca	config-key	high	readers 0x1022ca30, 0x10256420, 0x102589a0; menu 0x10230ef0/0x10230f10/0x10230f20; load 0x1023b445, save 0x10239e00	bool, default true (0x102ac5e0); off = no polling, controller mode forced off	/pd2_game_settings/controller_movement
+0x104e24cc	config-key	high	reader 0x102158c0; menu 0x10230f30/0x10230f60	int 0..100, default 50: cursor speed (s-50)*0.04+4 px/5 ms	/pd2_game_settings/controller_sensitivity
+0x104e24dc	config-key	high	reader 0x10214da0; menu 0x10230f80/0x10230fb0	int 0..2, default 1: aim assist search radius	/pd2_game_settings/controller_aim_assist
+0x104e24ec	config-key	high	reader 0x10214350 (6_config lists only the menu getter); menu 0x10230fd0/0x10231000	int 0..40, default 20: dead zone (d-20)*0.01 + 0.4 XInput / + 0.3 PlayStation	/pd2_game_settings/controller_deadzone
+0x104e2514	config-key	high	readers 0x1022b730, 0x10220830; menu 0x10230ea0/0x10230ee0	int 0..2, default 0: glyphs 0 auto (device kind), 1 Xbox, 2 PlayStation	/pd2_game_settings/controller_button_style
+0x104e2524	config-key	high	reader 0x10215240; menu 0x10231270/0x10231290	bool, default false: up to 48 loot labels with two-press selection (else 9)	/pd2_game_settings/controllerMultiButtonLoot
+#
+# ============================================================================================ strings (name: a = ANSI, w = UTF-16)
+0x10396922	string	high	XINPUT1_4.dll	import DLL (ordinals 2 XInputGetState, 3 XInputSetState)	a
+0x10377f78	string	high	IG_	XInput device path marker (0x1022b800)	w
+0x10377f80	string	high	userData	window property with the device list (0x1022cc60, 0x1022ca30)	a
+0x10377e70	string	high	DATA\GLOBAL\ui\PANEL\controllermenu	panel bar cel (0x1022b730)	a
+0x10377e94	string	high	DATA\GLOBAL\ui\CONTROLS\controllercrosshair	crosshair cel (loaded only)	a
+0x10377ec0	string	high	DATA\GLOBAL\ui\CONTROLS\Controls_Xbox_20	Xbox glyphs 20 px	a
+0x10377eec	string	high	DATA\GLOBAL\ui\CONTROLS\Controls_Xbox_10	Xbox glyphs 10 px	a
+0x10377f18	string	high	DATA\GLOBAL\ui\CONTROLS\Controls_Dualshock_20	PlayStation glyphs 20 px	a
+0x10377f48	string	high	DATA\GLOBAL\ui\CONTROLS\Controls_Dualshock_10	PlayStation glyphs 10 px	a
+0x1037733c	string	high	data\global\ui\PANEL\controllerhelp	help panel cel (0x10213620)	a
+0x103780e0	string	high	Xbox/XInput	debug overlay	w
+0x103780f8	string	high	PS4/Dualshock	debug overlay	w
+0x10378114	string	high	PS5/Dualsense	debug overlay	w
+0x10377f8c	string	high	Xbox/XInput: %i	debug overlay (active device)	w
+0x10378064	string	high	PS4/Dualshock: %i	debug overlay (active device)	w
+0x10378088	string	high	PS5/Dualsense: %i	debug overlay (active device)	w
+0x103780ac	string	high	X:%d, Y:%d	debug overlay (cursor)	w
+0x1037cf2c	string	high	.debugcontroller	chat command that sets DAT_104dbb08 (0x1025b3d0, 0x102df280)	a
+0x1037ef08	string	high	.debugcontroller: Shows the input values for the connected controller	chat command help	a
+0x10377158	string	high	ControllerHelpInventoryPrimary	patchstring.tbl: "Left Click" (A)	a
+0x10377178	string	high	ControllerHelpInventoryFourth	"Right Click" (X)	a
+0x10377198	string	high	ControllerHelpInventorySecondary	"Close" (B)	a
+0x103771e8	string	high	ControllerHelpInventoryThird	"Open Cube" (Y)	a
+0x10377208	string	high	ControllerHelpInventoryThirdRepairAll	"Repair All" (Y at a repair NPC)	a
+0x10377230	string	high	ControllerHelpInventoryThirdGambleRefresh	"Refresh" (Y when gambling)	a
+0x103771bc	string	high	ControllerHelpInventoryThirdAdvancedStats	"Adv. Stats" (Y on the character screen)	a
+0x1037725c	string	high	ControllerHelpInventoryLeftTrigger	"Shift" (LT)	a
+0x10377280	string	high	ControllerHelpInventoryRightTrigger	"Control" (RT)	a
+0x103772a4	string	high	ControllerKeybindRightTriggerPress	"Weapon Swap" (drawn with R3)	a
+0x103772c8	string	high	ControllerKeybindLeftTriggerPress	"Automap" (drawn with L3)	a
+0x103772ec	string	high	ControllerKeybindLeftBumperPress	"Show Loot" (LB)	a
+0x10377310	string	high	ControllerKeybindRightTriggerAttackPress	"Attack" (RT)	a
+0x10377360	string	high	ControllerSkillSelect1	"Hover a skill and press a bind to assign"	a
+0x10377378	string	high	ControllerSkillSelect2	"Hover a skill and press " (RT)	a
+0x10377390	string	high	ControllerSkillSelect3	" to assign right skill"	a
+0x103773a8	string	high	ControllerSkillSelect4	"Available binds:" A B Y X RB, LT+A..RB	a
+0x10377424	string	high	ControllerSkillSelect5	"Toggle minimap: " L3	a
+0x103773dc	string	high	ControllerSkillSelect6	"Swap weapons: " R3	a
+0x103773c4	string	high	ControllerSkillSelect7	"Attack with right skill: " RT	a
+0x103773f4	string	high	ControllerSkillSelect8	"Show loot: " LB	a
+0x1037740c	string	high	ControllerSkillSelect9	"Toggle always show loot: " LT+LB	a
+0x10377454	string	high	ControllerSkillSelect10	"Give potion to mercenary: " LT+D-pad	a
+0x1037743c	string	high	ControllerSkillSelect11	"Toggle run/walk: " LT+L3	a
+0x1037746c	string	high	ControllerSkillSelect12	"Resync: " LT+R3	a
+0x1037c598	string	high	ControllerMenuNavigationParty	panel bar label (0x10257dd0)	a
+0x1037c5b8	string	high	ControllerMenuNavigationQuest	panel bar label	a
+0x1037c668	string	high	ControllerMenuNavigationCharacter	panel bar label	a
+0x1037c68c	string	high	ControllerMenuNavigationInventory	panel bar label	a
+0x1037c624	string	high	ControllerMenuNavigationSkills	panel bar label	a
+0x1037c644	string	high	ControllerMenuNavigationHireling	panel bar label	a
+0x1037c6e0	string	high	ControllerMenuNavigationHotkeys	panel bar label	a
+0x1039b01c	string	high	ControllerMovement	options menu entry (0x550-byte record; setter at +0x108)	a
+0x1039b56c	string	high	Sensitivity	options menu entry	a
+0x1039babc	string	high	AimAssist	options menu entry	a
+0x1039c00c	string	high	Deadzone	options menu entry	a
+0x1039c55c	string	high	ControllerMultiButtonLoot	options menu entry	a
+0x1039cffc	string	high	MenuControllerBtns	options menu entry (choices Auto, MenuXbox, MenuPS)	a
+0x1039d220	string	high	MenuXbox	choice label	a
+0x1039d324	string	high	MenuPS	choice label	a
+0x10379fb4	string	high	controller_movement	json key	a
+0x10379fe8	string	high	controller_deadzone	json key	a
+0x1037a008	string	high	controller_sensitivity	json key	a
+0x1037a020	string	high	controller_aim_assist	json key	a
+0x1037a098	string	high	controller_button_style	json key	a
+0x1037a0b0	string	high	controllerMultiButtonLoot	json key	a
+#
+# ============================================================================================ dependencies (not members)
+0x102ed200	dependency	high	-> D2Client sub_6fac43e0 (send packet, ECX buf, EDX len)	generic PD2 wrapper: send a game packet
+0x102edf00	dependency	high	-> D2Client loc_6fb6e400 (GetUiVar, BH D2Ptrs 0xBE400)	generic: UI state query
+0x102edee0	dependency	high	-> D2Client sub_6fadb420 (LoadUiImage 0x2B420)	generic: load a cel file
+0x10218a00	dependency	high	atomic load of a tick counter; many callers	generic
+0x10218a10	dependency	high	atomic store; many callers	generic
+0x1021cb90	dependency	high	swprintf-style formatter	generic
+0x10231650	dependency	high	BH.dll BHGetConfig (ids: 17 ADVANCEDSTATS_OPEN, 9 ALWAYSSHOWITEMS)	BH interop (4_pd2_source/BH)
+0x102316b0	dependency	high	BH.dll BHInteract (1 ADVANCEDSTATS toggles the window)	BH interop
+0x10231680	dependency	high	BH.dll BHSetConfig (9 ALWAYSSHOWITEMS)	BH interop
+0x10231ae0	dependency	high	glide3x.dll d2glConfigSetImpl (2 HD_CURSOR, 9 DRAW_CURSOR)	D2GL interop (4_pd2_source/D2GL)
+0x1022b720	dependency	high	wcsstr; also used by 0x1025d380	generic
+0x1022b140	dependency	high	closes open panels (PD2 helper, keyboard Esc path too)	generic PD2 UI helper
+0x1022b130	dependency	high	guard + jmp to D2Client UI_inv_6fb40f60 (weapon swap)	generic thunk
+0x1022ac80	dependency	high	sends the PD2 resync packet	PD2 command shared with the keyboard
+0x1022b050	dependency	high	gamble refresh	PD2 command shared with the UI button
+0x1022e7c0	dependency	high	PD2 WM_KEYDOWN handler (gets {0x100, VK_ESCAPE} from Start)	PD2 keyboard handler
+0x1025c7c0	dependency	high	unit near the player within a range	PD2 helper shared with WASD/hold-to-cast
+0x1025c930	dependency	high	unit near a point within a radius	PD2 helper
+0x10259ce0	dependency	high	issue the prepared skill command	PD2 helper shared with keyboard casting
+0x10237380	dependency	high	WASD ClickMap replacement	WASD feature
+0x102375d0	dependency	high	reset WASD/hold states	WASD feature
+0x10259120	dependency	high	reset skill-hold state	hold-to-cast feature
+0x10223f90	dependency	high	builds the on-screen ground-item label list DAT_103d6230/6240 that loot selection reads	show-items / loot filter feature
+0x102ad560	dependency	high	Init: starts the three std::threads (0x102ad9b0 via 0x102adf30, 40 ms 0x102ada30, 5 ms 0x102ada80)	PD2 init
+0x102ada30	dependency	high	40 ms loop: sub_10256420(i), sleep_for(40 ms)	PD2 tick thread
+0x102ada80	dependency	high	5 ms loop: sub_102563e0(i), sleep_for(5 ms)	PD2 tick thread
+0x1023b445	dependency	high	reads all ProjectDiablo.json keys (controller keys included)	settings loader
+0x10239e00	dependency	high	writes ProjectDiablo.json; every option setter tail-calls it	settings writer
+0x10218970	dependency	high	std::vector operator[]	STL
+0x10218980	dependency	high	std::vector size	STL
+0x10218990	dependency	high	std::vector push_back	STL
+0x10219190	dependency	high	STL helper shared with 0x102cc4f0	STL

@@ -82,13 +82,14 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | stash/shared stash | 1 | 1 |
 | loot filter | 14 | 14 |
 | maps/map generation | 41 | 52 |
-| skills | 199 | 397 |
+| skills | 198 | 396 |
 | items/crafting/cube | 171 | 201 |
 | UI/HUD/panels | 98 | 119 |
 | sound | 267 | 271 |
 | networking/packets | 70 | 130 |
 | monsters/AI/combat | 131 | 167 |
 | quests | 39 | 45 |
+| controller | 1 | 1 |
 | misc | 61 | 67 |
 
 ## D2Game.dll
@@ -842,7 +843,7 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | 0xae108 | sub_6fb5e080+0x88<br>`_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` | call redirect | `call D2Client!UNIT_Item_6fb36810` | `call GetItemFromPacket_OldGround` | `GetItemFromPacket_OldGround` 0x10095e80 | H-0035 BH | status vs upstream BH: identical |
 | 0xae117 | sub_6fb5e080+0x97<br>`_unattributed/between_GAME_SCmd_and_UNIT_Missile.cpp` | call redirect | `call D2Client!UNIT_Item_6fb34750` | `call D2CLIENT_ItemPacketBuildAction4_PutInContainer_INTERCEPT_STUB` | `D2CLIENT_ItemPacketBuildAction4_PutInContainer_INTERCEPT_STUB` 0x10079c80 | H-0036 BH | status vs upstream BH: identical |
 
-### D2Client.dll — skills (63)
+### D2Client.dll — skills (62)
 
 | RVA | Game function (file) | Kind | Original | PD2 | Handler | Hook / src | Notes |
 |---|---|---|---|---|---|---|---|
@@ -894,7 +895,6 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | 0xc3b49 | sub_6fb739e0+0x169<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | call redirect | `call D2Client!sub_6fb6cea0` | `call sub_Hook_sub_6fb739e0_1025cbd0` | `sub_Hook_sub_6fb739e0_1025cbd0` 0x1025cbd0 | C-0035 PD2 cond table *(skipped when the command line contains -plugy (flag DAT_104…)* |  |
 | 0xc3bbb | sub_6fb739e0+0x1db<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | call redirect | `call D2Client!UNIT_Monster_6fb00e70` | `call sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0 (PD2 wrapper that ends in the lazy thunk of D2Client.dl…` | `sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0 (PD2 wrapper that en…` 0x10256fa0 | M-1018 PD2 table |  |
 | 0xc3d4e | sub_6fb739e0+0x36e<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | call redirect | `cmp dword ptr [D2Client!DAT_6fbaadb4], ebx` | `call PermShowItemsPatch1_ASM ; nop` | `PermShowItemsPatch1_ASM` 0x1009a4f0 | H-0027 BH | status vs upstream BH: identical |
-| 0xc3db0 | sub_6fb739e0+0x3d0<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | call redirect | `call D2Client!sub_6fb02d90` | `call sub_Hook_sub_6fb739e0_102589a0` | `sub_Hook_sub_6fb739e0_102589a0` 0x102589a0 | M-1016 PD2 table |  |
 | 0xc3db4 | sub_6fb739e0+0x3d4<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | jmp detour | `pop esi ; pop ebx ; pop ecx ; ret 4` | `jmp GameDraw_Interception ; nop` | `GameDraw_Interception` 0x10079a40 | H-0002 BH | status vs upstream BH: identical |
 | 0xc49db | SKILLS_SkillsEMon_6fb74990+0x4b<br>`SKILLS/SkillsEMon.cpp` | call redirect | `call D2Client!Ordinal_10096` | `call D2Common_10678 (PD2 lazy thunk -> D2Common.dll ordinal 10678)` | `D2Common_10678 (PD2 lazy thunk -> D2Common.dll ordinal 10678)` 0x10277200 | M-0110 PD2 table |  |
 | 0xc6c91 | SKILLS_SkillsBar_6fb76aa0+0x1f1<br>`SKILLS/SkillsBar.cpp` | opcode byte change | `je D2Client!SKILLS_SkillsBar_6fb76aa0+0x226` | `jmp D2Client!SKILLS_SkillsBar_6fb76aa0+0x226` |  | M-0176 PD2 table |  |
@@ -1311,6 +1311,12 @@ Every change PD2 makes to the 1.13c game code, one row per **hook** (a group of 
 | 0xb1529 | UNIT_Missile_6fb61420+0x109<br>`UNIT/Missile.cpp` | call redirect | `call D2Client!sub_6fb60100` | `call sub_Hook_UNIT_Missile_6fb61420_102ed3b0` | `sub_Hook_UNIT_Missile_6fb61420_102ed3b0` 0x102ed3b0 | M-0047 PD2 table |  |
 | 0xdd8c0 | DAT_6fb8d8a0+0x20<br>`UNIT/Missile.cpp` | function-pointer swap (table) | `dd D2Client!sub_6fb691c0` | `dd sub_Wrap_D2Client_sub_6fb691c0_102f1200 (PD2 wrapper that ends in the lazy thunk of D2Client.dll +0xb91c0 …` |  | I-0015 PD2 init writes | base pointer DAT_104e5464 = D2Client.dll +0xdd8a0 (DAT_6fb8d8a0) |
 | 0xdda24 | DAT_6fb8da10+0x14<br>`UNIT/Missile.cpp` | function-pointer swap (table) | `dd 0x0` | `dd sub_102f1550` |  | I-0014 PD2 init writes | base pointer DAT_104e5578 = D2Client.dll +0xdda10 (DAT_6fb8da10) |
+
+### D2Client.dll — controller (1)
+
+| RVA | Game function (file) | Kind | Original | PD2 | Handler | Hook / src | Notes |
+|---|---|---|---|---|---|---|---|
+| 0xc3db0 | sub_6fb739e0+0x3d0<br>`_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` | call redirect | `call D2Client!sub_6fb02d90` | `call sub_Hook_sub_6fb739e0_102589a0` | `sub_Hook_sub_6fb739e0_102589a0` 0x102589a0 | M-1016 PD2 table |  |
 
 ### D2Client.dll — misc (11)
 

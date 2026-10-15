@@ -11,13 +11,14 @@ Hooks (see `HOOKS.md`) grouped by feature. The assignment is rule-based (`tools/
 | [stash/shared stash](#stashshared-stash) | 1 | 1 | D2Common.dll 1 |
 | [loot filter](#loot-filter) | 14 | 14 | D2Client.dll 14 |
 | [maps/map generation](#mapsmap-generation) | 41 | 52 | D2Common.dll 31, D2Game.dll 10 |
-| [skills](#skills) | 199 | 397 | D2Game.dll 136, D2Client.dll 63 |
+| [skills](#skills) | 198 | 396 | D2Game.dll 136, D2Client.dll 62 |
 | [items/crafting/cube](#itemscraftingcube) | 171 | 201 | D2Game.dll 134, D2Common.dll 21, D2Client.dll 16 |
 | [UI/HUD/panels](#uihudpanels) | 98 | 119 | D2Client.dll 72, D2Multi.dll 13, D2Win.dll 8, Bnclient.dll 2, D2Game.dll 1, D2Launch.dll 1, D2gfx.dll (game window) 1 |
 | [sound](#sound) | 267 | 271 | D2Client.dll 267 |
 | [networking/packets](#networkingpackets) | 70 | 130 | D2Game.dll 60, D2Net.dll 4, Bnclient.dll 3, D2Client.dll 2, D2MCPClient.dll 1 |
 | [monsters/AI/combat](#monstersaicombat) | 131 | 167 | D2Game.dll 111, D2Client.dll 20 |
 | [quests](#quests) | 39 | 45 | D2Game.dll 39 |
+| [controller](#controller) | 1 | 1 | D2Client.dll 1 |
 | [misc](#misc) | 61 | 67 | D2Game.dll 40, D2Client.dll 11, D2Common.dll 9, D2Lang.dll 1 |
 
 ## loader
@@ -406,9 +407,9 @@ Config keys (`ProjectDiablo.json`): `/classic_game_settings/map/automapfade`, `/
 
 Skill behaviour on server (D2Game SKILLS/*) and client (D2Client SKILLS/*, skill bar, descriptions): new skill functions in the game's skill function tables (srvdofunc/cltdofunc, filled by the init-time table writes), changed skill calculations, buff timers / quick cast / skill bar UI.
 
-**199 hooks** (D2Game.dll 136, D2Client.dll 63); kinds: call redirect 127, operand byte change 16, function-pointer swap (table) 15, NOP fill 11, opcode byte change 8, block replace 7, call hook (E8 written) 5, jmp target redirect (E9) 3, code-pointer operand (imm32 -> PD2 function) 3, operand/immediate byte change (block) 1, NOP fill (block) 1, data/constant change 1, jmp detour 1.
+**198 hooks** (D2Game.dll 136, D2Client.dll 62); kinds: call redirect 126, operand byte change 16, function-pointer swap (table) 15, NOP fill 11, opcode byte change 8, block replace 7, call hook (E8 written) 5, jmp target redirect (E9) 3, code-pointer operand (imm32 -> PD2 function) 3, operand/immediate byte change (block) 1, NOP fill (block) 1, data/constant change 1, jmp detour 1.
 
-Handlers (66 distinct; most used first):
+Handlers (65 distinct; most used first):
 
 | Handler | address | file | records |
 |---|---|---|---:|
@@ -437,9 +438,9 @@ Handlers (66 distinct; most used first):
 | `sub_Hook_SKILLS_SkillsBar_6fb77370_102ee490` | 0x102ee490 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
 | `sub_Hook_sub_6fc48be0_102f04d0` | 0x102f04d0 | `_unattributed/after_functions_SaveFunctions_unit49_102ef3b0.cpp` | 1 |
 | `sub_Hook_sub_6fc5da60_102ed380` | 0x102ed380 | `_unattributed/after_functions_SaveFunctions_unit49_102ecd80.cpp` | 1 |
-| … 41 more (patches.csv) | | | |
+| … 40 more (patches.csv) | | | |
 
-Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp` (45), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (22), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (18), D2Game `_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp` (13), D2Game `SKILLS/SkillNec.cpp` (11), D2Game `SKILLS/Skills.cpp` (10), D2Game `_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp` (7), D2Client `_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp` (6), D2Game `_unattributed/between_SKILLS_SkillBar_and_GAME_Game.cpp` (5), D2Game `_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp` (5), D2Game `_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp` (5), D2Game `_unattributed/between_UNIT_Party_and_SKILLS_Skills.cpp` (5).
+Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_SkillDruid.cpp` (45), D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (21), D2Client `UNIT/_unattributed/between_UNIT_PlrSkills_and_UNIT_Item.cpp` (18), D2Game `_unattributed/between_Ai_AiGeneral_and_SKILLS_SkillBar.cpp` (13), D2Game `SKILLS/SkillNec.cpp` (11), D2Game `SKILLS/Skills.cpp` (10), D2Game `_unattributed/between_SKILLS_Skills_and_Ai_AiThink4.cpp` (7), D2Client `_unattributed/between_ENGINE_GfxUtil_and_UNIT_PlrSkills.cpp` (6), D2Game `_unattributed/between_SKILLS_SkillBar_and_GAME_Game.cpp` (5), D2Game `_unattributed/between_GAME_Arena_and_SKILLS_SkillMonst.cpp` (5), D2Game `_unattributed/between_GAME_Clients_and_SKILLS_SkillNec.cpp` (5), D2Game `_unattributed/between_UNIT_Party_and_SKILLS_Skills.cpp` (5).
 
 <details><summary>Hooks</summary>
 
@@ -600,7 +601,6 @@ Game files patched: D2Game `_unattributed/between_PLAYER_Player_and_SKILLS_Skill
 | M-1013 | D2Client.dll | 0xbdef5 | sub_6fb6dca0+0x255 | call hook (E8 written) + 1 NOP | sub_Hook_sub_6fb6dca0_10238440 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
 | M-1014 | D2Client.dll | 0xbdf44 | sub_6fb6dca0+0x2a4 | call redirect | sub_Hook_sub_6fb6dca0_102ed850 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
 | M-1015 | D2Client.dll | 0x79676 | sub_6fb28fc0+0x6b6 | call redirect | sub_Hook_sub_6fb28fc0_102ed860 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6) |
-| M-1016 | D2Client.dll | 0xc3db0 | sub_6fb739e0+0x3d0 | call redirect | sub_Hook_sub_6fb739e0_102589a0 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-1017 | D2Client.dll | 0xbf0e2 | sub_6fb6f0d0+0x12 | call redirect | sub_Hook_sub_6fb6f0d0_10256f90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-1018 | D2Client.dll | 0xc3bbb | sub_6fb739e0+0x1db | call redirect | sub_Wrap_D2Client_UNIT_Monster_6fb00e70_10256fa0 (PD2 wrapp… | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(6), pd2file:events/SkillEvents\|game:.*SKI… |
 | M-1022 | D2Client.dll | 0xc0eab | sub_6fb70d30+0x17b | call redirect | sub_Hook_UI_showitems_6fb08fb0_102f0c90 | rules: [gt]file:[A-Za-z]+/Skil\|[gt]file:.*SKILL(9) |
@@ -1708,6 +1708,30 @@ Game files patched: D2Game `Quests/_unattributed/between_Quests_a4q2_and_Quests_
 </details>
 
 Data tables: `events.txt` (5 rows added, 0 removed, 0 changed, 0 kept rows at a different row index. 0 columns added, 0 removed, 0 renamed.; diff: `2_txt/diff/events.md`).
+
+## controller
+
+Game-controller (gamepad) support: XInput pads plus DualShock 4 / DualSense over raw HID input, polled in the game's frame hook (in game) or PD2's 5/40 ms tick threads (menus), driving the game through direct D2Client calls (cursor, synthetic mouse messages, walking, ClickMap) and SendInput key taps. Full feature package with every member, the button map and the hooks: `4_pd2_source/ProjectDiablo/features/Controller/README.md` (generated by `tools/features/extract_feature.py`). Only the per-frame poll hook is listed here; most controller hooks (cursor-warp filter, cursor drawing, ClickMap wrapper, skill-icon glyphs) are entries 1198-2185 of the main patch table, which the static initializer 0x100f3330 fills at run time and patches.csv does not decode yet.
+
+**1 hooks** (D2Client.dll 1); kinds: call redirect 1.
+
+Handlers (1 distinct; most used first):
+
+| Handler | address | file | records |
+|---|---|---|---:|
+| `sub_Hook_sub_6fb739e0_102589a0` | 0x102589a0 | `_unattributed/between_client_Sound_SoundSample_and_functions_D2CommonFunctions_unit26_100…` | 1 |
+
+Game files patched: D2Client `_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp` (1).
+
+<details><summary>Hooks</summary>
+
+| Hook | Module | RVA | Game function | Kind | Handler | why |
+|---|---|---|---|---|---|---|
+| M-1016 | D2Client.dll | 0xc3db0 | sub_6fb739e0+0x3d0 | call redirect | sub_Hook_sub_6fb739e0_102589a0 | override: P1125 (D2Client sub_6fb739e0+0x3d0 -> 0x102589a0) is the in-game per-frame clie… |
+
+</details>
+
+Config keys (`ProjectDiablo.json`): `/pd2_game_settings/controller_movement`, `/pd2_game_settings/controller_sensitivity`, `/pd2_game_settings/controller_aim_assist`, `/pd2_game_settings/controller_deadzone`, `/pd2_game_settings/controller_button_style`, `/pd2_game_settings/controllerMultiButtonLoot`.
 
 ## misc
 

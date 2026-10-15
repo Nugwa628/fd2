@@ -1,0 +1,131 @@
+/* Recovered layouts of PD2's controller (gamepad) state.  Manual decisions; every field gives the
+ * address(es) of the code that proves it.  Offsets are exact; names are ours.  Copied verbatim into
+ * features/Controller/ControllerState.h by tools/features/extract_feature.py. */
+
+/* ---- device kinds: PadDevice.type (+0x04) ----------------------------------------------------
+ * 1 = XInput slot (set for slots 0-3 by Controller_Init 0x1022cb70; test 0x1022b890)
+ * 2 = Sony DualShock 4, VID 0x054c PID 0x05c4/0x09cc (match 0x1022b810; parser 0x1022b900 sets 2; test 0x1022b870)
+ * 3 = Sony DualSense,   VID 0x054c PID 0x0ce6/0x0df2 (match 0x1022b840; parser 0x1022bf90 sets 3; test 0x1022b8b0)
+ * 0 = HID gamepad/joystick that has not sent a recognised report (arrival 0x1022c770 zero-fills it) */
+enum PadDeviceType { PAD_NONE = 0, PAD_XINPUT = 1, PAD_DUALSHOCK4 = 2, PAD_DUALSENSE = 3 };
+
+/* ---- raw input slots: PadDevice.cur[] index ---------------------------------------------------
+ * Values are floats: buttons 0.0/1.0; each stick axis is stored twice, as -v and +v (both -1..1), so
+ * 'pushed right' is the +x slot > threshold; analog triggers are thresholded at 0.3 to 0.0/1.0.  XInput layout from Controller_PollXInput 0x1022cc60,
+ * DualShock 4 from 0x1022b900, DualSense from 0x1022bf90. */
+enum PadRawXInput {                    /* XINPUT_GAMEPAD bit -> slot */
+    XI_A = 0, XI_B, XI_X, XI_Y,        /* 0x1000 0x2000 0x4000 0x8000 */
+    XI_DLEFT, XI_DRIGHT, XI_DUP, XI_DDOWN,        /* 0x0004 0x0008 0x0001 0x0002 */
+    XI_LB, XI_RB, XI_L3, XI_R3,        /* 0x0100 0x0200 0x0040 0x0080 */
+    XI_BACK, XI_START,                 /* 0x0020 0x0010 */
+    XI_LT, XI_RT,                      /* bLeftTrigger/bRightTrigger / 255 >= 0.3 */
+    XI_LX_NEG, XI_LX_POS, XI_LY_POS, XI_LY_NEG,   /* sThumbLX/LY / 32767; LY_POS = up */
+    XI_RX_NEG, XI_RX_POS, XI_RY_POS, XI_RY_NEG    /* sThumbRX/RY / 32767 */
+};
+enum PadRawPlayStation {               /* DS4 USB report 0x01 / BT 0x11; DualSense USB 0x01 / BT 0x31 */
+    PS_SQUARE = 0, PS_CROSS, PS_CIRCLE, PS_TRIANGLE,
+    PS_L1, PS_R1, PS_L3, PS_R3,
+    PS_OPTIONS, PS_SHARE, PS_PS, PS_TOUCHPAD,
+    PS_LX_NEG, PS_LX_POS, PS_LY_NEG, PS_LY_POS,   /* v = byte/255*2-1; LY_NEG holds -v = up */
+    PS_RX_NEG, PS_RX_POS, PS_RY_NEG, PS_RY_POS,
+    PS_L2, PS_R2,                      /* analog trigger byte/255 >= 0.3 */
+    PS_DLEFT, PS_DRIGHT, PS_DUP, PS_DDOWN,        /* from the hat nibble (8 directions) */
+    PS_MUTE                            /* DualSense only (0x1022bf90, +0x74) */
+};
+/* first analog slot (sticks; edge detection uses the dead zone instead of 'changed'): XInput 16, PS 12
+ * (0x1022d020: loop counter starts at -16 / -12) */
+
+/* ---- logical buttons: what the game-side code asks for (IsButton 0x102141b0, glyph frame 0x10213570)
+ * XInput map 0x102140a0, PlayStation map 0x10213f90; the same number is the frame in Controls_*_10/20.dc6 */
+enum PadButton {
+    BTN_A = 0,      /* XI_A        / PS_CROSS    */
+    BTN_B = 1,      /* XI_B        / PS_CIRCLE   */
+    BTN_Y = 2,      /* XI_Y        / PS_TRIANGLE */
+    BTN_X = 3,      /* XI_X        / PS_SQUARE   */
+    BTN_DLEFT = 4, BTN_DRIGHT = 5, BTN_DUP = 6, BTN_DDOWN = 7,
+    BTN_LB = 8,     /* XI_LB / PS_L1 */
+    BTN_RB = 9,     /* XI_RB / PS_R1 */
+    BTN_BACK = 10,  /* XI_BACK  / PS_TOUCHPAD (click) */
+    BTN_START = 11, /* XI_START / PS_OPTIONS */
+    BTN_LT = 12,    /* XI_LT / PS_L2 */
+    BTN_RT = 13,    /* XI_RT / PS_R2 */
+    BTN_L3 = 14, BTN_R3 = 15
+};
+/* IsButton(button = EDX, mode = stack) 0x102141b0 -> ButtonStateRaw 0x10213f20 */
+enum PadButtonMode { BTN_PRESSED = 0 /* value != 0 and changed this frame */,
+                     BTN_HELD = 1    /* value != 0 */,
+                     BTN_RELEASED = 2 /* value == 0 and changed this frame */ };
+/* IsStickDirection(dir = EDX, stick = stack) 0x10214210: true if outside the dead zone and the
+ * half-axis value > 0.7 */
+enum PadStickDir { DIR_LEFT = 0, DIR_DOWN = 1, DIR_RIGHT = 2, DIR_UP = 3 };
+enum PadStick { STICK_LEFT = 0, STICK_RIGHT = 1 };
+
+/* ---- one device, 0x63c bytes (calloc(4, 0x63c) in 0x1022cb70; realloc +0x63c per HID device in 0x1022c770) */
+typedef struct PadDevice {
+    uint8_t  connected;            /* +0x000  XInputGetState()==0 (0x1022cc60/0x1022c9b0); HID: 1 on arrival 0x1022c770, 0 on removal 0x1022c940 */
+    uint8_t  _pad1[3];
+    int32_t  type;                 /* +0x004  enum PadDeviceType */
+    HANDLE   hRawDevice;           /* +0x008  RAWINPUTHEADER.hDevice; matched in 0x1022c510 */
+    float    cur[64];              /* +0x00c  current slot values (enum PadRaw*) */
+    float    prev[64];             /* +0x10c  previous frame (copied from cur at the start of 0x1022cc60 / 0x1022c510) */
+    uint8_t  changed[64];          /* +0x20c  set by DetectActivity 0x1022d020, cleared by 0x1022d200 after each dispatch */
+    wchar_t  path[128];            /* +0x24c  RIDI_DEVICENAME (0x1022c770 via wcscpy_s 0x1022da00) */
+    wchar_t  product[128];         /* +0x34c  HidD_GetProductString (0x1022c770) */
+    wchar_t  manufacturer[128];    /* +0x44c  HidD_GetManufacturerString (0x1022c770) */
+    float    rumbleLow;            /* +0x54c  XInput wLeftMotorSpeed = v*65535 (0x1022cc60); PS: motor byte (0x1022b900/0x1022bf90) */
+    float    rumbleHigh;           /* +0x550  XInput wRightMotorSpeed; PS: second motor byte.  Nothing writes +0x54c/+0x550: always 0 */
+    float    lightRed;             /* +0x554  forced to 0.3 before every PS output report (0x1022bcbb, 0x1022c45e) */
+    float    lightGreen;           /* +0x558  lightbar green (never written: 0) */
+    float    lightBlue;            /* +0x55c  lightbar blue  (never written: 0) */
+    struct PadTriggerEffect {      /* DualSense adaptive trigger, encoded by 0x1022bd90 (mode 1 -> 0x21, 2 -> 0x25, 3 -> 0x26) */
+        int32_t mode;              /*   +0x00 */
+        float   param[10];         /*   +0x04 zone strengths 0..1 (x7 / x8 when encoded) */
+        float   frequency;         /*   +0x2c (x255, mode 3) */
+    } triggerLeft, triggerRight;   /* +0x560 (-> report byte 22), +0x590 (-> report byte 11); never written: mode 0 = off */
+    uint8_t  outReport[0x60];      /* +0x5c0  HID output report built by 0x1022b900 (DS4 0x05, 32 B USB / 0x11, 78 B BT + CRC32 at +0x60b)
+                                              and 0x1022bf90 (DualSense 0x02, 48 B USB / 0x31, 78 B BT + CRC32 at +0x60a) */
+    HANDLE   hHid;                 /* +0x620  CreateFileW(path, GENERIC_READ|WRITE, share 3, OPEN_EXISTING, FILE_FLAG_OVERLAPPED) */
+    OVERLAPPED ov;                 /* +0x624  WriteFile of outReport, only after GetOverlappedResult of the previous write */
+    int32_t  xinputResult;         /* +0x638  last XInputGetState return value */
+} PadDevice;                       /* sizeof == 0x63c */
+
+/* ---- device list: DAT_103d98ac (the window property "userData" points here, SetPropA in 0x1022cc60) */
+typedef struct PadDeviceList {
+    uint32_t   count;              /* DAT_103d98ac  4 XInput slots + HID devices seen so far (never shrinks) */
+    PadDevice *devices;            /* DAT_103d98b0 */
+} PadDeviceList;
+/* DAT_103d98b4 = game window (HWND, raw-input target); DAT_103d98dc = PadDevice* active (last device with input) */
+
+/* ---- raw input registration (0x1022cb70): two RAWINPUTDEVICE, both on the game window
+ *   { usUsagePage 1, usUsage 5 (gamepad),  dwFlags 0x2100 = RIDEV_INPUTSINK|RIDEV_DEVNOTIFY }
+ *   { usUsagePage 1, usUsage 4 (joystick), dwFlags 0x2100 } */
+
+/* ---- dead zone, sensitivity, aim assist (exact formulas)
+ *   deadzone(XInput)      = (controller_deadzone - 20) * 0.01 + 0.4     (0x10214350; default 20 -> 0.40; range 0..40 -> 0.20..0.60)
+ *   deadzone(DS4/DSense)  = (controller_deadzone - 20) * 0.01 + 0.3     (0x10214350; default 0.30; 0.10..0.50)
+ *   deadzone(no device)   = 0.3
+ *   stick in dead zone    = |x| <= dz && |y| <= dz on the stick's two half-axes          (0x102143b0, square)
+ *   stick vector          = per axis: sign * remap(|v|, dz..1 -> 0..1) * scale (only if |v| >= dz*|other|),
+ *                           then radial curve: v/|v| * |v|^1.3; axes below dz/3 are not added (0x10214430)
+ *   cursor speed (scale)  = (controller_sensitivity - 50) * 0.01 * 4 + 4 px per 5 ms tick (0x102158c0; 2..6, default 4)
+ *   walk vector (scale 4) = target = player + vector*10*0.5 tiles, rotated -45 deg into the isometric grid (0x10214600)
+ *   aim (right stick)     = probe points along the stick at d = (2-aim)*3, +3 .. <14; search radius d/4 - 2*(2-aim) + 5 (0x10214da0)
+ *   aim (left stick)      = d = 0, +3 .. <14; search radius d/4 + 2*aim + 2 (0x10214da0, only if no nearby target) */
+
+/* ---- input mode
+ *   DAT_103d9867  controller mode on: set when DetectActivity (0x1022d020) reports input (0x1022ca30, 0x10256420, 0x102589a0);
+ *                 cleared after 40 WM_MOUSEMOVE/WM_TOUCH/WM_GESTURE (DAT_103d98d4 > 0x27) or a real WM_LBUTTONDOWN /
+ *                 WM_RBUTTONDOWN (0x1022ca30), by WASD keys (0x10236e90), or when controller_movement is off (0x102589a0)
+ *   DAT_103d9866  controller produced input in the last poll
+ *   DAT_103d5ee3  'the next click is ours': set by the synthetic clicks 0x10212f80/0x102131a0/0x10213390 so that
+ *                 their own WM_LBUTTONDOWN does not end controller mode
+ *   DAT_10398446  game window has focus (WM_SETFOCUS/WM_KILLFOCUS in the subclass 0x10256620) */
+
+/* ---- loot selection (0x10215240): DAT_103d6230 = ground-item labels on screen (count; array of 0x120-byte
+ *   records at DAT_103d6240, built by the show-items code 0x10223f90).  While LB is held (DAT_103d5ee2) the
+ *   nearest labels (sorted by distance to the player, comparator 0x10215190) get the buttons
+ *   A, B, Y, X, RB, DLeft, DUp, DDown, DRight (in that order; glyphs from 0x102150b0 page map);
+ *   DAT_10398024 = at most 9 labels, or 0x30 (48) with controllerMultiButtonLoot.  Label i shows button i%9; a press
+ *   picks item i at once unless item i+9 exists: then the group is selected (DAT_10398020 = i%9, its labels now show
+ *   button i/9, 0x102150b0) and the second press picks item group + 9*button.  DAT_103d5f00[] = unit ids of the
+ *   labelled items (kept stable between frames), DAT_103d5ef0 = their count. */

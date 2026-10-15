@@ -59,7 +59,7 @@ Runs in about 15 s. Nothing is executed; all of it is static analysis of the fil
 * Init-time writes: **284** stores in 17 functions. Window subclass: 1. PD2_EXT: 4. On-disk: 21 (D2Win 20, Storm 1). BH: 36 (from `4_pd2_source/BH/patches.tsv`).
 * **1636 records, 1245 hooks** in total.
 * Function check of the 1293 records in game code: 1068 reached by recursive descent from the reference function start, 225 inside an entry point the reference did not split off (named `sub_<va>`), 0 only between two reference starts, 0 outside any function. 340 records target game data (.data 286, .rdata 54).
-* Feature assignment: 1179 hooks by rules, 5 by override, 61 unmatched (misc).
+* Feature assignment: 1178 hooks by rules, 6 by override, 61 unmatched (misc).
 
 | Module | BH | PD2 API | PD2 block table | PD2 cond table | PD2 init writes | PD2 table | PD2_EXT | on-disk | records | hooks (groups) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|

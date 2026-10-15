@@ -4180,7 +4180,7 @@ DLLPatchStrc gptTemplatePatches[2187] =
     //     was: call D2Client!sub_6fac4a10
     //     now: call sub_Hook_sub_6fb28fc0_102ed860
     {D2DLL_D2CLIENT, 0x079676, (DWORD)sub_Hook_sub_6fb28fc0_102ed860, TRUE, 0},  // P1124 call redirect (E8)
-    // --- M-1016 D2Client.dll sub_6fb739e0+0x3d0  [skills] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
+    // --- M-1016 D2Client.dll sub_6fb739e0+0x3d0  [controller] (_unattributed/between_UNIT_Missile_and_SKILLS_SkillsEMon.cpp)
     //     was: call D2Client!sub_6fb02d90
     //     now: call sub_Hook_sub_6fb739e0_102589a0
     {D2DLL_D2CLIENT, 0x0C3DB0, (DWORD)sub_Hook_sub_6fb739e0_102589a0, TRUE, 0},  // P1125 call redirect (E8)
